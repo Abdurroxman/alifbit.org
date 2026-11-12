@@ -536,6 +536,11 @@ async function handle(
 ): Promise<Response> {
   const url = new URL(request.url),
     path = url.pathname;
+  if (url.protocol === "http:" && !isLocalRequest(request, env.LOCAL_DEV)) {
+    url.protocol = "https:";
+    if (url.hostname === "www.alifbit.org") url.hostname = "alifbit.org";
+    return Response.redirect(url.href, 308);
+  }
   if (url.hostname === "www.alifbit.org") {
     url.hostname = "alifbit.org";
     return Response.redirect(url.href, 308);

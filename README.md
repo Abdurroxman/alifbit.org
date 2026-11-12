@@ -16,6 +16,8 @@ npm run preview
 
 Sayt: http://127.0.0.1:8787
 
+Ishlayotgan production sayt: https://alifbit.org. Production admin paroli shu kompyuterdagi Git’dan chiqarilgan `production-admin.txt` faylida. Tashqi bot bildirishnomalaridan tashqari asosiy Worker/D1/R2 xizmatlari sozlangan. Deploy holati va tekshiruv chegaralari `docs/DEPLOYMENT.md` da.
+
 Admin: http://127.0.0.1:8787/admin
 
 `setup:local` tasodifiy mahalliy administrator parolini yaratadi. Parol `local-admin.txt` faylida. Bu fayl, `.dev.vars`, `.env`, `.wrangler` va `node_modules` GitHub yoki source ZIP’ga kirmasligi kerak. Mahalliy parolni production uchun ishlatmang.
