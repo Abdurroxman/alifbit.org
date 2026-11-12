@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+.env
+.env.local
+local-admin.txt
+production-admin.txt
+*.zip
+test-artifacts/

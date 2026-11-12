@@ -1,0 +1,35 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "alifbit-org",
+  "account_id": "bcac9a281a5c587f8c11b1e1b7fe77de",
+  "main": "server/index.ts",
+  "compatibility_date": "2026-11-10",
+  "build": {
+    "command": "npm run build",
+    "watch_dir": ["src", "shared", "server", "public"],
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "alifbit-db",
+      "database_id": "36cb7597-73b5-41e5-b377-540672ceb534",
+      "migrations_dir": "db/migrations",
+    },
+  ],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "alifbit-media" }],
+  "vars": {
+    "PUBLIC_ORIGIN": "https://alifbit.org",
+    "CONTACT_TELEGRAM": "id799",
+  },
+  "observability": { "enabled": true },
+  "routes": [
+    { "pattern": "alifbit.org", "custom_domain": true },
+    { "pattern": "www.alifbit.org", "custom_domain": true },
+  ],
+  "triggers": { "crons": ["*/5 * * * *"] },
+}
