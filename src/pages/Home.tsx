@@ -8,7 +8,7 @@ import { ProjectCard } from "../components/Projects";
 import { Arrow, ButtonLink, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { BrandMark } from "../components/Brand";
 import SadoIcon from "../components/sado/SadoIcon";
-import { copy } from "../../shared/content";
+import { copy, SADO_URL } from "../../shared/content";
 
 export const serviceIcons: Record<string, typeof Code2> = {
   code: Code2,
@@ -175,11 +175,11 @@ function SadoPromo() {
             yoki AI uchun tartibli topshiriqqa aylantiradi.
           </p>
           <div className="sd-hero-actions" data-reveal style={delay(300)}>
-            <ButtonLink to="/sado" className="sd-btn-primary" magnetic>
+            <ButtonLink to={SADO_URL} className="sd-btn-primary" magnetic>
               Sado bilan tanishing
             </ButtonLink>
-            <ButtonLink to="/sado#download" variant="ghost" className="sd-btn-ghost">
-              Windows uchun yuklab olish
+            <ButtonLink to={`${SADO_URL}/#request`} variant="ghost" className="sd-btn-ghost">
+              Kalit so‘rash
             </ButtonLink>
           </div>
         </div>

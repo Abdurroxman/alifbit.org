@@ -1,0 +1,260 @@
+/* Bosh sahifadagi Sado bloki: Sado ranglari (to'q fon, firuza). Asosiy sayt — sado.alifbit.org. */
+.sado {
+  --sd-bg: #0d1113;
+  --sd-teal: #3de0c8;
+  --sd-teal-2: #13a894;
+  --sd-teal-ink: #05211c;
+  --sd-text: #e9f2f0;
+  --sd-muted: #9aaaa7;
+}
+.sado-dark {
+  position: relative;
+  background: var(--sd-bg);
+  color: var(--sd-text);
+  overflow: hidden;
+}
+.sado-dark :is(h2, h3) {
+  color: var(--sd-text);
+}
+.sado-dark p {
+  color: var(--sd-muted);
+}
+.sd-accent {
+  color: var(--sd-teal);
+}
+.sado-icon {
+  display: block;
+}
+.sado .sd-btn-primary {
+  --btn-bg: var(--sd-teal);
+  --btn-fg: var(--sd-teal-ink);
+  --btn-border: var(--sd-teal);
+}
+.sado .sd-btn-primary::before {
+  background: #a5f5e8;
+}
+.sado .sd-btn-primary:hover {
+  box-shadow: 0 12px 34px -12px #3de0c899;
+}
+.sado .sd-btn-primary .button-icon {
+  background: #05211c1f;
+}
+.sado .sd-btn-ghost {
+  --btn-fg: var(--sd-text);
+}
+.sado .sd-btn-ghost:hover {
+  --btn-fg: var(--sd-teal);
+}
+.sado .sd-btn-ghost .button-icon {
+  background: #ffffff14;
+}
+.sd-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+
+/* Aks-sado halqalari */
+.sd-echo {
+  position: absolute;
+  right: -8%;
+  top: 50%;
+  width: min(1100px, 120vw);
+  aspect-ratio: 1;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+.sd-echo i {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #3de0c833;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.2);
+}
+html.motion .sd-echo i {
+  animation: sd-echo 8s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.sd-echo i:nth-child(2) {
+  animation-delay: 2s !important;
+}
+.sd-echo i:nth-child(3) {
+  animation-delay: 4s !important;
+}
+.sd-echo i:nth-child(4) {
+  animation-delay: 6s !important;
+}
+@keyframes sd-echo {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.sd-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.sd-brand .sado-icon {
+  width: 52px;
+  height: 52px;
+}
+.sd-brand span {
+  display: grid;
+  font-family: var(--font-head);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.sd-brand small {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--sd-muted);
+}
+.sd-promo-keys kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 46px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid #ffffff21;
+  border-radius: 10px;
+  background: #1b2226;
+  box-shadow:
+    0 4px 0 #050708,
+    inset 0 1px 0 #ffffff14;
+  font: 600 14px/1 var(--font-body);
+  color: var(--sd-text);
+}
+@keyframes sd-press {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: none;
+    box-shadow:
+      0 4px 0 #050708,
+      inset 0 1px 0 #ffffff14;
+    border-color: #ffffff21;
+  }
+  25%,
+  75% {
+    transform: translateY(4px);
+    box-shadow:
+      0 1px 0 #050708,
+      0 0 30px -4px #3de0c880;
+    border-color: #3de0c8a6;
+  }
+}
+@keyframes sd-wave {
+  0% {
+    transform: scaleY(0.2);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.45);
+  }
+}
+@keyframes sd-ring-breathe {
+  50% {
+    transform: scale(1.06);
+    opacity: 0.55;
+  }
+}
+
+.sd-promo {
+  padding-block: var(--section);
+}
+.sd-promo .container {
+  position: relative;
+  z-index: 1;
+}
+.sd-promo-grid {
+  display: grid;
+  gap: 56px;
+  align-items: center;
+}
+.sd-promo-copy {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+.sd-promo h2 {
+  font-size: clamp(44px, 8vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+.sd-promo-copy > p {
+  max-width: 500px;
+  font-size: 17.5px;
+}
+.sd-promo-copy .sd-hero-actions {
+  margin-top: 6px;
+}
+.sd-promo-art {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 34px;
+}
+.sd-promo-icon {
+  width: clamp(150px, 20vw, 230px);
+  height: auto;
+  filter: drop-shadow(0 30px 60px #3de0c833);
+}
+html.motion .sd-promo-icon {
+  animation: sd-float 6s ease-in-out infinite alternate;
+}
+html.motion .sd-promo-icon .si-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sd-ring-breathe 2.4s ease-in-out infinite;
+}
+html.motion .sd-promo-icon .si-ring-2 {
+  animation-delay: -1.2s;
+}
+@keyframes sd-float {
+  to {
+    transform: translateY(-14px);
+  }
+}
+.sd-promo-wave {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 64px;
+}
+.sd-promo-wave i {
+  width: 5px;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(var(--sd-teal), var(--sd-teal-2));
+  transform: scaleY(calc(0.15 + (1 - (var(--j) - 10) * (var(--j) - 10) / 100) * 0.4));
+  opacity: 0.85;
+}
+html.motion .sd-promo-wave i {
+  animation: sd-wave 1.2s ease-in-out infinite alternate;
+  animation-delay: calc(var(--j) * -0.11s);
+}
+html.motion .sd-promo-keys kbd {
+  animation: sd-press 2.6s var(--ease-in-out) infinite;
+}
+@media (min-width: 1024px) {
+  .sd-promo-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+  }
+}

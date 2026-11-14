@@ -21,7 +21,6 @@ const routes = [
   "/projects",
   "/projects/dalolat",
   "/projects/ovozdan-matnga",
-  "/sado",
   "/services",
   "/services/development",
   "/academy",
@@ -63,8 +62,6 @@ for (const route of routes) {
           "/contact",
           "/privacy",
           "/journal",
-          "/sado",
-          "/download/sado",
         ].includes(path) ||
         /^\/(projects|services)\/[a-z0-9-]+$/.test(path) ||
         /^\/(images|brand|fonts)\//.test(path);

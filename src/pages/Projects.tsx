@@ -5,6 +5,7 @@ import { useContent } from "../App";
 import { ProjectCard, ProjectCover, Status } from "../components/Projects";
 import { Breadcrumb, ButtonLink, ContactBand, Eyebrow, Lines, PageTop, TextLink, delay } from "../components/ui";
 import NotFound from "./NotFound";
+import { SADO_URL } from "../../shared/content";
 
 export function Projects() {
   const { projects, categories, error, refresh } = useContent();
@@ -141,7 +142,7 @@ export function ProjectDetail() {
               </div>
             </dl>
             {project.slug === "ovozdan-matnga" && (
-              <ButtonLink to="/sado" magnetic>
+              <ButtonLink to={SADO_URL} magnetic>
                 Sado bilan tanishing
               </ButtonLink>
             )}

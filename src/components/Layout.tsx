@@ -5,7 +5,7 @@ import Brand from "./Brand";
 import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
-import { copy, routeMeta } from "../../shared/content";
+import { copy, routeMeta, SADO_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 
 const TELEGRAM = "https://t.me/id799";
@@ -53,11 +53,17 @@ function Header({ onMenu }: { onMenu: () => void }) {
           <Brand />
         </Link>
         <nav className="nav" aria-label="Asosiy menyu">
-          {copy.uz.nav.map(([label, to]) => (
-            <NavLink key={to} to={to}>
-              {label}
-            </NavLink>
-          ))}
+          {copy.uz.nav.map(([label, to]) =>
+            to.startsWith("http") ? (
+              <a key={to} href={to}>
+                {label}
+              </a>
+            ) : (
+              <NavLink key={to} to={to}>
+                {label}
+              </NavLink>
+            ),
+          )}
         </nav>
         <ButtonLink to="/contact" small className="header-cta">
           Keling, gaplashamiz
@@ -85,13 +91,25 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
           </button>
         </div>
         <nav aria-label="Mobil menyu">
-          {items.map(([label, to], i) => (
-            <Link key={to} to={to} onClick={close} style={{ "--i": i } as CSSProperties}>
-              <small>{String(i + 1).padStart(2, "0")}</small>
-              {label}
-              <Arrow />
-            </Link>
-          ))}
+          {items.map(([label, to], i) => {
+            const inner = (
+              <>
+                <small>{String(i + 1).padStart(2, "0")}</small>
+                {label}
+                <Arrow />
+              </>
+            );
+            const style = { "--i": i } as CSSProperties;
+            return to.startsWith("http") ? (
+              <a key={to} href={to} style={style}>
+                {inner}
+              </a>
+            ) : (
+              <Link key={to} to={to} onClick={close} style={style}>
+                {inner}
+              </Link>
+            );
+          })}
         </nav>
         <div className="mobile-menu-foot">
           <p>{copy.uz.tagline}</p>
@@ -129,7 +147,7 @@ function Footer() {
             </div>
             <div className="footer-col">
               <span>EKOTIZIM</span>
-              <Link to="/sado">Sado · Windows uchun</Link>
+              <a href={SADO_URL}>Sado · Windows uchun</a>
               <Link to="/academy">Academy</Link>
               <Link to="/library">Library</Link>
               <Link to="/films">Films & Animation</Link>

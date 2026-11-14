@@ -269,12 +269,14 @@ export const initialServices: Service[] = [
     icon: "spark",
   },
 ];
+// Sado mahsulotining alohida sayti.
+export const SADO_URL = "https://sado.alifbit.org";
 export const copy = {
   uz: {
     tagline: "Ilmdan g‘oyaga. G‘oyadan amalga.",
     nav: [
       ["Loyihalar", "/projects"],
-      ["Sado", "/sado"],
+      ["Sado", SADO_URL],
       ["Xizmatlar", "/services"],
       ["Akademiya", "/academy"],
       ["Biz haqimizda", "/about"],
@@ -285,19 +287,7 @@ export const copy = {
     },
   },
 };
-// Saytdan yuklab olinadigan Sado o'rnatuvchisi. Fayl R2 dagi public/downloads/ ichida turadi.
-export const sadoRelease = {
-  version: "0.1.0",
-  file: "Sado_0.1.0_x64-setup.exe",
-  size: 0,
-  sha256: "",
-  date: "2026-11-14",
-};
 export const routeMeta: Record<string, [string, string]> = {
-  "/sado": [
-    "Sado — Gapiring. Sado yozadi. | AlifBit",
-    "Windows uchun ovozli yozish: istalgan dasturda tugmani bosib turing, gapiring — Sado matnni o‘zi yozadi. Exact, Clean va Prompt rejimlari.",
-  ],
   "/": [
     "AlifBit — Ilmdan g‘oyaga. G‘oyadan amalga.",
     "Texnologiya, ilm va ijod bir joyda. Foydali raqamli mahsulotlar, bilim manbalari va yangi g‘oyalar ekotizimi.",

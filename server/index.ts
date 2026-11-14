@@ -1,4 +1,4 @@
-import { categories, routeMeta, sadoRelease } from "../shared/content";
+import { categories, routeMeta, SADO_URL } from "../shared/content";
 import {
   orderSchema,
   projectSchema,
@@ -550,20 +550,8 @@ async function handle(
     return Response.redirect(url.href, 308);
   }
   if (path.startsWith("/api/")) return handleApi(request, env, ctx);
-  if (path === "/download/sado") {
-    if (!["GET", "HEAD"].includes(request.method))
-      throw new HttpError(405, "Bu amal qo‘llab-quvvatlanmaydi.");
-    const object = await env.MEDIA.get(`public/downloads/${sadoRelease.file}`);
-    if (!object) throw new HttpError(404, "Fayl topilmadi.");
-    return new Response(request.method === "HEAD" ? null : object.body, {
-      headers: {
-        "content-type": "application/vnd.microsoft.portable-executable",
-        "content-length": String(object.size),
-        "content-disposition": `attachment; filename="${sadoRelease.file}"`,
-        "cache-control": "public, max-age=3600",
-      },
-    });
-  }
+  if (path === "/sado" || path.startsWith("/sado/"))
+    return Response.redirect(`${SADO_URL}/`, 301);
   if (path.startsWith("/media/")) {
     if (!["GET", "HEAD"].includes(request.method))
       throw new HttpError(405, "Bu amal qo‘llab-quvvatlanmaydi.");

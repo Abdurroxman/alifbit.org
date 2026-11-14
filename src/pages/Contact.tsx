@@ -139,13 +139,7 @@ export default function Contact() {
                   required
                   minLength={20}
                   maxLength={6000}
-                  defaultValue={
-                    params.get("request") === "sado-key"
-                      ? "Sado uchun aktivatsiya kaliti olmoqchiman."
-                      : project
-                        ? `${project} loyihasi haqida batafsil ma’lumot olmoqchiman.`
-                        : ""
-                  }
+                  defaultValue={project ? `${project} loyihasi haqida batafsil ma’lumot olmoqchiman.` : ""}
                 />
               </label>
               <div className="form-row">

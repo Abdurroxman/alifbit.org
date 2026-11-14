@@ -13,6 +13,7 @@ import "./styles/hero.css";
 import "./styles/process.css";
 import "./styles/home.css";
 import "./styles/pages.css";
+import "./styles/sado-promo.css";
 
 // Kirish rejimi birinchi chizishdan oldin aniqlanadi, sahifa lip etib ko'rinmaydi.
 bootMotion();

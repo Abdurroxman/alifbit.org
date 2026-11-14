@@ -11,7 +11,6 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import { Journal, JournalDetail } from "./pages/Journal";
 import NotFound from "./pages/NotFound";
-import Sado from "./pages/Sado";
 import { Academy, Library, Films, Render } from "./pages/Ecosystem";
 
 const Admin = lazy(() => import("./pages/Admin"));
@@ -67,7 +66,6 @@ export default function App() {
         />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="sado" element={<Sado />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:slug" element={<ProjectDetail />} />
           <Route path="services" element={<Services />} />
