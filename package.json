@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "tsc --noEmit && vite build",
-    "preview": "wrangler dev --ip 127.0.0.1 --port 8787",
+    "preview": "wrangler dev --ip 127.0.0.1 --port 8787 --infer-origin-from-routes false",
     "db:local": "wrangler d1 migrations apply alifbit-db --local",
     "db:remote": "wrangler d1 migrations apply alifbit-db --remote",
     "deploy": "wrangler deploy",
