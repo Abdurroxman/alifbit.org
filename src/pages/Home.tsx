@@ -24,6 +24,14 @@ function Hero() {
     <section className="hero">
       <div className="container hero-grid">
         <div className="hero-copy">
+          <a className="hero-sado" href={SADO_URL} data-reveal="fade">
+            <SadoIcon />
+            <span className="hero-sado-new">Yangi</span>
+            <span className="hero-sado-text">
+              <b>Sado</b> — gapiring, u yozadi.<span className="hero-sado-more"> Windows uchun ovoz bilan yozish</span>
+            </span>
+            <Arrow />
+          </a>
           <div data-reveal="fade">
             <Eyebrow>Texnologiya. Ilm. Ijod.</Eyebrow>
           </div>
@@ -320,11 +328,11 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <SadoPromo />
       <Approach />
       <Featured />
       <Process />
       <ServicesPreview />
-      <SadoPromo />
       <Knowledge />
       <ContactBand />
     </>

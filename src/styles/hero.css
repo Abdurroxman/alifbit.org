@@ -237,3 +237,73 @@ html.motion .scroll-line::after {
     margin-right: -2vw;
   }
 }
+
+/* Sado announcement at the top of the first screen. */
+.hero-sado {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  border: 1px solid #2ccfb84d;
+  background: linear-gradient(90deg, #0e211e, #133a34);
+  color: var(--on-dark);
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 10px 28px #0e211e33;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hero-sado:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px #0e211e47;
+}
+.hero-sado .sado-icon {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+.hero-sado-new {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #2ccfb8;
+  color: #062521;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.hero-sado-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hero-sado-text b {
+  color: #5ee3d0;
+}
+.hero-sado svg:last-child {
+  flex: none;
+  transition: transform 0.25s ease;
+}
+.hero-sado:hover svg:last-child {
+  transform: translateX(3px);
+}
+html.motion .hero-sado .hero-sado-new {
+  animation: hero-sado-pulse 2.4s ease-in-out infinite;
+}
+@keyframes hero-sado-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #2ccfb866;
+  }
+  50% {
+    box-shadow: 0 0 0 6px #2ccfb800;
+  }
+}
+@media (max-width: 520px) {
+  .hero-sado-more {
+    display: none;
+  }
+}

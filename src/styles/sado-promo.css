@@ -1,11 +1,11 @@
-/* Bosh sahifadagi Sado bloki: Sado ranglari (to'q fon, firuza). Asosiy sayt — sado.alifbit.org. */
+/* Bosh sahifadagi Sado bloki: Sado ranglari (to'q yashil fon, firuza). Asosiy sayt — sado.alifbit.org. */
 .sado {
-  --sd-bg: #0d1113;
+  --sd-bg: radial-gradient(700px 420px at 78% 40%, #1d4a43, transparent 70%), linear-gradient(140deg, #133a34, #0e211e 60%, #0b1c19);
   --sd-teal: #3de0c8;
   --sd-teal-2: #13a894;
   --sd-teal-ink: #05211c;
   --sd-text: #e9f2f0;
-  --sd-muted: #9aaaa7;
+  --sd-muted: #a9c4bd;
 }
 .sado-dark {
   position: relative;
@@ -130,9 +130,9 @@ html.motion .sd-echo i {
   padding: 0 14px;
   border: 1px solid #ffffff21;
   border-radius: 10px;
-  background: #1b2226;
+  background: #193530;
   box-shadow:
-    0 4px 0 #050708,
+    0 4px 0 #071512,
     inset 0 1px 0 #ffffff14;
   font: 600 14px/1 var(--font-body);
   color: var(--sd-text);

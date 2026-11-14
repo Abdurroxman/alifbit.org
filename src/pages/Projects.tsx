@@ -117,7 +117,7 @@ export function ProjectDetail() {
         <div className="detail-cover" data-reveal="clip">
           <ProjectCover project={project} large />
         </div>
-        {!uploaded && (
+        {!uploaded && project.slug !== "ovozdan-matnga" && (
           <p className="visual-note">
             Vizual konsepsiya. Yakuniy mahsulot ko‘rinishi va imkoniyatlari farq qilishi mumkin.
           </p>
