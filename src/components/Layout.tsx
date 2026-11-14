@@ -1,144 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { ArrowUpRight, ArrowUp, Menu, X } from "lucide-react";
-import Brand, { BrandMark } from "./Brand";
+import { ArrowUp, Menu, X } from "lucide-react";
+import Brand from "./Brand";
+import Intro from "./Intro";
+import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
 import { copy, routeMeta } from "../../shared/content";
-export function Arrow({ diagonal = true }: { diagonal?: boolean }) {
-  return (
-    <ArrowUpRight
-      size={19}
-      strokeWidth={1.5}
-      className={diagonal ? "" : "arrow-right"}
-    />
-  );
-}
-export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="eyebrow">
-      <span />
-      {children}
-    </div>
-  );
-}
-export function Breadcrumb({ name }: { name: string }) {
-  return (
-    <nav className="breadcrumb" aria-label="Sahifa yo‘li">
-      <Link to="/">Bosh sahifa</Link>
-      <span>/</span>
-      <span aria-current="page">{name}</span>
-    </nav>
-  );
-}
-export function TextLink({
-  to,
-  children,
-}: {
-  to: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link className="text-link" to={to}>
-      {children}
-      <Arrow />
-    </Link>
-  );
-}
-export function PageTop({
-  eyebrow,
-  title,
-  text,
-  name,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  text?: string;
-  name: string;
-}) {
-  return (
-    <section className="page-top container">
-      <Breadcrumb name={name} />
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h1>{title}</h1>
-      {text && <p>{text}</p>}
-    </section>
-  );
-}
-export function ContactBand() {
-  return (
-    <section className="contact-band">
-      <div className="container contact-band-inner">
-        <div>
-          <Eyebrow>BIRGA YARATAMIZ</Eyebrow>
-          <h2>
-            Yaxshi g‘oyangiz bormi?
-            <br />
-            <span>Unga shakl beraylik.</span>
-          </h2>
-        </div>
-        <Link
-          className="circle-cta"
-          to="/contact"
-          aria-label="Loyihangizni boshlang"
-        >
-          <ArrowUpRight size={40} strokeWidth={1} />
-        </Link>
-        <div className="contact-band-note">
-          Birinchi qadam —<br />
-          oddiy suhbat.
-        </div>
-      </div>
-    </section>
-  );
-}
-export default function Layout() {
-  const [scrolled, setScrolled] = useState(false),
-    [intro, setIntro] = useState(false);
-  const dialog = useRef<HTMLDialogElement>(null);
-  const location = useLocation();
+import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
+
+const TELEGRAM = "https://t.me/id799";
+
+function useRouteMeta(pathname: string) {
   const { projects, services } = useContent();
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 36);
-    window.addEventListener("scroll", update, { passive: true });
-    update();
-    let timeout: ReturnType<typeof setTimeout>;
-    try {
-      if (
-        !localStorage.getItem("alifbit-visited") &&
-        !matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        setIntro(true);
-        localStorage.setItem("alifbit-visited", "1");
-        timeout = setTimeout(() => setIntro(false), 1750);
-      }
-    } catch {}
-    return () => {
-      window.removeEventListener("scroll", update);
-      clearTimeout(timeout);
-    };
-  }, []);
-  useEffect(() => {
-    dialog.current?.close();
-    window.scrollTo({ top: 0, behavior: "instant" });
-    const heading = document.querySelector<HTMLElement>("main h1");
-    heading?.setAttribute("tabindex", "-1");
-    heading?.focus({ preventScroll: true });
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
-      document.querySelector("main")?.animate(
-        [
-          { opacity: 0.65, transform: "translateY(4px)" },
-          { opacity: 1, transform: "translateY(0)" },
-        ],
-        { duration: 220, easing: "ease-out" },
-      );
-  }, [location.pathname]);
-  useEffect(() => {
-    const project = projects.find(
-        (p) => `/projects/${p.slug}` === location.pathname,
-      ),
-      service = services.find(
-        (s) => `/services/${s.slug}` === location.pathname,
-      );
+    const project = projects.find((p) => `/projects/${p.slug}` === pathname);
+    const service = services.find((s) => `/services/${s.slug}` === pathname);
     const meta = project
       ? [
           project.seoTitle || `${project.name} — AlifBit`,
@@ -146,110 +22,104 @@ export default function Layout() {
         ]
       : service
         ? [`${service.name} — AlifBit`, service.description]
-        : routeMeta[location.pathname];
+        : routeMeta[pathname];
     if (meta) {
       document.title = meta[0];
-      document
-        .querySelector('meta[property="og:title"]')
-        ?.setAttribute("content", meta[0]);
-      document
-        .querySelector('meta[property="og:description"]')
-        ?.setAttribute("content", meta[1]);
-      document
-        .querySelector('meta[name="description"]')
-        ?.setAttribute("content", meta[1]);
+      for (const [selector, value] of [
+        ['meta[property="og:title"]', meta[0]],
+        ['meta[property="og:description"]', meta[1]],
+        ['meta[name="description"]', meta[1]],
+      ])
+        document.querySelector(selector)?.setAttribute("content", value);
     }
     document
       .querySelector('link[rel="canonical"]')
-      ?.setAttribute("href", `https://alifbit.org${location.pathname}`);
-  }, [location.pathname, projects, services]);
+      ?.setAttribute("href", `https://alifbit.org${pathname}`);
+  }, [pathname, projects, services]);
+}
+
+function Header({ onMenu }: { onMenu: () => void }) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
   return (
-    <>
-      <a className="skip-link" href="#main">
-        Asosiy mazmunga o‘tish
-      </a>
-      {intro && (
-        <div className="intro" aria-hidden="true">
-          <BrandMark />
-          <span>AlifBit</span>
-        </div>
-      )}
-      <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
-        <div className="container header-inner">
-          <Link to="/" aria-label="AlifBit bosh sahifa">
-            <Brand />
-          </Link>
-          <nav className="desktop-nav" aria-label="Asosiy menyu">
-            {copy.uz.nav.map(([label, to]) => (
-              <NavLink key={to} to={to}>
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-          <Link className="button button-small header-cta" to="/contact">
-            Keling, gaplashamiz
-            <Arrow />
-          </Link>
-          <button
-            className="menu-toggle icon-button"
-            aria-label="Menyuni ochish"
-            onClick={() => dialog.current?.showModal()}
-          >
-            <Menu size={25} />
-          </button>
-        </div>
-      </header>
-      <dialog ref={dialog} className="mobile-menu">
+    <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="container header-inner">
+        <Link to="/" aria-label="AlifBit — bosh sahifa" className="header-brand">
+          <Brand />
+        </Link>
+        <nav className="nav" aria-label="Asosiy menyu">
+          {copy.uz.nav.map(([label, to]) => (
+            <NavLink key={to} to={to}>
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+        <ButtonLink to="/contact" small className="header-cta">
+          Keling, gaplashamiz
+        </ButtonLink>
+        <button className="menu-toggle" aria-label="Menyuni ochish" onClick={onMenu}>
+          <Menu size={20} strokeWidth={1.6} />
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | null> }) {
+  const close = () => dialog.current?.close();
+  const items = [["Bosh sahifa", "/"], ...copy.uz.nav, ["Bog‘lanish", "/contact"]];
+  return (
+    <dialog ref={dialog} className="mobile-menu" aria-label="Menyu">
+      <div className="mobile-menu-inner">
         <div className="mobile-menu-head">
-          <Link to="/" onClick={() => dialog.current?.close()}>
+          <Link to="/" onClick={close} aria-label="AlifBit — bosh sahifa">
             <Brand />
           </Link>
-          <button
-            className="icon-button"
-            aria-label="Menyuni yopish"
-            onClick={() => dialog.current?.close()}
-          >
-            <X />
+          <button className="menu-toggle" aria-label="Menyuni yopish" onClick={close}>
+            <X size={20} strokeWidth={1.6} />
           </button>
         </div>
         <nav aria-label="Mobil menyu">
-          {[
-            ["Bosh sahifa", "/"],
-            ...copy.uz.nav,
-            ["Bog‘lanish", "/contact"],
-          ].map(([label, to], i) => (
-            <Link onClick={() => dialog.current?.close()} key={to} to={to}>
-              <small>0{i + 1}</small>
+          {items.map(([label, to], i) => (
+            <Link key={to} to={to} onClick={close} style={{ "--i": i } as CSSProperties}>
+              <small>{String(i + 1).padStart(2, "0")}</small>
               {label}
               <Arrow />
             </Link>
           ))}
         </nav>
-        <a
-          className="mobile-contact"
-          href="https://t.me/id799"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Telegram · @id799 <Arrow />
-        </a>
-      </dialog>
-      <main id="main" tabIndex={-1}>
-        <Outlet />
-      </main>
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-main">
-            <div>
-              <Link to="/" aria-label="AlifBit bosh sahifa">
-                <Brand />
-              </Link>
-              <p>
-                Ilmdan g‘oyaga.
-                <br />
-                G‘oyadan amalga.
-              </p>
-            </div>
+        <div className="mobile-menu-foot">
+          <p>{copy.uz.tagline}</p>
+          <ButtonLink to={TELEGRAM} variant="outline">
+            Telegram · @id799
+          </ButtonLink>
+        </div>
+      </div>
+    </dialog>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer on-dark">
+      <div className="container">
+        <div className="footer-main">
+          <div className="footer-about">
+            <Link to="/" aria-label="AlifBit — bosh sahifa">
+              <Brand light />
+            </Link>
+            <p>
+              Ilmdan g‘oyaga.
+              <br />
+              G‘oyadan amalga.
+            </p>
+          </div>
+          <div className="footer-cols">
             <div className="footer-col">
               <span>KASHF ETING</span>
               <Link to="/projects">Loyihalar</Link>
@@ -264,42 +134,78 @@ export default function Layout() {
               <Link to="/films">Films & Animation</Link>
               <Link to="/render">Render</Link>
             </div>
-            <div className="footer-col footer-contact">
+            <div className="footer-col">
               <span>SUHBATNI BOSHLAYLIK</span>
-              <a href="https://t.me/id799" target="_blank" rel="noreferrer">
-                Telegram · @id799
-                <Arrow />
+              <a href={TELEGRAM} target="_blank" rel="noreferrer">
+                Telegram · @id799 <Arrow size={15} />
               </a>
               <Link to="/contact">
-                Loyihangiz haqida yozing
-                <Arrow />
+                Loyihangiz haqida yozing <Arrow size={15} />
               </Link>
               <small>O‘zbekiston · Dunyo uchun</small>
             </div>
           </div>
-          <div className="footer-bottom">
-            <span>
-              © {new Date().getFullYear()} AlifBit. Barcha huquqlar
-              himoyalangan.
-            </span>
-            <Link to="/privacy">Maxfiylik siyosati</Link>
-            <button
-              onClick={() =>
-                window.scrollTo({
-                  top: 0,
-                  behavior: matchMedia("(prefers-reduced-motion: reduce)")
-                    .matches
-                    ? "instant"
-                    : "smooth",
-                })
-              }
-            >
-              Yuqoriga
-              <ArrowUp size={14} />
-            </button>
-          </div>
         </div>
-      </footer>
+        <div className="footer-word" aria-hidden="true">
+          Alif<span>Bit</span>
+        </div>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} AlifBit. Barcha huquqlar himoyalangan.</span>
+          <Link to="/privacy">Maxfiylik siyosati</Link>
+          <button
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: prefersReducedMotion() ? "auto" : "smooth",
+              })
+            }
+          >
+            Yuqoriga <ArrowUp size={15} />
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function Layout() {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const main = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const first = useRef(true);
+  useRouteMeta(pathname);
+  usePageEnhancements("main", pathname);
+
+  useEffect(() => {
+    dialog.current?.close();
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+    const heading = document.querySelector<HTMLElement>("main h1");
+    heading?.setAttribute("tabindex", "-1");
+    heading?.focus({ preventScroll: true });
+    const el = main.current;
+    if (el) {
+      el.classList.remove("page-enter");
+      void el.offsetWidth;
+      el.classList.add("page-enter");
+    }
+  }, [pathname]);
+
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Asosiy mazmunga o‘tish
+      </a>
+      <Intro />
+      <Header onMenu={() => dialog.current?.showModal()} />
+      <MobileMenu dialog={dialog} />
+      <main id="main" ref={main} tabIndex={-1}>
+        <Outlet />
+      </main>
+      <Footer />
     </>
   );
 }

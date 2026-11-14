@@ -28,10 +28,11 @@ Loyihaga lokal Node 22 dev dependency sifatida kiritilgan: npm skriptlari shu ve
 
 ## Tuzilishi va texnologiyalar
 
-- `src/components` — header, footer, logotip, loyiha muqovalari va scroll sahnasi.
-- `src/pages` — bosh sahifa, katalog, dinamik loyiha, xizmat, ekotizim va boshqaruv sahifalari.
-- `src/styles.css` — design tokens, responsive kompozitsiya va reduced-motion uslublari.
-- `src/admin.css` — alohida boshqaruv dizayni.
+- `src/components` — header/footer (`Layout`), logotip (`Brand`), kirish animatsiyasi (`Intro`), hero kompozitsiyasi (`HeroScene`), «G‘oyadan mahsulotga» scroll sahnasi (`Process`), loyiha muqovalari (`ProjectArt`) va umumiy UI (`ui.tsx`).
+- `src/pages` — har bir sahifa alohida faylda: `Home`, `Projects`, `Services`, `About`, `Contact`, `Ecosystem`, `Journal`, `Privacy`, `NotFound`, `Admin`.
+- `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish), `intro.css`, `hero.css`, `process.css`, `home.css`, `pages.css`, `art.css`, `admin.css`.
+- `src/lib/motion.ts` — kirish rejimi, scroll’da ochilish va magnit tugmalar.
+- `shared/logo.ts` — logotipning yagona vektor manbasi (sayt va `public/brand` fayllari shundan olinadi).
 - `shared/content.ts` — turlashtirilgan kontent, boshlang‘ich ma’lumotlar, menyu va SEO metadata.
 - `server` — Cloudflare Worker API, server validatsiyasi, autentifikatsiya va metadata.
 - `db/migrations` — Cloudflare D1 / SQLite migratsiyalari.
@@ -44,7 +45,7 @@ Frontend: React, TypeScript, React Router, Vite. Backend: Cloudflare Workers, D1
 
 `/`, `/projects`, `/projects/:slug`, `/services`, `/services/:slug`, `/academy`, `/library`, `/films`, `/render`, `/about`, `/contact`, `/privacy`, `/journal`, `/journal/:slug`, `/admin`.
 
-Katalog kategoriyalar bilan filtrlanadi, filtr manzilda saqlanadi. Dinamik loyiha sahifalari bazadan keladi. Birinchi tashrif logotip animatsiyasi kontentni bloklamaydi. Desktop scroll sahnasi qaytariladigan to‘rt bosqichga ega, mobil va reduced-motion holatida bosqichlar tugmalar orqali boshqariladi. Render sahifasida klaviatura bilan ham boshqariladigan taqqoslash slayderi bor.
+Katalog kategoriyalar bilan filtrlanadi, filtr manzilda saqlanadi. Dinamik loyiha sahifalari bazadan keladi. Bosh sahifaga birinchi kirishda logotip bo‘laklardan yig‘iladi va header’ga uchib boradi (≈1,9 s; scroll yoki tugma bosilsa darhol tugaydi); keyingi tashriflarda qisqa variant. To‘liq variantni qayta ko‘rish: `/?intro=1`. Desktop’da «G‘oyadan mahsulotga» sahnasi scroll bilan to‘rt bosqichda oldinga va orqaga harakatlanadi; mobil va reduced-motion holatida u to‘rtta qisqa bosqichga aylanadi. Logotip fayllarini qayta chiqarish: `node --experimental-strip-types scripts/prepare-assets.mjs`. Render sahifasida klaviatura bilan ham boshqariladigan taqqoslash slayderi bor.
 
 ## Administrator qo‘llanmasi
 

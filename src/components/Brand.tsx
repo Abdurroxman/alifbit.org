@@ -1,84 +1,96 @@
 import { useId } from "react";
+import { LOGO } from "../../shared/logo";
+
+function Arms({ id }: { id: string }) {
+  return (
+    <>
+      <path
+        className="logo-arm-bottom"
+        d={LOGO.lowerArm}
+        fill={`url(#${id}b)`}
+        stroke={LOGO.colors.edge}
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      <path
+        className="logo-arm-top"
+        d={LOGO.upperArm}
+        fill={`url(#${id}t)`}
+        stroke={LOGO.colors.edge}
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d={LOGO.innerEdge}
+        stroke="#e2cc9c"
+        strokeWidth=".6"
+        opacity=".55"
+        fill="none"
+      />
+    </>
+  );
+}
+
 export function BrandMark({ className = "" }: { className?: string }) {
   const id = useId().replace(/:/g, "");
+  const c = LOGO.colors;
   return (
     <svg
       className={`brand-mark ${className}`}
-      viewBox="0 0 200 200"
+      viewBox={LOGO.viewBox}
       fill="none"
       aria-hidden="true"
+      focusable="false"
     >
       <defs>
-        <linearGradient
-          id={`${id}g`}
-          x1="55"
-          y1="52"
-          x2="95"
-          y2="155"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#6F8C62" />
-          <stop offset=".52" stopColor="#466B50" />
-          <stop offset="1" stopColor="#244534" />
+        <linearGradient id={`${id}t`} x1="80" y1="60" x2="10" y2="118" gradientUnits="userSpaceOnUse">
+          <stop stopColor={c.armTop[0]} />
+          <stop offset="1" stopColor={c.armTop[1]} />
         </linearGradient>
-        <linearGradient
-          id={`${id}b`}
-          x1="80"
-          y1="90"
-          x2="119"
-          y2="114"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#B18B50" />
-          <stop offset=".42" stopColor="#E2C287" />
-          <stop offset="1" stopColor="#BA945C" />
+        <linearGradient id={`${id}b`} x1="10" y1="116" x2="80" y2="172" gradientUnits="userSpaceOnUse">
+          <stop stopColor={c.armBottom[0]} />
+          <stop offset="1" stopColor={c.armBottom[1]} />
+        </linearGradient>
+        <linearGradient id={`${id}a`} x1="80" y1="40" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+          <stop stopColor={c.alif[0]} />
+          <stop offset=".45" stopColor={c.alif[1]} />
+          <stop offset="1" stopColor={c.alif[2]} />
         </linearGradient>
       </defs>
       <g className="logo-left">
-        <path
-          d="M73 54H55Q50 54 46 58L14 90Q4 100 14 112L46 146Q50 150 56 150H74L29 105Q25 101 30 97Z"
-          fill={`url(#${id}g)`}
-          stroke="#B69A70"
-          strokeWidth="1.2"
-        />
-        <path
-          d="M73 54L17 103M29 105L74 150"
-          stroke="#C8B17C"
-          strokeWidth=".7"
-          opacity=".8"
-        />
+        <Arms id={id} />
       </g>
       <g className="logo-right">
-        <path
-          d="M127 54H145Q150 54 154 58L186 90Q196 100 186 112L154 146Q150 150 144 150H126L171 105Q175 101 170 97Z"
-          fill={`url(#${id}g)`}
-          stroke="#B69A70"
-          strokeWidth="1.2"
-        />
-        <path
-          d="M127 54L183 103M171 105L126 150"
-          stroke="#C8B17C"
-          strokeWidth=".7"
-          opacity=".8"
-        />
+        <g transform="matrix(-1 0 0 1 200 0)">
+          <Arms id={id} />
+        </g>
       </g>
       <path
         className="logo-alif"
-        d="M119 5C114 24 84 24 77 49C86 42 94 37 94 49V140C94 161 90 175 82 188C101 175 115 159 116 137Z"
-        fill={`url(#${id}b)`}
-        stroke="#AF8950"
-        strokeWidth="1"
+        d={LOGO.alif}
+        fill={`url(#${id}a)`}
+        stroke="#a7834b"
+        strokeWidth=".8"
+        strokeLinejoin="round"
       />
     </svg>
   );
 }
+
+export function Wordmark() {
+  return (
+    <span className="wordmark" aria-hidden="true">
+      Alif<span>Bit</span>
+    </span>
+  );
+}
+
 export default function Brand({ light = false }: { light?: boolean }) {
   return (
     <span className={`brand ${light ? "brand-light" : ""}`}>
       <BrandMark />
-      <span className="wordmark">
-        Alif<span>Bit</span>
-      </span>
+      <Wordmark />
+      <span className="visually-hidden">AlifBit</span>
     </span>
   );
 }

@@ -1,40 +1,20 @@
-import {
-  createContext,
-  lazy,
-  Suspense,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, lazy, Suspense, useContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import {
-  getProjects,
-  getServices,
-  initialProjects,
-  initialServices,
-} from "./lib/api";
-import {
-  categories as defaultCategories,
-  type Project,
-  type Service,
-} from "../shared/content";
-import { api } from "./lib/api";
-import {
-  Home,
-  Projects,
-  ProjectDetail,
-  Services,
-  ServiceDetail,
-  About,
-  Contact,
-  Privacy,
-  NotFound,
-  Journal,
-  JournalDetail,
-} from "./pages/Main";
+import { api, getProjects, getServices, initialProjects, initialServices } from "./lib/api";
+import { categories as defaultCategories, type Project, type Service } from "../shared/content";
+import Home from "./pages/Home";
+import { Projects, ProjectDetail } from "./pages/Projects";
+import { Services, ServiceDetail } from "./pages/Services";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import { Journal, JournalDetail } from "./pages/Journal";
+import NotFound from "./pages/NotFound";
 import { Academy, Library, Films, Render } from "./pages/Ecosystem";
+
 const Admin = lazy(() => import("./pages/Admin"));
+
 type Content = {
   projects: Project[];
   services: Service[];
@@ -42,6 +22,7 @@ type Content = {
   error: string;
   refresh: () => void;
 };
+
 const Context = createContext<Content>({
   projects: initialProjects,
   services: initialServices,
@@ -49,18 +30,17 @@ const Context = createContext<Content>({
   error: "",
   refresh: () => {},
 });
+
 export const useContent = () => useContext(Context);
+
 export default function App() {
-  const [projects, setProjects] = useState(initialProjects),
-    [services, setServices] = useState(initialServices),
-    [categories, setCategories] = useState(defaultCategories),
-    [error, setError] = useState("");
+  const [projects, setProjects] = useState(initialProjects);
+  const [services, setServices] = useState(initialServices);
+  const [categories, setCategories] = useState(defaultCategories);
+  const [error, setError] = useState("");
+
   function refresh() {
-    Promise.all([
-      getProjects(),
-      getServices(),
-      api<string[]>("/api/categories"),
-    ])
+    Promise.all([getProjects(), getServices(), api<string[]>("/api/categories")])
       .then(([p, s, c]) => {
         setProjects(p);
         setServices(s);
@@ -68,27 +48,18 @@ export default function App() {
         setError("");
       })
       .catch(() =>
-        setError(
-          "Yangi ma’lumotlarni yuklab bo‘lmadi. Taqdimot ma’lumotlari ko‘rsatilmoqda.",
-        ),
+        setError("Yangi ma’lumotlarni yuklab bo‘lmadi. Taqdimot ma’lumotlari ko‘rsatilmoqda."),
       );
   }
   useEffect(refresh, []);
+
   return (
-    <Context.Provider
-      value={{ projects, services, categories, error, refresh }}
-    >
+    <Context.Provider value={{ projects, services, categories, error, refresh }}>
       <Routes>
         <Route
           path="/admin/*"
           element={
-            <Suspense
-              fallback={
-                <div className="loading-page">
-                  Boshqaruv paneli yuklanmoqda…
-                </div>
-              }
-            >
+            <Suspense fallback={<div className="loading-page">Boshqaruv paneli yuklanmoqda…</div>}>
               <Admin />
             </Suspense>
           }

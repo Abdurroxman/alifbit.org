@@ -1,0 +1,440 @@
+/* Tugmalar */
+.button {
+  --btn-bg: var(--forest);
+  --btn-fg: #fff;
+  --btn-border: var(--forest);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 14px 18px 14px 26px;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-border);
+  font-family: var(--font-head);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    color 0.35s var(--ease-out),
+    background-color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out),
+    box-shadow 0.35s var(--ease-out);
+}
+@media (max-width: 480px) {
+  .button {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+  }
+}
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--green);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.5s var(--ease-out);
+}
+.button:hover::before {
+  transform: translateY(0);
+}
+.button:hover {
+  box-shadow: 0 10px 26px -12px #24453466;
+}
+.button .button-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff1c;
+  flex-shrink: 0;
+  transition: transform 0.45s var(--ease-out);
+}
+.button:hover .button-icon {
+  transform: rotate(45deg);
+}
+.button-outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--forest);
+  --btn-border: var(--line-2);
+}
+.button-outline::before {
+  background: var(--forest);
+}
+.button-outline:hover {
+  --btn-fg: #fff;
+  --btn-border: var(--forest);
+}
+.button-outline .button-icon {
+  background: var(--stone);
+}
+.button-outline:hover .button-icon {
+  background: #ffffff1c;
+}
+.button-light {
+  --btn-bg: var(--ivory);
+  --btn-fg: var(--forest);
+  --btn-border: var(--ivory);
+}
+.button-light::before {
+  background: var(--bronze);
+}
+.button-light .button-icon {
+  background: var(--stone);
+}
+.button-ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  --btn-border: transparent;
+  padding-inline: 6px;
+}
+.button-ghost::before {
+  display: none;
+}
+.button-ghost:hover {
+  box-shadow: none;
+  --btn-fg: var(--green);
+}
+.button-ghost .button-icon {
+  background: var(--stone);
+}
+.button-small {
+  min-height: 44px;
+  padding: 8px 8px 8px 20px;
+  font-size: 13.5px;
+}
+.button-small .button-icon {
+  width: 28px;
+  height: 28px;
+}
+[data-magnetic] {
+  transition: transform 0.5s var(--ease-out);
+  will-change: transform;
+}
+
+/* Matnli havola */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 6px;
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--forest);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px
+    no-repeat;
+  transition: background-size 0.5s var(--ease-out);
+}
+.text-link:hover {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+.text-link svg {
+  transition: transform 0.4s var(--ease-out);
+}
+.text-link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+/* Kichik yorliq */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+}
+.on-dark .eyebrow {
+  color: var(--bronze);
+}
+
+/* Bo'lim sarlavhasi */
+.section-head {
+  display: grid;
+  gap: 28px;
+  margin-bottom: clamp(44px, 6vw, 80px);
+}
+.section-head h2 {
+  margin-top: 18px;
+}
+.section-head > p,
+.section-head .section-aside > p {
+  max-width: 420px;
+  font-size: 17px;
+}
+.section-aside {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+@media (min-width: 900px) {
+  .section-head {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: end;
+    gap: 48px;
+  }
+  .section-head > p,
+  .section-aside {
+    justify-self: end;
+  }
+}
+
+/* Holat belgisi */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bronze);
+}
+.status-live i {
+  background: #3f9a5e;
+  box-shadow: 0 0 0 3px #3f9a5e26;
+}
+
+/* Filtr tugmalari */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+  margin: -2px;
+}
+.chips::-webkit-scrollbar {
+  display: none;
+}
+.chip {
+  flex-shrink: 0;
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--ink);
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.chip:hover {
+  border-color: var(--green);
+}
+.chip.active,
+.chip[aria-pressed="true"] {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: #fff;
+}
+
+/* Belgili ro'yxat */
+.check-list {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+.check-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+.check-list svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--green);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.breadcrumb a:hover {
+  color: var(--green);
+}
+.breadcrumb [aria-current] {
+  color: var(--ink);
+}
+
+/* Ichki sahifa boshi */
+.page-top {
+  padding-top: clamp(40px, 6vw, 80px);
+  padding-bottom: clamp(56px, 8vw, 112px);
+}
+.page-top .eyebrow {
+  margin-top: clamp(36px, 5vw, 64px);
+}
+.page-top h1 {
+  margin-top: 22px;
+  max-width: 15ch;
+}
+.page-top-text {
+  margin-top: clamp(24px, 3vw, 36px);
+  max-width: 560px;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .page-top-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .page-top-grid .page-top-text {
+    margin-bottom: 0.6em;
+  }
+}
+
+/* Ogohlantirish va bo'sh holat */
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  border-radius: var(--r-s);
+  background: #f3ecdf;
+  color: #5c4a2a;
+  font-size: 14.5px;
+}
+.notice button {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: clamp(56px, 8vw, 96px) 24px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-l);
+  text-align: center;
+}
+.empty-state > svg {
+  width: 44px;
+  height: 44px;
+  color: var(--bronze);
+}
+.empty-state h2,
+.empty-state h3 {
+  font-size: clamp(24px, 3vw, 32px);
+  max-width: 22ch;
+}
+.empty-state p {
+  max-width: 440px;
+}
+
+/* Forma */
+.field {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.field > span em {
+  font-style: normal;
+  color: var(--gold-text);
+}
+.field > span small {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.input {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  background: var(--paper);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ink);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    background-color 0.25s;
+}
+.input::placeholder {
+  color: var(--muted-2);
+}
+.input:hover {
+  border-color: #b6b3a6;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--green);
+  background: #fff;
+  box-shadow: 0 0 0 4px #466b501f;
+}
+.input:user-invalid {
+  border-color: #b5523f;
+}
+textarea.input {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.6;
+}
+select.input {
+  appearance: none;
+  padding-right: 46px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 24px) 52%,
+    calc(100% - 18px) 52%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+.form-error {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f8e9e4;
+  color: #8a3423;
+  font-size: 14.5px;
+}

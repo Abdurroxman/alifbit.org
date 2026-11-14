@@ -1,0 +1,239 @@
+.hero {
+  position: relative;
+  padding-top: clamp(28px, 4vw, 48px);
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+.hero h1 {
+  margin-top: 26px;
+  font-size: clamp(36px, 10.4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+.hero h1 .serif {
+  color: var(--green);
+  letter-spacing: -0.04em;
+  padding-right: 0.04em;
+}
+.hero-text {
+  max-width: 500px;
+  margin-top: clamp(22px, 2.6vw, 34px);
+  font-size: clamp(16.5px, 1.35vw, 19px);
+  line-height: 1.65;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: clamp(28px, 3vw, 42px);
+}
+.hero-scene {
+  position: relative;
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+.hero-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.hs-sphere,
+.hs-piece {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+.hs-assemble,
+.hs-float {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.hs-guide {
+  stroke: #262d2912;
+  stroke-width: 1;
+}
+.hs-guide-dash {
+  stroke-dasharray: 2 7;
+  stroke: #b69a7055;
+}
+.hs-orbit {
+  stroke: var(--bronze);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.hs-orbit-back {
+  opacity: 0.55;
+}
+.hs-sphere-back {
+  opacity: 0;
+}
+.hs-bit rect {
+  stroke-width: 1.2;
+}
+.hs-bit-gold rect {
+  fill: var(--bronze);
+}
+.hs-bit-green rect {
+  fill: var(--green);
+}
+.hs-bit-line rect {
+  fill: none;
+  stroke: var(--green);
+}
+.hs-piece {
+  will-change: transform;
+}
+
+/* Sekin suzish */
+html.motion .hs-float {
+  animation: hs-float var(--dur) ease-in-out var(--delay) infinite alternate;
+}
+html.motion .hs-bit .hs-float {
+  animation-name: hs-float-bit;
+}
+.hero-svg.is-paused .hs-float {
+  animation-play-state: paused;
+}
+@keyframes hs-float {
+  from {
+    transform: translate(0, -5px);
+  }
+  to {
+    transform: translate(0, 6px);
+  }
+}
+@keyframes hs-float-bit {
+  from {
+    transform: translate(-4px, -8px) rotate(-8deg);
+  }
+  to {
+    transform: translate(5px, 8px) rotate(10deg);
+  }
+}
+
+/* Yig'ilish: bo'laklar tarqoq holatdan joyiga keladi */
+html.motion .hs-assemble {
+  transition:
+    transform 1.25s var(--ease-out),
+    opacity 0.8s var(--ease-out);
+  transition-delay: var(--ad, 0ms);
+}
+html.motion [data-reveal="scene"]:not(.is-in) .hs-assemble,
+html.intro-running .hero-scene .hs-assemble {
+  opacity: 0;
+  transform: var(--from);
+}
+html.motion [data-reveal="scene"]:not(.is-in),
+html.intro-running .hero [data-reveal="scene"] {
+  opacity: 1;
+  transform: none;
+}
+html.motion .hs-orbit {
+  transition: stroke-dashoffset 1.6s var(--ease-in-out) 0.25s;
+}
+html.motion [data-reveal="scene"]:not(.is-in) .hs-orbit,
+html.intro-running .hero-scene .hs-orbit {
+  stroke-dashoffset: 1;
+}
+html.motion .hs-backdrop,
+html.motion .hs-floor {
+  transition: opacity 1.4s var(--ease-out);
+}
+html.motion [data-reveal="scene"]:not(.is-in) :is(.hs-backdrop, .hs-floor),
+html.intro-running .hero-scene :is(.hs-backdrop, .hs-floor) {
+  opacity: 0;
+}
+
+/* Pastki qator */
+.hero-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: clamp(24px, 3vw, 40px);
+  padding-block: 22px;
+  border-top: 1px solid var(--line);
+}
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.scroll-cue:hover {
+  color: var(--ink);
+}
+.scroll-line {
+  position: relative;
+  width: 1px;
+  height: 36px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--green);
+  transform: translateY(-100%);
+}
+html.motion .scroll-line::after {
+  animation: scroll-line 2.2s var(--ease-in-out) infinite;
+}
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+.hero-foot p {
+  display: none;
+  font-size: 14px;
+  text-align: right;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.hero-foot p span {
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .hero-foot p {
+    display: block;
+  }
+}
+@media (min-width: 1024px) {
+  .hero {
+    padding-top: 0;
+  }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    gap: 32px;
+    min-height: calc(100svh - var(--header-h) - 110px);
+    min-height: max(560px, calc(100svh - var(--header-h) - 110px));
+  }
+  .hero h1 {
+    font-size: clamp(56px, 5.5vw, 92px);
+  }
+  .hero-scene {
+    width: 100%;
+    max-width: 640px;
+    margin-right: -2vw;
+  }
+}

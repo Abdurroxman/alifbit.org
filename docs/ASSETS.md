@@ -2,19 +2,15 @@
 
 ## Hero
 
-Built-in Imagegen was used. Final source: `public/images/idea-sculpture.png`. Optimized production asset: `public/images/idea-sculpture.webp` (1400 px, quality 85). The original generated PNG is retained in source for future non-destructive optimization; exclude it from deployment assets if desired after preserving the source elsewhere.
-
-Prompt:
-
-> Use case: stylized-concept. Asset type: premium AlifBit technology and knowledge brand website hero artwork, a raster studio still life, NOT a website screenshot. Wide landscape 1536x1024 composition. Create a beautifully art-directed photoreal CGI sculpture: two substantial matte muted forest green (#466B50) angled bracket-like architectural forms, a slender upright warm ivory monolith, a small brushed champagne bronze sphere suspended between them, one fine brushed bronze circular orbit ring. The arrangement suggests an idea becoming a digital product, balanced asymmetric composition in an elegant architect's gallery. Seamless warm ivory (#F9F8F5) cyclorama, tactile ceramic surfaces with fine texture, broad diffused afternoon daylight from upper left, soft realistic contact shadows on ivory ground, restrained bronze highlights, calm refined editorial product photography. Sculptural objects centrally framed, full composition visible, generous margins, camera slightly above tabletop, no dramatic perspective. Avoid neon, glowing gradients, glassmorphism, busy background, text, letters, logos, watermarks, people, UI panels. The materials, lighting and composition should look commissioned by a top architecture magazine.
+The hero is a live SVG composition (`src/components/HeroScene.tsx`) built from the logo parts: two folded green brackets with depth, the golden Alif, a bronze orbit with a sphere passing behind and in front, and floating bits. No raster hero image is used.
 
 ## Logo
 
-Hand-drawn SVG interpretation of the user-supplied raster reference. The green folded bracket motif and central golden Alif silhouette are preserved in simplified form. This is true vector path artwork, not an embedded PNG. `src/components/Brand.tsx` is the animated inline version. `scripts/prepare-assets.mjs` emits standalone mark and stacked wordmark variants.
+Hand-drawn vector interpretation of the user-supplied raster logo: each bracket is a two-arm folded ribbon with a bronze edge, the Alif keeps its hooked top and tapered tail. Single source: `shared/logo.ts`. `scripts/prepare-assets.mjs` emits `public/brand` variants (color, light, dark, mono, mark/favicon, apple-touch-icon, 512 px icon, social image). This is true vector path artwork, not an embedded PNG.
 
 ## Concept covers
 
-`src/components/ProjectArt.tsx`: original CSS/HTML compositions for DALOLAT, voice-to-text, Academy, Library, Films and Render. They do not represent screenshots of released products. Project detail pages label these as visual concepts.
+`src/components/ProjectArt.tsx`: original SVG compositions (with a wireframe variant for the Render comparison) for DALOLAT, voice-to-text, Academy, Library, Films and Render. They do not represent screenshots of released products. Project detail pages label these as visual concepts.
 
 ## Typography
 
