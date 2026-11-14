@@ -2,10 +2,10 @@ import type { CSSProperties } from "react";
 
 /** DALOLAT ilovasi ekranlari: iPhone ramkasi ichida navbatma-navbat almashadi (faqat CSS animatsiya). */
 const SCREENS = [
-  { src: "/dalolat/feed.webp", alt: "DALOLAT ilovasi: nomzodlar lentasi" },
-  { src: "/dalolat/candidate.webp", alt: "DALOLAT ilovasi: nomzod profili" },
-  { src: "/dalolat/profile.webp", alt: "DALOLAT ilovasi: shaxsiy profil" },
-  { src: "/dalolat/splash.webp", alt: "DALOLAT ilovasining ochilish ekrani" },
+  { src: "/images/dalolat/feed.webp", alt: "DALOLAT ilovasi: nomzodlar lentasi" },
+  { src: "/images/dalolat/candidate.webp", alt: "DALOLAT ilovasi: nomzod profili" },
+  { src: "/images/dalolat/profile.webp", alt: "DALOLAT ilovasi: shaxsiy profil" },
+  { src: "/images/dalolat/splash.webp", alt: "DALOLAT ilovasining ochilish ekrani" },
 ];
 
 export default function DalolatPhone({ className = "" }: { className?: string }) {

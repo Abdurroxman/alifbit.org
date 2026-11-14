@@ -247,7 +247,7 @@ function DalolatPromo() {
         </div>
         <div className="dl-promo-copy">
           <div className="dl-brand" data-reveal="fade">
-            <img src="/dalolat/wordmark.webp" width={848} height={140} alt="DALOLAT" loading="lazy" />
+            <img src="/images/dalolat/wordmark.webp" width={848} height={140} alt="DALOLAT" loading="lazy" />
             <small>Telegram Mini App</small>
           </div>
           <h2 id="dl-promo-title" data-reveal style={delay(100)}>

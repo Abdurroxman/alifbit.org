@@ -52,7 +52,7 @@ function Dalolat() {
       </g>
       <g className="pa-back">
         <path d="M222 300V128c0-46 36-74 80-106 44 32 80 60 80 106v172" fill="#fffaf1" stroke="#c9a55a" strokeWidth="1.4" />
-        <image href="/dalolat/wordmark.webp" x="32" y="104" width="150" height="25" />
+        <image href="/images/dalolat/wordmark.webp" x="32" y="104" width="150" height="25" />
         <text x="33" y="160" className="pa-serif" fill="#302525" fontSize="17" style={{ fontStyle: "normal" }}>
           Munosib juft —
         </text>
@@ -66,7 +66,7 @@ function Dalolat() {
       </g>
       <g className="pa-front">
         <rect x="237" y="33" width="130" height="264" rx="24" fill="#151012" stroke="#c5b097" strokeWidth="1.5" />
-        <image href="/dalolat/feed.webp" x="245" y="41" width="114" height="248" preserveAspectRatio="xMidYMin slice" clipPath="url(#pa-dl-screen)" />
+        <image href="/images/dalolat/feed.webp" x="245" y="41" width="114" height="248" preserveAspectRatio="xMidYMin slice" clipPath="url(#pa-dl-screen)" />
         <rect x="285" y="45" width="34" height="9" rx="4.5" fill="#050505" />
       </g>
     </>
