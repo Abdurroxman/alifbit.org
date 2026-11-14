@@ -16,6 +16,7 @@ import {
   cookieValue,
   fileType,
 } from "./security";
+import { handleIntegration, isIntegrationPath } from "./integration";
 interface Env {
   DB: D1Database;
   MEDIA: R2Bucket;
@@ -27,6 +28,7 @@ interface Env {
   LOCAL_DEV?: string;
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
+  INTEGRATION_TOKEN?: string;
 }
 class HttpError extends Error {
   constructor(
@@ -188,6 +190,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
   const url = new URL(request.url),
     path = url.pathname,
     method = request.method;
+  // Bearer-token API for the server bot: no cookies, so the browser same-origin check does not apply.
+  if (isIntegrationPath(path)) return handleIntegration(request, env);
   if (!["GET", "HEAD"].includes(method) && !isSameOrigin(request))
     throw new HttpError(403, "So‘rov manbasi tasdiqlanmadi.");
   if (path === "/api/health") return json({ ok: true });

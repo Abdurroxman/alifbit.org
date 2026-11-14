@@ -8,3 +8,4 @@ local-admin.txt
 production-admin.txt
 *.zip
 test-artifacts/
+.integration-test-state/
