@@ -65,22 +65,29 @@ function Voice() {
   const bars = Array.from({ length: 34 }, (_, i) => 6 + Math.abs(Math.sin(i * 1.7)) * 30 + Math.abs(Math.sin(i * 0.4)) * 14);
   return (
     <>
-      <rect width="400" height="300" fill="#ebe5d9" />
-      <ellipse className="pa-back pa-orbit" cx="200" cy="150" rx="178" ry="118" />
+      <defs>
+        <radialGradient id="pa-sado-bg" cx="0.7" cy="0.35" r="0.9">
+          <stop offset="0" stopColor="#1d4a43" />
+          <stop offset="1" stopColor="#0b1c19" />
+        </radialGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#pa-sado-bg)" />
+      <ellipse className="pa-back pa-orbit" cx="200" cy="150" rx="178" ry="118" style={{ stroke: "#2ccfb840" }} />
       <g className="pa-front">
-        <rect x="64" y="66" width="272" height="168" rx="16" fill="#fdfcfa" />
-        <circle cx="86" cy="90" r="4" fill="#b69a70" />
-        <text x="96" y="94" className="pa-small" fill="#5f6a62" fontSize="10">
-          Ovozdan matnga
+        <rect x="64" y="66" width="272" height="168" rx="16" fill="#132b27" stroke="#2ccfb8" strokeOpacity="0.28" />
+        <circle cx="88" cy="90" r="8" fill="none" stroke="#2ccfb8" strokeWidth="2" />
+        <circle cx="88" cy="90" r="3.5" fill="#3de0c8" />
+        <text x="102" y="94" className="pa-small" fill="#e9f3f0" fontSize="11" fontWeight="700">
+          Sado
         </text>
         {bars.map((h, i) => (
-          <rect key={i} className="pa-wave" x={84 + i * 7.1} y={136 - h / 2} width="3.4" height={h} rx="1.7" fill={i % 9 === 4 ? "#b69a70" : "#466b50"} />
+          <rect key={i} className="pa-wave" x={84 + i * 7.1} y={136 - h / 2} width="3.4" height={h} rx="1.7" fill={i % 9 === 4 ? "#8ff0e2" : "#2ccfb8"} />
         ))}
-        <text x="84" y="190" className="pa-head" fill="#262d29" fontSize="13">
-          Har bir fikr — yangi imkoniyat.
+        <text x="84" y="190" className="pa-head" fill="#e9f3f0" fontSize="13">
+          Gapiring. Sado yozadi.
         </text>
-        <rect x="84" y="202" width="150" height="5" rx="2.5" fill="#e4e0d6" />
-        <rect x="84" y="213" width="112" height="5" rx="2.5" fill="#e4e0d6" />
+        <rect x="84" y="202" width="150" height="5" rx="2.5" fill="#21413b" />
+        <rect x="84" y="213" width="112" height="5" rx="2.5" fill="#21413b" />
       </g>
     </>
   );
