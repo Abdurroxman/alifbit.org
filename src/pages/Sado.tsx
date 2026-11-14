@@ -86,9 +86,18 @@ function Hero() {
               matnga, toza yozuvga yoki AI uchun tartibli topshiriqqa aylantiradi.
             </p>
             <div className="sd-hero-actions" data-reveal style={delay(420)}>
-              <ButtonLink to="#download" className="sd-btn-primary" magnetic>
-                Windows uchun yuklab olish
-              </ButtonLink>
+              {released ? (
+                <a className="button sd-btn-primary" href="/download/sado" download data-magnetic="">
+                  Windows uchun yuklab olish
+                  <span className="button-icon" aria-hidden="true">
+                    <Download size={16} />
+                  </span>
+                </a>
+              ) : (
+                <ButtonLink to="#download" className="sd-btn-primary" magnetic>
+                  Windows uchun yuklab olish
+                </ButtonLink>
+              )}
               <ButtonLink to={KEY_REQUEST} variant="ghost" className="sd-btn-ghost">
                 Kalit so‘rash
               </ButtonLink>
