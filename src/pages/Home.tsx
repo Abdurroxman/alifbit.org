@@ -7,6 +7,7 @@ import Process from "../components/Process";
 import { ProjectCard } from "../components/Projects";
 import { Arrow, ButtonLink, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { BrandMark } from "../components/Brand";
+import SadoIcon from "../components/sado/SadoIcon";
 import { copy } from "../../shared/content";
 
 export const serviceIcons: Record<string, typeof Code2> = {
@@ -147,6 +148,57 @@ function Featured() {
   );
 }
 
+function SadoPromo() {
+  return (
+    <section className="sado sado-dark sd-promo" aria-labelledby="sd-promo-title">
+      <div className="sd-echo" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+      <div className="container sd-promo-grid">
+        <div className="sd-promo-copy">
+          <div className="sd-brand" data-reveal="fade">
+            <SadoIcon />
+            <span>
+              Sado <small>Windows uchun</small>
+            </span>
+          </div>
+          <h2 id="sd-promo-title" data-reveal style={delay(100)}>
+            Gapiring.
+            <br />
+            <span className="sd-accent">Sado yozadi.</span>
+          </h2>
+          <p data-reveal style={delay(200)}>
+            Istalgan dasturda tugmani bosib turing va gapiring. Sado nutqingizni aniq matnga, toza yozuvga
+            yoki AI uchun tartibli topshiriqqa aylantiradi.
+          </p>
+          <div className="sd-hero-actions" data-reveal style={delay(300)}>
+            <ButtonLink to="/sado" className="sd-btn-primary" magnetic>
+              Sado bilan tanishing
+            </ButtonLink>
+            <ButtonLink to="/sado#download" variant="ghost" className="sd-btn-ghost">
+              Windows uchun yuklab olish
+            </ButtonLink>
+          </div>
+        </div>
+        <div className="sd-promo-art" data-reveal="scale" aria-hidden="true">
+          <SadoIcon className="sd-promo-icon" />
+          <div className="sd-promo-wave">
+            {Array.from({ length: 21 }, (_, j) => (
+              <i key={j} style={{ "--j": j } as CSSProperties} />
+            ))}
+          </div>
+          <div className="sd-promo-keys">
+            <kbd>Alt</kbd>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ServicesPreview() {
   const dirs = ["left", "up", "right"];
   return (
@@ -272,6 +324,7 @@ export default function Home() {
       <Featured />
       <Process />
       <ServicesPreview />
+      <SadoPromo />
       <Knowledge />
       <ContactBand />
     </>

@@ -129,6 +129,7 @@ function Footer() {
             </div>
             <div className="footer-col">
               <span>EKOTIZIM</span>
+              <Link to="/sado">Sado · Windows uchun</Link>
               <Link to="/academy">Academy</Link>
               <Link to="/library">Library</Link>
               <Link to="/films">Films & Animation</Link>

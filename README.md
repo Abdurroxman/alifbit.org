@@ -47,6 +47,16 @@ Frontend: React, TypeScript, React Router, Vite. Backend: Cloudflare Workers, D1
 
 Katalog kategoriyalar bilan filtrlanadi, filtr manzilda saqlanadi. Dinamik loyiha sahifalari bazadan keladi. Bosh sahifaga birinchi kirishda logotip bo‘laklardan yig‘iladi va header’ga uchib boradi (≈1,9 s; scroll yoki tugma bosilsa darhol tugaydi); keyingi tashriflarda qisqa variant. To‘liq variantni qayta ko‘rish: `/?intro=1`. Desktop’da «G‘oyadan mahsulotga» sahnasi scroll bilan to‘rt bosqichda oldinga va orqaga harakatlanadi; mobil va reduced-motion holatida u to‘rtta qisqa bosqichga aylanadi. Logotip fayllarini qayta chiqarish: `node --experimental-strip-types scripts/prepare-assets.mjs`. Render sahifasida klaviatura bilan ham boshqariladigan taqqoslash slayderi bor.
 
+## Sado sahifasi va o‘rnatuvchi
+
+`/sado` — Sado (Windows uchun ovozli yozish) taqdimoti: animatsion namuna, rejimlar, imkoniyatlar, maxfiylik, yuklab olish va savollar. Bosh sahifada Sado bloki, menyuda «Sado» bandi bor. «Kalit so‘rash» formani `?service=products&request=sado-key` bilan ochadi.
+
+Yuklab olish `/download/sado` orqali R2 dagi `public/downloads/<fayl>` ni beradi. `shared/content.ts` dagi `sadoRelease.size` 0 bo‘lsa, sahifa «tez kunda» holatini ko‘rsatadi. O‘rnatuvchi tayyor bo‘lganda:
+
+1. `C:\claude\sado` da: `$env:SADO_SERVER_URL="https://sado.alifbit.org"; npm run desktop:build` (`.exe` — `apps/desktop/src-tauri/target/release/bundle/nsis/`).
+2. Yuklash: `npm exec wrangler -- r2 object put alifbit-media/public/downloads/Sado_<versiya>_x64-setup.exe --file <yo‘l> --remote` (lokal sinov uchun `--local`).
+3. `sadoRelease` ga versiya, fayl nomi, hajm (bayt) va SHA-256 (`Get-FileHash <yo‘l>`) ni yozing.
+
 ## Administrator qo‘llanmasi
 
 1. `/admin` da parol bilan kiring.

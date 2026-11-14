@@ -140,6 +140,11 @@ export function ProjectDetail() {
                 <dd>{project.status}</dd>
               </div>
             </dl>
+            {project.slug === "ovozdan-matnga" && (
+              <ButtonLink to="/sado" magnetic>
+                Sado bilan tanishing
+              </ButtonLink>
+            )}
             {project.url ? (
               <ButtonLink to={project.url} external>
                 Loyihani ochish
