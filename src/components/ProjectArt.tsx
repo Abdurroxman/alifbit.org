@@ -21,41 +21,53 @@ function Mark({ x, y, size, light = false }: { x: number; y: number; size: numbe
   );
 }
 
+/** DALOLAT muqovasi: ilova ranglari (bej, bordo, oltin), oltin ravoq va telefon ichida ilovaning haqiqiy ekrani. */
 function Dalolat() {
   return (
     <>
-      <rect width="400" height="300" fill="#e2e8dd" />
-      <path className="pa-grid" d="M0 60H400M0 120H400M0 180H400M0 240H400M80 0V300M160 0V300M240 0V300M320 0V300" />
+      <defs>
+        <radialGradient id="pa-dl-bg" cx="0.72" cy="0.3" r="0.85">
+          <stop offset="0" stopColor="#fbefd2" />
+          <stop offset="1" stopColor="#f1e5d2" />
+        </radialGradient>
+        <linearGradient id="pa-dl-gold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#8c6a2e" />
+          <stop offset="0.5" stopColor="#c9a55a" />
+          <stop offset="1" stopColor="#a47b43" />
+        </linearGradient>
+        <clipPath id="pa-dl-screen">
+          <rect x="245" y="41" width="114" height="248" rx="17" />
+        </clipPath>
+      </defs>
+      <rect width="400" height="300" fill="url(#pa-dl-bg)" />
+      <g fill="none" stroke="#a47b43" strokeOpacity="0.16">
+        {[40, 112, 184].map((x) =>
+          [36, 108, 180, 252].map((y) => (
+            <g key={`${x}-${y}`}>
+              <rect x={x - 12} y={y - 12} width="24" height="24" />
+              <rect x={x - 12} y={y - 12} width="24" height="24" transform={`rotate(45 ${x} ${y})`} />
+            </g>
+          )),
+        )}
+      </g>
       <g className="pa-back">
-        <text x="34" y="138" className="pa-display" fill="#244534" fontSize="40">
-          DALOLAT
+        <path d="M222 300V128c0-46 36-74 80-106 44 32 80 60 80 106v172" fill="#fffaf1" stroke="#c9a55a" strokeWidth="1.4" />
+        <image href="/dalolat/wordmark.webp" x="32" y="104" width="150" height="25" />
+        <text x="33" y="160" className="pa-serif" fill="#302525" fontSize="17" style={{ fontStyle: "normal" }}>
+          Munosib juft —
         </text>
-        <text x="36" y="164" className="pa-small" fill="#5f6a62" fontSize="11">
-          Raqamli imkoniyatlar.
+        <text x="33" y="182" className="pa-serif" fill="url(#pa-dl-gold)" fontSize="17" style={{ fontStyle: "normal" }}>
+          mustahkam oila
+        </text>
+        <rect x="33" y="198" width="96" height="20" rx="10" fill="#742d3d" />
+        <text x="81" y="211.5" className="pa-small" fill="#fffcf7" fontSize="8.5" textAnchor="middle" fontWeight="600">
+          Telegram Mini App
         </text>
       </g>
       <g className="pa-front">
-        <rect x="236" y="44" width="128" height="262" rx="22" fill="#244534" />
-        <rect x="244" y="52" width="112" height="246" rx="16" fill="#2c5240" />
-        <rect x="282" y="58" width="36" height="9" rx="4.5" fill="#1b3628" />
-        <text x="256" y="92" className="pa-display" fill="#d8bf92" fontSize="14">
-          D.
-        </text>
-        <text x="256" y="122" className="pa-small" fill="#b9c8b2" fontSize="8">
-          Xush kelibsiz
-        </text>
-        <text x="256" y="142" className="pa-head" fill="#f2f0e8" fontSize="15">
-          Siz uchun.
-        </text>
-        <text x="256" y="160" className="pa-head" fill="#f2f0e8" fontSize="15">
-          Har kuni.
-        </text>
-        <rect x="254" y="176" width="92" height="36" rx="9" fill="#ffffff14" />
-        <rect x="262" y="186" width="16" height="16" rx="4" fill="#b69a70" />
-        <rect x="284" y="189" width="44" height="4" rx="2" fill="#e7e1d2" />
-        <rect x="284" y="197" width="30" height="3" rx="1.5" fill="#ffffff55" />
-        <rect x="254" y="220" width="43" height="40" rx="9" fill="#466b50" />
-        <rect x="303" y="220" width="43" height="40" rx="9" fill="#b69a70" />
+        <rect x="237" y="33" width="130" height="264" rx="24" fill="#151012" stroke="#c5b097" strokeWidth="1.5" />
+        <image href="/dalolat/feed.webp" x="245" y="41" width="114" height="248" preserveAspectRatio="xMidYMin slice" clipPath="url(#pa-dl-screen)" />
+        <rect x="285" y="45" width="34" height="9" rx="4.5" fill="#050505" />
       </g>
     </>
   );

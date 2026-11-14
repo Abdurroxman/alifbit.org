@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, Box, Code2, Film, GraduationCap, Shapes } from "lucide-react";
+import { BadgeCheck, BookOpen, Box, Check, Code2, Film, GraduationCap, Heart, Shapes } from "lucide-react";
 import { useContent } from "../App";
 import HeroScene from "../components/HeroScene";
 import Process from "../components/Process";
@@ -8,7 +8,8 @@ import { ProjectCard } from "../components/Projects";
 import { Arrow, ButtonLink, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { BrandMark } from "../components/Brand";
 import SadoIcon from "../components/sado/SadoIcon";
-import { copy, SADO_URL } from "../../shared/content";
+import DalolatPhone from "../components/dalolat/DalolatPhone";
+import { copy, DALOLAT_APP_URL, DALOLAT_URL, SADO_URL } from "../../shared/content";
 
 export const serviceIcons: Record<string, typeof Code2> = {
   code: Code2,
@@ -207,6 +208,80 @@ function SadoPromo() {
   );
 }
 
+/** Sakkiz qirrali yulduz (DALOLAT ilovasidagi girih naqshi). */
+const DL_STAR =
+  "M12 .5 14.4 6.4 20.1 3.9 17.6 9.6 23.5 12 17.6 14.4 20.1 20.1 14.4 17.6 12 23.5 9.6 17.6 3.9 20.1 6.4 14.4.5 12 6.4 9.6 3.9 3.9 9.6 6.4Z";
+const DL_ARCH_OUTER = "M30 640V280C30 168 118 98 200 28c82 70 170 140 170 252v360";
+const DL_ARCH_INNER = "M62 640V290c0-96 74-155 138-210 64 55 138 114 138 210v350";
+
+function DalolatPromo() {
+  const points = ["Moslik foizi, filtr va ID bo‘yicha qidiruv", "Ko‘k belgili, jonli tekshirilgan anketalar", "Rasmlar faqat ruxsat berilganlarga ochiladi"];
+  return (
+    <section className="dalolat dl-promo" aria-labelledby="dl-promo-title">
+      <div className="dl-pattern" aria-hidden="true" />
+      <div className="container dl-promo-grid">
+        <div className="dl-promo-art" data-reveal="scale">
+          <svg className="dl-arch" viewBox="0 0 400 640" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="dlArchFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#fffaf1" />
+                <stop offset="1" stopColor="#efe1cb" />
+              </linearGradient>
+            </defs>
+            <path className="dl-arch-fill" d={DL_ARCH_OUTER} />
+            <path className="dl-arch-line" pathLength={1} d={DL_ARCH_OUTER} />
+            <path className="dl-arch-line" pathLength={1} d={DL_ARCH_INNER} />
+          </svg>
+          <svg className="dl-star" viewBox="0 0 24 24" aria-hidden="true">
+            <path d={DL_STAR} fill="currentColor" />
+          </svg>
+          <DalolatPhone />
+          <span className="dl-chip dl-chip-a" aria-hidden="true">
+            <Heart strokeWidth={1.8} />
+            86% mos
+          </span>
+          <span className="dl-chip dl-chip-b" aria-hidden="true">
+            <BadgeCheck strokeWidth={1.8} />
+            Tasdiqlangan
+          </span>
+        </div>
+        <div className="dl-promo-copy">
+          <div className="dl-brand" data-reveal="fade">
+            <img src="/dalolat/wordmark.webp" width={848} height={140} alt="DALOLAT" loading="lazy" />
+            <small>Telegram Mini App</small>
+          </div>
+          <h2 id="dl-promo-title" data-reveal style={delay(100)}>
+            Munosib juft —
+            <br />
+            <span className="dl-accent">mustahkam oila.</span>
+          </h2>
+          <p data-reveal style={delay(200)}>
+            DALOLAT — Telegram ichidagi ilova. Diniy qadriyatlarga muvofiq munosib juft topishga ko‘maklashadi:
+            lenta talablaringizga qarab saralanadi, nomzodga so‘rov yuborasiz, u qabul qilsa, ilova ichida
+            suhbatlashasiz.
+          </p>
+          <ul className="dl-points" data-reveal style={delay(260)}>
+            {points.map((p) => (
+              <li key={p}>
+                <Check strokeWidth={2.6} aria-hidden="true" />
+                {p}
+              </li>
+            ))}
+          </ul>
+          <div className="dl-actions" data-reveal style={delay(320)}>
+            <ButtonLink to={DALOLAT_URL} className="dl-btn-primary" magnetic>
+              Dalolat bilan tanishing
+            </ButtonLink>
+            <ButtonLink to={DALOLAT_APP_URL} variant="ghost" className="dl-btn-ghost">
+              Ilovani ochish
+            </ButtonLink>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ServicesPreview() {
   const dirs = ["left", "up", "right"];
   return (
@@ -329,6 +404,7 @@ export default function Home() {
     <>
       <Hero />
       <SadoPromo />
+      <DalolatPromo />
       <Approach />
       <Featured />
       <Process />

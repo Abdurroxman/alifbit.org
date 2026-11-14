@@ -55,22 +55,28 @@ export const initialProjects: Project[] = [
     id: "dalolat",
     slug: "dalolat",
     name: "DALOLAT",
-    category: "Dasturlar",
-    status: "Taqdimot",
-    summary: "AlifBit ekotizimidagi mustaqil raqamli loyiha.",
+    category: "Telegram",
+    status: "Ishlayapti",
+    summary: "Munosib juft topishga ko‘maklashuvchi Telegram ilovasi.",
     description:
-      "DALOLAT — AlifBit loyihalari qatoridagi raqamli mahsulot. Uning rasmiy taqdimoti, tasdiqlangan imkoniyatlari va foydalanish havolasi shu sahifada e’lon qilinadi.",
+      "DALOLAT — Telegram ichida ishlaydigan ilova (Mini App). Diniy qadriyatlarga muvofiq munosib juft topishga ko‘maklashadi: lenta talablaringizga qarab saralanadi, har bir anketada moslik foizi ko‘rinadi, nomzodga so‘rov yuborasiz va u qabul qilsa, ilova ichida suhbatlashasiz.",
     purpose:
-      "Foydali g‘oyani tushunarli, qulay raqamli mahsulotga aylantirish. Mahsulot haqida batafsil ma’lumot rasmiy taqdimotda beriladi.",
+      "Oila qurish niyatidagi insonlarga munosib juftni hurmat, ishonch va maxfiylik bilan topishda yordam berish.",
     features: [
-      "Mahsulot haqida ma’lumot",
-      "Rasmiy yangiliklar",
-      "Taqdimot va foydalanish yo‘riqnomasi",
+      "Moslik foizi, filtr va ID bo‘yicha qidiruv",
+      "Ko‘k belgi — yuzi jonli tekshirilgan anketalar",
+      "Rasmlar faqat ruxsat berilganlarga ochiladi",
+      "Nur AI yordamchisi va Xarakter testi (Big Five)",
+      "Guvohli suhbat va shaxsiy sovchilik",
+      "5 til: o‘zbek, rus, ingliz, turk, arab",
     ],
-    platforms: ["Raqamli mahsulot"],
+    platforms: ["Telegram Mini App", "dalolat.app"],
     cover: "dalolat",
-    url: "",
+    url: "https://dalolat.app",
     published: true,
+    seoTitle: "DALOLAT — Munosib juft, mustahkam oila",
+    seoDescription:
+      "DALOLAT — Telegram ichidagi ilova: moslik foizi, tasdiqlangan anketalar, maxfiy rasmlar va Nur AI yordamchisi bilan munosib juft topishga ko‘maklashadi.",
   },
   {
     id: "voice",
@@ -273,6 +279,9 @@ export const initialServices: Service[] = [
 ];
 // Sado mahsulotining alohida sayti.
 export const SADO_URL = "https://sado.alifbit.org";
+// DALOLAT: taqdimot sayti va Telegram Mini App manzili.
+export const DALOLAT_URL = "https://dalolat.app";
+export const DALOLAT_APP_URL = "https://app.dalolat.app";
 export const copy = {
   uz: {
     tagline: "Ilmdan g‘oyaga. G‘oyadan amalga.",
