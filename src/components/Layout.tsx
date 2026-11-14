@@ -8,7 +8,7 @@ import { useContent } from "../App";
 import { copy, routeMeta, SADO_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 
-const TELEGRAM = "https://t.me/id799";
+const TELEGRAM = "https://t.me/alifbitbot?start=alifbit";
 
 function useRouteMeta(pathname: string) {
   const { projects, services } = useContent();
@@ -114,7 +114,7 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
         <div className="mobile-menu-foot">
           <p>{copy.uz.tagline}</p>
           <ButtonLink to={TELEGRAM} variant="outline">
-            Telegram · @id799
+            Telegram · @alifbitbot
           </ButtonLink>
         </div>
       </div>
@@ -155,9 +155,9 @@ function Footer() {
             </div>
             <div className="footer-col">
               <span>SUHBATNI BOSHLAYLIK</span>
-              <a href={TELEGRAM} target="_blank" rel="noreferrer">
-                Telegram · @id799 <Arrow size={15} />
-              </a>
+              <ButtonLink to={TELEGRAM} variant="light" small>
+                Telegram · @alifbitbot
+              </ButtonLink>
               <Link to="/contact">
                 Loyihangiz haqida yozing <Arrow size={15} />
               </Link>

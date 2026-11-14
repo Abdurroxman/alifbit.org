@@ -4,7 +4,7 @@ import { Check, LoaderCircle, Paperclip, Send } from "lucide-react";
 import { useContent } from "../App";
 import { api } from "../lib/api";
 import { BrandMark } from "../components/Brand";
-import { Arrow, Eyebrow, PageTop } from "../components/ui";
+import { ButtonLink, Eyebrow, PageTop } from "../components/ui";
 
 const MAX_FILE = 5 * 1024 * 1024;
 
@@ -54,9 +54,9 @@ export default function Contact() {
         <aside className="contact-aside" data-reveal="left">
           <div>
             <small>BEVOSITA ALOQA</small>
-            <a className="contact-telegram" href="https://t.me/id799" target="_blank" rel="noreferrer">
-              Telegram · @id799 <Arrow />
-            </a>
+            <ButtonLink to="https://t.me/alifbitbot?start=alifbit" className="contact-telegram">
+              Telegram · @alifbitbot
+            </ButtonLink>
             <p>Qisqa savol yoki dastlabki suhbat uchun Telegram’da yozishingiz mumkin.</p>
           </div>
           <div>

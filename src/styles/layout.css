@@ -382,6 +382,13 @@ html:has(.mobile-menu[open]) {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+.footer-col a.button {
+  gap: 14px;
+  color: var(--btn-fg);
+  font-size: 13.5px;
+  opacity: 1;
+  text-decoration: none;
+}
 .footer-col small {
   color: var(--on-dark-muted);
   font-size: 13px;

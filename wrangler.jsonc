@@ -24,7 +24,7 @@
   "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "alifbit-media" }],
   "vars": {
     "PUBLIC_ORIGIN": "https://alifbit.org",
-    "CONTACT_TELEGRAM": "id799",
+    "CONTACT_TELEGRAM": "alifbitbot",
   },
   "observability": { "enabled": true },
   "routes": [

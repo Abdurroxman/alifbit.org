@@ -1,6 +1,6 @@
 # AlifBit
 
-Logotipga mos ivory, yashil va bronza ranglaridagi premium kompaniya sayti. Asosiy til — o‘zbekcha. Aloqa: https://t.me/id799.
+Logotipga mos ivory, yashil va bronza ranglaridagi premium kompaniya sayti. Asosiy til — o‘zbekcha. Aloqa: https://t.me/alifbitbot.
 
 ## Mahalliy ishga tushirish
 

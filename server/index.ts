@@ -80,7 +80,7 @@ async function clientKey(request: Request, env: Env) {
   if (!env.IP_HASH_SECRET)
     throw new HttpError(
       503,
-      "Xizmat hali sozlanmagan. Telegram orqali bog‘laning: @id799.",
+      "Xizmat hali sozlanmagan. Telegram orqali bog‘laning: @alifbitbot.",
     );
   return keyedHash(
     request.headers.get("cf-connecting-ip") ||
@@ -673,7 +673,7 @@ async function handle(
     name: "AlifBit",
     url: env.PUBLIC_ORIGIN,
     logo: `${env.PUBLIC_ORIGIN}/brand/logo-color.svg`,
-    sameAs: ["https://t.me/id799"],
+    sameAs: ["https://t.me/alifbitbot"],
   }).replace(/</g, "\\u003c");
   html = html.replace(
     "</head>",
@@ -712,7 +712,7 @@ export default {
         response = json(
           {
             error:
-              "Xizmat vaqtincha ishlamayapti. Telegram orqali yozing: @id799.",
+              "Xizmat vaqtincha ishlamayapti. Telegram orqali yozing: @alifbitbot.",
             requestId: id,
           },
           503,

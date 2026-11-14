@@ -48,8 +48,8 @@ export default function Privacy() {
         <h2>Ma’lumotni o‘chirish</h2>
         <p>
           Murojaat raqamingizni ko‘rsatib{" "}
-          <a href="https://t.me/id799" target="_blank" rel="noreferrer">
-            @id799
+          <a href="https://t.me/alifbitbot?start=alifbit" target="_blank" rel="noreferrer">
+            @alifbitbot
           </a>{" "}
           orqali ma’lumotingizni ko‘rish, tuzatish yoki o‘chirishni so‘rashingiz mumkin.
         </p>
