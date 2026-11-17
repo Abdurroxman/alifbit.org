@@ -1,8 +1,14 @@
-import { categories, routeMeta, SADO_URL } from "../shared/content";
+import {
+  categories,
+  COURSE_ORDER_PREFIX,
+  routeMeta,
+  SADO_URL,
+} from "../shared/content";
 import {
   orderSchema,
   projectSchema,
   serviceSchema,
+  courseSchema,
   articleSchema,
   orderStatusSchema,
 } from "./validation";
@@ -136,9 +142,11 @@ async function audit(env: Env, action: string, id: string) {
 function sessionCookie(token: string, local: boolean, clear = false) {
   return `alifbit_session=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${clear ? 0 : 28800}${local ? "" : "; Secure"}`;
 }
+type ContentTable = "projects" | "services" | "articles" | "courses";
+const contentTables: ContentTable[] = ["projects", "services", "articles", "courses"];
 async function listContent(
   env: Env,
-  table: "projects" | "services" | "articles",
+  table: ContentTable,
   admin = false,
 ) {
   const { results } = await env.DB.prepare(
@@ -201,6 +209,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     return json(await listContent(env, "services"));
   if (method === "GET" && path === "/api/articles")
     return json(await listContent(env, "articles"));
+  if (method === "GET" && path === "/api/courses")
+    return json(await listContent(env, "courses"));
   if (method === "GET" && path === "/api/categories") {
     const row = await env.DB.prepare("SELECT data FROM settings WHERE key=?1")
       .bind("categories")
@@ -235,10 +245,14 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
           : parsed.error.issues[0].message,
       );
     const d = parsed.data;
+    // Kursga yozilish `kurs-<slug>` ko'rinishida keladi va nashr qilingan kurs bo'yicha tekshiriladi.
+    const course = d.service.startsWith(COURSE_ORDER_PREFIX);
     const service = await env.DB.prepare(
-      "SELECT id FROM services WHERE slug=?1 AND published=1",
+      course
+        ? "SELECT id FROM courses WHERE slug=?1 AND published=1"
+        : "SELECT id FROM services WHERE slug=?1 AND published=1",
     )
-      .bind(d.service)
+      .bind(course ? d.service.slice(COURSE_ORDER_PREFIX.length) : d.service)
       .first();
     if (!service && d.service !== "other")
       throw new HttpError(400, "Xizmat yo‘nalishini tanlang.");
@@ -383,8 +397,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
       });
     }
     const table = path.split("/")[3];
-    if (["projects", "services", "articles"].includes(table)) {
-      const t = table as "projects" | "services" | "articles";
+    if ((contentTables as string[]).includes(table)) {
+      const t = table as ContentTable;
       if (method === "GET") return json(await listContent(env, t, true));
       if (method === "DELETE" && t !== "services") {
         const id = path.split("/")[4];
@@ -415,7 +429,9 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
             ? projectSchema
             : t === "services"
               ? serviceSchema
-              : articleSchema
+              : t === "courses"
+                ? courseSchema
+                : articleSchema
         ).safeParse(body);
         if (!parsed.success)
           throw new HttpError(400, parsed.error.issues[0].message);
@@ -556,6 +572,8 @@ async function handle(
   if (path.startsWith("/api/")) return handleApi(request, env, ctx);
   if (path === "/sado" || path.startsWith("/sado/"))
     return Response.redirect(`${SADO_URL}/`, 301);
+  if (path === "/academy")
+    return Response.redirect(`${url.origin}/courses`, 301);
   if (path.startsWith("/media/")) {
     if (!["GET", "HEAD"].includes(request.method))
       throw new HttpError(405, "Bu amal qo‘llab-quvvatlanmaydi.");
@@ -590,12 +608,14 @@ async function handle(
   if (path === "/sitemap.xml") {
     const projects = await listContent(env, "projects"),
       articles = await listContent(env, "articles"),
-      services = await listContent(env, "services");
+      services = await listContent(env, "services"),
+      courses = await listContent(env, "courses");
     const routes = [
       ...Object.keys(routeMeta),
       ...projects.map((p) => `/projects/${p.slug}`),
       ...services.map((s) => `/services/${s.slug}`),
       ...articles.map((a) => `/journal/${a.slug}`),
+      ...courses.map((c) => `/courses/${c.slug}`),
     ];
     return new Response(
       `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map((route) => `<url><loc>${escapeHtml(env.PUBLIC_ORIGIN + route)}</loc></url>`).join("")}</urlset>`,
@@ -628,6 +648,19 @@ async function handle(
     if (row) {
       const s = JSON.parse(row.data);
       meta = [`${s.name} — AlifBit`, s.description];
+    } else status = 404;
+  } else if (parts[1] === "courses" && parts[2]) {
+    const row = await env.DB.prepare(
+      "SELECT data FROM courses WHERE slug=?1 AND published=1",
+    )
+      .bind(parts[2])
+      .first<{ data: string }>();
+    if (row) {
+      const c = JSON.parse(row.data);
+      meta = [
+        c.seoTitle || `${c.title} — AlifBit`,
+        c.seoDescription || c.tagline,
+      ];
     } else status = 404;
   } else if (parts[1] === "journal" && parts[2]) {
     const row = await env.DB.prepare(

@@ -36,21 +36,15 @@
   stroke: #b69a7066;
   stroke-width: 1;
 }
-.pa-wire path,
-.pa-wire rect:not(:first-child) {
-  stroke: var(--green);
-  stroke-width: 1.2;
-  stroke-dasharray: 4 3;
-}
 .pa-front,
 .pa-back {
   transition: transform 0.9s var(--ease-out);
 }
 @media (hover: hover) {
-  .project-card:hover .pa-front {
+  .detail-cover:hover .pa-front {
     transform: translate(-6px, -8px);
   }
-  .project-card:hover .pa-back {
+  .detail-cover:hover .pa-back {
     transform: translate(6px, 4px);
   }
 }

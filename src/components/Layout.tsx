@@ -2,19 +2,23 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ArrowUp, Menu, X } from "lucide-react";
 import Brand from "./Brand";
-import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
-import { copy, routeMeta, SADO_URL } from "../../shared/content";
+import { copy, routeMeta, TELEGRAM_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 
-const TELEGRAM = "https://t.me/alifbitbot?start=alifbit";
+/** «Kurslar» bandi faqat nashr qilingan kurs bo'lsa ko'rinadi. */
+function useNav() {
+  const { courses } = useContent();
+  return copy.uz.nav.filter(([, to]) => to !== "/courses" || courses.length > 0);
+}
 
 function useRouteMeta(pathname: string) {
-  const { projects, services } = useContent();
+  const { projects, services, courses } = useContent();
   useEffect(() => {
     const project = projects.find((p) => `/projects/${p.slug}` === pathname);
     const service = services.find((s) => `/services/${s.slug}` === pathname);
+    const course = courses.find((c) => `/courses/${c.slug}` === pathname);
     const meta = project
       ? [
           project.seoTitle || `${project.name} — AlifBit`,
@@ -22,7 +26,9 @@ function useRouteMeta(pathname: string) {
         ]
       : service
         ? [`${service.name} — AlifBit`, service.description]
-        : routeMeta[pathname];
+        : course
+          ? [course.seoTitle || `${course.title} — AlifBit`, course.seoDescription || course.tagline]
+          : routeMeta[pathname];
     if (meta) {
       document.title = meta[0];
       for (const [selector, value] of [
@@ -35,38 +41,43 @@ function useRouteMeta(pathname: string) {
     document
       .querySelector('link[rel="canonical"]')
       ?.setAttribute("href", `https://alifbit.org${pathname}`);
-  }, [pathname, projects, services]);
+  }, [pathname, projects, services, courses]);
 }
 
 function Header({ onMenu }: { onMenu: () => void }) {
+  const nav = useNav();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
+    let last = window.scrollY;
+    // Pastga aylantirganda header yashirinadi, yuqoriga qaytganda yana chiqadi.
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (Math.abs(y - last) > 6) {
+        setHidden(y > last && y > 240);
+        last = y;
+      }
+    };
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
   return (
-    <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
+    <header className={`header ${scrolled ? "is-scrolled" : ""} ${hidden ? "is-hidden" : ""}`}>
       <div className="container header-inner">
         <Link to="/" aria-label="AlifBit — bosh sahifa" className="header-brand">
           <Brand />
         </Link>
         <nav className="nav" aria-label="Asosiy menyu">
-          {copy.uz.nav.map(([label, to]) =>
-            to.startsWith("http") ? (
-              <a key={to} href={to}>
-                {label}
-              </a>
-            ) : (
-              <NavLink key={to} to={to}>
-                {label}
-              </NavLink>
-            ),
-          )}
+          {nav.map(([label, to]) => (
+            <NavLink key={to} to={to}>
+              {label}
+            </NavLink>
+          ))}
         </nav>
         <ButtonLink to="/contact" small className="header-cta">
-          Keling, gaplashamiz
+          Buyurtma berish
         </ButtonLink>
         <button className="menu-toggle" aria-label="Menyuni ochish" onClick={onMenu}>
           <Menu size={20} strokeWidth={1.6} />
@@ -78,7 +89,7 @@ function Header({ onMenu }: { onMenu: () => void }) {
 
 function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | null> }) {
   const close = () => dialog.current?.close();
-  const items = [["Bosh sahifa", "/"], ...copy.uz.nav, ["Bog‘lanish", "/contact"]];
+  const items = [["Bosh sahifa", "/"], ...useNav(), ["Buyurtma berish", "/contact"]];
   return (
     <dialog ref={dialog} className="mobile-menu" aria-label="Menyu">
       <div className="mobile-menu-inner">
@@ -113,7 +124,7 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
         </nav>
         <div className="mobile-menu-foot">
           <p>{copy.uz.tagline}</p>
-          <ButtonLink to={TELEGRAM} variant="outline">
+          <ButtonLink to={TELEGRAM_URL} variant="outline">
             Telegram · @alifbitbot
           </ButtonLink>
         </div>
@@ -123,6 +134,8 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
 }
 
 function Footer() {
+  const { services } = useContent();
+  const nav = useNav();
   return (
     <footer className="footer on-dark">
       <div className="container">
@@ -131,37 +144,37 @@ function Footer() {
             <Link to="/" aria-label="AlifBit — bosh sahifa">
               <Brand light />
             </Link>
-            <p>
-              Ilmdan g‘oyaga.
-              <br />
-              G‘oyadan amalga.
-            </p>
+            <p>{copy.uz.tagline}</p>
           </div>
           <div className="footer-cols">
             <div className="footer-col">
-              <span>KASHF ETING</span>
-              <Link to="/projects">Loyihalar</Link>
-              <Link to="/services">Xizmatlar</Link>
-              <Link to="/about">Biz haqimizda</Link>
+              <span>XIZMATLAR</span>
+              {services.map((s) => (
+                <Link key={s.slug} to={`/services/${s.slug}`}>
+                  {s.name}
+                </Link>
+              ))}
+            </div>
+            <div className="footer-col">
+              <span>ALIFBIT</span>
+              {nav
+                .filter(([, to]) => to !== "/services")
+                .map(([label, to]) => (
+                  <Link key={to} to={to}>
+                    {label}
+                  </Link>
+                ))}
               <Link to="/journal">Qaydlar</Link>
             </div>
             <div className="footer-col">
-              <span>EKOTIZIM</span>
-              <a href={SADO_URL}>Sado · Windows uchun</a>
-              <Link to="/academy">Academy</Link>
-              <Link to="/library">Library</Link>
-              <Link to="/films">Films & Animation</Link>
-              <Link to="/render">Render</Link>
-            </div>
-            <div className="footer-col">
-              <span>SUHBATNI BOSHLAYLIK</span>
-              <ButtonLink to={TELEGRAM} variant="light" small>
+              <span>ALOQA</span>
+              <ButtonLink to={TELEGRAM_URL} variant="light" small>
                 Telegram · @alifbitbot
               </ButtonLink>
               <Link to="/contact">
-                Loyihangiz haqida yozing <Arrow size={15} />
+                Buyurtma berish <Arrow size={15} />
               </Link>
-              <small>O‘zbekiston · Dunyo uchun</small>
+              <small>O‘zbekiston</small>
             </div>
           </div>
         </div>
@@ -218,7 +231,6 @@ export default function Layout() {
       <a className="skip-link" href="#main">
         Asosiy mazmunga o‘tish
       </a>
-      <Intro />
       <Header onMenu={() => dialog.current?.showModal()} />
       <MobileMenu dialog={dialog} />
       <main id="main" ref={main} tabIndex={-1}>

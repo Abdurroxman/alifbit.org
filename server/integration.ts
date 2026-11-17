@@ -51,6 +51,7 @@ interface OrderRow {
   contact: string;
   service: string;
   service_data: string | null;
+  course_data: string | null;
   description: string;
   budget: string;
   deadline: string;
@@ -62,13 +63,19 @@ interface OrderRow {
 }
 
 function serviceName(row: OrderRow) {
-  if (!row.service_data) return row.service;
   try {
-    const data = JSON.parse(row.service_data) as { name?: unknown };
-    return typeof data.name === "string" ? data.name : row.service;
+    if (row.service_data) {
+      const data = JSON.parse(row.service_data) as { name?: unknown };
+      if (typeof data.name === "string") return data.name;
+    }
+    if (row.course_data) {
+      const data = JSON.parse(row.course_data) as { title?: unknown };
+      if (typeof data.title === "string") return `Kurs: ${data.title}`;
+    }
   } catch {
     return row.service;
   }
+  return row.service;
 }
 
 export function isIntegrationPath(path: string) {
@@ -93,10 +100,10 @@ export async function handleIntegration(
 
   if (!id && method === "GET") {
     const { results } = await env.DB.prepare(
-      "SELECT o.id,o.reference,o.name,o.contact,o.service,s.data AS service_data,o.description,o.budget,o.deadline,o.status,o.attachment_name,o.attachment_type,o.created_at,o.updated_at FROM orders o LEFT JOIN services s ON s.slug=o.service ORDER BY o.created_at DESC LIMIT 500",
+      "SELECT o.id,o.reference,o.name,o.contact,o.service,s.data AS service_data,c.data AS course_data,o.description,o.budget,o.deadline,o.status,o.attachment_name,o.attachment_type,o.created_at,o.updated_at FROM orders o LEFT JOIN services s ON s.slug=o.service LEFT JOIN courses c ON o.service='kurs-'||c.slug ORDER BY o.created_at DESC LIMIT 500",
     ).all<OrderRow>();
     const orders = results.map((row) => {
-      const { service_data: _data, ...rest } = row;
+      const { service_data: _s, course_data: _c, ...rest } = row;
       return { ...rest, service_name: serviceName(row) };
     });
     return reply({ statuses: orderStatuses, orders });

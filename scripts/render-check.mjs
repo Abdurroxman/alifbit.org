@@ -22,11 +22,8 @@ const routes = [
   "/projects/dalolat",
   "/projects/ovozdan-matnga",
   "/services",
-  "/services/development",
-  "/academy",
-  "/library",
-  "/films",
-  "/render",
+  "/services/veb-sayt",
+  "/courses",
   "/about",
   "/contact",
   "/privacy",
@@ -54,16 +51,13 @@ for (const route of routes) {
           "/",
           "/projects",
           "/services",
-          "/academy",
-          "/library",
-          "/films",
-          "/render",
+          "/courses",
           "/about",
           "/contact",
           "/privacy",
           "/journal",
         ].includes(path) ||
-        /^\/(projects|services)\/[a-z0-9-]+$/.test(path) ||
+        /^\/(projects|services|courses)\/[a-z0-9-]+$/.test(path) ||
         /^\/(images|brand|fonts)\//.test(path);
       if (!good) throw new Error(`${route}: unexpected link ${href}`);
     }

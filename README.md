@@ -1,6 +1,6 @@
 # AlifBit
 
-Logotipga mos ivory, yashil va bronza ranglaridagi premium kompaniya sayti. Asosiy til — o‘zbekcha. Aloqa: https://t.me/alifbitbot.
+Sayt, dizayn, Telegram bot va ilovalarni narxi bilan sotadigan minimalist studiya sayti: xizmatlar va paketlar, qilingan ishlar, kurslar. Ranglar logotipga mos — ivory, yashil va bronza. Asosiy til — o‘zbekcha. Aloqa: https://t.me/alifbitbot.
 
 ## Mahalliy ishga tushirish
 
@@ -28,10 +28,10 @@ Loyihaga lokal Node 22 dev dependency sifatida kiritilgan: npm skriptlari shu ve
 
 ## Tuzilishi va texnologiyalar
 
-- `src/components` — header/footer (`Layout`), logotip (`Brand`), kirish animatsiyasi (`Intro`), hero kompozitsiyasi (`HeroScene`), «G‘oyadan mahsulotga» scroll sahnasi (`Process`), loyiha muqovalari (`ProjectArt`) va umumiy UI (`ui.tsx`).
-- `src/pages` — har bir sahifa alohida faylda: `Home`, `Projects`, `Services`, `About`, `Contact`, `Ecosystem`, `Journal`, `Privacy`, `NotFound`, `Admin`.
-- `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish), `intro.css`, `hero.css`, `process.css`, `home.css`, `pages.css`, `art.css`, `admin.css`.
-- `src/lib/motion.ts` — kirish rejimi, scroll’da ochilish va magnit tugmalar.
+- `src/components` — header/footer (`Layout`), logotip (`Brand`), xizmat, ish va kurs kartalari (`Studio`), ish muqovalari (`ProjectArt`) va umumiy UI (`ui.tsx`, jumladan harfma-harf sarlavha `Chars`).
+- `src/pages` — har bir sahifa alohida faylda: `Home`, `Services` (paketlar, taqqoslash jadvali, savol-javob), `Projects`, `Courses`, `About`, `Contact`, `Journal`, `Privacy`, `NotFound`, `Admin`.
+- `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish, harfma-harf sarlavha), `hero.css`, `home.css` (kartalar, paketlar, kurs), `pages.css`, `art.css`, `admin.css`.
+- `src/lib/motion.ts` — scroll’da ochilish va magnit tugmalar.
 - `shared/logo.ts` — logotipning yagona vektor manbasi (sayt va `public/brand` fayllari shundan olinadi).
 - `shared/content.ts` — turlashtirilgan kontent, boshlang‘ich ma’lumotlar, menyu va SEO metadata.
 - `server` — Cloudflare Worker API, server validatsiyasi, autentifikatsiya va metadata.
@@ -43,13 +43,13 @@ Frontend: React, TypeScript, React Router, Vite. Backend: Cloudflare Workers, D1
 
 ## Mavjud sahifalar
 
-`/`, `/projects`, `/projects/:slug`, `/services`, `/services/:slug`, `/academy`, `/library`, `/films`, `/render`, `/about`, `/contact`, `/privacy`, `/journal`, `/journal/:slug`, `/admin`.
+`/`, `/services`, `/services/:slug`, `/projects`, `/projects/:slug`, `/courses`, `/courses/:slug`, `/about`, `/contact`, `/privacy`, `/journal`, `/journal/:slug`, `/admin`. Eski `/academy` manzili `/courses` ga 301 bilan yo‘naltiriladi.
 
-Katalog kategoriyalar bilan filtrlanadi, filtr manzilda saqlanadi. Dinamik loyiha sahifalari bazadan keladi. Bosh sahifaga birinchi kirishda logotip bo‘laklardan yig‘iladi va header’ga uchib boradi (≈1,9 s; scroll yoki tugma bosilsa darhol tugaydi); keyingi tashriflarda qisqa variant. To‘liq variantni qayta ko‘rish: `/?intro=1`. Desktop’da «G‘oyadan mahsulotga» sahnasi scroll bilan to‘rt bosqichda oldinga va orqaga harakatlanadi; mobil va reduced-motion holatida u to‘rtta qisqa bosqichga aylanadi. Logotip fayllarini qayta chiqarish: `node --experimental-strip-types scripts/prepare-assets.mjs`. Render sahifasida klaviatura bilan ham boshqariladigan taqqoslash slayderi bor.
+Bosh sahifa: harfma-harf ochiladigan sarlavha, xizmatlar va narxlar, qilgan ishlar, ish jarayoni, kurs (nashr qilingan bo‘lsa), savol-javob. Narx, muddat va paketlar faqat bazadan keladi: sahifa API javobigacha narxsiz chiziladi, kodda narx yo‘q. Savol-javobdagi narx va muddat javoblari xizmatlar ma’lumotidan yig‘iladi. Ishlar sahifasida faqat ichida ish bor kategoriyalar filtr bo‘lib chiqadi. «Kurslar» menyuda faqat nashr qilingan kurs bo‘lsa ko‘rinadi; kursga yozilish oddiy murojaat formasi orqali (`service = kurs-<slug>`) bo‘ladi va server uni nashr qilingan kurs bo‘yicha tekshiradi. Harakat kamaytirilgan rejimda animatsiyalar o‘chadi.
 
 ## Sado
 
-Sado’ning asosiy sayti — https://sado.alifbit.org (yuklab olish va kalit so‘rash shu yerda). alifbit.org’da bosh sahifadagi Sado bloki, menyu, footer va «Ovozdan matnga» loyiha sahifasi unga olib boradi; eski `/sado` manzili 301 bilan o‘sha saytga yo‘naltiriladi. Manzil `shared/content.ts` dagi `SADO_URL` da.
+Sado’ning asosiy sayti — https://sado.alifbit.org (yuklab olish va kalit so‘rash shu yerda). alifbit.org’da «Ishlar» bo‘limidagi Sado va sado.alifbit.org kartalari unga olib boradi; eski `/sado` manzili 301 bilan o‘sha saytga yo‘naltiriladi. Manzil `shared/content.ts` dagi `SADO_URL` da.
 
 ## Administrator qo‘llanmasi
 
@@ -58,10 +58,11 @@ Sado’ning asosiy sayti — https://sado.alifbit.org (yuklab olish va kalit so�
 3. Muqova uchun mavjud dizaynni tanlang yoki PNG/JPG/WEBP yuklang. Fayl 5 MB dan oshmasin.
 4. **Saytda nashr qilish** belgisiz loyiha qoralama holatida qoladi. Nashr qilinmagan loyiha public API va sitemap’da chiqmaydi, sahifasi 404 qaytaradi.
 5. **Kategoriyalar**: har birini alohida satrda yozib saqlang. Ishlatilayotgan kategoriyani o‘chirishdan oldin tegishli loyihalarning kategoriyasini o‘zgartiring.
-6. **Xizmatlar**: sarlavha, qisqa matn, tavsif va tarkibni tahrirlang.
-7. **Qaydlar → Qayd yozish**: maqola, slug va SEO matnini kiriting. Qoralama yoki nashr holatini tanlang. Matn oddiy xatboshilar sifatida chiqariladi; HTML ishlatilmaydi.
-8. **Murojaatlar**: qidiring, holat bo‘yicha filtrlang, batafsil ko‘ring va statusni o‘zgartiring. Biriktirilgan fayl faqat kirgan administratorga ochiladi.
-9. **Faoliyat tarixi**: nashr/tahrir, murojaat statusi, o‘chirish va kirish amallari qayd etiladi; logda murojaatning shaxsiy matni saqlanmaydi.
+6. **Xizmatlar**: nom, qisqa matn, tavsif, boshlang‘ich narx va muddatni tahrirlang. **Paketlar** bo‘limida har paketning nomi, narxi, muddati, tarkibi va «Tavsiya etiladi» belgisi bor. Narx bo‘sh qolsa, saytda «Narxi kelishiladi» deb chiqadi. Paketlardagi bir xil yozilgan bandlar taqqoslash jadvalida bitta qator bo‘ladi.
+7. **Kurslar → Kurs qo‘shish**: nom, slug, qisqa jumla, tavsif, narx, format, boshlanish sanasi, qadamlar (har biri yangi satrda: `Sarlavha | izoh`) va kurs ichidagi mavzular. **Saytda nashr qilish** belgisiz kurs saytda ko‘rinmaydi va unga yozilib bo‘lmaydi.
+8. **Qaydlar → Qayd yozish**: maqola, slug va SEO matnini kiriting. Qoralama yoki nashr holatini tanlang. Matn oddiy xatboshilar sifatida chiqariladi; HTML ishlatilmaydi.
+9. **Murojaatlar**: qidiring, holat bo‘yicha filtrlang, batafsil ko‘ring va statusni o‘zgartiring. Biriktirilgan fayl faqat kirgan administratorga ochiladi.
+10. **Faoliyat tarixi**: nashr/tahrir, murojaat statusi, o‘chirish va kirish amallari qayd etiladi; logda murojaatning shaxsiy matni saqlanmaydi.
 
 ## Cloudflare production sozlash
 
@@ -164,8 +165,8 @@ Maxfiylik siyosatidagi 12 oylik muddatni administrator nazorat qiladi: yakunlang
 
 Foydalanuvchi yuborgan yashil qavslar va oltin Alif logosi asosida qo‘lda SVG belgi qayta chizildi. Bu tasvirning soddalashtirilgan vektor talqini; original professional vektor manba bilan piksel darajasidagi moslik da’vo qilinmaydi. Rangli, och fon, to‘q fon, bir rangli va favicon versiyalari `public/brand` ichida.
 
-Asosiy 3D hero rasmi Imagegen bilan aynan shu sayt uchun yaratildi; prompt va fayllar `docs/ASSETS.md` da. Muqovalardagi interfeyslar, kitoblar va arxitektura kompozitsiyalari dizayn konsepsiyalari sifatida belgilangan. Haqiqiy foydalanuvchi statistikasi, soxta mijozlar yoki mavjud bo‘lmagan kurslar kiritilmagan. DALOLAT, ovozdan matnga va boshqa loyihalarning holati, imkoniyatlari va rasmiy havolalari egasi tasdiqlagach CMS’da yangilanishi kerak. Hozirgi holat — «Taqdimot».
+Vizual manbalar `docs/ASSETS.md` da. Haqiqiy foydalanuvchi statistikasi yoki soxta mijozlar kiritilmagan. `0005_studio_content.sql` dagi narxlar, muddatlar va «Vayb koding» kursi matni — qoralama: egasi admin paneldan tasdiqlaydi yoki o‘zgartiradi. Kurs nashr qilinmagan holda qo‘shiladi.
 
 ## Keyingi kengaytirish
 
-To‘liq LMS, checkout, pullik kitob/video, GPU navbati va billing kiritilmagan. Birinchi versiyada marketing/taqdimot, dinamik katalog, CMS va murojaat boshqaruvi bor. CMS ma’lumotlari JSON ko‘rinishida saqlanadi; keyinchalik tarjima xaritasi va `dir="rtl"` arabcha kompozitsiya qo‘shilishi mumkin. Hozir barcha sahifalar o‘zbekcha; to‘liq i18n matn katalogi va boshqa tillar tarjimasi keyingi alohida ishdir.
+To‘liq LMS, onlayn to‘lov va billing kiritilmagan. Saytda xizmatlar va narxlar, ishlar, kurslar, CMS va murojaat boshqaruvi bor. CMS ma’lumotlari JSON ko‘rinishida saqlanadi; keyinchalik tarjima xaritasi va `dir="rtl"` arabcha kompozitsiya qo‘shilishi mumkin. Hozir barcha sahifalar o‘zbekcha; to‘liq i18n matn katalogi va boshqa tillar tarjimasi keyingi alohida ishdir.

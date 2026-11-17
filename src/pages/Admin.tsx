@@ -6,6 +6,7 @@ import {
   BookOpen,
   Check,
   ChevronRight,
+  GraduationCap,
   History,
   ImagePlus,
   Inbox,
@@ -29,9 +30,12 @@ import { api } from "../lib/api";
 import {
   initialProjects,
   orderStatuses,
+  projectCovers,
   projectStatuses,
+  type Course,
   type Project,
   type Service,
+  type ServicePackage,
 } from "../../shared/content";
 import "../styles/admin.css";
 
@@ -61,7 +65,7 @@ type Article = {
   seoDescription?: string;
 };
 type Audit = { id: number; action: string; entity_id: string; created_at: string };
-type Tab = "overview" | "projects" | "orders" | "services" | "articles" | "categories" | "audit";
+type Tab = "overview" | "projects" | "orders" | "services" | "courses" | "articles" | "categories" | "audit";
 
 const blankProject = (): Project => ({
   ...initialProjects[0],
@@ -78,6 +82,24 @@ const blankProject = (): Project => ({
   published: false,
   status: "Ishlab chiqilmoqda",
 });
+const blankCourse = (): Course => ({
+  id: crypto.randomUUID(),
+  slug: "",
+  title: "",
+  tagline: "",
+  description: "",
+  price: "",
+  format: "",
+  start: "",
+  steps: [],
+  contents: [],
+  published: false,
+});
+const lines = (value: FormDataEntryValue | null) =>
+  String(value || "")
+    .split("\n")
+    .map((v) => v.trim())
+    .filter(Boolean);
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(),
   slug: "",
@@ -102,6 +124,7 @@ const TITLES: Record<Tab, string> = {
   projects: "Loyihalar",
   orders: "Murojaatlar",
   services: "Xizmatlar",
+  courses: "Kurslar",
   articles: "Qaydlar",
   categories: "Kategoriyalar",
   audit: "Faoliyat tarixi",
@@ -111,6 +134,7 @@ const TABS: Array<[Tab, typeof Inbox]> = [
   ["projects", Layers],
   ["orders", Inbox],
   ["services", Settings2],
+  ["courses", GraduationCap],
   ["articles", BookOpen],
   ["categories", Tags],
   ["audit", History],
@@ -210,13 +234,14 @@ export default function Admin() {
   const [services, setServices] = useState<Service[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [audit, setAudit] = useState<Audit[]>([]);
   const [notification, setNotification] = useState({ configured: false, pending: 0 });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [edit, setEdit] = useState<Project | Service | Article | null>(null);
+  const [edit, setEdit] = useState<Project | Service | Course | Article | null>(null);
   const [selected, setSelected] = useState<Order | null>(null);
   const [query, setQuery] = useState("");
   const [orderFilter, setOrderFilter] = useState("Barchasi");
@@ -225,9 +250,10 @@ export default function Admin() {
 
   async function refresh() {
     try {
-      const [p, s, o, a, n, l] = await Promise.all([
+      const [p, s, k, o, a, n, l] = await Promise.all([
         api<Project[]>("/api/admin/projects"),
         api<Service[]>("/api/admin/services"),
+        api<Course[]>("/api/admin/courses"),
         api<Order[]>("/api/admin/orders"),
         api<Article[]>("/api/admin/articles"),
         api<{ configured: boolean; pending: number }>("/api/admin/notifications"),
@@ -235,6 +261,7 @@ export default function Admin() {
       ]);
       setProjects(p);
       setServices(s);
+      setCourses(k);
       setOrders(o);
       setArticles(a);
       setNotification(n);
@@ -293,6 +320,25 @@ export default function Admin() {
         .split(",")
         .map((v) => v.trim())
         .filter(Boolean);
+    if (tab === "services") {
+      const packages = JSON.parse(String(form.get("packages_json") || "[]")) as ServicePackage[];
+      data.packages = packages.map((p) => ({
+        ...p,
+        name: p.name.trim(),
+        price: p.price.trim(),
+        term: p.term.trim(),
+        features: p.features.map((f) => f.trim()).filter(Boolean),
+      }));
+      delete data.packages_json;
+    }
+    if (tab === "courses") {
+      data.contents = lines(form.get("contents"));
+      // Har bir qadam alohida satrda: «Sarlavha | izoh».
+      data.steps = lines(form.get("steps")).map((line) => {
+        const [title, ...rest] = line.split("|");
+        return { title: title.trim(), text: rest.join("|").trim() };
+      });
+    }
     try {
       await api(`/api/admin/${tab}`, post(data));
       setMessage("O‘zgarishlar saqlandi.");
@@ -386,7 +432,7 @@ export default function Admin() {
   const heading = edit
     ? "name" in edit
       ? edit.name || "Yangi loyiha"
-      : edit.title || "Yangi qayd"
+      : edit.title || (tab === "courses" ? "Yangi kurs" : "Yangi qayd")
     : selected
       ? selected.reference
       : tab === "overview"
@@ -456,9 +502,12 @@ export default function Admin() {
               <h1>{heading}</h1>
               <p>{sub}</p>
             </div>
-            {!edit && !selected && (tab === "projects" || tab === "articles") && (
-              <button className="button" onClick={() => setEdit(tab === "projects" ? blankProject() : blankArticle())}>
-                {tab === "projects" ? "Loyiha qo‘shish" : "Qayd yozish"}
+            {!edit && !selected && (tab === "projects" || tab === "articles" || tab === "courses") && (
+              <button
+                className="button"
+                onClick={() => setEdit(tab === "projects" ? blankProject() : tab === "courses" ? blankCourse() : blankArticle())}
+              >
+                {tab === "projects" ? "Loyiha qo‘shish" : tab === "courses" ? "Kurs qo‘shish" : "Qayd yozish"}
                 <span className="button-icon" aria-hidden="true">
                   <Plus size={16} />
                 </span>
@@ -583,8 +632,33 @@ export default function Admin() {
                     <strong>{s.name}</strong>
                     <small>{s.short}</small>
                   </span>
+                  <span className="ad-row-meta">{s.price || "Narxsiz"}</span>
                 </Row>
               ))}
+            </section>
+          )}
+
+          {!edit && tab === "courses" && (
+            <section className="ad-panel ad-list">
+              {courses.length ? (
+                courses.map((c) => (
+                  <Row key={c.id} onClick={() => setEdit(c)}>
+                    <span className="ad-thumb">
+                      <GraduationCap size={17} />
+                    </span>
+                    <span className="ad-row-main">
+                      <strong>{c.title}</strong>
+                      <small>/courses/{c.slug}</small>
+                    </span>
+                    <span className="ad-row-meta">{c.price}</span>
+                    <Publish on={c.published} />
+                  </Row>
+                ))
+              ) : (
+                <Empty icon={<GraduationCap strokeWidth={1.3} />} title="Hozircha kurs yo‘q.">
+                  <p>«Kurs qo‘shish» orqali birinchi kursni yarating.</p>
+                </Empty>
+              )}
             </section>
           )}
 
@@ -617,6 +691,8 @@ export default function Admin() {
                 <ProjectEditor project={edit as Project} onUpload={upload} busy={busy} />
               ) : tab === "services" ? (
                 <ServiceEditor service={edit as Service} />
+              ) : tab === "courses" ? (
+                <CourseEditor course={edit as Course} />
               ) : (
                 <ArticleEditor article={edit as Article} />
               )}
@@ -851,7 +927,7 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
         </div>
         <Field label="Qisqa tavsif *" name="summary" value={p.summary} required maxLength={500} />
         <Field label="Loyiha haqida *" name="description" value={p.description} required area maxLength={12000} />
-        <Field label="Nima uchun yaratilmoqda? *" name="purpose" value={p.purpose} required area />
+        <Field label="Maqsadi *" name="purpose" value={p.purpose} required area />
         <div className="ad-grid">
           <Field label="Asosiy funksiyalar — har biri yangi satrda *" name="features" value={p.features.join("\n")} required area />
           <div className="ad-stack">
@@ -865,7 +941,7 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
         <label className="field">
           <span>Muqova uslubi yoki yuklangan rasm</span>
           <select className="input" name="cover" key={p.cover} defaultValue={p.cover}>
-            {["custom", "dalolat", "voice", "academy", "library", "films", "render", ...(p.cover.startsWith("/media/") ? [p.cover] : [])].map((x) => (
+            {[...projectCovers, ...(p.cover.startsWith("/media/") ? [p.cover] : [])].map((x) => (
               <option key={x} value={x}>
                 {x.startsWith("/media/") ? "Yuklangan rasm" : x}
               </option>
@@ -899,16 +975,109 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
 
 function ServiceEditor({ service: s }: { service: Service }) {
   return (
+    <>
+      <section className="ad-panel ad-form">
+        <h2>Xizmat ma’lumotlari</h2>
+        <div className="ad-grid">
+          <Field label="Xizmat nomi *" name="name" value={s.name} required maxLength={100} />
+          <Field label="Tartib raqami (01–99) *" name="number" value={s.number} required maxLength={2} />
+          <Field label="Boshlang‘ich narx — masalan, 1 200 000 so‘mdan" name="price" value={s.price || ""} maxLength={100} />
+          <Field label="Muddat — masalan, 2 haftadan" name="term" value={s.term || ""} maxLength={100} />
+        </div>
+        <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
+        <Field label="Tavsif *" name="description" value={s.description} required area />
+        <Field label="Xizmat tarkibi — har biri yangi satrda *" name="features" value={s.features.join("\n")} required area />
+      </section>
+      <PackagesEditor initial={s.packages || []} />
+    </>
+  );
+}
+
+const blankPackage = (): ServicePackage => ({ name: "", price: "", term: "", features: [], recommended: false });
+
+function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
+  const [items, setItems] = useState(initial);
+  const update = (i: number, patch: Partial<ServicePackage>) =>
+    setItems(items.map((p, j) => (j === i ? { ...p, ...patch } : p)));
+  return (
     <section className="ad-panel ad-form">
-      <h2>Xizmat ma’lumotlari</h2>
-      <div className="ad-grid">
-        <Field label="Xizmat nomi *" name="name" value={s.name} required maxLength={100} />
-        <Field label="Tartib raqami (01–99) *" name="number" value={s.number} required maxLength={2} />
-      </div>
-      <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
-      <Field label="Tavsif *" name="description" value={s.description} required area />
-      <Field label="Xizmat tarkibi — har biri yangi satrda *" name="features" value={s.features.join("\n")} required area />
+      <h2>Paketlar</h2>
+      <p className="ad-hint">
+        Narx bo‘sh qolsa, saytda «Narxi kelishiladi» deb chiqadi. Paketlardagi bir xil yozilgan bandlar
+        taqqoslash jadvalida bitta qator bo‘ladi.
+      </p>
+      <input type="hidden" name="packages_json" value={JSON.stringify(items)} />
+      {items.map((p, i) => (
+        <fieldset className="ad-package" key={i}>
+          <legend>Paket {i + 1}</legend>
+          <div className="ad-grid">
+            <label className="field">
+              <span>Nomi *</span>
+              <input className="input" value={p.name} required maxLength={100} onChange={(e) => update(i, { name: e.target.value })} />
+            </label>
+            <label className="field">
+              <span>Narxi</span>
+              <input className="input" value={p.price} maxLength={100} onChange={(e) => update(i, { price: e.target.value })} />
+            </label>
+            <label className="field">
+              <span>Muddati</span>
+              <input className="input" value={p.term} maxLength={100} onChange={(e) => update(i, { term: e.target.value })} />
+            </label>
+            <label className="ad-check">
+              <input type="checkbox" checked={p.recommended} onChange={(e) => update(i, { recommended: e.target.checked })} />
+              Tavsiya etiladi
+            </label>
+          </div>
+          <label className="field">
+            <span>Tarkibi — har biri yangi satrda</span>
+            <textarea
+              className="input"
+              rows={5}
+              value={p.features.join("\n")}
+              onChange={(e) => update(i, { features: e.target.value.split("\n") })}
+            />
+          </label>
+          <button type="button" className="ad-remove" onClick={() => setItems(items.filter((_, j) => j !== i))}>
+            <Trash2 size={15} /> Paketni olib tashlash
+          </button>
+        </fieldset>
+      ))}
+      {items.length < 6 && (
+        <button type="button" className="button button-outline" onClick={() => setItems([...items, blankPackage()])}>
+          Paket qo‘shish
+          <span className="button-icon" aria-hidden="true">
+            <Plus size={16} />
+          </span>
+        </button>
+      )}
     </section>
+  );
+}
+
+function CourseEditor({ course: c }: { course: Course }) {
+  return (
+    <>
+      <section className="ad-panel ad-form">
+        <h2>Kurs ma’lumotlari</h2>
+        <div className="ad-grid">
+          <Field label="Kurs nomi *" name="title" value={c.title} required maxLength={150} />
+          <Field label="Sahifa manzili (slug) *" name="slug" value={c.slug} required maxLength={100} />
+          <Field label="Narxi — masalan, 1 200 000 so‘m" name="price" value={c.price} maxLength={100} />
+          <Field label="Format — masalan, Onlayn" name="format" value={c.format} maxLength={100} />
+          <Field label="Boshlanishi — ixtiyoriy" name="start" value={c.start} maxLength={100} />
+        </div>
+        <Field label="Qisqa jumla *" name="tagline" value={c.tagline} required maxLength={300} />
+        <Field label="Kurs haqida *" name="description" value={c.description} required area />
+        <Field
+          label="Qadamlar — har biri yangi satrda: Sarlavha | izoh"
+          name="steps"
+          value={c.steps.map((s) => (s.text ? `${s.title} | ${s.text}` : s.title)).join("\n")}
+          area
+        />
+        <Field label="Kurs ichida — har biri yangi satrda" name="contents" value={c.contents.join("\n")} area />
+      </section>
+      <SEO item={c} />
+    </>
   );
 }
 

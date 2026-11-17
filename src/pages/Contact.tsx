@@ -5,11 +5,12 @@ import { useContent } from "../App";
 import { api } from "../lib/api";
 import { BrandMark } from "../components/Brand";
 import { ButtonLink, Eyebrow, PageTop } from "../components/ui";
+import { COURSE_ORDER_PREFIX, TELEGRAM_URL } from "../../shared/content";
 
 const MAX_FILE = 5 * 1024 * 1024;
 
 export default function Contact() {
-  const { services } = useContent();
+  const { services, courses } = useContent();
   const [params] = useSearchParams();
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -37,24 +38,36 @@ export default function Contact() {
   }
 
   const project = params.get("project");
+  const selected = params.get("service") || "";
+  const pkg = params.get("package");
+  const course = selected.startsWith(COURSE_ORDER_PREFIX)
+    ? courses.find((c) => `${COURSE_ORDER_PREFIX}${c.slug}` === selected)
+    : undefined;
+  const prefill = course
+    ? `«${course.title}» kursiga yozilmoqchiman.`
+    : pkg
+      ? `«${pkg}» paketi bo‘yicha buyurtma bermoqchiman.`
+      : project
+        ? `${project} loyihasi haqida batafsil ma’lumot olmoqchiman.`
+        : "";
   return (
     <>
       <PageTop
-        name="Bog‘lanish"
-        eyebrow="Birinchi qadam — suhbat"
+        name="Buyurtma berish"
+        eyebrow={course ? "Kursga yozilish" : "Buyurtma berish"}
         title={[
-          "G‘oyangizni",
+          course ? "Kursga" : "Loyihangiz",
           <span className="accent" key="a">
-            eshitishga tayyormiz.
+            {course ? "yoziling." : "haqida yozing."}
           </span>,
         ]}
-        text="Batafsil rejangiz bormi yoki shunchaki bir fikrmi? Yozing. Birgalikda keyingi qadamni topamiz."
+        text="Formani to‘ldiring yoki Telegram’da yozing. Tafsilot va narxni birga aniqlaymiz."
       />
       <section className="container contact-layout">
         <aside className="contact-aside" data-reveal="left">
           <div>
             <small>BEVOSITA ALOQA</small>
-            <ButtonLink to="https://t.me/alifbitbot?start=alifbit" className="contact-telegram">
+            <ButtonLink to={TELEGRAM_URL} className="contact-telegram">
               Telegram · @alifbitbot
             </ButtonLink>
             <p>Qisqa savol yoki dastlabki suhbat uchun Telegram’da yozishingiz mumkin.</p>
@@ -115,13 +128,18 @@ export default function Contact() {
                 <span>
                   Qaysi yo‘nalish? <em>*</em>
                 </span>
-                <select className="input" name="service" required defaultValue={params.get("service") || ""}>
+                <select className="input" name="service" required defaultValue={selected} key={`${selected}-${courses.length}`}>
                   <option value="" disabled>
                     Yo‘nalishni tanlang
                   </option>
                   {services.map((s) => (
                     <option value={s.slug} key={s.slug}>
                       {s.name}
+                    </option>
+                  ))}
+                  {courses.map((c) => (
+                    <option value={`${COURSE_ORDER_PREFIX}${c.slug}`} key={c.id}>
+                      Kurs: {c.title}
                     </option>
                   ))}
                   <option value="other">Birgalikda aniqlaymiz</option>
@@ -139,7 +157,8 @@ export default function Contact() {
                   required
                   minLength={20}
                   maxLength={6000}
-                  defaultValue={project ? `${project} loyihasi haqida batafsil ma’lumot olmoqchiman.` : ""}
+                  defaultValue={prefill}
+                  key={prefill}
                 />
               </label>
               <div className="form-row">

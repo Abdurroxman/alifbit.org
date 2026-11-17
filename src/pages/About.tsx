@@ -23,7 +23,7 @@ export default function About() {
             Foyda — maqsadimiz.
           </span>,
         ]}
-        text="Biz turli yo‘nalishlarni bitta g‘oya atrofida birlashtiramiz: insonlarga kerak bo‘ladigan narsalarni yaratish."
+        text="AlifBit — sayt, ilova va Telegram bot yasaydigan kichik studiya. O‘z mahsulotlarimizni ham yasaymiz: DALOLAT va Sado."
       />
       <section className="about-banner on-dark">
         <div className="container about-banner-inner">
@@ -62,9 +62,8 @@ export default function About() {
               soddalashtirish va mazmunli hikoyalarni aytib berish uchun imkoniyatdir.
             </p>
             <p data-reveal>
-              Shuning uchun AlifBit dasturlash bilan cheklanmaydi. Raqamli mahsulotlar, ta’lim,
-              kitoblar, tarixiy filmlar va vizual ijod bir ekotizimda uchrashadi. Har bir yo‘nalish
-              boshqasiga yangi fikr va yangi imkoniyat olib keladi.
+              O‘z mahsulotlarimizda sinab ko‘rgan yondashuvni mijozlar loyihasiga ham olib kiramiz:
+              aniq reja, oldindan kelishilgan narx va topshirishdan oldin puxta tekshiruv.
             </p>
           </div>
         </div>

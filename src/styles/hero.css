@@ -1,309 +1,144 @@
+/* Birinchi ekran: markazdagi sarlavha va fonda sekin suzuvchi xira dog'lar */
 .hero {
   position: relative;
-  padding-top: clamp(28px, 4vw, 48px);
-  overflow: hidden;
-}
-.hero-grid {
+  isolation: isolate;
   display: grid;
-  gap: 24px;
-  align-items: center;
+  place-items: center;
+  min-height: calc(100svh - var(--header-h));
+  padding-block: 72px 120px;
+  overflow: hidden;
+  text-align: center;
 }
-.hero-copy {
-  position: relative;
-  z-index: 2;
+.hero-inner {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  max-width: 1040px;
 }
 .hero h1 {
-  margin-top: 26px;
-  font-size: clamp(36px, 10.4vw, 58px);
+  font-size: clamp(42px, 8vw, 112px);
+  font-weight: 600;
   line-height: 1.02;
-  letter-spacing: -0.055em;
-}
-.hero h1 .serif {
-  color: var(--green);
-  letter-spacing: -0.04em;
-  padding-right: 0.04em;
+  letter-spacing: -0.05em;
 }
 .hero-text {
-  max-width: 500px;
-  margin-top: clamp(22px, 2.6vw, 34px);
-  font-size: clamp(16.5px, 1.35vw, 19px);
-  line-height: 1.65;
+  max-width: 560px;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.55;
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 18px;
-  margin-top: clamp(28px, 3vw, 42px);
-}
-.hero-scene {
-  position: relative;
-  width: min(100%, 520px);
-  margin-inline: auto;
-}
-.hero-svg {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-.hs-sphere,
-.hs-piece {
-  transform-box: view-box;
-  transform-origin: 0 0;
-}
-.hs-assemble,
-.hs-float {
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
-.hs-guide {
-  stroke: #262d2912;
-  stroke-width: 1;
-}
-.hs-guide-dash {
-  stroke-dasharray: 2 7;
-  stroke: #b69a7055;
-}
-.hs-orbit {
-  stroke: var(--bronze);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-.hs-orbit-back {
-  opacity: 0.55;
-}
-.hs-sphere-back {
-  opacity: 0;
-}
-.hs-bit rect {
-  stroke-width: 1.2;
-}
-.hs-bit-gold rect {
-  fill: var(--bronze);
-}
-.hs-bit-green rect {
-  fill: var(--green);
-}
-.hs-bit-line rect {
-  fill: none;
-  stroke: var(--green);
-}
-.hs-piece {
-  will-change: transform;
+  justify-content: center;
+  gap: 12px;
 }
 
-/* Sekin suzish */
-html.motion .hs-float {
-  animation: hs-float var(--dur) ease-in-out var(--delay) infinite alternate;
-}
-html.motion .hs-bit .hs-float {
-  animation-name: hs-float-bit;
-}
-.hero-svg.is-paused .hs-float {
-  animation-play-state: paused;
-}
-@keyframes hs-float {
-  from {
-    transform: translate(0, -5px);
-  }
-  to {
-    transform: translate(0, 6px);
-  }
-}
-@keyframes hs-float-bit {
-  from {
-    transform: translate(-4px, -8px) rotate(-8deg);
-  }
-  to {
-    transform: translate(5px, 8px) rotate(10deg);
-  }
-}
-
-/* Yig'ilish: bo'laklar tarqoq holatdan joyiga keladi */
-html.motion .hs-assemble {
-  transition:
-    transform 1.25s var(--ease-out),
-    opacity 0.8s var(--ease-out);
-  transition-delay: var(--ad, 0ms);
-}
-html.motion [data-reveal="scene"]:not(.is-in) .hs-assemble,
-html.intro-running .hero-scene .hs-assemble {
-  opacity: 0;
-  transform: var(--from);
-}
-html.motion [data-reveal="scene"]:not(.is-in),
-html.intro-running .hero [data-reveal="scene"] {
-  opacity: 1;
-  transform: none;
-}
-html.motion .hs-orbit {
-  transition: stroke-dashoffset 1.6s var(--ease-in-out) 0.25s;
-}
-html.motion [data-reveal="scene"]:not(.is-in) .hs-orbit,
-html.intro-running .hero-scene .hs-orbit {
-  stroke-dashoffset: 1;
-}
-html.motion .hs-backdrop,
-html.motion .hs-floor {
-  transition: opacity 1.4s var(--ease-out);
-}
-html.motion [data-reveal="scene"]:not(.is-in) :is(.hs-backdrop, .hs-floor),
-html.intro-running .hero-scene :is(.hs-backdrop, .hs-floor) {
-  opacity: 0;
-}
-
-/* Pastki qator */
-.hero-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: clamp(24px, 3vw, 40px);
-  padding-block: 22px;
-  border-top: 1px solid var(--line);
-}
-.scroll-cue {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.scroll-cue:hover {
-  color: var(--ink);
-}
-.scroll-line {
-  position: relative;
-  width: 1px;
-  height: 36px;
-  background: var(--line-2);
-  overflow: hidden;
-}
-.scroll-line::after {
-  content: "";
+.hero-glow {
   position: absolute;
   inset: 0;
-  background: var(--green);
-  transform: translateY(-100%);
+  z-index: -1;
+  pointer-events: none;
 }
-html.motion .scroll-line::after {
-  animation: scroll-line 2.2s var(--ease-in-out) infinite;
+.hero-glow i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
 }
-@keyframes scroll-line {
-  0% {
-    transform: translateY(-100%);
+.hero-glow i:nth-child(1) {
+  left: -10vw;
+  top: 6%;
+  width: 42vw;
+  height: 42vw;
+  background: #cddbc9;
+  animation: float-slow 22s ease-in-out infinite;
+}
+.hero-glow i:nth-child(2) {
+  right: -8vw;
+  top: 26%;
+  width: 34vw;
+  height: 34vw;
+  background: #e8d9bc;
+  animation: float-slower 28s ease-in-out infinite;
+}
+.hero-glow i:nth-child(3) {
+  left: 34%;
+  bottom: -14vw;
+  width: 28vw;
+  height: 28vw;
+  background: #dbe5d6;
+  animation: float-slow 26s ease-in-out infinite reverse;
+}
+@keyframes float-slow {
+  0%,
+  to {
+    transform: translate(0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
   }
   50% {
+    transform: translate(-20px, 30px) scale(0.95);
+  }
+  75% {
+    transform: translate(-30px, -10px) scale(1.02);
+  }
+}
+@keyframes float-slower {
+  0%,
+  to {
+    transform: translate(0) scale(1);
+  }
+  33% {
+    transform: translate(-40px, 20px) scale(1.08);
+  }
+  66% {
+    transform: translate(25px, -30px) scale(0.92);
+  }
+}
+
+.hero-cue {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  color: var(--muted);
+  transition:
+    color 0.3s,
+    border-color 0.3s;
+}
+.hero-cue:hover {
+  color: var(--forest);
+  border-color: var(--green);
+}
+html.motion .hero-cue svg {
+  animation: hero-bounce 2s ease-in-out infinite;
+}
+@keyframes hero-bounce {
+  0%,
+  to {
     transform: translateY(0);
   }
-  100% {
-    transform: translateY(100%);
-  }
-}
-.hero-foot p {
-  display: none;
-  font-size: 14px;
-  text-align: right;
-  line-height: 1.5;
-  color: var(--ink);
-}
-.hero-foot p span {
-  color: var(--muted);
-}
-
-@media (min-width: 640px) {
-  .hero-foot p {
-    display: block;
-  }
-}
-@media (min-width: 1024px) {
-  .hero {
-    padding-top: 0;
-  }
-  .hero-grid {
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
-    gap: 32px;
-    min-height: calc(100svh - var(--header-h) - 110px);
-    min-height: max(560px, calc(100svh - var(--header-h) - 110px));
-  }
-  .hero h1 {
-    font-size: clamp(56px, 5.5vw, 92px);
-  }
-  .hero-scene {
-    width: 100%;
-    max-width: 640px;
-    margin-right: -2vw;
-  }
-}
-
-/* Sado announcement at the top of the first screen. */
-.hero-sado {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 100%;
-  padding: 6px 14px 6px 6px;
-  border-radius: 999px;
-  border: 1px solid #2ccfb84d;
-  background: linear-gradient(90deg, #0e211e, #133a34);
-  color: var(--on-dark);
-  font-size: 14px;
-  text-decoration: none;
-  box-shadow: 0 10px 28px #0e211e33;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.hero-sado:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 34px #0e211e47;
-}
-.hero-sado .sado-icon {
-  width: 30px;
-  height: 30px;
-  flex: none;
-}
-.hero-sado-new {
-  flex: none;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: #2ccfb8;
-  color: #062521;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.hero-sado-text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.hero-sado-text b {
-  color: #5ee3d0;
-}
-.hero-sado svg:last-child {
-  flex: none;
-  transition: transform 0.25s ease;
-}
-.hero-sado:hover svg:last-child {
-  transform: translateX(3px);
-}
-html.motion .hero-sado .hero-sado-new {
-  animation: hero-sado-pulse 2.4s ease-in-out infinite;
-}
-@keyframes hero-sado-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 #2ccfb866;
-  }
   50% {
-    box-shadow: 0 0 0 6px #2ccfb800;
+    transform: translateY(5px);
   }
 }
-@media (max-width: 520px) {
-  .hero-sado-more {
-    display: none;
+@media (max-width: 640px) {
+  .hero-glow i {
+    filter: blur(56px);
+  }
+  .hero-glow i:nth-child(1) {
+    width: 80vw;
+    height: 80vw;
+  }
+  .hero-glow i:nth-child(2) {
+    width: 70vw;
+    height: 70vw;
   }
 }

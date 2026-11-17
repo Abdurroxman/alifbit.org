@@ -1,4 +1,4 @@
-import { Children, type CSSProperties, type ReactNode } from "react";
+import { Children, Fragment, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 
@@ -107,6 +107,55 @@ export function Lines({
   );
 }
 
+/**
+ * Sarlavha harfma-harf ochiladi. Ekran o'quvchi butun matnni bir marta o'qiydi,
+ * so'zlar satr oxirida bo'linmaydi. `accent` qismi yashil rangda chiqadi.
+ */
+export function Chars({
+  as: As = "h1",
+  text,
+  accent,
+  className = "",
+  delay = 0,
+}: {
+  as?: Tag;
+  text: string;
+  accent?: string;
+  className?: string;
+  delay?: number;
+}) {
+  let c = 0;
+  const words = (value: string, cls?: string) =>
+    value
+      .split(" ")
+      .filter(Boolean)
+      .map((word, i) => (
+        <Fragment key={`${cls}-${i}`}>
+          <span className={`w ${cls || ""}`}>
+            {[...word].map((ch, j) => (
+              <span className="ch" key={j} style={{ "--c": c++ } as CSSProperties}>
+                {ch}
+              </span>
+            ))}
+          </span>{" "}
+        </Fragment>
+      ));
+  const label = accent ? `${text} ${accent}` : text;
+  return (
+    <As
+      className={`chars ${className}`}
+      data-reveal="chars"
+      aria-label={label}
+      style={{ "--d": delay } as CSSProperties}
+    >
+      <span aria-hidden="true">
+        {words(text)}
+        {accent && words(accent, "accent")}
+      </span>
+    </As>
+  );
+}
+
 export function PageTop({
   eyebrow,
   title,
@@ -147,24 +196,21 @@ export function ContactBand() {
       <div className="container contact-band-inner">
         <div>
           <div data-reveal="fade">
-            <Eyebrow>Birga yaratamiz</Eyebrow>
+            <Eyebrow>Buyurtma</Eyebrow>
           </div>
           <Lines>
             {[
-              "Yaxshi g‘oyangiz bormi?",
+              "Loyihangiz bormi?",
               <span className="accent" key="a">
-                Unga shakl beraylik.
+                Narxini birga hisoblaymiz.
               </span>,
             ]}
           </Lines>
         </div>
         <div className="contact-band-side" data-reveal style={{ "--d": 200 } as CSSProperties}>
-          <Link className="circle-cta" to="/contact" data-magnetic="">
-            <span>
-              <ArrowUpRight size={30} strokeWidth={1.3} aria-hidden="true" />
-              Loyihangizni boshlang
-            </span>
-          </Link>
+          <ButtonLink to="/contact" magnetic>
+            Buyurtma berish
+          </ButtonLink>
           <p>Birinchi qadam — oddiy suhbat.</p>
         </div>
       </div>

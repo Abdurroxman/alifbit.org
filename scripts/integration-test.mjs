@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-const base = "http://127.0.0.1:8787",
+const base = process.env.BASE || "http://127.0.0.1:8787",
   origin = {
     origin: base,
     "cf-connecting-ip": `192.0.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 254) + 1}`,
@@ -16,6 +16,8 @@ const req = (path, init = {}) =>
 let cookie = "",
   orderId = "",
   original = null,
+  originalCourse = null,
+  courseOrderId = "",
   qaProject = null;
 const auth = () => ({ ...origin, cookie });
 try {
@@ -26,16 +28,13 @@ try {
         "/",
         "/projects",
         "/services",
-        "/academy",
-        "/library",
-        "/films",
-        "/render",
+        "/courses",
         "/about",
         "/contact",
         "/privacy",
         "/journal",
         "/projects/dalolat",
-        "/services/development",
+        "/services/veb-sayt",
         "/fonts/manrope-latin.woff2",
         "/fonts/inter-latin.woff2",
         "/brand/mark.svg",
@@ -52,6 +51,13 @@ try {
         /rel="canonical" href="https:\/\/alifbit.org\/projects\/dalolat"/,
       );
       assert.equal((await req("/missing-page")).status, 404);
+      for (const gone of ["/library", "/films", "/render", "/services/development"])
+        assert.equal((await req(gone)).status, 404, gone);
+      const academy = await req("/academy", { redirect: "manual" });
+      assert.equal(academy.status, 301);
+      assert.match(academy.headers.get("location"), /\/courses$/);
+      const services = await (await req("/api/services")).json();
+      assert.ok(services.some((s) => s.slug === "veb-sayt" && s.packages?.length));
       const sitemap = await (await req("/sitemap.xml")).text();
       assert.match(sitemap, /projects\/dalolat/);
     },
@@ -95,7 +101,7 @@ try {
       Object.entries({
         name: "QA — local verification",
         contact: "qa@example.test",
-        service: "development",
+        service: "veb-sayt",
         description:
           "Local verification order: persistence, workflow and attachment privacy.",
         consent: "yes",
@@ -145,7 +151,7 @@ try {
     Object.entries({
       name: "QA",
       contact: "invalid",
-      service: "development",
+      service: "veb-sayt",
       description: "A legitimate description longer than twenty characters.",
       consent: "yes",
       website: "",
@@ -192,6 +198,50 @@ try {
       });
       assert.equal(restore.status, 200);
       assert.equal((await req("/projects/dalolat")).status, 200);
+    },
+  );
+  await check(
+    "course page and course sign-up follow the publication flag",
+    async () => {
+      const options = (value) => ({
+        method: "POST",
+        headers: { ...auth(), "content-type": "application/json" },
+        body: JSON.stringify(value),
+      });
+      const list = await (await req("/api/admin/courses", { headers: auth() })).json();
+      originalCourse = list.find((c) => c.slug === "vayb-koding");
+      assert.ok(originalCourse);
+      const signUp = () => {
+        const data = new FormData();
+        Object.entries({
+          name: "QA — course sign-up",
+          contact: "qa@example.test",
+          service: "kurs-vayb-koding",
+          description: "Local verification of a course sign-up request.",
+          consent: "yes",
+          website: "",
+        }).forEach(([k, v]) => data.set(k, v));
+        return req("/api/orders", { method: "POST", body: data });
+      };
+      assert.equal((await req("/api/admin/courses", options({ ...originalCourse, published: false }))).status, 200);
+      assert.equal((await req("/courses/vayb-koding")).status, 404);
+      assert.equal((await signUp()).status, 400);
+      const hidden = await (await req("/api/courses")).json();
+      assert.equal(hidden.some((c) => c.slug === "vayb-koding"), false);
+      assert.equal((await req("/api/admin/courses", options({ ...originalCourse, published: true }))).status, 200);
+      const page = await req("/courses/vayb-koding");
+      assert.equal(page.status, 200);
+      assert.match(await page.text(), /<title>Vayb koding — AlifBit<\/title>/);
+      assert.match(await (await req("/sitemap.xml")).text(), /courses\/vayb-koding/);
+      const accepted = await signUp();
+      assert.equal(accepted.status, 201, await accepted.clone().text());
+      const { reference } = await accepted.json();
+      const orders = await (await req("/api/admin/orders", { headers: auth() })).json();
+      courseOrderId = orders.find((o) => o.reference === reference).id;
+      assert.equal((await req(`/api/admin/orders/${courseOrderId}`, { method: "DELETE", headers: auth() })).status, 200);
+      courseOrderId = "";
+      assert.equal((await req("/api/admin/courses", options(originalCourse))).status, 200);
+      originalCourse = null;
     },
   );
   await check(
@@ -340,6 +390,17 @@ try {
     await req(`/api/admin/orders/${orderId}`, {
       method: "DELETE",
       headers: auth(),
+    });
+  if (courseOrderId && cookie)
+    await req(`/api/admin/orders/${courseOrderId}`, {
+      method: "DELETE",
+      headers: auth(),
+    });
+  if (originalCourse && cookie)
+    await req("/api/admin/courses", {
+      method: "POST",
+      headers: { ...auth(), "content-type": "application/json" },
+      body: JSON.stringify(originalCourse),
     });
   mkdirSync("test-artifacts", { recursive: true });
   writeFileSync(

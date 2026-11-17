@@ -1,62 +1,17 @@
 import { useEffect } from "react";
 
-export type IntroMode = "full" | "short" | "none";
-export const INTRO_KEY = "alifbit-intro-v2";
 const isBrowser = typeof window !== "undefined";
-
-let introMode: IntroMode = "none";
 
 export function prefersReducedMotion() {
   return isBrowser && matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-function storage(): Storage | null {
-  try {
-    return window.localStorage;
-  } catch {
-    return null;
-  }
 }
 
 /** Birinchi chizishdan oldin, main.tsx dan bir marta chaqiriladi. */
 export function bootMotion() {
   const html = document.documentElement;
   html.classList.add("js");
-  const path = location.pathname;
-  if (prefersReducedMotion() || path.startsWith("/admin")) {
-    introMode = "none";
-    return;
-  }
+  if (prefersReducedMotion() || location.pathname.startsWith("/admin")) return;
   html.classList.add("motion");
-  const forced = new URLSearchParams(location.search).get("intro") === "1";
-  let seen = false;
-  try {
-    seen = storage()?.getItem(INTRO_KEY) === "1";
-  } catch {
-    seen = false;
-  }
-  introMode = forced || (path === "/" && !seen) ? "full" : "short";
-  html.classList.add("intro-running", `intro-${introMode}`);
-}
-
-export function getIntroMode(): IntroMode {
-  return introMode;
-}
-
-/** Kirish tugadi: belgi faqat to'liq variant oxirigacha borganda yoziladi. */
-export function finishIntro(completedFull: boolean) {
-  const html = document.documentElement;
-  html.classList.remove("intro-running", "intro-full", "intro-short");
-  html.classList.add("intro-done");
-  introMode = "none";
-  if (completedFull) {
-    try {
-      storage()?.setItem(INTRO_KEY, "1");
-    } catch {
-      /* xususiy rejimda saqlash yopiq bo'lishi mumkin */
-    }
-  }
-  window.dispatchEvent(new Event("alifbit:intro-done"));
 }
 
 /**
@@ -144,23 +99,4 @@ export function usePageEnhancements(rootId: string, routeKey: string) {
       io.disconnect();
     };
   }, [rootId, routeKey]);
-}
-
-/** Element ekranda va tab ko'rinib turganda true beradi. */
-export function observeVisibility(
-  el: Element,
-  onChange: (visible: boolean) => void,
-) {
-  let inView = false;
-  const emit = () => onChange(inView && document.visibilityState === "visible");
-  const io = new IntersectionObserver(([entry]) => {
-    inView = entry.isIntersecting;
-    emit();
-  });
-  io.observe(el);
-  document.addEventListener("visibilitychange", emit);
-  return () => {
-    io.disconnect();
-    document.removeEventListener("visibilitychange", emit);
-  };
 }

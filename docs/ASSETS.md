@@ -2,7 +2,7 @@
 
 ## Hero
 
-The hero is a live SVG composition (`src/components/HeroScene.tsx`) built from the logo parts: two folded green brackets with depth, the golden Alif, a bronze orbit with a sphere passing behind and in front, and floating bits. No raster hero image is used.
+The home page hero is typography only: a centered headline revealed letter by letter (`Chars` in `src/components/ui.tsx`) over three slowly drifting blurred green and bronze shapes (`src/styles/hero.css`). No raster hero image is used.
 
 ## Logo
 
@@ -10,7 +10,7 @@ Hand-drawn vector interpretation of the user-supplied raster logo: each bracket 
 
 ## Concept covers
 
-`src/components/ProjectArt.tsx`: original SVG compositions (with a wireframe variant for the Render comparison) for DALOLAT, voice-to-text, Academy, Library, Films and Render. They do not represent screenshots of released products. Project detail pages label these as visual concepts.
+`src/components/ProjectArt.tsx`: original SVG compositions for DALOLAT and Sado, plus a neutral logo cover (`custom`). They are shown on work detail pages; an uploaded image replaces them.
 
 ## Typography
 

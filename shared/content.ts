@@ -15,6 +15,13 @@ export type Project = {
   seoTitle?: string;
   seoDescription?: string;
 };
+export type ServicePackage = {
+  name: string;
+  price: string;
+  term: string;
+  features: string[];
+  recommended: boolean;
+};
 export type Service = {
   slug: string;
   number: string;
@@ -23,22 +30,44 @@ export type Service = {
   description: string;
   features: string[];
   icon: string;
+  /** «…so‘mdan» ko‘rinishidagi boshlang‘ich narx; bo‘sh bo‘lsa saytda ko‘rsatilmaydi. */
+  price?: string;
+  term?: string;
+  packages?: ServicePackage[];
 };
+export type CourseStep = { title: string; text: string };
+export type Course = {
+  id: string;
+  slug: string;
+  title: string;
+  tagline: string;
+  description: string;
+  price: string;
+  format: string;
+  start: string;
+  steps: CourseStep[];
+  contents: string[];
+  published: boolean;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+export const serviceIcons = ["web", "design", "telegram", "app"] as const;
+export const projectCovers = ["dalolat", "voice", "custom"] as const;
+/** Kursga yozilish murojaatlari `service` maydonida shu prefiks bilan saqlanadi. */
+export const COURSE_ORDER_PREFIX = "kurs-";
 export const categories = [
   "Barchasi",
   "Dasturlar",
   "Telegram",
-  "Ta’lim",
-  "Kitoblar",
-  "Media",
+  "Saytlar",
   "AI",
   "Boshqa",
 ];
 export const projectStatuses = [
-  "Taqdimot",
   "Ishlayapti",
   "Ishlab chiqilmoqda",
   "Tez kunda",
+  "Taqdimot",
   "Arxiv",
 ];
 export const orderStatuses = [
@@ -50,6 +79,12 @@ export const orderStatuses = [
   "Yakunlandi",
   "Bekor qilindi",
 ];
+// Sado mahsulotining alohida sayti.
+export const SADO_URL = "https://sado.alifbit.org";
+// DALOLAT: taqdimot sayti va Telegram Mini App manzili.
+export const DALOLAT_URL = "https://dalolat.app";
+export const DALOLAT_APP_URL = "https://app.dalolat.app";
+// API javobigacha ko'rsatiladigan boshlang'ich ma'lumot. Jonli qiymatlar D1 bazasida.
 export const initialProjects: Project[] = [
   {
     id: "dalolat",
@@ -98,242 +133,150 @@ export const initialProjects: Project[] = [
     ],
     platforms: ["Windows 10 va 11", "macOS — tez kunda"],
     cover: "voice",
-    url: "",
+    url: SADO_URL,
     published: true,
   },
   {
-    id: "academy",
-    slug: "academy",
-    name: "AlifBit Academy",
-    category: "Ta’lim",
-    status: "Taqdimot",
-    summary: "Bilimni amaliy ko‘nikmaga aylantiradigan ta’lim.",
+    id: "dalolat-site",
+    slug: "dalolat-sayti",
+    name: "dalolat.app",
+    category: "Saytlar",
+    status: "Ishlayapti",
+    summary: "DALOLAT ilovasining besh tilli taqdimot sayti.",
     description:
-      "O‘qish, tushunish va amalda sinab ko‘rishga asoslangan ta’lim yo‘nalishi. Matnli darslar, o‘quv dasturlari va ma’rifiy materiallarni bir joyga jamlashni maqsad qilamiz.",
+      "DALOLAT ilovasi uchun alohida sayt: ilova imkoniyatlari, savol-javob va brauzerda Telegram orqali kirish. Besh tilda ishlaydi.",
     purpose:
-      "Murakkab bilimni sodda va izchil shaklda yetkazish. Kurslar katalogi tayyor bo‘lgach shu yerda paydo bo‘ladi.",
+      "Ilovani Telegram’dan tashqarida ham tanishtirish va foydalanuvchini to‘g‘ridan-to‘g‘ri ilovaga olib kirish.",
     features: [
-      "Matnli darslar yondashuvi",
-      "Bosqichma-bosqich o‘quv dasturlari",
-      "Amaliy topshiriqlar konsepsiyasi",
+      "5 til: o‘zbek, rus, ingliz, turk, arab",
+      "Brauzerda Telegram orqali kirish",
+      "Telefon va kompyuterga moslashgan",
     ],
-    platforms: ["Veb"],
-    cover: "academy",
-    url: "",
+    platforms: ["Veb-sayt"],
+    cover: "dalolat",
+    url: DALOLAT_URL,
     published: true,
   },
   {
-    id: "library",
-    slug: "library",
-    name: "AlifBit Library",
-    category: "Kitoblar",
-    status: "Taqdimot",
-    summary: "Yaxshi kitoblar. Yangi qarashlar. Kengroq dunyo.",
+    id: "sado-site",
+    slug: "sado-sayti",
+    name: "sado.alifbit.org",
+    category: "Saytlar",
+    status: "Ishlayapti",
+    summary: "Sado dasturining sayti: yuklab olish, tariflar va kalit so‘rash.",
     description:
-      "Kitoblar, qisqartmalar va tarjimalarni jamlashga qaratilgan bilim yo‘nalishi. Faqat tarqatish huquqi mavjud yoki ruxsat olingan materiallar nashr qilinadi.",
-    purpose:
-      "Mutolaani qulayroq qilish va bilim manbalarini o‘quvchiga yaqinlashtirish.",
+      "Sado uchun mahsulot sayti: dastur qanday ishlashi, tariflar, Windows uchun yuklab olish va kalit so‘rash formasi.",
+    purpose: "Dasturni tanishtirish va foydalanuvchini yuklab olishgacha olib borish.",
     features: [
-      "Elektron kitoblar",
-      "Kitob qisqartmalari",
-      "Tarjimalar va audio materiallar",
+      "Windows uchun yuklab olish",
+      "Tariflar paneli",
+      "Kalit so‘rash formasi",
     ],
-    platforms: ["Veb"],
-    cover: "library",
-    url: "",
-    published: true,
-  },
-  {
-    id: "films",
-    slug: "films",
-    name: "Tarixga yangi nigoh",
-    category: "Media",
-    status: "Taqdimot",
-    summary: "O‘tmishni hikoya qiluvchi film va animatsiyalar.",
-    description:
-      "Tarixiy filmlar, 3D animatsiya va vizual hikoyalar yo‘nalishi. Haqiqiy treyler va tayyor qismlar tasdiqlangach katalogga qo‘shiladi.",
-    purpose:
-      "Tarixiy mavzularni zamonaviy vizual vositalar orqali qiziqarli va tushunarli shaklda hikoya qilish.",
-    features: [
-      "Tarixiy hikoyalar",
-      "3D animatsiya",
-      "Ko‘p tilli media konsepsiyasi",
-    ],
-    platforms: ["Video"],
-    cover: "films",
-    url: "",
-    published: true,
-  },
-  {
-    id: "render",
-    slug: "render",
-    name: "AlifBit Render",
-    category: "Boshqa",
-    status: "Taqdimot",
-    summary: "Tasavvuringizdagi manzaraga aniq shakl beramiz.",
-    description:
-      "3D modellar va videolar uchun render hamda vizualizatsiya xizmatlari. Har bir vazifa hajmi, formati va muddati bo‘yicha alohida kelishiladi.",
-    purpose: "Dizayn va 3D g‘oyalarni ta’sirli yakuniy tasvirga aylantirish.",
-    features: [
-      "3D vizualizatsiya",
-      "Video render",
-      "Vazifaga mos individual yondashuv",
-    ],
-    platforms: ["3D", "Video"],
-    cover: "render",
-    url: "",
+    platforms: ["Veb-sayt"],
+    cover: "voice",
+    url: SADO_URL,
     published: true,
   },
 ];
+// Narx, muddat va paketlar bu yerda yo'q: ular faqat bazada turadi va admin paneldan o'zgartiriladi.
 export const initialServices: Service[] = [
   {
-    slug: "development",
+    slug: "veb-sayt",
     number: "01",
-    name: "Development",
-    short: "G‘oyangiz uchun puxta raqamli yechim.",
+    name: "Veb-sayt",
+    short: "Landing, vizitka sayt yoki internet-do‘kon — telefon va kompyuterda birdek qulay.",
     description:
-      "Telegram botdan to‘liq veb-platformagacha. Jarayoningizni tushunamiz, qulay interfeys va ishonchli dasturiy yechim yaratamiz.",
+      "Biznesingizni internetda tanishtiradigan tez va tushunarli sayt. Matn tuzilishi, dizayn, dasturlash va domenga ulashgacha o‘zimiz bajaramiz.",
     features: [
-      "Telegram botlar va Mini Apps",
-      "Veb-saytlar va veb-ilovalar",
-      "Mobil ilovalar",
-      "Maxsus dasturiy ta’minot",
+      "Telefon va kompyuterga moslashgan dizayn",
+      "Murojaat formasi va Telegram’ga xabar",
+      "Domen va hostingga ulash",
     ],
-    icon: "code",
+    icon: "web",
   },
   {
-    slug: "academy",
+    slug: "dizayn",
     number: "02",
-    name: "Academy",
-    short: "Bilimdan amaliyotga olib boradigan yo‘l.",
+    name: "Dizayn",
+    short: "Yangi sayt yoki ilova uchun dizayn va mavjud saytni qayta dizayn qilish.",
     description:
-      "O‘rganishni izchil, tushunarli va amaliy qilishga qaratilgan ta’lim materiallari hamda o‘quv dasturlari.",
+      "Foydalanuvchi nimani, qayerda bosishini o‘ylab chiqamiz va buni toza, zamonaviy ko‘rinishga keltiramiz. Natija — dasturchiga tayyor Figma maketlari.",
     features: [
-      "Matnli kurslar",
-      "O‘quv dasturlari",
-      "Test va sertifikat konsepsiyasi",
-      "Ma’rifiy materiallar",
+      "Figma maketlari",
+      "Telefon va kompyuter ko‘rinishi",
+      "Ranglar va shriftlar tizimi",
     ],
-    icon: "academy",
+    icon: "design",
   },
   {
-    slug: "films",
+    slug: "telegram-bot",
     number: "03",
-    name: "Films & Animation",
-    short: "Mazmunli hikoyalarga yangi hayot.",
+    name: "Telegram bot",
+    short: "Buyurtma va mijozlar bilan ishlaydigan bot yoki Telegram ichidagi ilova (Mini App).",
     description:
-      "Tarix, ilm va ijodni birlashtiradigan vizual hikoyalar. G‘oyadan ssenariyga, animatsiyadan yakuniy videoga.",
+      "Mijozlaringiz allaqachon Telegram’da. Buyurtma qabul qiladigan, savollarga javob beradigan va sizga xabar yuboradigan bot yasaymiz. Kattaroq vazifa uchun — Telegram ichida ochiladigan to‘liq ilova (Mini App).",
     features: [
-      "Tarixiy filmlar",
-      "3D animatsiya",
-      "Vizual hikoyalar",
-      "Dublyaj va ko‘p tilli media",
+      "Menyu va tugmalar",
+      "Buyurtma yoki ariza qabul qilish",
+      "Admin uchun xabarnomalar",
     ],
-    icon: "film",
+    icon: "telegram",
   },
   {
-    slug: "library",
+    slug: "ilova",
     number: "04",
-    name: "Library",
-    short: "Bilimga ochiladigan yana bir eshik.",
+    name: "Ilova",
+    short: "Veb-ilova, CRM yoki mobil ilova — ishingizni avtomatlashtiradigan dastur.",
     description:
-      "Mutolaa va fikrlash uchun kitoblar, tarjimalar hamda saralangan ma’rifiy materiallar.",
+      "Jadval va qog‘ozda yuritilayotgan ishni bitta dasturga jamlaymiz: mijozlar, buyurtmalar, hisobotlar. Kerak bo‘lsa, telefon uchun ilova ham yasaymiz.",
     features: [
-      "Kitob qisqartmalari",
-      "Tarjimalar",
-      "Elektron kitoblar",
-      "Audio materiallar",
+      "Foydalanuvchilar va ruxsatlar",
+      "Ma’lumotlar bazasi",
+      "Hisobotlar",
     ],
-    icon: "book",
-  },
-  {
-    slug: "render",
-    number: "05",
-    name: "Render",
-    short: "Tasavvurdan ta’sirli tasvirgacha.",
-    description:
-      "3D va video loyihalarga yakuniy ko‘rinish berish. Vizual sifat va loyihangiz talablariga e’tibor.",
-    features: [
-      "3D render",
-      "Video render",
-      "Arxitektura vizualizatsiyasi",
-      "GPU asosidagi vizualizatsiya",
-    ],
-    icon: "box",
-  },
-  {
-    slug: "products",
-    number: "06",
-    name: "Digital Products",
-    short: "Kundalik ishga haqiqiy foyda.",
-    description:
-      "Muayyan muammoni sodda hal qiladigan mustaqil dasturlar va foydali raqamli vositalar.",
-    features: [
-      "Tayyor dasturlar",
-      "AI vositalari",
-      "Obuna asosidagi servislar",
-      "Raqamli mahsulotlar",
-    ],
-    icon: "spark",
+    icon: "app",
   },
 ];
-// Sado mahsulotining alohida sayti.
-export const SADO_URL = "https://sado.alifbit.org";
-// DALOLAT: taqdimot sayti va Telegram Mini App manzili.
-export const DALOLAT_URL = "https://dalolat.app";
-export const DALOLAT_APP_URL = "https://app.dalolat.app";
+export const TELEGRAM_URL = "https://t.me/alifbitbot?start=alifbit";
 export const copy = {
   uz: {
-    tagline: "Ilmdan g‘oyaga. G‘oyadan amalga.",
+    tagline: "Sayt, ilova va Telegram bot yasaymiz.",
     nav: [
-      ["Loyihalar", "/projects"],
-      ["Sado", SADO_URL],
       ["Xizmatlar", "/services"],
-      ["Akademiya", "/academy"],
+      ["Ishlar", "/projects"],
+      ["Kurslar", "/courses"],
       ["Biz haqimizda", "/about"],
     ],
     hero: {
-      title: "Har bir buyuk loyiha bir g‘oyadan boshlanadi.",
-      text: "Biz texnologiya, ilm va ijod orqali g‘oyalarni hayotga tatbiq etamiz. Insonlarga foyda keltiradigan raqamli mahsulotlar va bilim manbalarini yaratamiz.",
+      title: "Sayt, ilova va Telegram bot yasaymiz.",
+      text: "Dizayndan ishga tushirishgacha. Narxi va muddati oldindan ma’lum.",
     },
   },
 };
 export const routeMeta: Record<string, [string, string]> = {
   "/": [
-    "AlifBit — Ilmdan g‘oyaga. G‘oyadan amalga.",
-    "Texnologiya, ilm va ijod bir joyda. Foydali raqamli mahsulotlar, bilim manbalari va yangi g‘oyalar ekotizimi.",
+    "AlifBit — sayt, ilova va Telegram bot yasaymiz",
+    "Veb-sayt, dizayn, Telegram bot va ilovalar: narxi va muddati oldindan ma’lum. Qilgan ishlarimiz va vayb koding kursi.",
   ],
   "/projects": [
-    "Loyihalar — AlifBit",
-    "AlifBit ekotizimi: raqamli mahsulotlar, AI, ta’lim, kitoblar va media loyihalari.",
+    "Ishlar — AlifBit",
+    "AlifBit qilgan ishlar: DALOLAT, Sado va ularning saytlari.",
   ],
   "/services": [
-    "Xizmatlar — AlifBit",
-    "Development, Academy, Library, Films, Render va Digital Products yo‘nalishlari.",
+    "Xizmatlar va narxlar — AlifBit",
+    "Veb-sayt, dizayn, Telegram bot va ilova: paketlar, narxlar va muddatlar.",
   ],
-  "/academy": [
-    "AlifBit Academy — Bilimdan amaliyotga",
-    "Izchil ta’lim, matnli darslar va amaliy bilimga asoslangan AlifBit Academy taqdimoti.",
-  ],
-  "/library": [
-    "AlifBit Library — Mutolaa uchun makon",
-    "Kitoblar, qisqartmalar va tarjimalarga bag‘ishlangan AlifBit Library.",
-  ],
-  "/films": [
-    "AlifBit Films — Tarixga yangi nigoh",
-    "Tarixiy filmlar, animatsiya va mazmunli vizual hikoyalar.",
-  ],
-  "/render": [
-    "AlifBit Render — Tasavvurga shakl",
-    "3D render, video render va vizualizatsiya xizmatlari.",
+  "/courses": [
+    "Kurslar — AlifBit",
+    "AI yordamida sayt va Telegram bot yasashni o‘rganing.",
   ],
   "/about": [
     "Biz haqimizda — AlifBit",
-    "Ilm, texnologiya va ijod orqali insonlarga foydali mahsulotlar yaratish maqsadimiz.",
+    "AlifBit — sayt, ilova va Telegram bot yasaydigan kichik studiya.",
   ],
   "/contact": [
-    "Loyihangizni boshlang — AlifBit",
-    "G‘oyangiz haqida yozing. AlifBit bilan raqamli mahsulot yoki ijodiy loyihangizni boshlang.",
+    "Buyurtma berish — AlifBit",
+    "Loyihangiz haqida yozing: narx va muddatni birga aniqlaymiz.",
   ],
   "/privacy": [
     "Maxfiylik siyosati — AlifBit",

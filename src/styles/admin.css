@@ -830,3 +830,43 @@ body:has(.ad-login) {
     gap: 2px;
   }
 }
+
+/* Xizmat paketlari muharriri */
+.ad-hint {
+  font-size: 14px;
+  color: var(--muted);
+}
+.ad-package {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-m);
+}
+.ad-package legend {
+  padding: 0 8px;
+  font-family: var(--font-head);
+  font-weight: 600;
+}
+.ad-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: end;
+  min-height: 48px;
+  font-size: 14.5px;
+}
+.ad-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--forest);
+}
+.ad-remove {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #a33b2b;
+}

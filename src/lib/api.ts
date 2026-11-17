@@ -1,6 +1,7 @@
 import {
   initialProjects,
   initialServices,
+  type Course,
   type Project,
   type Service,
 } from "../../shared/content";
@@ -20,5 +21,8 @@ export async function getProjects(): Promise<Project[]> {
 }
 export async function getServices(): Promise<Service[]> {
   return api<Service[]>("/api/services");
+}
+export async function getCourses(): Promise<Course[]> {
+  return api<Course[]>("/api/courses");
 }
 export { initialProjects, initialServices };

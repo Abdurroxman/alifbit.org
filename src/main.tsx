@@ -8,13 +8,9 @@ import "./styles/ui.css";
 import "./styles/layout.css";
 import "./styles/motion.css";
 import "./styles/art.css";
-import "./styles/intro.css";
 import "./styles/hero.css";
-import "./styles/process.css";
 import "./styles/home.css";
 import "./styles/pages.css";
-import "./styles/sado-promo.css";
-import "./styles/dalolat-promo.css";
 
 // Kirish rejimi birinchi chizishdan oldin aniqlanadi, sahifa lip etib ko'rinmaydi.
 bootMotion();

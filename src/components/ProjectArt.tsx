@@ -1,6 +1,6 @@
 import { LOGO } from "../../shared/logo";
 
-const KINDS = ["dalolat", "voice", "academy", "library", "films", "render"];
+const KINDS = ["dalolat", "voice"];
 
 function Mark({ x, y, size, light = false }: { x: number; y: number; size: number; light?: boolean }) {
   const s = size / 200;
@@ -105,145 +105,6 @@ function Voice() {
   );
 }
 
-function Academy() {
-  return (
-    <>
-      <rect width="400" height="300" fill="#dce4d8" />
-      <circle className="pa-back pa-orbit" cx="290" cy="80" r="120" />
-      <g className="pa-front">
-        <g transform="rotate(-3 200 160)">
-          <rect x="74" y="54" width="252" height="196" rx="16" fill="#fdfcfa" />
-          <Mark x={90} y={68} size={22} />
-          <text x="118" y="84" className="pa-small" fill="#262d29" fontSize="10" fontWeight="600">
-            AlifBit Academy
-          </text>
-          <text x="92" y="116" className="pa-small" fill="#86683a" fontSize="7.5" letterSpacing="1.2">
-            O‘RGANISH — BIRINCHI QADAM.
-          </text>
-          <text x="92" y="142" className="pa-head" fill="#262d29" fontSize="18">
-            Bugungi bilim.
-          </text>
-          <text x="92" y="164" className="pa-head" fill="#262d29" fontSize="18">
-            Ertangi imkoniyat.
-          </text>
-          {[0, 1, 2, 3].map((i) => (
-            <rect key={i} x={92 + i * 56} y="180" width="50" height="4" rx="2" fill={i < 2 ? "#466b50" : "#e4e0d6"} />
-          ))}
-          <rect x="92" y="198" width="216" height="36" rx="9" fill="#f1efe9" />
-          <rect x="102" y="207" width="18" height="18" rx="5" fill="#244534" />
-          <rect x="128" y="210" width="96" height="5" rx="2.5" fill="#262d29" opacity=".7" />
-          <rect x="128" y="219" width="64" height="4" rx="2" fill="#8a918b" opacity=".6" />
-        </g>
-      </g>
-    </>
-  );
-}
-
-function Library() {
-  return (
-    <>
-      <rect width="400" height="300" fill="#e8dfcf" />
-      <g className="pa-back">
-        <g transform="rotate(9 270 160)">
-          <rect x="196" y="62" width="142" height="196" rx="6" fill="#b69a70" />
-          <text x="214" y="92" className="pa-small" fill="#5c4524" fontSize="8" letterSpacing="1.4">
-            ALIFBIT
-          </text>
-          <text x="214" y="200" className="pa-head" fill="#4a3a20" fontSize="17">
-            Fikr. Bilim.
-          </text>
-          <text x="214" y="220" className="pa-head" fill="#4a3a20" fontSize="17">
-            Hayot.
-          </text>
-        </g>
-      </g>
-      <g className="pa-front">
-        <g transform="rotate(-6 150 160)">
-          <rect x="70" y="50" width="150" height="208" rx="6" fill="#244534" />
-          <rect x="70" y="50" width="10" height="208" fill="#1b3628" />
-          <text x="94" y="80" className="pa-small" fill="#b69a70" fontSize="7.5" letterSpacing="1.4">
-            ALIFBIT LIBRARY
-          </text>
-          <text x="94" y="142" className="pa-head" fill="#f2f0e8" fontSize="24">
-            Ilmga
-          </text>
-          <text x="94" y="170" className="pa-head" fill="#f2f0e8" fontSize="24">
-            ochilgan
-          </text>
-          <text x="94" y="198" className="pa-serif" fill="#d8bf92" fontSize="25">
-            eshik.
-          </text>
-        </g>
-      </g>
-    </>
-  );
-}
-
-function Films() {
-  return (
-    <>
-      <rect width="400" height="300" fill="#1f3c2d" />
-      <radialGradient id="pa-film-light" cx=".5" cy=".2" r=".8">
-        <stop stopColor="#f3dfb5" stopOpacity=".55" />
-        <stop offset="1" stopColor="#f3dfb5" stopOpacity="0" />
-      </radialGradient>
-      <rect width="400" height="300" fill="url(#pa-film-light)" />
-      <g className="pa-back">
-        <path d="M232 300V130Q232 64 296 64Q360 64 360 130V300Z" fill="#2b5039" />
-        <path d="M258 300V140Q258 98 296 98Q334 98 334 140V300Z" fill="#183324" />
-      </g>
-      <g className="pa-front">
-        <path d="M150 300V160Q150 92 214 92Q278 92 278 160V300Z" fill="#e9dfc9" opacity=".95" />
-        <path d="M176 300V170Q176 126 214 126Q252 126 252 170V300Z" fill="#c9b48a" />
-        <circle cx="214" cy="212" r="22" fill="#244534" />
-        <path d="M208 201L226 212L208 223Z" fill="#f2f0e8" />
-      </g>
-      <text x="32" y="64" className="pa-small" fill="#b69a70" fontSize="9" letterSpacing="1.4">
-        ALIFBIT FILMS
-      </text>
-      <text x="32" y="96" className="pa-head" fill="#f2f0e8" fontSize="22">
-        Tarixga
-      </text>
-      <text x="32" y="124" className="pa-serif" fill="#d8bf92" fontSize="24">
-        yangi nigoh.
-      </text>
-    </>
-  );
-}
-
-function Render({ wire }: { wire?: boolean }) {
-  const face = (fill: string) => (wire ? "none" : fill);
-  return (
-    <g className={wire ? "pa-wire" : ""}>
-      <rect width="400" height="300" fill={wire ? "#f4f1ea" : "#ebe5da"} />
-      {!wire && (
-        <>
-          <radialGradient id="pa-sun" cx=".5" cy=".5" r=".5">
-            <stop stopColor="#f6dcaa" />
-            <stop offset="1" stopColor="#f6dcaa" stopOpacity="0" />
-          </radialGradient>
-          <circle cx="300" cy="78" r="80" fill="url(#pa-sun)" />
-        </>
-      )}
-      <path d="M0 220L200 176L400 220V300H0Z" fill={face("#ddd5c6")} />
-      <g className="pa-back">
-        <path d="M250 214V96L276 86L302 96V214L276 224Z" fill={face("#e9e3d6")} />
-        <path d="M276 86L302 96V214L276 224Z" fill={face("#cfc6b3")} />
-      </g>
-      <g className="pa-front">
-        <path d="M96 210L150 186L204 210L150 234Z" fill={face("#7f9f84")} />
-        <path d="M96 210V150L150 126V186Z" fill={face("#466b50")} />
-        <path d="M150 126L204 150V210L150 186Z" fill={face("#2f5440")} />
-        <path d="M96 150L150 126L204 150L150 174Z" fill={face("#6c8f72")} />
-        <path d="M188 230L218 216L248 230L218 244Z" fill={face("#d1b688")} />
-        <path d="M188 230V204L218 190V216Z" fill={face("#b69a70")} />
-        <path d="M218 190L248 204V230L218 216Z" fill={face("#977b4f")} />
-        <path d="M188 204L218 190L248 204L218 218Z" fill={face("#c9ad7e")} />
-      </g>
-    </g>
-  );
-}
-
 function Custom() {
   return (
     <>
@@ -256,34 +117,12 @@ function Custom() {
   );
 }
 
-export default function ProjectArt({
-  kind,
-  large = false,
-  wire = false,
-}: {
-  kind: string;
-  large?: boolean;
-  wire?: boolean;
-}) {
+export default function ProjectArt({ kind, large = false }: { kind: string; large?: boolean }) {
   const k = KINDS.includes(kind) ? kind : "custom";
   return (
     <div className={`project-art art-${k} ${large ? "art-large" : ""}`} aria-hidden="true">
       <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-        {k === "dalolat" ? (
-          <Dalolat />
-        ) : k === "voice" ? (
-          <Voice />
-        ) : k === "academy" ? (
-          <Academy />
-        ) : k === "library" ? (
-          <Library />
-        ) : k === "films" ? (
-          <Films />
-        ) : k === "render" ? (
-          <Render wire={wire} />
-        ) : (
-          <Custom />
-        )}
+        {k === "dalolat" ? <Dalolat /> : k === "voice" ? <Voice /> : <Custom />}
       </svg>
     </div>
   );
