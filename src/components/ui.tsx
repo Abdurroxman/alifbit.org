@@ -55,6 +55,11 @@ export function ButtonLink({
   );
 }
 
+/** Narxlar yonida: ko'rsatilgan narx boshlang'ich, yakuniysi ishga qarab kelishiladi. */
+export function PriceNote() {
+  return <p className="price-note">Narx ishga qarab kelishiladi.</p>;
+}
+
 export function Eyebrow({ children }: { children: ReactNode }) {
   return <div className="eyebrow">{children}</div>;
 }
@@ -202,7 +207,7 @@ export function ContactBand() {
             {[
               "Loyihangiz bormi?",
               <span className="accent" key="a">
-                Narxini birga hisoblaymiz.
+                Puxta qilib beramiz.
               </span>,
             ]}
           </Lines>

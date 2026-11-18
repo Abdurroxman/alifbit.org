@@ -438,3 +438,8 @@ select.input {
   color: var(--error-fg);
   font-size: 14.5px;
 }
+.price-note {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--muted-2);
+}

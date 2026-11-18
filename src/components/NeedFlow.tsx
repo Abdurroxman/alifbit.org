@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useContent } from "../App";
 import { courseOrderLink, keepNumbers } from "./Studio";
-import { ButtonLink, TextLink } from "./ui";
+import { ButtonLink, PriceNote, TextLink } from "./ui";
 import { accentStyle } from "../lib/accent";
 import { focusOfIcon, type StageFocus } from "../three/types";
 import { PROMISES, TELEGRAM_URL, type Course, type Service, type ServicePackage } from "../../shared/content";
@@ -230,6 +230,9 @@ function ServiceCard({
         </ul>
       ) : (
         <p className="nf-wait">Narxlar yuklanmoqda…</p>
+      )}
+      {loaded && (service.price || packages.some((p) => p.price)) && (
+        <PriceNote />
       )}
 
       <ul className="nf-promises" aria-label="Har bir loyihada">

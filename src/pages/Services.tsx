@@ -9,6 +9,7 @@ import {
   Eyebrow,
   Lines,
   PageTop,
+  PriceNote,
 } from "../components/ui";
 import NotFound from "./NotFound";
 import { ChainDiagram } from "../components/FlowDiagram";
@@ -53,7 +54,7 @@ export function WorkingProcess() {
               {[
                 "Aniq jarayon.",
                 <span className="accent" key="a">
-                  Oldindan ma’lum narx.
+                  Puxta natija.
                 </span>,
               ]}
             </Lines>
@@ -119,7 +120,7 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
   if (priceMode === "ask")
     items.push([
       "Narxlar qancha?",
-      "Narx xizmat va paketga bog‘liq. Sahifa boshida xizmatni tanlang — har bir paketning narxi va muddati shu yerda ko‘rinadi. Paketlarni taqqoslash jadvali «Xizmatlar» sahifasida.",
+      "Narx xizmat va paketga bog‘liq. Sahifa boshida xizmatni tanlang — har bir paketning boshlang‘ich narxi va muddati shu yerda ko‘rinadi. Yakuniy narx ishga qarab kelishiladi.",
     ]);
   else if (priced.length)
     items.push([
@@ -131,7 +132,7 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
         unpriced.length
           ? `${unpriced.map((s) => s.name).join(", ")} narxi vazifa hajmiga qarab kelishiladi.`
           : "",
-        "Aniq narxni topshiriqni ko‘rib chiqqach aytamiz.",
+        "Bu boshlang‘ich narxlar: yakuniy narx ishga qarab, topshiriqni ko‘rib chiqqach kelishiladi.",
       ]
         .filter(Boolean)
         .join(" "),
@@ -218,13 +219,14 @@ export function Services() {
         title={[
           "Nima kerak bo‘lsa,",
           <span className="accent" key="a">
-            narxi oldindan ma’lum.
+            puxta qilamiz.
           </span>,
         ]}
         text="Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, integratsiyalar, SEO va texnik yordam. Har birida tarkibi, paketlar, narx va muddat yozilgan."
       />
       <section className="container">
         <ServiceCards services={services} />
+        <PriceNote />
       </section>
       <Promises />
       <WorkingProcess />
@@ -369,6 +371,7 @@ export function ServiceDetail() {
             Buyurtma berish
           </ButtonLink>
         </div>
+        {service.price && <PriceNote />}
       </PageTop>
       {flow.length > 0 && (
         <section className="container section diagram-section hairline">
@@ -406,6 +409,7 @@ export function ServiceDetail() {
           </div>
           <Packages service={service} />
           {packages.length > 1 && <Compare packages={packages} />}
+          <PriceNote />
         </section>
       )}
       {!loaded && <div className="container nf-wait">Narxlar yuklanmoqda…</div>}

@@ -714,7 +714,7 @@ const seo: Draw = (c, w, h, phone, p, a) => {
     }
     dot(c, pad + 12, y + 12, 12, first ? a : p.faint);
     txt(c, first ? "sizning-saytingiz.uz" : `boshqa-sayt-${i}.uz`, pad + 34, y + (phone ? 20 : 18), phone ? 18 : 15, first ? p.ink : p.muted, 500);
-    if (first) txt(c, "Sayt yaratish — 2 haftada, narxi oldindan", pad, y + (phone ? 62 : 52), phone ? 25 : 22, p.dark ? "#8ab4f8" : "#1a4d8f", 600);
+    if (first) txt(c, "Sifatli sayt yaratish — 2 haftada", pad, y + (phone ? 62 : 52), phone ? 25 : 22, p.dark ? "#8ab4f8" : "#1a4d8f", 600);
     else rr(c, pad, y + (phone ? 40 : 32), colW * (0.62 - (i % 3) * 0.08), phone ? 20 : 16, 8, p.dark ? "#8ab4f855" : "#1a4d8f40");
     lines(c, pad, y + (phone ? 84 : 70), colW - 20, 2, phone ? 24 : 18, p.faint, phone ? 10 : 8);
     y += bh + (phone ? 30 : 26);

@@ -370,7 +370,7 @@ export const initialServices: Service[] = [
 export const TELEGRAM_URL = "https://t.me/alifbitbot?start=alifbit";
 export const copy = {
   uz: {
-    tagline: "Avval tinglaymiz. Keyin narxini aytamiz.",
+    tagline: "Avval tinglaymiz. Keyin puxta qilamiz.",
     nav: [
       ["Xizmatlar", "/services"],
       ["Ishlar", "/projects"],

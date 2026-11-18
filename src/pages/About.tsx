@@ -63,7 +63,7 @@ export default function About() {
             </p>
             <p data-reveal>
               O‘z mahsulotlarimizda sinab ko‘rgan yondashuvni mijozlar loyihasiga ham olib kiramiz:
-              aniq reja, oldindan kelishilgan narx va topshirishdan oldin puxta tekshiruv.
+              aniq reja, sifatli va tartibli kod, topshirishdan oldin puxta tekshiruv.
             </p>
           </div>
         </div>
