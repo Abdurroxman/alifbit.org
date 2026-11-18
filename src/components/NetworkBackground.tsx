@@ -1,14 +1,29 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { getNetworkAccent, onNetworkAccent } from "../lib/accent";
 import { useTheme } from "../lib/theme";
 
-type Dot = { x: number; y: number; vx: number; vy: number; r: number };
 type Palette = { dot: string; line: string; dotA: number; lineA: number; hi: string };
+type Dot = {
+  x: number; y: number; vx: number; vy: number; ax: number; ay: number; r: number;
+  /** erkin to'rdagi o'rni va uning sekin suzishi */
+  fx: number; fy: number; fvx: number; fvy: number;
+  /** yozuvdagi o'rni: yozuv markaziga nisbatan siljish va chapdan o'ngga tartibi (0…1) */
+  rx: number; ry: number; order: number;
+  /** yozuvga yig'ilganlik darajasi (0 — erkin, 1 — yozuvda) */
+  e: number;
+  near: number;
+};
+type Magnet = { x: number; y: number; s: number };
+/** Yozuv turadigan bo'sh joy (ekran koordinatalarida): markazi va o'lchami. */
+type Slot = { x: number; y: number; w: number; h: number };
 
-const MOUSE_RADIUS = 190;
-const LINK_DIST = 132;
-const PULSE_STEP = 900;
-const PULSE_REST = 2600;
+const WORD = "alifbit";
+const FONT = (size: number) => `800 ${size}px Manrope, "Segoe UI", Arial, sans-serif`;
+/** Erkin to'rda ulanish masofasi; telefonda nuqtalar kam, shuning uchun zichlik desktopdagidek qoladi. */
+const FREE_LINK = 80;
+const FREE_LINK_SMALL = 62;
+const BUCKETS = 4;
 
 /** "#5b8cff" → "91, 140, 255" (canvas rangiga qo'shish uchun). */
 function hexToRgb(value: string): string | null {
@@ -33,16 +48,75 @@ function readPalette(): Palette {
   };
 }
 
+const rand = (a: number, b: number) => a + Math.random() * (b - a);
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+const smooth = (e: number) => e * e * (3 - 2 * e);
+
+/** Yozuvni ko'rinmas canvasga chizib, harflar ichidagi nuqtalarni yozuv markaziga nisbatan oladi. */
+function sampleWord(size: number, gap: number): [number, number][] {
+  const off = document.createElement("canvas");
+  const c = off.getContext("2d", { willReadFrequently: true });
+  if (!c) return [];
+  c.font = FONT(size);
+  const cw = Math.ceil(c.measureText(WORD).width) + 24;
+  const ch = Math.ceil(size * 1.4);
+  off.width = cw;
+  off.height = ch;
+  c.font = FONT(size);
+  c.textAlign = "center";
+  c.textBaseline = "middle";
+  c.fillStyle = "#000";
+  c.fillText(WORD, cw / 2, ch / 2);
+  const data = c.getImageData(0, 0, cw, ch).data;
+  const pts: [number, number][] = [];
+  for (let y = 0; y < ch; y += gap)
+    for (let x = 0; x < cw; x += gap)
+      if (data[(y * cw + x) * 4 + 3] > 128)
+        pts.push([x - cw / 2 + rand(-gap, gap) * 0.25, y - ch / 2 + rand(-gap, gap) * 0.25]);
+  return pts;
+}
+
+/** Aniq N ta nuqta (yetmasa takrorlanadi), chapdan o'ngga tartiblangan. */
+function fitPoints(pts: [number, number][], n: number): [number, number][] {
+  const out = pts.slice().sort(() => Math.random() - 0.5);
+  if (!out.length) out.push([0, 0]);
+  const base = out.length;
+  while (out.length < n) {
+    const p = out[Math.floor(Math.random() * base)];
+    out.push([p[0] + rand(-2, 2), p[1] + rand(-2, 2)]);
+  }
+  return out.slice(0, n).sort((a, b) => a[0] - b[0]);
+}
+
 /**
- * Butun sayt orqasidagi nuqtalar to'ri: nuqtalar sekin suzadi, yaqinlari chiziq bilan ulanadi,
- * kursor yaqinidagilar undan qochadi va xizmat rangida yonadi; vaqti-vaqti bilan ulangan nuqtalar
- * bo'ylab yorug' signal yuguradi. Harakat kamaytirilgan rejimda bitta qotgan kadr chiziladi.
+ * Bosh sahifada yozuv uchun joy: birinchi ekran mazmuni tugagan joy bilan «Ishlar» bo'limi matni
+ * boshlangan joy orasidagi oraliq, eni — «Ishlar» matn ustuni (3D qurilmalar unga kirmaydi).
+ */
+function findSlot(): Slot | null {
+  const top = document.querySelector(".hero")?.lastElementChild?.getBoundingClientRect();
+  const col = document.querySelector('[data-stage="works"]')?.firstElementChild?.getBoundingClientRect();
+  if (!top || !col) return null;
+  const h = col.top - top.bottom;
+  if (h < 60 || col.width < 120) return null;
+  return { x: (col.left + col.right) / 2, y: (top.bottom + col.top) / 2, w: col.width, h };
+}
+
+/**
+ * Butun sayt orqasidagi to'r: nuqtalar erkin suzadi va yaqinlari chiziq bilan ulanadi, kursor magnitdek
+ * ularni tortib atrofida aylantiradi. Bosh sahifada birinchi ekran bilan «Ishlar» orasidagi oraliq ekran
+ * o'rtasiga kelganda to'r o'sha oraliqda chapdan o'ngga «alifbit» yozuviga yig'iladi, oraliq uzoqlashganda
+ * yana tarqaladi; yig'ilgan yozuv sahifa bilan birga suriladi. Harakat kamaytirilgan rejimda bitta qotgan
+ * kadr chiziladi.
  */
 export default function NetworkBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
+  const { pathname } = useLocation();
+  const homeRef = useRef(pathname === "/");
   const paletteRef = useRef<Palette | null>(null);
   const redrawRef = useRef<() => void>(() => {});
+
+  homeRef.current = pathname === "/";
 
   // Mavzu almashganda ranglar qayta o'qiladi (CSS o'zgaruvchilari yangilangandan keyin).
   useEffect(() => {
@@ -53,7 +127,8 @@ export default function NetworkBackground() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    const measure = document.createElement("canvas").getContext("2d");
+    if (!canvas || !ctx || !measure) return;
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -62,25 +137,54 @@ export default function NetworkBackground() {
     let dots: Dot[] = [];
     let raf = 0;
     let last = 0;
+    let clock = 0;
+    let shown = 0;
+    let wordSize = 0;
+    let wordSpacing = 0;
+    let slotPrev: Slot | null = null;
     const mouse = { x: -9999, y: -9999, on: false };
-    // Signal: ulangan nuqtalar zanjiri bo'ylab yuradi, keyin dam oladi.
-    let path: number[] = [];
-    let elapsed = 0;
-    let rest = 1200;
 
     paletteRef.current = readPalette();
 
+    const small = () => w < 700;
+    const freeLink = () => (small() ? FREE_LINK_SMALL : FREE_LINK);
+    // Yozuvda nuqtalar orasidagi o'rtacha masofaga qarab: harflar ichidagi to'r uzilib qolmasin.
+    const wordLink = () => Math.max(small() ? 17.5 : 22.5, wordSpacing * 2.3);
+
+    /** Yozuv o'lchami joyga sig'adigan qilib tanlanadi; o'lcham sezilarli o'zgarsa nuqtalar qayta olinadi. */
+    function fitWord(slot: Slot) {
+      measure!.font = FONT(100);
+      const per = measure!.measureText(WORD).width / 100 || 3.3;
+      const size = Math.min(260, slot.h * 0.78, (slot.w * 0.95) / per);
+      if (Math.abs(size - wordSize) < 4) return;
+      wordSize = size;
+      const gap = size < 120 ? 6 : size < 190 ? 8 : 10;
+      const sampled = sampleWord(size, gap);
+      wordSpacing = Math.sqrt((sampled.length * gap * gap) / Math.max(1, dots.length));
+      const pts = fitPoints(sampled, dots.length);
+      let min = Infinity;
+      let max = -Infinity;
+      dots.forEach((d, i) => {
+        d.rx = pts[i][0];
+        d.ry = pts[i][1];
+        min = Math.min(min, d.rx);
+        max = Math.max(max, d.rx);
+      });
+      for (const d of dots) d.order = (d.rx - min) / Math.max(1, max - min);
+    }
+
     function seed() {
-      const small = w < 700;
-      const count = Math.min(small ? 56 : 140, Math.floor((w * h) / (small ? 12000 : 9000)));
-      dots = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.36,
-        vy: (Math.random() - 0.5) * 0.36,
-        r: Math.random() * 1.6 + 0.9,
-      }));
-      path = [];
+      const n = small() ? 220 : 560;
+      dots = Array.from({ length: n }, () => {
+        const fx = rand(0, w);
+        const fy = rand(0, h);
+        return {
+          x: fx, y: fy, vx: 0, vy: 0, ax: 0, ay: 0, r: rand(0.8, 2),
+          fx, fy, fvx: rand(-0.25, 0.25), fvy: rand(-0.25, 0.25),
+          rx: 0, ry: 0, order: 0, e: 0, near: 0,
+        };
+      });
+      wordSize = 0;
     }
 
     function resize() {
@@ -94,126 +198,153 @@ export default function NetworkBackground() {
       canvas!.height = Math.round(h * dpr);
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       if (reseed) seed();
-      else for (const d of dots) if (d.y > h) d.y = Math.random() * h;
+      else for (const d of dots) if (d.fy > h) d.fy = Math.random() * h;
     }
 
-    const near = (d: Dot) => mouse.on && (d.x - mouse.x) ** 2 + (d.y - mouse.y) ** 2 < MOUSE_RADIUS ** 2;
-
-    function pickPath() {
-      const start = Math.floor(Math.random() * dots.length);
-      const chain = [start];
-      while (chain.length < 5) {
-        const a = dots[chain[chain.length - 1]];
-        const nextIndex = dots.findIndex(
-          (b, i) => !chain.includes(i) && (a.x - b.x) ** 2 + (a.y - b.y) ** 2 < LINK_DIST ** 2 && (a.x - b.x) ** 2 + (a.y - b.y) ** 2 > 1600,
-        );
-        if (nextIndex < 0) break;
-        chain.push(nextIndex);
-      }
-      return chain.length > 1 ? chain : [];
+    /** Kursor magnit; sichqoncha ekrandan chiqsa, ko'rinmas magnit sekin suzib yuradi. Sensorli ekranda magnit yo'q. */
+    function magnet(): Magnet | null {
+      if (!fine) return null;
+      if (mouse.on) return { x: mouse.x, y: mouse.y, s: 1 };
+      const z = clock * 0.00006;
+      return {
+        x: w * (0.5 + 0.38 * Math.sin(z * 1.7 + 5.5) * Math.cos(z * 0.6)),
+        y: h * (0.5 + 0.38 * Math.sin(z * 1.1 + 1.3) * Math.cos(z * 0.9 + 2)),
+        s: 0.6,
+      };
     }
 
-    function drawPulse(dt: number, hi: string) {
-      if (!path.length) {
-        rest -= dt;
-        if (rest > 0) return;
-        path = pickPath();
-        elapsed = 0;
-        rest = PULSE_REST;
-        if (!path.length) return;
-      }
-      elapsed += dt;
-      const seg = Math.floor(elapsed / PULSE_STEP);
-      if (seg >= path.length - 1) {
-        path = [];
-        return;
-      }
-      const a = dots[path[seg]];
-      const b = dots[path[seg + 1]];
-      if ((a.x - b.x) ** 2 + (a.y - b.y) ** 2 > (LINK_DIST * 1.2) ** 2) {
-        path = [];
-        return;
-      }
-      const u = (elapsed % PULSE_STEP) / PULSE_STEP;
-      const k = Math.min(u / 0.7, 1);
-      const fade = Math.sin(Math.PI * u);
-      const tail = Math.max(0, k - 0.25);
-      const x = a.x + (b.x - a.x) * k;
-      const y = a.y + (b.y - a.y) * k;
-      ctx!.strokeStyle = `rgba(${hi}, ${0.75 * fade})`;
-      ctx!.lineWidth = 1.5;
-      ctx!.beginPath();
-      ctx!.moveTo(a.x + (b.x - a.x) * tail, a.y + (b.y - a.y) * tail);
-      ctx!.lineTo(x, y);
-      ctx!.stroke();
-      ctx!.fillStyle = `rgba(${hi}, ${0.18 * fade})`;
-      ctx!.beginPath();
-      ctx!.arc(x, y, k === 1 ? 8 : 5, 0, Math.PI * 2);
-      ctx!.fill();
-      ctx!.fillStyle = `rgba(${hi}, ${0.95 * fade})`;
-      ctx!.beginPath();
-      ctx!.arc(x, y, 2.3, 0, Math.PI * 2);
-      ctx!.fill();
+    function pull(d: Dot, m: Magnet, radius: number) {
+      const dx = m.x - d.x;
+      const dy = m.y - d.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      if (dist >= radius) return 0;
+      const near = 1 - dist / radius;
+      let f = near * near * 1.1 * m.s;
+      if (dist < 34) f = -(34 - dist) * 0.06;
+      d.ax += (dx / dist) * f - (dy / dist) * near * 0.25 * m.s;
+      d.ay += (dy / dist) * f + (dx / dist) * near * 0.25 * m.s;
+      return near;
     }
 
-    function frame(now: number, move: boolean) {
-      const p = paletteRef.current || readPalette();
-      const dt = last ? Math.min(now - last, 50) : 16;
-      last = now;
-      ctx!.clearRect(0, 0, w, h);
+    function step(dt: number) {
+      const k = dt / 16;
+      const slot = homeRef.current ? findSlot() : null;
+      if (slot) fitWord(slot);
+      // Oraliq ekran o'rtasiga qanchalik yaqin bo'lsa, yozuv shunchalik to'liq yig'iladi.
+      const target = slot && wordSize ? clamp01((0.6 - Math.abs((slot.y - h / 2) / h)) / 0.35) : 0;
+      shown += (target - shown) * Math.min(1, dt / 250);
+      // Sahifa aylanganda yig'ilgan nuqtalar yozuv bilan birga suriladi (cho'zilib qolmasligi uchun).
+      const shiftX = slot && slotPrev ? slot.x - slotPrev.x : 0;
+      const shiftY = slot && slotPrev ? slot.y - slotPrev.y : 0;
+      if (slot) slotPrev = slot;
+      const cx = slotPrev ? slotPrev.x : w / 2;
+      const cy = slotPrev ? slotPrev.y : h / 2;
+      const m = magnet();
+      const damp = Math.pow(0.88, k);
+      for (const d of dots) {
+        const want = clamp01(shown * 1.6 - d.order * 0.6);
+        d.e += (want - d.e) * Math.min(1, dt / 200);
+        d.fx += d.fvx * k;
+        d.fy += d.fvy * k;
+        if (d.fx < 0 || d.fx > w) d.fvx = -d.fvx;
+        if (d.fy < 0 || d.fy > h) d.fvy = -d.fvy;
+        const e = smooth(d.e);
+        d.x += shiftX * e;
+        d.y += shiftY * e;
+        const hx = d.fx + (cx + d.rx - d.fx) * e;
+        const hy = d.fy + (cy + d.ry - d.fy) * e;
+        d.near = m ? pull(d, m, 200 + 60 * (1 - e)) : 0;
+        const spring = 0.004 + 0.008 * e;
+        d.ax += (hx - d.x) * spring;
+        d.ay += (hy - d.y) * spring;
+        d.vx = (d.vx + d.ax * k) * damp;
+        d.vy = (d.vy + d.ay * k) * damp;
+        d.x += d.vx * k;
+        d.y += d.vy * k;
+        d.ax = 0;
+        d.ay = 0;
+      }
+    }
 
-      if (move)
-        for (const d of dots) {
-          if (mouse.on) {
-            const dx = mouse.x - d.x;
-            const dy = mouse.y - d.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < MOUSE_RADIUS && dist > 0) {
-              const f = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-              d.x -= (dx / dist) * f * 4;
-              d.y -= (dy / dist) * f * 4;
+    /** Yaqin juftlar fazoviy katak orqali topiladi; chiziqlar shaffoflik bo'yicha guruhlab chiziladi. */
+    function drawLinks(p: Palette, link: number, alpha: number) {
+      const grid = new Map<string, number[]>();
+      dots.forEach((d, i) => {
+        const key = `${Math.floor(d.x / link)},${Math.floor(d.y / link)}`;
+        const cell = grid.get(key);
+        if (cell) cell.push(i);
+        else grid.set(key, [i]);
+      });
+      const base = Array.from({ length: BUCKETS }, () => new Path2D());
+      const lit = Array.from({ length: BUCKETS }, () => new Path2D());
+      const max = link * link;
+      dots.forEach((a, i) => {
+        const cx = Math.floor(a.x / link);
+        const cy = Math.floor(a.y / link);
+        for (let gx = cx - 1; gx <= cx + 1; gx++)
+          for (let gy = cy - 1; gy <= cy + 1; gy++) {
+            const cell = grid.get(`${gx},${gy}`);
+            if (!cell) continue;
+            for (const j of cell) {
+              if (j <= i) continue;
+              const b = dots[j];
+              const dsq = (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+              if (dsq > max) continue;
+              const s = 1 - dsq / max;
+              const amt = Math.max(a.near, b.near);
+              const glow = amt > 0.2;
+              const bucket = Math.min(BUCKETS - 1, Math.floor((glow ? s * amt : s) * BUCKETS));
+              const path = (glow ? lit : base)[bucket];
+              path.moveTo(a.x, a.y);
+              path.lineTo(b.x, b.y);
             }
           }
-          d.x += d.vx * (dt / 16);
-          d.y += d.vy * (dt / 16);
-          if (d.x < 0 || d.x > w) d.vx = -d.vx;
-          if (d.y < 0 || d.y > h) d.vy = -d.vy;
-          d.x = Math.max(-2, Math.min(w + 2, d.x));
-          d.y = Math.max(-2, Math.min(h + 2, d.y));
-        }
-
-      const max = LINK_DIST * LINK_DIST;
+      });
       ctx!.lineWidth = 1;
-      for (let i = 0; i < dots.length; i++) {
-        const a = dots[i];
-        const aNear = near(a);
-        for (let j = i + 1; j < dots.length; j++) {
-          const b = dots[j];
-          const dsq = (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
-          if (dsq > max) continue;
-          const strength = 1 - dsq / max;
-          const lit = aNear || near(b);
-          ctx!.strokeStyle = lit
-            ? `rgba(${p.hi}, ${Math.min(1, strength * 0.95)})`
-            : `rgba(${p.line}, ${strength * p.lineA})`;
+      for (let b = 0; b < BUCKETS; b++) {
+        const f = (b + 1) / BUCKETS;
+        ctx!.strokeStyle = `rgba(${p.line}, ${f * alpha})`;
+        ctx!.stroke(base[b]);
+        ctx!.strokeStyle = `rgba(${p.hi}, ${f * 0.95})`;
+        ctx!.stroke(lit[b]);
+      }
+    }
+
+    function draw() {
+      const p = paletteRef.current || readPalette();
+      ctx!.clearRect(0, 0, w, h);
+      let sum = 0;
+      for (const d of dots) sum += smooth(d.e);
+      const e = dots.length ? sum / dots.length : 0;
+      drawLinks(p, freeLink() + (wordLink() - freeLink()) * e, p.lineA * (1 + 0.3 * e));
+
+      // Uzoqdagilar bitta yo'lda nuqta; kursor yaqinidagi yoki tez uchayotganlar xizmat rangida iz bilan.
+      const base = new Path2D();
+      ctx!.lineCap = "round";
+      for (const d of dots) {
+        const speed = Math.hypot(d.vx, d.vy);
+        if (d.near > 0.15 || speed > 1.2) {
+          ctx!.strokeStyle = `rgba(${p.hi}, ${Math.min(1, 0.35 + d.near * 0.8)})`;
+          ctx!.lineWidth = d.r * 1.4;
           ctx!.beginPath();
-          ctx!.moveTo(a.x, a.y);
-          ctx!.lineTo(b.x, b.y);
+          ctx!.moveTo(d.x - d.vx * 3, d.y - d.vy * 3);
+          ctx!.lineTo(d.x + 0.01, d.y);
           ctx!.stroke();
+        } else {
+          base.moveTo(d.x + d.r, d.y);
+          base.arc(d.x, d.y, d.r, 0, Math.PI * 2);
         }
       }
-      for (const d of dots) {
-        const lit = near(d);
-        ctx!.fillStyle = lit ? `rgba(${p.hi}, 0.95)` : `rgba(${p.dot}, ${p.dotA})`;
-        ctx!.beginPath();
-        ctx!.arc(d.x, d.y, lit ? d.r + 0.6 : d.r, 0, Math.PI * 2);
-        ctx!.fill();
-      }
-      if (move) drawPulse(dt, p.hi);
+      ctx!.fillStyle = `rgba(${p.dot}, ${p.dotA})`;
+      ctx!.fill(base);
     }
 
     const loop = (now: number) => {
-      frame(now, true);
+      const dt = last ? Math.min(now - last, 50) : 16;
+      last = now;
+      clock += dt;
+      step(dt);
+      draw();
       raf = requestAnimationFrame(loop);
     };
     const start = () => {
@@ -226,12 +357,12 @@ export default function NetworkBackground() {
       raf = 0;
     };
     redrawRef.current = () => {
-      if (still || !raf) frame(performance.now(), false);
+      if (still || !raf) draw();
     };
 
     const onResize = () => {
       resize();
-      if (still) frame(performance.now(), false);
+      if (still) draw();
     };
     const onMove = (e: PointerEvent) => {
       mouse.x = e.clientX;
@@ -248,8 +379,16 @@ export default function NetworkBackground() {
     });
 
     resize();
-    frame(performance.now(), false);
+    draw();
     start();
+    // Manrope yuklangach yozuv nuqtalari qayta olinadi (birinchi o'lchashda zaxira shrift bo'lishi mumkin).
+    let alive = true;
+    document.fonts
+      ?.load(FONT(100))
+      .then(() => {
+        if (alive) wordSize = 0;
+      })
+      .catch(() => {});
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVisibility);
     if (fine && !still) {
@@ -257,6 +396,7 @@ export default function NetworkBackground() {
       document.documentElement.addEventListener("pointerleave", onLeave);
     }
     return () => {
+      alive = false;
       stop();
       offAccent();
       window.removeEventListener("resize", onResize);
