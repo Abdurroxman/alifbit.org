@@ -102,6 +102,12 @@ const lines = (value: FormDataEntryValue | null) =>
     .split("\n")
     .map((v) => v.trim())
     .filter(Boolean);
+/** «Chap | o'ng» satrlari: qadamlar, oldin/keyin va savol-javob shunday kiritiladi. */
+const pairLines = (value: FormDataEntryValue | null) =>
+  lines(value).map((line) => {
+    const [left, ...rest] = line.split("|");
+    return [left.trim(), rest.join("|").trim()] as const;
+  });
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(),
   slug: "",
@@ -338,10 +344,28 @@ export default function Admin() {
     if (tab === "courses") {
       data.contents = lines(form.get("contents"));
       // Har bir qadam alohida satrda: «Sarlavha | izoh».
-      data.steps = lines(form.get("steps")).map((line) => {
-        const [title, ...rest] = line.split("|");
-        return { title: title.trim(), text: rest.join("|").trim() };
-      });
+      data.steps = pairLines(form.get("steps")).map(([title, text]) => ({ title, text }));
+    }
+    if (tab === "projects") {
+      data.steps = pairLines(form.get("steps")).map(([title, text]) => ({ title, text }));
+      data.customerView = lines(form.get("customerView"));
+      data.ownerView = lines(form.get("ownerView"));
+      data.beforeAfter = pairLines(form.get("beforeAfter")).map(([before, after]) => ({ before, after }));
+      data.fit = lines(form.get("fit"));
+      data.faq = pairLines(form.get("faq")).map(([q, a]) => ({ q, a }));
+      // Demo JSON ko'rinishida tahrirlanadi; tuzilmasini server tekshiradi.
+      const demo = String(form.get("demo_json") || "").trim();
+      delete data.demo_json;
+      delete data.demo;
+      if (demo) {
+        try {
+          data.demo = JSON.parse(demo);
+        } catch {
+          setError("Demo JSON noto‘g‘ri yozilgan: qavslar va qo‘shtirnoqlarni tekshiring.");
+          setBusy(false);
+          return;
+        }
+      }
     }
     try {
       await api(`/api/admin/${tab}`, post(data));
@@ -908,7 +932,7 @@ function Field({
 }
 
 function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpload: (f: File) => void; busy: boolean }) {
-  const { categories } = useContent();
+  const { categories, services } = useContent();
   return (
     <>
       <section className="ad-panel ad-form">
@@ -975,6 +999,52 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
           />
         </label>
         {p.cover.startsWith("/media/") && <img className="ad-cover" src={p.cover} alt="Yuklangan muqova" />}
+      </section>
+      <section className="ad-panel ad-form">
+        <h2>Yechim sahifasi</h2>
+        <label className="field">
+          <span>Xizmat — sahifada narx havolasi va buyurtma shundan olinadi</span>
+          <select className="input" name="service" defaultValue={p.service || ""}>
+            <option value="">—</option>
+            {services.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <Field label="Muammo — mijozning hayotiy holati" name="problem" value={p.problem} area maxLength={2000} />
+        <Field
+          label="Qanday ishlaydi — har qadam yangi satrda: «Sarlavha | izoh»"
+          name="steps"
+          value={(p.steps || []).map((s) => (s.text ? `${s.title} | ${s.text}` : s.title)).join("\n")}
+          area
+        />
+        <div className="ad-grid">
+          <Field label="Mijoz ko‘radi — har biri yangi satrda" name="customerView" value={(p.customerView || []).join("\n")} area />
+          <Field label="Siz ko‘rasiz — har biri yangi satrda" name="ownerView" value={(p.ownerView || []).join("\n")} area />
+        </div>
+        <Field
+          label="Oldin va keyin — har satrda: «oldin | keyin»"
+          name="beforeAfter"
+          value={(p.beforeAfter || []).map((r) => `${r.before} | ${r.after}`).join("\n")}
+          area
+        />
+        <Field label="Kimga mos — har biri yangi satrda" name="fit" value={(p.fit || []).join("\n")} area />
+        <Field
+          label="Savol-javob — har satrda: «savol | javob»"
+          name="faq"
+          value={(p.faq || []).map((f) => `${f.q} | ${f.a}`).join("\n")}
+          area
+          maxLength={12000}
+        />
+        <Field
+          label="Demo suhbat (JSON) — bo‘sh qolsa sahifada demo chiqmaydi"
+          name="demo_json"
+          value={p.demo ? JSON.stringify(p.demo, null, 2) : ""}
+          area
+          maxLength={40000}
+        />
       </section>
       <SEO item={p} />
     </>

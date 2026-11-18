@@ -6,7 +6,17 @@ import { CourseTeaser, WorkCard } from "../components/Studio";
 import { Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { FAQ, WorkingProcess } from "./Services";
 import { copy } from "../../shared/content";
-import type { StageSection } from "../three/types";
+import { focusOfIcon, type StageSection } from "../three/types";
+import type { Project } from "../../shared/content";
+
+/** Bosh sahifada ko'rsatiladigan ishlar tartibi: jonli mahsulot, keyin uchta namuna yechim. */
+const HOME_WORKS = ["voice", "tungi-navbatchi", "peshtaxta", "qabulxona"];
+
+function homeWorks(projects: Project[]) {
+  const picked = HOME_WORKS.map((id) => projects.find((p) => p.id === id)).filter((p): p is Project => !!p);
+  const rest = projects.filter((p) => !picked.includes(p));
+  return [...picked, ...rest].slice(0, 4);
+}
 
 function Hero({ onFlow, stage }: { onFlow: (s: FlowState) => void; stage: ReactNode }) {
   return (
@@ -61,16 +71,16 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
             </div>
             <Lines>
               {[
-                "Ishlayotgan mahsulotlar.",
+                "Ishlar va yechimlar.",
                 <span className="accent" key="a">
-                  Ochib ko‘ring.
+                  Sinab ko‘ring.
                 </span>,
               ]}
             </Lines>
           </div>
         </div>
         <div className="work-steps" ref={list}>
-          {projects.slice(0, 4).map((p, i) => (
+          {homeWorks(projects).map((p, i) => (
             <div className="work-step" key={p.id} data-work={p.id}>
               <WorkCard project={p} delay={(i % 2) * 90} thumb />
             </div>
@@ -131,7 +141,11 @@ export default function Home() {
   const section = useStageSection(root);
   const onFlow = useCallback((s: FlowState) => setFlow(s), []);
   const onWork = useCallback((id: string) => setWork(id || null), []);
-  const stage = <DeviceStage state={{ section, focus: flow.focus, step: flow.step, work }} />;
+  const { projects, services } = useContent();
+  const icon = services.find((s) => s.slug === projects.find((p) => p.id === work)?.service)?.icon || "";
+  const stage = (
+    <DeviceStage state={{ section, focus: flow.focus, step: flow.step, work, workFocus: focusOfIcon(icon) }} />
+  );
   return (
     <div className="home" ref={root}>
       <Hero onFlow={onFlow} stage={stage} />

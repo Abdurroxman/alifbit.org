@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { courseSchema, orderSchema, serviceSchema } from "../server/validation.ts";
-import { initialServices, type Course } from "../shared/content.ts";
+import { courseSchema, demoSchema, orderSchema, projectSchema, serviceSchema } from "../server/validation.ts";
+import { initialProjects, initialServices, type Course } from "../shared/content.ts";
 
 const course: Course = {
   id: "vayb-koding",
@@ -104,4 +104,36 @@ test("migration 0007 services pass the schema and match the built-in texts", () 
     assert.deepEqual(texts, base);
   }
   assert.match(sql, /UPDATE projects SET published=0,data=json_set\(data,'\$\.published',json\('false'\)\)/);
+});
+
+const demo = {
+  bot: "Qabulxona",
+  start: "a",
+  nodes: [
+    { id: "a", messages: ["Salom!"], buttons: [{ label: "Yozilish", next: "b" }] },
+    { id: "b", messages: ["Tayyor."], buttons: [], owner: { title: "Yangi yozilish", lines: ["Ertaga 10:00"] } },
+  ],
+};
+
+test("projects without solution fields still pass and get empty defaults", () => {
+  const parsed = projectSchema.safeParse(initialProjects[0]);
+  assert.equal(parsed.success, true);
+  assert.equal(parsed.success && parsed.data.service, "");
+  assert.deepEqual(parsed.success && parsed.data.steps, []);
+  assert.deepEqual(parsed.success && parsed.data.faq, []);
+  assert.equal(parsed.success && parsed.data.demo, undefined);
+});
+
+test("solution projects accept a demo whose buttons lead to existing steps", () => {
+  const parsed = projectSchema.safeParse({ ...initialProjects[0], status: "Namuna", cover: "demo", demo });
+  assert.equal(parsed.success, true);
+  assert.equal(parsed.success && parsed.data.demo?.nodes[1].owner?.title, "Yangi yozilish");
+});
+
+test("demo graph rejects broken links, duplicate ids and a missing start", () => {
+  const broken = { ...demo, nodes: [{ ...demo.nodes[0], buttons: [{ label: "Yozilish", next: "z" }] }, demo.nodes[1]] };
+  assert.equal(demoSchema.safeParse(broken).success, false);
+  assert.equal(demoSchema.safeParse({ ...demo, nodes: [demo.nodes[0], { ...demo.nodes[1], id: "a" }] }).success, false);
+  assert.equal(demoSchema.safeParse({ ...demo, start: "x" }).success, false);
+  assert.equal(demoSchema.safeParse({ ...demo, nodes: [{ ...demo.nodes[0], id: "A B" }, demo.nodes[1]] }).success, false);
 });

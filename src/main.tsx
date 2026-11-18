@@ -12,6 +12,7 @@ import "./styles/intro.css";
 import "./styles/hero.css";
 import "./styles/home.css";
 import "./styles/pages.css";
+import "./styles/demo.css";
 
 // Kirish rejimi birinchi chizishdan oldin aniqlanadi, sahifa lip etib ko'rinmaydi.
 bootMotion();

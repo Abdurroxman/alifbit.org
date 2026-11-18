@@ -45,7 +45,6 @@ const WORK_POSES: Record<string, Pose> = {
   dalolat: { laptop: [-0.7, 0, -0.5, 0.45, 0.9], phone: [0.7, 0.18, 1.3, -0.2, 1.3], ls: "dalolat-site", ps: "dalolat-feed" },
   voice: { laptop: [-0.1, 0, 0.3, 0.2, 1.12], phone: [1.6, 0.04, 0.6, -0.5, 0.8], ls: "sado", ps: "sado" },
   "dalolat-site": { laptop: [-0.1, 0, 0.3, 0.28, 1.12], phone: [1.6, 0.04, 0.7, -0.45, 0.85], ls: "dalolat-site", ps: "dalolat-feed" },
-  "sado-site": { laptop: [-0.1, 0, 0.3, 0.1, 1.12], phone: [1.6, 0.04, 0.6, -0.6, 0.82], ls: "sado-site", ps: "sado" },
 };
 
 const LID_OPEN = -0.26;
@@ -208,7 +207,9 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const cur = { laptop: [...FOCUS_POSES.idle.laptop] as Place, phone: [...FOCUS_POSES.idle.phone] as Place };
 
   function pose(): Pose {
-    if (state.section === "works" && state.work) return WORK_POSES[state.work] || FOCUS_POSES.idle;
+    // O'z maketi yo'q ish (namuna yechim) o'z xizmat yo'nalishidagi ekran bilan ko'rsatiladi.
+    if (state.section === "works" && state.work)
+      return WORK_POSES[state.work] || FOCUS_POSES[state.workFocus || "idle"] || FOCUS_POSES.idle;
     return FOCUS_POSES[state.focus] || FOCUS_POSES.idle;
   }
 

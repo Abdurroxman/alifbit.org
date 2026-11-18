@@ -14,7 +14,40 @@ export type Project = {
   published: boolean;
   seoTitle?: string;
   seoDescription?: string;
+  /** Yechim qaysi xizmatga tegishli (xizmat slug'i): sahifada narx va buyurtma havolasi shundan olinadi. */
+  service?: string;
+  /** Mijozning hayotiy muammosi, 2–3 jumla. */
+  problem?: string;
+  /** «Qanday ishlaydi» qadamlari. */
+  steps?: CourseStep[];
+  /** Mijoz nimani ko'radi. */
+  customerView?: string[];
+  /** Biznes egasi nimani ko'radi. */
+  ownerView?: string[];
+  beforeAfter?: BeforeAfter[];
+  /** Kimga mos: sohalar va holatlar. */
+  fit?: string[];
+  faq?: FaqItem[];
+  /** Sahifada bosib ko'riladigan suhbat demosi. */
+  demo?: DemoScript;
 };
+export type BeforeAfter = { before: string; after: string };
+export type FaqItem = { q: string; a: string };
+/** Demo ichidagi karta: buyurtma, jadval qatori yoki egasiga kelgan xabar. */
+export type DemoCard = { title: string; lines: string[] };
+export type DemoButton = { label: string; next: string };
+/**
+ * Demo suhbatining bitta qadami: bot xabarlari, ixtiyoriy karta, mijoz bosadigan tugmalar
+ * va shu qadamda egasi panelida chiqadigan yozuv. Tugmasiz tugun — demo oxiri.
+ */
+export type DemoNode = {
+  id: string;
+  messages: string[];
+  card?: DemoCard;
+  buttons: DemoButton[];
+  owner?: DemoCard;
+};
+export type DemoScript = { bot: string; start: string; nodes: DemoNode[] };
 export type ServicePackage = {
   name: string;
   price: string;
@@ -67,7 +100,8 @@ export const PROMISES: Array<[string, string]> = [
   ["Topshirishda o‘qitish", "Admin panel va kundalik ish bilan ishlashni ko‘rsatib beramiz."],
   ["1 yil xatolarga kafolat", "Bizning aybimiz bilan chiqqan xatoni bir yil davomida bepul tuzatamiz."],
 ];
-export const projectCovers = ["dalolat", "voice", "custom"] as const;
+/** «demo» — muqova loyihaning demo suhbatidan chiziladi. */
+export const projectCovers = ["dalolat", "voice", "custom", "demo"] as const;
 /** Kursga yozilish murojaatlari `service` maydonida shu prefiks bilan saqlanadi. */
 export const COURSE_ORDER_PREFIX = "kurs-";
 export const categories = [
@@ -83,6 +117,7 @@ export const projectStatuses = [
   "Ishlab chiqilmoqda",
   "Tez kunda",
   "Taqdimot",
+  "Namuna",
   "Arxiv",
 ];
 export const orderStatuses = [
@@ -173,26 +208,6 @@ export const initialProjects: Project[] = [
     cover: "dalolat",
     url: DALOLAT_URL,
     published: false,
-  },
-  {
-    id: "sado-site",
-    slug: "sado-sayti",
-    name: "sado.alifbit.org",
-    category: "Saytlar",
-    status: "Ishlayapti",
-    summary: "Sado dasturining sayti: yuklab olish, tariflar va kalit so‘rash.",
-    description:
-      "Sado uchun mahsulot sayti: dastur qanday ishlashi, tariflar, Windows uchun yuklab olish va kalit so‘rash formasi.",
-    purpose: "Dasturni tanishtirish va foydalanuvchini yuklab olishgacha olib borish.",
-    features: [
-      "Windows uchun yuklab olish",
-      "Tariflar paneli",
-      "Kalit so‘rash formasi",
-    ],
-    platforms: ["Veb-sayt"],
-    cover: "voice",
-    url: SADO_URL,
-    published: true,
   },
 ];
 // Narx, muddat va paketlar bu yerda yo'q: ular faqat bazada turadi va admin paneldan o'zgartiriladi.
@@ -374,8 +389,8 @@ export const routeMeta: Record<string, [string, string]> = {
     "Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, Payme va Click integratsiyasi, SEO va texnik yordam: har bir xizmat tarkibi, narxi va muddati. Qilgan ishlarimiz va vayb koding kursi.",
   ],
   "/projects": [
-    "Ishlar — AlifBit",
-    "AlifBit qilgan ishlar: Sado — Windows uchun ovoz bilan yozish dasturi va uning sayti.",
+    "Ishlar va yechimlar — AlifBit",
+    "Sado va biznes uchun tayyor yechimlar: yozilish boti, Telegram do‘kon, AI yordamchi, CRM va boshqalar. Har birining qanday ishlashini demo’da sinab ko‘ring.",
   ],
   "/services": [
     "Xizmatlar va narxlar — AlifBit",

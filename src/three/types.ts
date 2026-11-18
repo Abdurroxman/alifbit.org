@@ -26,6 +26,8 @@ export type StageState = {
   step: 1 | 2 | 3;
   /** «Qilgan ishlarimiz»da ekranda turgan ish (loyiha id). */
   work: string | null;
+  /** Ishning xizmat yo'nalishi: ishning o'z maketi bo'lmasa, sahna shu yo'nalish ekranini ko'rsatadi. */
+  workFocus?: StageFocus;
 };
 
 export type StageHandle = {

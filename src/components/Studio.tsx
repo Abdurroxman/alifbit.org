@@ -73,10 +73,16 @@ export function WorkCard({ project, delay = 0, thumb = false }: { project: Proje
         </ul>
       )}
       <div className="work-actions">
-        {link && (
+        {link ? (
           <ButtonLink to={link} small external>
             Ochish
           </ButtonLink>
+        ) : (
+          project.demo && (
+            <ButtonLink to={`/projects/${project.slug}#demo`} small>
+              Demo
+            </ButtonLink>
+          )
         )}
         <TextLink to={`/projects/${project.slug}`}>Batafsil</TextLink>
       </div>

@@ -31,6 +31,40 @@ export const orderSchema = z.object({
   consent: z.literal("yes"),
   website: z.literal("").default(""),
 });
+const demoCard = z.object({
+  title: text(120).min(1),
+  lines: z.array(text(200).min(1)).max(8).default([]),
+});
+const demoNode = z.object({
+  id: text(40).regex(/^[a-z0-9-]+$/, "Demo qadami id'si: kichik lotin harf, raqam, chiziqcha."),
+  messages: z.array(text(600).min(1)).min(1).max(4),
+  card: demoCard.optional(),
+  buttons: z
+    .array(z.object({ label: text(60).min(1), next: text(40).min(1) }))
+    .max(4)
+    .default([]),
+  owner: demoCard.optional(),
+});
+/** Demo grafigi: id'lar takrorlanmaydi, boshlanish va har bir tugma mavjud qadamga olib boradi. */
+export const demoSchema = z
+  .object({
+    bot: text(60).min(2),
+    start: text(40).min(1),
+    nodes: z.array(demoNode).min(1).max(20),
+  })
+  .superRefine((demo, ctx) => {
+    const ids = new Set<string>();
+    for (const n of demo.nodes) {
+      if (ids.has(n.id)) ctx.addIssue({ code: "custom", message: `Demo qadami takrorlangan: ${n.id}` });
+      ids.add(n.id);
+    }
+    if (!ids.has(demo.start))
+      ctx.addIssue({ code: "custom", message: `Demo boshlanadigan qadam topilmadi: ${demo.start}` });
+    for (const n of demo.nodes)
+      for (const b of n.buttons)
+        if (!ids.has(b.next))
+          ctx.addIssue({ code: "custom", message: `«${b.label}» tugmasi yo‘q qadamga olib boradi: ${b.next}` });
+  });
 export const projectSchema = z.object({
   id: text(100).min(1),
   slug,
@@ -54,6 +88,24 @@ export const projectSchema = z.object({
   published: z.boolean(),
   seoTitle: text(160).optional(),
   seoDescription: text(350).optional(),
+  service: text(100).default(""),
+  problem: text(2000).default(""),
+  steps: z
+    .array(z.object({ title: text(120).min(2), text: text(400).default("") }))
+    .max(8)
+    .default([]),
+  customerView: z.array(text(250).min(1)).max(10).default([]),
+  ownerView: z.array(text(250).min(1)).max(10).default([]),
+  beforeAfter: z
+    .array(z.object({ before: text(300).min(1), after: text(300).min(1) }))
+    .max(8)
+    .default([]),
+  fit: z.array(text(160).min(1)).max(12).default([]),
+  faq: z
+    .array(z.object({ q: text(300).min(1), a: text(1200).min(1) }))
+    .max(10)
+    .default([]),
+  demo: demoSchema.optional(),
 });
 export const serviceSchema = z.object({
   slug,

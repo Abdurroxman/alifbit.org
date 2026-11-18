@@ -13,13 +13,12 @@ export type DrawnScreen =
   | "integration"
   | "seo"
   | "support";
-export type ImageScreen = "dalolat-site" | "sado-site" | "dalolat-feed";
+export type ImageScreen = "dalolat-site" | "dalolat-feed";
 export type ScreenKey = DrawnScreen | ImageScreen;
 export type Device = "laptop" | "phone";
 
 export const IMAGE_SCREENS: Record<ImageScreen, string> = {
   "dalolat-site": "/images/works/dalolat-site.webp",
-  "sado-site": "/images/works/sado-site.webp",
   "dalolat-feed": "/images/dalolat/feed.webp",
 };
 

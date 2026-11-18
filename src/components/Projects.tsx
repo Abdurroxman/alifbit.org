@@ -14,6 +14,6 @@ export function ProjectCover({ project, large = false }: { project: Project; lar
   return project.cover.startsWith("/media/") ? (
     <img className="project-upload" src={project.cover} alt={`${project.name} muqovasi`} loading="lazy" />
   ) : (
-    <ProjectArt kind={project.cover} large={large} />
+    <ProjectArt kind={project.cover} large={large} demo={project.demo} title={project.name} />
   );
 }
