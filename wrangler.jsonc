@@ -25,6 +25,7 @@
   "vars": {
     "PUBLIC_ORIGIN": "https://alifbit.org",
     "CONTACT_TELEGRAM": "alifbitbot",
+    "PAY_API_URL": "https://pay.alifbit.org",
   },
   "observability": { "enabled": true },
   "routes": [

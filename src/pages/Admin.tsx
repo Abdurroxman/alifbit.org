@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import Brand, { BrandMark } from "../components/Brand";
 import { Status } from "../components/Projects";
+import PaymentPanel, { parsePayData } from "../components/PaymentPanel";
 import { useContent } from "../App";
 import { api } from "../lib/api";
 import {
@@ -52,6 +53,7 @@ type Order = {
   created_at: string;
   attachment_key: string | null;
   attachment_name: string | null;
+  pay_data?: string | null;
 };
 type Article = {
   id: string;
@@ -809,6 +811,7 @@ export default function Admin() {
                   </select>
                   <p className="ad-help">Holat o‘zgarganda avtomatik saqlanadi.</p>
                 </section>
+                <PaymentPanel key={selected.id} orderId={selected.id} initial={parsePayData(selected.pay_data)} onChanged={() => void refresh()} />
                 <section className="ad-panel ad-danger">
                   <h3>Ma’lumotni o‘chirish</h3>
                   <p className="ad-help">

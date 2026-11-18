@@ -870,3 +870,65 @@ body:has(.ad-login) {
   font-size: 14px;
   color: #a33b2b;
 }
+
+/* Murojaatdagi to'lov bloki (pay.alifbit.org) */
+.ad-pay-form {
+  display: grid;
+  gap: 14px;
+}
+.ad-pay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ad-pay-head .ad-icon-btn {
+  width: 36px;
+  height: 36px;
+}
+.ad-pay-muted {
+  color: var(--muted);
+}
+.ad-pay-invoices {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+.ad-pay-invoices li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--stone, #f3efe7);
+  font-size: 14px;
+}
+.ad-pay-invoices small {
+  color: var(--muted);
+}
+.ad-pay-invoices em {
+  grid-column: 1 / -1;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--gold-text);
+}
+.ad-pay-invoices li.is-paid em {
+  color: var(--green);
+}
+.ad-pay-invoices li.is-cancelled,
+.ad-pay-invoices li.is-refunded {
+  opacity: 0.65;
+}
+.ad-pay-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+}
+.ad-pay-link .input {
+  font-size: 13.5px;
+}
+.ad-pay-error {
+  font-size: 14px;
+  color: #a33b2b;
+}

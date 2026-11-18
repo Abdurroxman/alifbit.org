@@ -23,6 +23,11 @@ import {
   fileType,
 } from "./security";
 import { handleIntegration, isIntegrationPath } from "./integration";
+import {
+  handleAdminPayment,
+  handlePayCallback,
+  paymentsConfigured,
+} from "./payments";
 interface Env {
   DB: D1Database;
   MEDIA: R2Bucket;
@@ -35,6 +40,9 @@ interface Env {
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
   INTEGRATION_TOKEN?: string;
+  PAY_API_URL?: string;
+  PAY_API_TOKEN?: string;
+  PAY_CALLBACK_SECRET?: string;
 }
 class HttpError extends Error {
   constructor(
@@ -203,6 +211,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     method = request.method;
   // Bearer-token API for the server bot: no cookies, so the browser same-origin check does not apply.
   if (isIntegrationPath(path)) return handleIntegration(request, env);
+  // pay.alifbit.org serverdan serverga yuboradigan xabar: Origin yo'q, imzo bilan tekshiriladi.
+  if (path === "/api/pay/callback") return handlePayCallback(request, env);
   if (!["GET", "HEAD"].includes(method) && !isSameOrigin(request))
     throw new HttpError(403, "So‘rov manbasi tasdiqlanmadi.");
   if (path === "/api/health") return json({ ok: true });
@@ -338,6 +348,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
   if (path.startsWith("/api/admin/")) {
     await requireAdmin(request, env);
     if (path === "/api/admin/session") return json({ ok: true });
+    if (path === "/api/admin/payments" && method === "GET")
+      return json({ configured: paymentsConfigured(env) });
     if (path === "/api/admin/categories") {
       if (method === "GET") {
         const row = await env.DB.prepare(
@@ -480,6 +492,8 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     }
     if (table === "orders") {
       const id = path.split("/")[4];
+      if (id && path.split("/")[5] === "payment")
+        return handleAdminPayment(request, env, id, path.split("/")[6]);
       if (method === "GET" && !id) {
         const { results } = await env.DB.prepare(
           "SELECT * FROM orders ORDER BY created_at DESC LIMIT 500",
