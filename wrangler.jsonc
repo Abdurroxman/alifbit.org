@@ -26,7 +26,10 @@
     "PUBLIC_ORIGIN": "https://alifbit.org",
     "CONTACT_TELEGRAM": "alifbitbot",
     "PAY_API_URL": "https://pay.alifbit.org",
+    "PUBLIC_EMAIL": "info@alifbit.org",
   },
+  // Yangi murojaat xabari NOTIFY_EMAIL secret'idagi manzilga boradi (Email Routing'da tasdiqlangan bo'lishi shart).
+  "send_email": [{ "name": "SEND_EMAIL" }],
   "observability": { "enabled": true },
   "routes": [
     { "pattern": "alifbit.org", "custom_domain": true },

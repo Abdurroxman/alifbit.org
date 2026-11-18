@@ -1,7 +1,6 @@
 import {
   categories,
   COURSE_ORDER_PREFIX,
-  routeMeta,
   SADO_URL,
 } from "../shared/content";
 import {
@@ -13,7 +12,6 @@ import {
   orderStatusSchema,
 } from "./validation";
 import {
-  escapeHtml,
   hash,
   keyedHash,
   verifyPassword,
@@ -23,6 +21,13 @@ import {
   fileType,
 } from "./security";
 import { handleIntegration, isIntegrationPath } from "./integration";
+import {
+  buildPage,
+  buildSitemap,
+  renderHtml,
+  type ContentSource,
+} from "./seo";
+import { sendOrderEmail } from "./mail";
 import {
   handleAdminPayment,
   handlePayCallback,
@@ -43,6 +48,12 @@ interface Env {
   PAY_API_URL?: string;
   PAY_API_TOKEN?: string;
   PAY_CALLBACK_SECRET?: string;
+  /** Cloudflare Email Routing orqali xat yuborish (wrangler.jsonc `send_email`). */
+  SEND_EMAIL?: SendEmail;
+  /** Yangi murojaat xabari boradigan, Email Routing'da tasdiqlangan manzil (secret). */
+  NOTIFY_EMAIL?: string;
+  /** Saytdan ketadigan xatlar manzili va schema.org dagi aloqa manzili. */
+  PUBLIC_EMAIL?: string;
 }
 class HttpError extends Error {
   constructor(
@@ -61,7 +72,6 @@ const json = (data: unknown, status = 200, headers: HeadersInit = {}) =>
       ...headers,
     },
   });
-const publicRoutes = new Set([...Object.keys(routeMeta), "/admin"]);
 async function rateLimit(
   env: Env,
   key: string,
@@ -167,6 +177,20 @@ async function listContent(
       data.packages = data.packages.filter((p: { hidden?: boolean }) => !p.hidden);
     return { ...data, updated_at: row.updated_at };
   });
+}
+/** Sahifa va sitemap uchun nashr qilingan kontent: ochiq API bilan bir xil filtr. */
+function contentSource(env: Env): ContentSource {
+  return {
+    list: (table) => listContent(env, table),
+    async get(table, slug) {
+      const row = await env.DB.prepare(
+        `SELECT data,updated_at FROM ${table} WHERE slug=?1 AND published=1`,
+      )
+        .bind(slug)
+        .first<{ data: string; updated_at: string }>();
+      return row ? { ...JSON.parse(row.data), updated_at: row.updated_at } : null;
+    },
+  };
 }
 async function notify(env: Env, ctx: ExecutionContext) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return;
@@ -315,6 +339,18 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
       throw e;
     }
     ctx.waitUntil(notify(env, ctx));
+    ctx.waitUntil(
+      sendOrderEmail(env, {
+        reference,
+        name: d.name,
+        contact: d.contact,
+        service: d.service,
+        description: d.description,
+        budget: d.budget,
+        deadline: d.deadline,
+        attachment: Boolean(key),
+      }),
+    );
     return json({ reference }, 201);
   }
   if (path === "/api/admin/login" && method === "POST") {
@@ -622,117 +658,20 @@ async function handle(
       `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /media/private/\nSitemap: ${env.PUBLIC_ORIGIN}/sitemap.xml\n`,
       { headers: { "content-type": "text/plain" } },
     );
-  if (path === "/sitemap.xml") {
-    const projects = await listContent(env, "projects"),
-      articles = await listContent(env, "articles"),
-      services = await listContent(env, "services"),
-      courses = await listContent(env, "courses");
-    const routes = [
-      ...Object.keys(routeMeta),
-      ...projects.map((p) => `/projects/${p.slug}`),
-      ...services.map((s) => `/services/${s.slug}`),
-      ...articles.map((a) => `/journal/${a.slug}`),
-      ...courses.map((c) => `/courses/${c.slug}`),
-    ];
+  if (path === "/sitemap.xml")
     return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map((route) => `<url><loc>${escapeHtml(env.PUBLIC_ORIGIN + route)}</loc></url>`).join("")}</urlset>`,
+      await buildSitemap(contentSource(env), env.PUBLIC_ORIGIN),
       { headers: { "content-type": "application/xml; charset=utf-8" } },
     );
-  }
   if (/\.[a-z0-9]+$/i.test(path)) return env.ASSETS.fetch(request);
-  let meta = routeMeta[path],
-    status = 200;
-  const parts = path.split("/");
-  if (parts[1] === "projects" && parts[2]) {
-    const row = await env.DB.prepare(
-      "SELECT data FROM projects WHERE slug=?1 AND published=1",
-    )
-      .bind(parts[2])
-      .first<{ data: string }>();
-    if (row) {
-      const p = JSON.parse(row.data);
-      meta = [
-        p.seoTitle || `${p.name} — AlifBit`,
-        p.seoDescription || p.summary,
-      ];
-    } else status = 404;
-  } else if (parts[1] === "services" && parts[2]) {
-    const row = await env.DB.prepare(
-      "SELECT data FROM services WHERE slug=?1 AND published=1",
-    )
-      .bind(parts[2])
-      .first<{ data: string }>();
-    if (row) {
-      const s = JSON.parse(row.data);
-      meta = [`${s.name} — AlifBit`, s.description];
-    } else status = 404;
-  } else if (parts[1] === "courses" && parts[2]) {
-    const row = await env.DB.prepare(
-      "SELECT data FROM courses WHERE slug=?1 AND published=1",
-    )
-      .bind(parts[2])
-      .first<{ data: string }>();
-    if (row) {
-      const c = JSON.parse(row.data);
-      meta = [
-        c.seoTitle || `${c.title} — AlifBit`,
-        c.seoDescription || c.tagline,
-      ];
-    } else status = 404;
-  } else if (parts[1] === "journal" && parts[2]) {
-    const row = await env.DB.prepare(
-      "SELECT data FROM articles WHERE slug=?1 AND published=1",
-    )
-      .bind(parts[2])
-      .first<{ data: string }>();
-    if (row) {
-      const a = JSON.parse(row.data);
-      meta = [
-        a.seoTitle || `${a.title} — AlifBit`,
-        a.seoDescription || a.summary,
-      ];
-    } else status = 404;
-  } else if (!publicRoutes.has(path) && !path.startsWith("/admin/"))
-    status = 404;
-  meta =
-    meta ||
-    (path.startsWith("/admin")
-      ? ["Boshqaruv — AlifBit", "AlifBit boshqaruv paneli"]
-      : ["Sahifa topilmadi — AlifBit", "Bu sahifa mavjud emas."]);
+  const page = await buildPage(path, contentSource(env), env.PUBLIC_ORIGIN);
   const index = await env.ASSETS.fetch(
     new Request(new URL("/index.html", url.origin), { method: "GET" }),
   );
-  let html = await index.text();
-  html = html
-    .replace(/<title>.*?<\/title>/s, `<title>${escapeHtml(meta[0])}</title>`)
-    .replace(
-      /<meta name="description"[^>]*>/,
-      `<meta name="description" content="${escapeHtml(meta[1])}"/>`,
-    )
-    .replace(
-      /<link rel="canonical"[^>]*>/,
-      `<link rel="canonical" href="${escapeHtml(env.PUBLIC_ORIGIN + path)}"/>`,
-    )
-    .replace(
-      /<meta property="og:title"[^>]*>/,
-      `<meta property="og:title" content="${escapeHtml(meta[0])}"/>`,
-    )
-    .replace(
-      /<meta property="og:description"[^>]*>/,
-      `<meta property="og:description" content="${escapeHtml(meta[1])}"/>`,
-    );
-  const structured = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "AlifBit",
-    url: env.PUBLIC_ORIGIN,
-    logo: `${env.PUBLIC_ORIGIN}/brand/logo-color.svg`,
-    sameAs: ["https://t.me/alifbitbot"],
-  }).replace(/</g, "\\u003c");
-  html = html.replace(
-    "</head>",
-    `<script type="application/ld+json">${structured}</script>${path.startsWith("/admin") || status === 404 ? '<meta name="robots" content="noindex,nofollow"/>' : ""}</head>`,
-  );
+  const html = renderHtml(await index.text(), page, env.PUBLIC_ORIGIN, {
+    email: env.PUBLIC_EMAIL,
+  });
+  const status = page.status;
   return new Response(request.method === "HEAD" ? null : html, {
     status,
     headers: {
