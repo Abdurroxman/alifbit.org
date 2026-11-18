@@ -449,7 +449,7 @@ export const routeMeta: Record<string, [string, string]> = {
   ],
   "/services": [
     "Xizmatlar va narxlar — AlifBit",
-    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash va texnik xizmat: tarkibi, paketlar, narxlar va muddatlar.",
+    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama: tarkibi, paketlar, narxlar va muddatlar.",
   ],
   "/courses": [
     "Kurslar — AlifBit",

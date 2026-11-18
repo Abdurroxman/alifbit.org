@@ -228,7 +228,7 @@ export function Services() {
             yaratish xizmatlari.
           </span>,
         ]}
-        text="Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash va texnik xizmat. Har birida tarkibi, paketlar, narx va muddat yozilgan."
+        text="Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama. Har birida tarkibi, paketlar, narx va muddat yozilgan."
       />
       <section className="container">
         <ServiceCards services={services} />
