@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { useParams } from "react-router-dom";
 import { Check, Minus, Plus } from "lucide-react";
 import { useContent } from "../App";
@@ -11,6 +11,10 @@ import {
   PageTop,
 } from "../components/ui";
 import NotFound from "./NotFound";
+import { ChainDiagram } from "../components/FlowDiagram";
+import AiPrompt from "../components/AiPrompt";
+import { SERVICE_FLOWS } from "../../shared/flows";
+import { accentStyle, setNetworkAccent } from "../lib/accent";
 import { PROMISES, type Service, type ServicePackage } from "../../shared/content";
 
 const WORK = [
@@ -38,31 +42,33 @@ const WORK = [
 
 export function WorkingProcess() {
   return (
-    <section className="container section working hairline">
-      <div className="section-head">
-        <div>
-          <div data-reveal="fade">
-            <Eyebrow>Qanday ishlaymiz</Eyebrow>
+    <section className="section-contrast">
+      <div className="container section working">
+        <div className="section-head">
+          <div>
+            <div data-reveal="fade">
+              <Eyebrow>Qanday ishlaymiz</Eyebrow>
+            </div>
+            <Lines>
+              {[
+                "Aniq jarayon.",
+                <span className="accent" key="a">
+                  Oldindan ma’lum narx.
+                </span>,
+              ]}
+            </Lines>
           </div>
-          <Lines>
-            {[
-              "Aniq jarayon.",
-              <span className="accent" key="a">
-                Oldindan ma’lum narx.
-              </span>,
-            ]}
-          </Lines>
         </div>
+        <ol className="working-grid">
+          {WORK.map(([n, t, d], i) => (
+            <li key={n} data-reveal style={{ "--d": i * 100 } as CSSProperties}>
+              <span>{n}</span>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </li>
+          ))}
+        </ol>
       </div>
-      <ol className="working-grid">
-        {WORK.map(([n, t, d], i) => (
-          <li key={n} data-reveal style={{ "--d": i * 100 } as CSSProperties}>
-            <span>{n}</span>
-            <h3>{t}</h3>
-            <p>{d}</p>
-          </li>
-        ))}
-      </ol>
     </section>
   );
 }
@@ -331,10 +337,16 @@ export function ServiceDetail() {
   const { slug } = useParams();
   const { services, loaded } = useContent();
   const service = services.find((s) => s.slug === slug);
+  const icon = service?.icon;
+  useEffect(() => {
+    setNetworkAccent(icon || null);
+    return () => setNetworkAccent(null);
+  }, [icon]);
   if (!service) return <NotFound />;
   const packages = service.packages || [];
+  const flow = SERVICE_FLOWS[service.icon] || [];
   return (
-    <>
+    <div className="svc-page" style={accentStyle(service.icon)}>
       <PageTop
         name={service.name}
         eyebrow={`Xizmat ${service.number}`}
@@ -358,6 +370,12 @@ export function ServiceDetail() {
           </ButtonLink>
         </div>
       </PageTop>
+      {flow.length > 0 && (
+        <section className="container section diagram-section hairline">
+          <ChainDiagram items={flow.map((n, i) => ({ ...n, key: String(i) }))} accent={service.icon} />
+          {service.icon === "ai" && <AiPrompt />}
+        </section>
+      )}
       <section className="container section hairline">
         <div className="section-head">
           <div>
@@ -395,6 +413,6 @@ export function ServiceDetail() {
       <WorkingProcess />
       <FAQ />
       <ContactBand />
-    </>
+    </div>
   );
 }

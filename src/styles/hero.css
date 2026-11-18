@@ -41,14 +41,14 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.55;
+  opacity: var(--glow-opacity);
 }
 .hero-glow i:nth-child(1) {
   left: -10vw;
   top: 6%;
   width: 42vw;
   height: 42vw;
-  background: #cddbc9;
+  background: var(--glow-1);
   animation: float-slow 22s ease-in-out infinite;
 }
 .hero-glow i:nth-child(2) {
@@ -56,7 +56,7 @@
   top: 26%;
   width: 34vw;
   height: 34vw;
-  background: #e8d9bc;
+  background: var(--glow-2);
   animation: float-slower 28s ease-in-out infinite;
 }
 .hero-glow i:nth-child(3) {
@@ -64,7 +64,7 @@
   bottom: -14vw;
   width: 28vw;
   height: 28vw;
-  background: #dbe5d6;
+  background: var(--glow-3);
   animation: float-slow 26s ease-in-out infinite reverse;
 }
 @keyframes float-slow {
@@ -167,7 +167,7 @@
   gap: 6px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--green);
+  color: var(--green-ink);
 }
 .nf-again {
   margin-top: 18px;
@@ -190,7 +190,7 @@
   padding: 9px 16px 9px 14px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: #fdfcfacc;
+  background: var(--glass);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   color: var(--ink);
@@ -228,18 +228,18 @@
 .nf-svc-price {
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--forest);
+  color: var(--forest-ink);
   white-space: nowrap;
 }
 .nf-svc svg {
   flex: none;
-  color: var(--green);
+  color: var(--green-ink);
   transition: transform 0.4s var(--ease-out);
 }
 .nf-svc:hover,
 .nf-svc:focus-visible {
   border-color: var(--green-2);
-  background: #fff;
+  background: var(--surface-hover);
   transform: translateX(4px);
 }
 .nf-svc:hover svg,
@@ -264,7 +264,7 @@
 }
 .nf-more button:hover,
 .nf-more button:focus-visible {
-  color: var(--green);
+  color: var(--green-ink);
 }
 @media (max-width: 640px) {
   .nf-svc {
@@ -320,7 +320,7 @@
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: #fffffff2;
+  background: var(--glass-strong);
 }
 .nf-pkgs li.is-recommended {
   border-color: var(--green-2);
@@ -374,7 +374,7 @@
   font-family: var(--font-head);
   font-size: 18px;
   font-weight: 600;
-  color: var(--forest);
+  color: var(--forest-ink);
   white-space: nowrap;
 }
 .nf-pkg-foot small {
@@ -397,7 +397,7 @@
   background: var(--stone);
   font-size: 13px;
   font-weight: 500;
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .nf-next {
   display: inline-flex;
@@ -406,7 +406,7 @@
   margin-top: 18px;
   font-size: 14.5px;
   font-weight: 500;
-  color: var(--green);
+  color: var(--green-ink);
 }
 .nf-next svg {
   transition: transform 0.4s var(--ease-out);
@@ -442,7 +442,7 @@
   padding: clamp(22px, 3vw, 32px);
   border: 1px solid var(--line);
   border-radius: var(--r-l);
-  background: #fdfcfae6;
+  background: var(--glass-strong);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-m);
@@ -470,7 +470,7 @@
   font-size: clamp(24px, 2.4vw, 30px);
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--forest);
+  color: var(--forest-ink);
   white-space: nowrap;
 }
 .nf-price small {
@@ -493,7 +493,7 @@
 .nf-list svg {
   flex: none;
   margin-top: 4px;
-  color: var(--green);
+  color: var(--green-ink);
 }
 .nf-actions {
   display: flex;

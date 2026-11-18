@@ -68,7 +68,7 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="values section">
+      <section className="values section section-contrast">
         <div className="container">
           <div data-reveal="fade">
             <Eyebrow>Biz tayanadigan qadriyatlar</Eyebrow>

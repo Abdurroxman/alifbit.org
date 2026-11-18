@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useContent } from "../App";
 import { courseOrderLink, keepNumbers } from "./Studio";
 import { ButtonLink, TextLink } from "./ui";
+import { accentStyle } from "../lib/accent";
 import { focusOfIcon, type StageFocus } from "../three/types";
 import { PROMISES, TELEGRAM_URL, type Course, type Service, type ServicePackage } from "../../shared/content";
 
@@ -92,7 +93,12 @@ export default function NeedFlow({ onChange }: { onChange: (state: FlowState) =>
           <ul className="nf-services">
             {services.map((s) => (
               <li key={s.slug}>
-                <button className="nf-svc" onClick={() => setChoice({ kind: "service", slug: s.slug })} {...hover(focusOfIcon(s.icon))}>
+                <button
+                  className="nf-svc"
+                  style={accentStyle(s.icon)}
+                  onClick={() => setChoice({ kind: "service", slug: s.slug })}
+                  {...hover(focusOfIcon(s.icon))}
+                >
                   <span className="nf-svc-num">{s.number}</span>
                   <span className="nf-svc-main">
                     <b>{s.name}</b>
@@ -168,7 +174,7 @@ function ServiceCard({
 }) {
   const packages = service.packages || [];
   return (
-    <article className="nf-step nf-result nf-card">
+    <article className="nf-step nf-result nf-card" style={accentStyle(service.icon)}>
       <span className="nf-label">Xizmat {service.number}</span>
       <p className="nf-q" ref={head} tabIndex={-1}>
         {service.name}

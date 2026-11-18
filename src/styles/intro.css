@@ -48,7 +48,7 @@
   animation-delay: calc(1000ms + var(--i) * 40ms);
 }
 .intro-word span {
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .intro-word span.gold {
   color: var(--gold);

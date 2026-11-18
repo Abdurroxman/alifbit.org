@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { useContent } from "../App";
 import DeviceStage from "../components/DeviceStage";
+import { HubDiagram, SERVICE_GLYPH } from "../components/FlowDiagram";
 import NeedFlow, { type FlowState } from "../components/NeedFlow";
 import { CourseTeaser, WorkCard } from "../components/Studio";
 import { Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
@@ -8,6 +9,7 @@ import { FAQ, WorkingProcess } from "./Services";
 import { copy } from "../../shared/content";
 import { focusOfIcon, type StageSection } from "../three/types";
 import type { Project } from "../../shared/content";
+import { accentStyle, setNetworkAccent } from "../lib/accent";
 
 /** Bosh sahifada ko'rsatiladigan ishlar tartibi: jonli mahsulot, keyin uchta namuna yechim. */
 const HOME_WORKS = ["voice", "tungi-navbatchi", "peshtaxta", "qabulxona"];
@@ -41,6 +43,46 @@ function Hero({ onFlow, stage }: { onFlow: (s: FlowState) => void; stage: ReactN
         </div>
         {stage}
       </div>
+    </section>
+  );
+}
+
+/** Xizmat nomlari sekin yuguradigan qator; har biri o'z rangida. */
+function ServiceMarquee() {
+  const { services } = useContent();
+  if (!services.length) return null;
+  const row = services.map((s) => (
+    <span key={s.slug} className="marquee-item" style={accentStyle(s.icon)}>
+      <i />
+      {s.name}
+    </span>
+  ));
+  return (
+    <div className="marquee" aria-hidden="true">
+      <div className="marquee-track">
+        <div className="marquee-row">{row}</div>
+        <div className="marquee-row">{row}</div>
+      </div>
+    </div>
+  );
+}
+
+/** Barcha xizmatlar bitta chizmada: markazda mijozning biznesi, atrofida xizmatlar. */
+function ServiceMap() {
+  const { services } = useContent();
+  if (!services.length) return null;
+  const items = services.map((s) => ({
+    key: s.slug,
+    icon: SERVICE_GLYPH[s.icon] || "Sparkles",
+    label: `Xizmat ${s.number}`,
+    title: s.name,
+    text: s.short,
+    accent: s.icon,
+    to: `/services/${s.slug}`,
+  }));
+  return (
+    <section className="container section diagram-section hairline">
+      <HubDiagram center={{ icon: "Building2", label: "Sizning biznesingiz" }} items={items} />
     </section>
   );
 }
@@ -139,6 +181,10 @@ export default function Home() {
   const [flow, setFlow] = useState<FlowState>({ focus: "idle", step: 1 });
   const [work, setWork] = useState<string | null>(null);
   const section = useStageSection(root);
+  useEffect(() => {
+    setNetworkAccent(flow.focus);
+  }, [flow.focus]);
+  useEffect(() => () => setNetworkAccent(null), []);
   const onFlow = useCallback((s: FlowState) => setFlow(s), []);
   const onWork = useCallback((id: string) => setWork(id || null), []);
   const { projects, services } = useContent();
@@ -149,6 +195,8 @@ export default function Home() {
   return (
     <div className="home" ref={root}>
       <Hero onFlow={onFlow} stage={stage} />
+      <ServiceMarquee />
+      <ServiceMap />
       <Works onWork={onWork} />
       <WorkingProcess />
       <Course />

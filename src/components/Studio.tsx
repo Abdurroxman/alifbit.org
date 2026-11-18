@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useContent } from "../App";
+import { accentStyle } from "../lib/accent";
 import { COURSE_ORDER_PREFIX, SADO_URL, type Course, type Project, type Service } from "../../shared/content";
 import { ProjectCover, Status } from "./Projects";
 import { Arrow, ButtonLink, TextLink } from "./ui";
@@ -28,7 +30,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
           className="svc-card"
           data-reveal
           data-tilt
-          style={{ "--d": (i % 2) * 90 } as CSSProperties}
+          style={accentStyle(s.icon, { "--d": (i % 2) * 90 } as CSSProperties)}
         >
           <span className="svc-top">
             <span className="svc-num">{s.number}</span>
@@ -50,8 +52,10 @@ export function ServiceCards({ services }: { services: Service[] }) {
 
 export function WorkCard({ project, delay = 0, thumb = false }: { project: Project; delay?: number; thumb?: boolean }) {
   const link = projectLink(project);
+  const { services } = useContent();
+  const icon = services.find((s) => s.slug === project.service)?.icon;
   return (
-    <article className="work-card" data-reveal data-tilt style={{ "--d": delay } as CSSProperties}>
+    <article className="work-card" data-reveal data-tilt style={accentStyle(icon, { "--d": delay } as CSSProperties)}>
       {thumb && (
         <div className="work-thumb" aria-hidden="true">
           <ProjectCover project={project} />

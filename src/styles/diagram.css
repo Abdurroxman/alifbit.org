@@ -1,0 +1,343 @@
+/* Chizmalar: tugunlar, egri chiziqlar va ular bo'ylab yuguradigan yorug'lik */
+.fd-frame {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(28px, 4vw, 64px) clamp(16px, 3vw, 48px);
+  border: 1px dashed var(--line);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ivory) 86%, transparent);
+}
+/* Nuqtali to'r: chetlarga qarab so'nadi */
+.fd-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--line-2) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  pointer-events: none;
+}
+.fd-corner {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--line-2);
+  background: var(--ivory);
+}
+.fd-corner:nth-of-type(1) {
+  top: -4px;
+  left: -4px;
+}
+.fd-corner:nth-of-type(2) {
+  top: -4px;
+  right: -4px;
+}
+.fd-corner:nth-of-type(3) {
+  bottom: -4px;
+  left: -4px;
+}
+.fd-corner:nth-of-type(4) {
+  bottom: -4px;
+  right: -4px;
+}
+.fd-stage {
+  position: relative;
+}
+
+/* Chiziqlar */
+.fd-wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.fd-wires g {
+  color: var(--accent, var(--gold));
+}
+.fd-wire-base {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+.fd-wire-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.85;
+  transition: stroke-dashoffset 1.1s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 110ms + 150ms);
+}
+.is-drawn .fd-wire-line {
+  stroke-dashoffset: 0;
+}
+.fd-wire-comet {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.07 1.93;
+  stroke-dashoffset: 0.07;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+html.motion .is-drawn .fd-wire-comet {
+  opacity: 1;
+  animation: fd-comet 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation-delay: calc(var(--i, 0) * 420ms + 1.2s);
+  animation-fill-mode: backwards;
+}
+@keyframes fd-comet {
+  from {
+    stroke-dashoffset: 0.07;
+  }
+  70%,
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+/* Tugun */
+.fd-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  align-content: start;
+}
+.fd-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent);
+  background: var(--paper);
+  color: var(--accent, var(--gold));
+  box-shadow: 0 0 0 4px var(--ivory), 0 0 22px -6px color-mix(in srgb, var(--accent, var(--gold)) 60%, transparent);
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+.fd-node:hover .fd-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 4px var(--ivory), 0 0 30px -4px color-mix(in srgb, var(--accent, var(--gold)) 75%, transparent);
+}
+.fd-text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.fd-text small {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold-text));
+}
+.fd-text b {
+  font-family: var(--font-head);
+  font-size: clamp(18px, 1.6vw, 21px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.fd-text b a:hover {
+  color: var(--accent, var(--forest-ink));
+}
+.fd-text > span {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Markazli chizma */
+.fd-col {
+  list-style: none;
+  display: grid;
+  gap: 26px;
+}
+.fd-hub-center {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+.fd-hub-box {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 92px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  background: var(--paper);
+  color: var(--gold);
+  box-shadow:
+    0 0 0 6px var(--ivory),
+    0 0 46px -8px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.fd-hub-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-align: center;
+}
+/* Telefonda: markaz tepada, tugunlar ostida chap chiziq bo'ylab */
+@media (max-width: 959px) {
+  .fd-hub .fd-stage {
+    display: grid;
+  }
+  .fd-hub .fd-col {
+    position: relative;
+  }
+  .fd-hub .fd-col-right {
+    margin-top: 26px;
+  }
+  .fd-hub .fd-hub-center {
+    order: -1;
+  }
+  .fd-hub .fd-col::before {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed var(--line-2);
+  }
+}
+@media (min-width: 960px) {
+  .fd-hub .fd-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(90px, 10vw, 170px);
+  }
+  .fd-hub-center {
+    margin-bottom: 0;
+  }
+  .fd-col-left .fd-node {
+    grid-template-columns: 1fr auto;
+    text-align: right;
+  }
+  .fd-col-left .fd-icon {
+    order: 2;
+  }
+  .fd-col-left .fd-text {
+    justify-items: end;
+  }
+}
+
+/* Ketma-ket qadamlar */
+.fd-steps {
+  list-style: none;
+  display: grid;
+  gap: 34px;
+}
+@media (min-width: 900px) {
+  .fd-steps {
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 64px);
+  }
+  .fd-chain .fd-node {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
+
+/* Chizma bo'limi */
+.diagram-section .fd-frame {
+  margin-top: 8px;
+}
+
+/* AI yordamchi misoli: savol so'zma-so'z, keyin javob */
+.ai-prompt {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+  margin: clamp(36px, 5vw, 64px) auto 0;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.ai-prompt-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold-text));
+}
+.ai-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted-2);
+}
+.ai-q {
+  display: grid;
+  font-family: var(--font-head);
+  font-size: clamp(20px, 2.3vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.ai-a {
+  padding: 16px 18px;
+  border-left: 2px solid var(--accent, var(--green));
+  border-radius: 0 12px 12px 0;
+  background: color-mix(in srgb, var(--accent, var(--green)) 9%, transparent);
+}
+.ai-a .ai-who {
+  color: var(--accent, var(--green-ink));
+}
+.ai-a p {
+  color: var(--ink);
+  font-size: 15.5px;
+}
+html.motion .ai-word {
+  opacity: 0;
+  filter: blur(4px);
+}
+html.motion .ai-prompt.is-on .ai-word {
+  animation: ai-word 0.45s var(--ease-out) forwards;
+  animation-delay: var(--w);
+}
+@keyframes ai-word {
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+html.motion .ai-a {
+  opacity: 0;
+  transform: translateY(10px);
+}
+html.motion .ai-prompt.is-on .ai-a {
+  animation: ai-answer 0.6s var(--ease-out) forwards;
+  animation-delay: var(--answer-delay);
+}
+@keyframes ai-answer {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

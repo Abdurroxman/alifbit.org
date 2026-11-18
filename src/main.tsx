@@ -13,6 +13,9 @@ import "./styles/hero.css";
 import "./styles/home.css";
 import "./styles/pages.css";
 import "./styles/demo.css";
+import "./styles/accent.css";
+import "./styles/network.css";
+import "./styles/diagram.css";
 
 // Kirish rejimi birinchi chizishdan oldin aniqlanadi, sahifa lip etib ko'rinmaydi.
 bootMotion();

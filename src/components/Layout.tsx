@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { ArrowUp, Menu, X } from "lucide-react";
+import { ArrowUp, Menu, Moon, Sun, X } from "lucide-react";
 import Brand from "./Brand";
 import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
 import { copy, PAY_URL, routeMeta, TELEGRAM_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
+import { applyStoredTheme, setTheme, useTheme } from "../lib/theme";
+import NetworkBackground from "./NetworkBackground";
 
 /** «Kurslar» bandi faqat nashr qilingan kurs bo'lsa ko'rinadi. */
 function useNav() {
@@ -45,6 +47,21 @@ function useRouteMeta(pathname: string) {
   }, [pathname, projects, services, courses]);
 }
 
+function ThemeToggle() {
+  const theme = useTheme();
+  const next = theme === "dark" ? "light" : "dark";
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      aria-label={theme === "dark" ? "Yorug‘ rejimga o‘tish" : "To‘q rejimga o‘tish"}
+      onClick={() => setTheme(next)}
+    >
+      {theme === "dark" ? <Sun size={18} strokeWidth={1.7} /> : <Moon size={18} strokeWidth={1.7} />}
+    </button>
+  );
+}
+
 function Header({ onMenu }: { onMenu: () => void }) {
   const nav = useNav();
   const [scrolled, setScrolled] = useState(false);
@@ -77,6 +94,7 @@ function Header({ onMenu }: { onMenu: () => void }) {
             </NavLink>
           ))}
         </nav>
+        <ThemeToggle />
         <ButtonLink to="/contact" small className="header-cta">
           Buyurtma berish
         </ButtonLink>
@@ -211,6 +229,7 @@ export default function Layout() {
   const first = useRef(true);
   useRouteMeta(pathname);
   usePageEnhancements("main", pathname);
+  useEffect(applyStoredTheme, []);
 
   useEffect(() => {
     dialog.current?.close();
@@ -235,6 +254,7 @@ export default function Layout() {
       <a className="skip-link" href="#main">
         Asosiy mazmunga o‘tish
       </a>
+      <NetworkBackground />
       <Intro />
       <Header onMenu={() => dialog.current?.showModal()} />
       <MobileMenu dialog={dialog} />

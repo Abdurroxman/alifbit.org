@@ -232,7 +232,7 @@ html.motion .catalog-grid {
 .faq-item.is-open button > span,
 .faq-item button:hover > span {
   background: var(--forest);
-  border-color: var(--forest);
+  border-color: var(--forest-ink);
   color: #fff;
 }
 .faq-answer p {
@@ -452,7 +452,7 @@ html.motion .faq-answer:not([hidden]) {
 .file-field:hover,
 .file-field:focus-within {
   border-color: var(--green);
-  background: #466b5008;
+  background: var(--tint-faint);
 }
 .file-icon {
   display: grid;
@@ -462,7 +462,7 @@ html.motion .faq-answer:not([hidden]) {
   height: 42px;
   border-radius: 12px;
   background: var(--stone);
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .file-text {
   display: grid;
@@ -503,10 +503,10 @@ html.motion .faq-answer:not([hidden]) {
   width: 20px;
   height: 20px;
   margin-top: 1px;
-  accent-color: var(--forest);
+  accent-color: var(--forest-ink);
 }
 .consent a {
-  color: var(--forest);
+  color: var(--forest-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -582,14 +582,14 @@ html.motion .success-icon {
   margin-bottom: 20px;
   font-size: 17.5px;
   line-height: 1.75;
-  color: #3e4741;
+  color: var(--prose);
 }
 .prose h2 {
   margin: 48px 0 16px;
   font-size: clamp(24px, 2.8vw, 32px);
 }
 .prose a {
-  color: var(--forest);
+  color: var(--forest-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -620,7 +620,7 @@ html.motion .success-icon {
   transition: color 0.3s;
 }
 .journal-item:hover h2 {
-  color: var(--green);
+  color: var(--green-ink);
 }
 .journal-arrow {
   position: absolute;

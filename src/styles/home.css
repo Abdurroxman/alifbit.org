@@ -32,7 +32,7 @@
   color: var(--muted-2);
 }
 .svc-card:hover .svc-top svg {
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .svc-num {
   font-family: var(--font-head);
@@ -103,7 +103,7 @@
   font-size: clamp(24px, 2.6vw, 32px);
 }
 .work-card h3 a:hover {
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .work-card p {
   flex: 1;
@@ -306,7 +306,7 @@
 }
 .compare td svg {
   display: inline-block;
-  color: var(--green);
+  color: var(--green-ink);
 }
 .compare td .compare-no {
   color: var(--muted-2);
@@ -432,7 +432,7 @@
   }
   .work-step .work-card {
     width: 100%;
-    background: #fdfcfae6;
+    background: var(--glass-strong);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
@@ -451,7 +451,7 @@ html.motion [data-tilt]::after {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), #ffffff8c, #ffffff00 55%);
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), var(--tilt-shine), transparent 55%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s var(--ease-out);

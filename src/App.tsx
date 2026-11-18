@@ -1,6 +1,7 @@
 import { createContext, lazy, Suspense, useContext, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
+import { applyAdminTheme } from "./lib/theme";
 import { api, getCourses, getProjects, getServices, initialProjects, initialServices } from "./lib/api";
 import { categories as defaultCategories, type Course, type Project, type Service } from "../shared/content";
 import Home from "./pages/Home";
@@ -14,6 +15,16 @@ import { Journal, JournalDetail } from "./pages/Journal";
 import NotFound from "./pages/NotFound";
 
 const Admin = lazy(() => import("./pages/Admin"));
+
+/** Boshqaruv paneli doim yorug' mavzuda ochiladi. */
+function AdminRoute() {
+  useEffect(applyAdminTheme, []);
+  return (
+    <Suspense fallback={<div className="loading-page">Boshqaruv paneli yuklanmoqda…</div>}>
+      <Admin />
+    </Suspense>
+  );
+}
 
 type Content = {
   projects: Project[];
@@ -65,11 +76,7 @@ export default function App() {
       <Routes>
         <Route
           path="/admin/*"
-          element={
-            <Suspense fallback={<div className="loading-page">Boshqaruv paneli yuklanmoqda…</div>}>
-              <Admin />
-            </Suspense>
-          }
+          element={<AdminRoute />}
         />
         <Route element={<Layout />}>
           <Route index element={<Home />} />

@@ -20,21 +20,25 @@
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.045em;
-  color: var(--forest);
+  color: var(--forest-ink);
 }
 .wordmark > span {
   color: var(--gold);
 }
-.brand-light .wordmark {
+.brand-light .wordmark,
+:root[data-theme="dark"] .wordmark {
   color: var(--on-dark);
 }
-.brand-light .wordmark > span {
+.brand-light .wordmark > span,
+:root[data-theme="dark"] .wordmark > span {
   color: var(--bronze);
 }
-.brand-light .logo-arm-top {
+.brand-light .logo-arm-top,
+:root[data-theme="dark"] .logo-arm-top {
   fill: #dfe7d8;
 }
-.brand-light .logo-arm-bottom {
+.brand-light .logo-arm-bottom,
+:root[data-theme="dark"] .logo-arm-bottom {
   fill: #a9bba3;
 }
 
@@ -70,10 +74,10 @@
 }
 .header.is-scrolled {
   --header-h: 64px;
-  background: #f9f8f5d9;
+  background: var(--header-glass);
   -webkit-backdrop-filter: saturate(1.4) blur(16px);
   backdrop-filter: saturate(1.4) blur(16px);
-  box-shadow: 0 1px 0 #262d2912;
+  box-shadow: 0 1px 0 var(--header-shadow);
 }
 .header.is-hidden {
   transform: translateY(-100%);
@@ -108,18 +112,18 @@
   border-radius: 999px;
   font-size: 14.5px;
   font-weight: 500;
-  color: #4b544e;
+  color: var(--nav-fg);
   transition:
     color 0.3s,
     background-color 0.3s;
 }
 .nav a:hover {
   color: var(--ink);
-  background: #262d290a;
+  background: var(--hover-tint);
 }
 .nav a.active {
-  color: var(--forest);
-  background: #466b5014;
+  color: var(--forest-ink);
+  background: var(--active-tint);
 }
 .header-cta {
   display: none;
@@ -134,7 +138,35 @@
   border: 1px solid var(--line-2);
   color: var(--ink);
 }
+.theme-toggle {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    transform 0.5s var(--ease-out);
+}
+.theme-toggle:hover {
+  background: var(--hover-tint);
+  border-color: var(--green-2);
+}
+.theme-toggle:active {
+  transform: rotate(-30deg);
+}
+.theme-toggle ~ .menu-toggle {
+  margin-left: -10px;
+}
 @media (min-width: 1024px) {
+  .theme-toggle {
+    margin-left: 0;
+  }
   .nav {
     display: flex;
   }
@@ -162,7 +194,7 @@
   overflow-y: auto;
 }
 .mobile-menu::backdrop {
-  background: #24453433;
+  background: #0b0d0c66;
 }
 .mobile-menu-inner {
   min-height: 100%;

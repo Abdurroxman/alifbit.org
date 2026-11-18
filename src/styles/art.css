@@ -28,7 +28,7 @@
   font-style: italic;
 }
 .pa-grid {
-  stroke: #24453414;
+  stroke: var(--pa-grid);
   stroke-width: 1;
 }
 .pa-orbit {

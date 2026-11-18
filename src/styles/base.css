@@ -54,6 +54,139 @@
 
   --shadow-s: 0 1px 2px #2445340d, 0 4px 14px #2445340a;
   --shadow-m: 0 2px 6px #24453410, 0 18px 40px -12px #24453424;
+
+  /* Mavzuga bog'liq bo'lmagan doimiy ranglar: to'q bloklar ustidagi och tugmalar uchun */
+  --cream: #f9f8f5;
+  --cream-2: #edeae3;
+  --forest-const: #244534;
+
+  /* Matn sifatidagi brend ranglari (to'q mavzuda ochroq tus oladi) */
+  --forest-ink: var(--forest);
+  --green-ink: var(--green);
+
+  /* Yarim shaffof sirtlar va mayda tuslar */
+  --glass: #fdfcfacc;
+  --glass-strong: #fdfcfae6;
+  --surface-hover: #fff;
+  --header-glass: #f9f8f5d9;
+  --header-shadow: #262d2912;
+  --nav-fg: #4b544e;
+  --hover-tint: #262d290a;
+  --active-tint: #466b5014;
+  --tint-faint: #466b5008;
+  --selection: #d4dfcf;
+  --prose: #3e4741;
+  --btn-shadow: #24453466;
+  --tilt-shine: #ffffff8c;
+  --pa-grid: #24453414;
+
+  --notice-bg: #f3ecdf;
+  --notice-fg: #5c4a2a;
+  --error-bg: #f8e9e4;
+  --error-fg: #8a3423;
+  --invalid: #b5523f;
+  --input-hover: #b6b3a6;
+  --focus-ring: #466b501f;
+
+  --demo-bg: #e8ece4;
+  --demo-keys: #dfe4da;
+
+  --glow-1: #cddbc9;
+  --glow-2: #e8d9bc;
+  --glow-3: #dbe5d6;
+  --glow-opacity: 0.55;
+
+  /* Har xizmat o'z rangida (kalit — xizmat belgisi) */
+  --svc-web: #2357e8;
+  --svc-telegram: #0e87c9;
+  --svc-ai: #7445e6;
+  --svc-app: #e2620a;
+  --svc-design: #d6337f;
+  --svc-integration: #0c9a6f;
+  --svc-seo: #b98500;
+  --svc-support: #d63a3a;
+
+  /* Fondagi nuqtalar to'ri */
+  --net-dot: 52, 92, 68;
+  --net-line: 70, 107, 80;
+  --net-dot-alpha: 0.55;
+  --net-line-alpha: 0.32;
+
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --ivory: #0b0d0c;
+  --stone: #161a17;
+  --stone-2: #1e231f;
+  --paper: #111412;
+  --green: #3f8f5c;
+  --green-2: #5aa874;
+  --forest: #1d5639;
+  --forest-2: #164229;
+  --bronze: #c9a86f;
+  --gold: #d2ae6d;
+  --gold-text: #d8b77d;
+  --ink: #eef0ea;
+  --muted: #a4ada6;
+  --muted-2: #7f8a82;
+  --line: #ffffff17;
+  --line-2: #ffffff29;
+
+  --shadow-s: 0 1px 2px #00000059, 0 4px 14px #00000040;
+  --shadow-m: 0 2px 6px #00000066, 0 18px 40px -12px #000000a6;
+
+  --forest-ink: #94d6aa;
+  --green-ink: #7fcb98;
+
+  --glass: #111412cc;
+  --glass-strong: #111412eb;
+  --surface-hover: #1a1f1b;
+  --header-glass: #0b0d0cd9;
+  --header-shadow: #ffffff14;
+  --nav-fg: #b8c1ba;
+  --hover-tint: #ffffff0f;
+  --active-tint: #3f8f5c2e;
+  --tint-faint: #3f8f5c14;
+  --selection: #2e5a40;
+  --prose: #c9d0ca;
+  --btn-shadow: #00000080;
+  --tilt-shine: #ffffff21;
+  --pa-grid: #ffffff12;
+
+  --notice-bg: #2a2416;
+  --notice-fg: #e8d2a3;
+  --error-bg: #3a1d17;
+  --error-fg: #f4a896;
+  --invalid: #e07a64;
+  --input-hover: #ffffff47;
+  --focus-ring: #5aa87433;
+
+  --demo-bg: #141816;
+  --demo-keys: #0f1211;
+
+  --glow-1: #1d4a32;
+  --glow-2: #4a3a1a;
+  --glow-3: #24304d;
+  --glow-opacity: 0.45;
+
+  --svc-web: #5b8cff;
+  --svc-telegram: #3db4f2;
+  --svc-ai: #a183ff;
+  --svc-app: #ff8f3d;
+  --svc-design: #ff5fa8;
+  --svc-integration: #2fd39b;
+  --svc-seo: #f6c343;
+  --svc-support: #ff6b6b;
+
+  --net-dot: 210, 174, 109;
+  --net-line: 201, 168, 111;
+  --net-dot-alpha: 0.7;
+  --net-line-alpha: 0.4;
+
+
+  color-scheme: dark;
 }
 
 *,
@@ -71,6 +204,9 @@ body {
   min-height: 100vh;
   background: var(--ivory);
   color: var(--ink);
+  transition:
+    background-color 0.45s var(--ease-soft),
+    color 0.45s var(--ease-soft);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.65;
@@ -165,8 +301,8 @@ ol {
   outline: none;
 }
 ::selection {
-  background: #d4dfcf;
-  color: var(--forest);
+  background: var(--selection);
+  color: var(--forest-ink);
 }
 [hidden] {
   display: none !important;
@@ -181,7 +317,7 @@ ol {
 
 /* Sarlavhadagi yashil ta'kid */
 .accent {
-  color: var(--green);
+  color: var(--green-ink);
 }
 .serif {
   font-family: var(--font-serif);

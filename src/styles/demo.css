@@ -17,7 +17,7 @@
   min-height: 460px;
   border: 1px solid var(--line-2);
   border-radius: 34px;
-  background: #e8ece4;
+  background: var(--demo-bg);
   box-shadow: var(--shadow-m);
   overflow: hidden;
 }
@@ -136,7 +136,7 @@
   gap: 8px;
   min-height: 64px;
   padding: 12px 14px 16px;
-  background: #dfe4da;
+  background: var(--demo-keys);
   border-top: 1px solid var(--line);
 }
 .demo-keys button,
@@ -147,7 +147,7 @@
   font: inherit;
   font-size: 14px;
   font-weight: 500;
-  color: var(--forest);
+  color: var(--forest-ink);
   cursor: pointer;
 }
 .demo-keys button {
@@ -161,7 +161,7 @@
   transition: background 0.2s, border-color 0.2s;
 }
 .demo-keys button:hover {
-  background: #fff;
+  background: var(--surface-hover);
   border-color: var(--green-2);
 }
 .demo-keys button:focus-visible,
@@ -173,7 +173,7 @@
 .demo-keys .demo-start {
   background: var(--forest);
   color: var(--on-dark);
-  border-color: var(--forest);
+  border-color: var(--forest-ink);
 }
 .demo-keys .demo-restart:hover,
 .demo-keys .demo-start:hover {
@@ -297,7 +297,7 @@
 }
 .ba-row svg {
   flex-shrink: 0;
-  color: var(--green);
+  color: var(--green-ink);
   transform: translateY(2px);
 }
 .ba-head {
