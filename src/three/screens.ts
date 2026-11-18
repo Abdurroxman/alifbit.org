@@ -105,14 +105,14 @@ const SVC: Record<ScreenTheme, Record<string, string>> = {
   },
 };
 const SERVICE_ORDER: Array<[string, string]> = [
-  ["web", "Veb-sayt"],
+  ["web", "Sayt"],
   ["telegram", "Telegram bot"],
   ["ai", "AI yordamchi"],
-  ["app", "Ilova"],
+  ["app", "Dastur va ilova"],
   ["design", "Dizayn"],
-  ["integration", "Integratsiyalar"],
-  ["seo", "SEO"],
-  ["support", "Texnik yordam"],
+  ["integration", "Tizimlarni ulash"],
+  ["seo", "Qidiruv (SEO)"],
+  ["support", "Texnik xizmat"],
 ];
 
 type Ctx = CanvasRenderingContext2D;
@@ -228,7 +228,7 @@ const home: Draw = (c, w, h, phone, p, _a, t) => {
   rr(c, 0, 0, w, 64, 0, alpha(p.bg, 0.85));
   txt(c, "Alif", 52, 42, 26, p.ink, 700, HEAD);
   txt(c, "Bit", 52 + c.measureText("Alif").width, 42, 26, p.gold, 700, HEAD);
-  ["Xizmatlar", "Ishlar", "Kurslar", "Biz haqimizda"].forEach((s, i) => txt(c, s, 470 + i * 128, 40, 17, p.muted, 500));
+  ["Xizmatlar", "Loyihalar", "Kurslar", "Biz haqimizda"].forEach((s, i) => txt(c, s, 470 + i * 128, 40, 17, p.muted, 500));
   rr(c, w - 222, 14, 178, 38, 19, p.brand === "#7fcb98" ? "#1d5639" : p.brand);
   txt(c, "Buyurtma berish", w - 133, 39, 16, "#ffffff", 600, HEAD, "center");
   txt(c, "— ALIFBIT · STUDIYA", 52, 128, 15, p.gold, 700);
@@ -638,7 +638,7 @@ const integration: Draw = (c, w, h, phone, p, a) => {
   }
   windowBar(c, w, p, "panel.sizning-saytingiz.uz");
   txt(c, "Buyurtma yo‘li", 52, 118, 30, p.ink, 700, HEAD);
-  txt(c, "Hammasi avtomatik — hech narsani qo‘lda ko‘chirmaysiz", 52, 150, 17, p.muted, 500);
+  txt(c, "Kelishilgan ma’lumotlar avtomatik uzatiladi", 52, 150, 17, p.muted, 500);
   const steps: Array<[string, string]> = [
     ["Sayt", "Buyurtma"],
     ["Payme · Click", "To‘lov"],

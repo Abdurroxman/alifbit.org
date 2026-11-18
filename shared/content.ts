@@ -111,7 +111,7 @@ export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integrat
 /** Har bir loyihaga qo'shib beriladigan xizmatlar: xizmat kartasi va sahifasida «Har bir loyihada» qatori. */
 export const PROMISES: Array<[string, string]> = [
   ["3 oy bepul texnik yordam", "Ishga tushgandan keyin xatolarni tuzatamiz va savollaringizga javob beramiz."],
-  ["Topshirishda o‘qitish", "Admin panel va kundalik ish bilan ishlashni ko‘rsatib beramiz."],
+  ["Qanday foydalanishni o‘rgatamiz", "Admin panel va kundalik ish bilan ishlashni ko‘rsatib beramiz."],
   ["1 yil xatolarga kafolat", "Bizning aybimiz bilan chiqqan xatoni bir yil davomida bepul tuzatamiz."],
 ];
 /** «demo» — muqova loyihaning demo suhbatidan chiziladi. */
@@ -185,7 +185,7 @@ export const initialProjects: Project[] = [
     name: "Sado",
     category: "AI",
     status: "Ishlayapti",
-    summary: "Windows uchun ovoz bilan yozish: gapiring, Sado yozadi.",
+    summary: "Ovoz bilan matn yozish dasturi. Alt tugmasini bosib gapiring: tugmani qo‘yib yuborganingizda Sado aytganlaringizni kursor turgan joyga matn qilib yozadi.",
     description:
       "Sado — istalgan Windows dasturida ovoz bilan yozish uchun dastur. Alt tugmasini bosib turib gapirasiz, qo‘yib yuborganingizda matn kursor turgan joyga yoziladi: so‘zma-so‘z (Exact), tozalangan (Clean) yoki AI yordamchi uchun tayyor topshiriq (Prompt) ko‘rinishida. O‘zbek, rus va ingliz tillarini, hatto aralash nutqni ham tushunadi.",
     purpose:
@@ -229,16 +229,16 @@ export const initialServices: Service[] = [
   {
     slug: "veb-sayt",
     number: "01",
-    name: "Veb-sayt",
-    short: "Landing, vizitka sayt yoki internet-do‘kon — telefon va kompyuterda birdek qulay.",
-    description: "Biznesingizni internetda tanishtiradigan tez va tushunarli sayt. Matn tuzilishi, dizayn, dasturlash va domenga ulashgacha o‘zimiz bajaramiz.",
+    name: "Sayt yaratish",
+    short: "Bir sahifali sayt, kompaniya sayti yoki internet-do‘kon — telefon va kompyuterda birdek qulay.",
+    description: "Kompaniyangiz, xizmatlaringiz yoki mahsulotlaringiz uchun sayt yaratamiz. Sahifalar, dizayn va kerakli funksiyalarni siz bilan kelishib, saytni ishga tushiramiz.",
     features: [
       "Sahifalar tuzilmasi va matn rejasi",
       "Shablonsiz, brendingizga mos dizayn",
       "Telefon, planshet va kompyuterga moslashgan ko‘rinish",
       "Murojaat formasi — xabar darhol Telegram’ga keladi",
       "Telefon, Telegram va xarita tugmalari",
-      "Tez yuklanish: Google PageSpeed’da yashil ko‘rsatkich",
+      "Saytning tez yuklanishi ustida ishlaymiz",
       "Asosiy SEO: sarlavha va tavsiflar, sitemap, Google Search Console va Yandex Webmaster",
       "Google Analytics va Yandex Metrika",
       "Domen, hosting va SSL (https) ulash",
@@ -250,9 +250,9 @@ export const initialServices: Service[] = [
   {
     slug: "telegram-bot",
     number: "02",
-    name: "Telegram bot",
+    name: "Telegram bot va ilovalar",
     short: "Buyurtma qabul qiladigan bot yoki Telegram ichida ochiladigan to‘liq ilova (Mini App).",
-    description: "Mijozlaringiz allaqachon Telegram’da. Buyurtma qabul qiladigan, savollarga javob beradigan va sizga xabar yuboradigan bot yasaymiz. Kattaroq vazifa uchun — Telegram ichida ochiladigan to‘liq ilova (Mini App).",
+    description: "Buyurtma qabul qilish, mijozlarni qabulga yozish yoki savollarga javob berish uchun bot yaratamiz. Katalog va savat kerak bo‘lsa, Telegram ichida ochiladigan ilova tayyorlaymiz.",
     features: [
       "Bot ssenariysi: menyu, tugmalar va qadamlar",
       "O‘zbek va rus tillari",
@@ -268,13 +268,13 @@ export const initialServices: Service[] = [
   {
     slug: "ai-yordamchi",
     number: "03",
-    name: "AI yordamchi",
-    short: "Savollarga o‘zi javob beradigan, ariza yig‘adigan va kerak bo‘lsa xodimga uzatadigan AI chatbot.",
-    description: "Mijozlaringiz kechasi ham savol beradi. AI yordamchi sizning narxlaringiz, xizmatlaringiz va qoidalaringiz asosida o‘zbek va rus tilida javob beradi, arizani yozib oladi va murakkab savolni xodimga uzatadi. Telegram’da yoki saytingizda ishlaydi.",
+    name: "AI yordamchi yaratish",
+    short: "Savollarga o‘zi javob beradigan, ariza yig‘adigan va kerak bo‘lsa xodimga uzatadigan yordamchi.",
+    description: "Siz bergan ma’lumotlar asosida mijozlarning savollariga javob beradigan yordamchi yaratamiz. U murojaatlarni qabul qiladi va kerakli savollarni xodimga yuboradi.",
     features: [
       "Bilimlar bazasi: narxlar, xizmatlar, savol-javoblar va hujjatlaringiz",
       "O‘zbek (lotin va kirill) va rus tillarida javob",
-      "Ariza va kontaktlarni yozib olish",
+      "Mijozning murojaati va aloqa ma’lumotlarini saqlash",
       "Murakkab savolni xodimga uzatish",
       "Yangi ariza haqida Telegram’ga xabar",
       "Javoblarni admin paneldan tahrirlash",
@@ -288,12 +288,12 @@ export const initialServices: Service[] = [
   {
     slug: "ilova",
     number: "04",
-    name: "Ilova",
-    short: "Veb-ilova, CRM yoki mobil ilova — ishingizni avtomatlashtiradigan dastur.",
-    description: "Jadval va qog‘ozda yuritilayotgan ishni bitta dasturga jamlaymiz: mijozlar, buyurtmalar, hisobotlar. Kerak bo‘lsa, telefon uchun ilova ham yasaymiz.",
+    name: "Biznes uchun dastur va ilovalar",
+    short: "Brauzerda ishlaydigan dastur, CRM (mijozlar va buyurtmalarni boshqarish tizimi) yoki mobil ilova.",
+    description: "Mijozlar, buyurtmalar, vazifalar va hisobotlarni boshqarish uchun dastur yaratamiz. Ishingizga qarab brauzerda ishlaydigan dastur yoki mobil ilova tayyorlaymiz.",
     features: [
       "Ish jarayonlarini o‘rganish va tizim rejasi",
-      "Bosiladigan prototip — boshlashdan oldin ko‘rasiz",
+      "Dasturlashdan oldin maketni bosib sinab ko‘rasiz",
       "Foydalanuvchilar, rollar va ruxsatlar",
       "Mijozlar, buyurtmalar va vazifalar bazasi",
       "Hisobotlar va grafiklar",
@@ -309,14 +309,14 @@ export const initialServices: Service[] = [
   {
     slug: "dizayn",
     number: "05",
-    name: "Dizayn",
+    name: "Sayt va ilova dizayni",
     short: "Yangi sayt yoki ilova uchun dizayn va mavjud saytni qayta dizayn qilish.",
-    description: "Foydalanuvchi nimani, qayerda bosishini o‘ylab chiqamiz va buni toza, zamonaviy ko‘rinishga keltiramiz. Natija — dasturchiga tayyor Figma maketlari.",
+    description: "Sayt yoki ilovangizning ko‘rinishi va undan foydalanish tartibini ishlab chiqamiz. Tayyor maketni dasturlashdan oldin ko‘rib, tugmalarini bosib sinashingiz mumkin.",
     features: [
       "Foydalanuvchilar va raqobatchilarni o‘rganish",
       "Sahifalar sxemasi va foydalanuvchi yo‘li",
       "Shablonsiz vizual dizayn",
-      "Bosiladigan prototip",
+      "Bosib sinab ko‘riladigan maket",
       "Telefon, planshet va kompyuter ko‘rinishlari",
       "Ranglar, shriftlar va komponentlar tizimi",
       "Dasturchiga tayyor Figma maketlari"
@@ -327,9 +327,9 @@ export const initialServices: Service[] = [
   {
     slug: "integratsiyalar",
     number: "06",
-    name: "Integratsiyalar",
-    short: "Sayt, bot yoki ilovangizni Payme, Click, CRM, 1C va SMS xizmatlariga ulaymiz.",
-    description: "Mijoz saytda yoki botda to‘laydi, buyurtma CRM’ga tushadi, mijozga SMS boradi, sizga Telegram’da xabar keladi — hech narsani qo‘lda ko‘chirmaysiz. Boshqalar yasagan saytga ham ulaymiz.",
+    name: "To‘lov va boshqa tizimlarni ulash",
+    short: "Sayt, bot yoki ilovangizni Payme, Click, CRM (mijozlar va buyurtmalarni boshqarish tizimi), 1C va SMS xizmatlariga ulaymiz.",
+    description: "Sayt, bot yoki ilovangizga to‘lov, SMS va boshqa xizmatlarni ulaymiz. Buyurtma hamda mahsulot ma’lumotlarini mavjud hisob tizimingiz bilan bog‘laymiz.",
     features: [
       "To‘lov: Payme, Click, Uzum, Uzcard va Humo kartalari",
       "CRM: amoCRM, Bitrix24",
@@ -346,9 +346,9 @@ export const initialServices: Service[] = [
   {
     slug: "seo",
     number: "07",
-    name: "SEO",
+    name: "Google va Yandex uchun saytni sozlash",
     short: "Saytingiz Google va Yandex’da yuqorida chiqishi uchun audit, sozlash va oylik ish.",
-    description: "Mijozlar sizni qidiruvda topishi uchun saytning texnik holatini tuzatamiz, sahifalarni kerakli so‘zlarga moslaymiz va har oy qilingan ish va natijani hisobot bilan ko‘rsatamiz. Qidiruvdagi o‘rinni hech kim kafolatlay olmaydi, shuning uchun natijani raqamlar bilan kuzatamiz.",
+    description: "Saytingizni qidiruv tizimlari uchun tekshiramiz, texnik xatolarini tuzatamiz va sahifa matnlarini moslaymiz. Bajarilgan ishlar va qidiruvdan kelayotgan tashriflar bo‘yicha hisobot beramiz.",
     features: [
       "O‘zbek va rus tilidagi kalit so‘zlar va raqobatchilar tahlili",
       "Texnik audit: tezlik, indeksatsiya, sitemap, robots.txt, mobil ko‘rinish",
@@ -364,9 +364,9 @@ export const initialServices: Service[] = [
   {
     slug: "texnik-yordam",
     number: "08",
-    name: "Texnik yordam",
+    name: "Sayt va botlarga texnik xizmat",
     short: "Saytingiz yoki botingiz doim ishlashi, xavfsiz va yangilangan bo‘lishi uchun oylik xizmat.",
-    description: "Har bir loyihamizda ishga tushgandan keyin 3 oy bepul texnik yordam bor. Undan keyin, yoki boshqalar yasagan sayt va botlar uchun — oylik xizmat: kuzatamiz, zaxira olamiz, xatoni tuzatamiz va o‘zgarishlarni kiritamiz.",
+    description: "Sayt yoki botingizning ishlashini kuzatamiz, zaxira nusxa olamiz va nosozliklarni tuzatamiz. Kelishilgan xizmat doirasida matn, rasm va narxlarni ham yangilaymiz.",
     features: [
       "Sayt yoki bot ishlashini kuzatish",
       "Muntazam zaxira nusxa",
@@ -384,31 +384,31 @@ export const initialServices: Service[] = [
 export const TELEGRAM_URL = "https://t.me/alifbitbot?start=alifbit";
 export const copy = {
   uz: {
-    tagline: "Avval tinglaymiz. Keyin puxta qilamiz.",
+    tagline: "Nima kerakligini ayting, qanday qilishni birga kelishamiz.",
     nav: [
       ["Xizmatlar", "/services"],
-      ["Ishlar", "/projects"],
+      ["Loyihalar", "/projects"],
       ["Kurslar", "/courses"],
       ["Biz haqimizda", "/about"],
     ],
     hero: {
       title: "Sizga nima kerak?",
-      text: "Xizmatni tanlang — ichiga nimalar kirishi va narxini ko‘rasiz.",
+      text: "Xizmatni tanlab, narxi, muddati va nimalar kirishini ko‘ring.",
     },
   },
 };
 export const routeMeta: Record<string, [string, string]> = {
   "/": [
-    "AlifBit — veb-sayt, Telegram bot, AI yordamchi va ilova studiyasi",
-    "Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, Payme va Click integratsiyasi, SEO va texnik yordam: har bir xizmat tarkibi, narxi va muddati. Qilgan ishlarimiz va vayb koding kursi.",
+    "AlifBit — sayt, Telegram bot, AI yordamchi va ilovalar yaratish studiyasi",
+    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, to‘lov tizimlarini ulash, qidiruvga moslash va texnik xizmat: har bir xizmat tarkibi, narxi va muddati. Loyihalar, namunalar va AI yordamida sayt va bot yaratish kursi.",
   ],
   "/projects": [
-    "Ishlar va yechimlar — AlifBit",
+    "Loyihalar va namunalar — AlifBit",
     "Sado va biznes uchun tayyor yechimlar: yozilish boti, Telegram do‘kon, AI yordamchi, CRM va boshqalar. Har birining qanday ishlashini demo’da sinab ko‘ring.",
   ],
   "/services": [
     "Xizmatlar va narxlar — AlifBit",
-    "Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, integratsiyalar, SEO va texnik yordam: tarkibi, paketlar, narxlar va muddatlar.",
+    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash va texnik xizmat: tarkibi, paketlar, narxlar va muddatlar.",
   ],
   "/courses": [
     "Kurslar — AlifBit",
@@ -416,7 +416,7 @@ export const routeMeta: Record<string, [string, string]> = {
   ],
   "/about": [
     "Biz haqimizda — AlifBit",
-    "AlifBit — kichik studiya: avval ehtiyojingizni tinglaymiz, keyin yechim va narxini aytamiz.",
+    "AlifBit — sayt, Telegram bot va ilovalar yaratadigan kichik studiya. Loyihangizni muhokama qilib, bajariladigan ishlar, narx va muddatni oldindan kelishamiz.",
   ],
   "/contact": [
     "Buyurtma berish — AlifBit",

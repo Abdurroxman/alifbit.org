@@ -151,7 +151,7 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
   items.push(
     [
       "Narxga nimalar kiradi?",
-      `Har bir xizmatning «Ichiga nimalar kiradi» ro‘yxati va paketlar tarkibi xizmat sahifasida yozilgan. Har bir loyihada yana: ${PROMISES.map(([t]) => lower(t)).join(", ")}. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.`,
+      `Har bir xizmatning «Xizmatga nimalar kiradi?» ro‘yxati va paketlar tarkibi xizmat sahifasida yozilgan. Har bir loyihada yana: ${PROMISES.map(([t]) => lower(t)).join(", ")}. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.`,
     ],
     [
       "Faqat tayyor texnik topshiriq bilan ishlaysizmi?",
@@ -223,12 +223,12 @@ export function Services() {
         name="Xizmatlar"
         eyebrow="Xizmatlar va narxlar"
         title={[
-          "Nima kerak bo‘lsa,",
+          "Sayt, bot va ilova",
           <span className="accent" key="a">
-            puxta qilamiz.
+            yaratish xizmatlari.
           </span>,
         ]}
-        text="Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, integratsiyalar, SEO va texnik yordam. Har birida tarkibi, paketlar, narx va muddat yozilgan."
+        text="Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash va texnik xizmat. Har birida tarkibi, paketlar, narx va muddat yozilgan."
       />
       <section className="container">
         <ServiceCards services={services} />
@@ -348,7 +348,7 @@ function Examples({ items }: { items: ServiceExample[] }) {
       <div className="section-head">
         <div>
           <div data-reveal="fade">
-            <Eyebrow>Misollar</Eyebrow>
+            <Eyebrow>Boshqa kompaniyalardan misollar</Eyebrow>
           </div>
           <Lines>{["Bunday yechimlar", <span className="accent" key="a">allaqachon ishlayapti.</span>]}</Lines>
         </div>
@@ -447,9 +447,9 @@ export function ServiceDetail() {
         <div className="section-head">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>Ichiga nimalar kiradi</Eyebrow>
+              <Eyebrow>Xizmatga nimalar kiradi?</Eyebrow>
             </div>
-            <Lines>{["Har bir paketda bor."]}</Lines>
+            <Lines>{["Barcha paketlarga kiradi."]}</Lines>
           </div>
         </div>
         <ul className="check-list includes-list" data-reveal>

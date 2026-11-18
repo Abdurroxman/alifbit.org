@@ -30,7 +30,7 @@ export const SERVICE_FLOWS: Record<string, FlowNode[]> = {
   ],
   app: [
     { icon: "ClipboardList", label: "Hozir", title: "Jadval va qog‘oz", text: "Ish jarayonlarini o‘rganamiz va tizim rejasini tuzamiz." },
-    { icon: "MousePointerClick", label: "Prototip", title: "Boshlashdan oldin ko‘rasiz", text: "Bosiladigan prototip." },
+    { icon: "MousePointerClick", label: "Maket", title: "Dasturlashdan oldin ko‘rasiz", text: "Maketni bosib sinab ko‘rasiz." },
     { icon: "Database", label: "Bitta dastur", title: "Hammasi bir joyda", text: "Mijozlar, buyurtmalar va vazifalar; rollar va ruxsatlar." },
     { icon: "ChartColumn", label: "Hisobot", title: "Raqamlar ko‘z oldingizda", text: "Hisobotlar, grafiklar va Telegram xabarnomalari." },
   ],
@@ -44,7 +44,7 @@ export const SERVICE_FLOWS: Record<string, FlowNode[]> = {
     { icon: "CreditCard", label: "To‘lov", title: "Mijoz to‘laydi", text: "Payme, Click, Uzum, Uzcard va Humo." },
     { icon: "Briefcase", label: "CRM", title: "Buyurtma CRM’ga tushadi", text: "amoCRM, Bitrix24, 1C, МойСклад, Billz." },
     { icon: "MessageCircle", label: "SMS", title: "Mijozga SMS boradi", text: "Eskiz, Playmobile." },
-    { icon: "Bell", label: "Siz", title: "Telegram’da xabar", text: "Holat avtomatik yangilanadi — hech narsani qo‘lda ko‘chirmaysiz." },
+    { icon: "Bell", label: "Siz", title: "Telegram’da xabar", text: "Holat avtomatik yangilanadi — kelishilgan ma’lumotlar o‘zi uzatiladi." },
   ],
   seo: [
     { icon: "Target", label: "Tahlil", title: "Kalit so‘zlar", text: "O‘zbek va rus tilidagi so‘zlar va raqobatchilar." },

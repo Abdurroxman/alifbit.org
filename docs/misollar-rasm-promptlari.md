@@ -1,202 +1,148 @@
-# Xizmat misollari uchun rasm promptlari (Higgsfield)
+# «Boshqa kompaniyalardan misollar» uchun ekran rasmlari (Higgsfield)
 
-32 ta rasm: 8 xizmat × 4 misol. Har bir rasm admin panelda o‘z misoliga yuklanadi:
-**Admin › Xizmatlar › [xizmat] › Misollar › «Rasm yuklash»**, keyin **xizmatni saqlash**.
+Har bir misol kartasida MacBook va iPhone ramkasi bor. Rasm sifatida faqat **ekranning o‘zi** kerak: qurilma, stol va fon chizilmaydi.
 
-## Claude ilovasida qanday yaratiladi
+- **K** — kompyuter ekrani, nisbat **16:9**. Admin'da «Kompyuter ekrani» tugmasi orqali yuklanadi.
+- **T** — telefon ekrani, nisbat **9:16**. Admin'da «Telefon ekrani» tugmasi orqali yuklanadi.
+- Faqat bittasi berilgan misolda kartada bitta qurilma chiqadi (masalan, botlarda faqat telefon).
+- Bosh sahifada xizmat tanlanganda shu skrinshotlar 3D noutbuk va telefon ekranida navbat bilan almashadi.
 
-Claude ilovasida (Higgsfield ulangan suhbatda) shu xabarni yuboring, keyin quyidagi bo‘limlardan birini nusxalab qo‘shing:
+Yuklash tartibi: **Admin › Xizmatlar › [xizmat] › Boshqa kompaniyalardan misollar › Misol N** → «Kompyuter ekrani» / «Telefon ekrani» → **Saqlash**.
 
-```
-Higgsfield'da generate_image_batch orqali quyidagi promptlarning har biri uchun bittadan rasm yarat.
-Model: gpt_image_2_6, nisbat 4:3, 1 ta variant. Har bir promptning oxiriga UMUMIY USLUB qatorini qo‘sh.
-Tayyor bo‘lgach, rasmlarni prompt nomi (masalan web-1) bilan ko‘rsat.
-```
+## Claude ilovasida yaratish
 
-**UMUMIY USLUB** (har promptga qo‘shiladi):
+Higgsfield ulangan suhbatga shu xabarni yuboring va ostiga bitta xizmat bo‘limini nusxalab qo‘shing:
 
 ```
-Clean modern editorial illustration, soft 3D render look, gentle studio lighting, shallow depth of field, calm ivory background with deep green shadows, single accent color {ACCENT}. No readable text, no logos, no brand names, no watermarks, no real people's faces. 4:3 composition, subject centered with breathing room.
+Higgsfield'da generate_image_batch bilan quyidagi har bir prompt uchun bittadan rasm yarat.
+Model: gpt_image_2_6. K bilan boshlanganlari 16:9, T bilan boshlanganlari 9:16.
+Har bir promptning oxiriga UMUMIY USLUB qatorini qo‘sh, {ACCENT} o‘rniga bo‘lim rangini yoz.
+Tayyor bo‘lgach rasmlarni prompt nomi bilan (masalan web-1-K) ko‘rsat.
 ```
 
-`{ACCENT}` o‘rniga bo‘lim sarlavhasidagi rangni yozing — rasmlar saytdagi xizmat rangiga mos tushadi.
+**UMUMIY USLUB:**
 
-Talablar: PNG, JPG yoki WEBP, 5 MB gacha. Rasmda logotip va brend nomi bo‘lmasin: misol kartasi o‘sha kompaniyaning nomi bilan chiqadi, rasm esa yechim turini ko‘rsatadi.
+```
+Flat UI screenshot only, full-bleed, straight-on, no device frame, no hands, no desk, no background around the screen. Modern clean interface, light theme, soft shadows, rounded cards, realistic food/product/people-free photos where needed, accent color {ACCENT}. All text replaced with neutral grey placeholder bars of different lengths, except tiny numbers; no readable words, no logos, no brand names, no watermarks.
+```
+
+Telefon promptlarida muhim tugma va kartalar ekranning o‘rtadagi 80% enida tursin: telefon ramkasi chetlarini biroz kesadi.
 
 ---
 
-## 01 · Veb-sayt — ACCENT: cobalt blue #2357e8
+## 01 · Sayt yaratish — ACCENT: cobalt blue #2357e8
 
 **web-1 · EVOS sayti**
-```
-A laptop on a wooden table showing a bright food-delivery company website: hero banner with a wrap sandwich and fries, branch map section, phone order button; a smartphone beside it showing the same site in mobile layout.
-```
+- K: `Homepage of a food delivery company website: top menu bar, large hero banner with a chicken wrap and fries photo, a blue "call" button, a map section with several branch pins and a list of branches beside it.`
+- T: `Mobile version of the same food delivery website: hero photo of a wrap, a wide blue call button, a small map with branch pins, list of branch cards below.`
 
 **web-2 · Texnomart internet-do‘koni**
-```
-A large desktop monitor displaying an electronics online store: product grid of washing machines, TVs and smartphones with price tags and installment badges, a cart icon with a counter; a few small home appliances arranged around the monitor.
-```
+- K: `Electronics online store catalog page: left filter column, product grid of washing machines, TVs and phones with price tags and a small "monthly installment" badge on each card, cart icon with a counter in the header.`
+- T: `Mobile product page of an electronics store: large photo of a refrigerator, price, installment plan selector with 3/6/12 month chips, payment method icons as generic card shapes, sticky add-to-cart button.`
 
 **web-3 · Click mahsulot sayti**
-```
-A floating browser window showing a fintech product landing page: a phone mockup of a payment app in the hero, cashback coin icons, card and wallet illustrations, a developer API section with code blocks in the lower part.
-```
+- K: `Fintech product landing page: hero with a phone mockup of a payment app, three feature cards with wallet, cashback coin and transfer arrow icons, a lower developer section with a dark code block.`
 
 **web-4 · Uzum korporativ sayti**
-```
-An isometric composition of one website page connected by thin lines to six floating app tiles (shopping bag, delivery scooter, bank card, calendar with installments, car, briefcase), representing a company ecosystem hub page.
-```
+- K: `Company ecosystem hub page: short hero, then a grid of six large service tiles (shopping bag, delivery scooter, bank card, calendar, car, briefcase icons), each tile with its own soft color.`
 
-## 02 · Telegram bot — ACCENT: Telegram blue #0e87c9
+## 02 · Telegram bot va ilovalar — ACCENT: Telegram blue #0e87c9
 
 **tg-1 · EVOS yetkazib berish boti**
-```
-A smartphone held in hand showing a messenger chat with a food-ordering bot: menu buttons, a photo card of a wrap sandwich, quantity buttons, a shared location pin message; a paper delivery bag in the soft-focus background.
-```
+- T: `Messenger chat with a food ordering bot: bot message with a wrap photo card, quantity minus/plus buttons, a grid of inline menu buttons below, a sent location pin bubble from the user.`
 
 **tg-2 · KFC Uzbekistan boti**
-```
-A smartphone on a table showing a messenger bot cart: fried chicken bucket card, order summary with total, a big "confirm" style button (no readable text), a delivery scooter icon; warm restaurant lighting.
-```
+- T: `Messenger bot cart screen: order summary card with fried chicken bucket and drink lines, total amount, two inline buttons for delivery or pickup, a large confirm button.`
 
 **tg-3 · Oqtepa Lavash boti**
-```
-A smartphone showing a messenger bot with a grid of round food category buttons (wraps, burgers, drinks, desserts) and a minimum-order progress bar; a fresh lavash wrap on a plate beside the phone.
-```
+- T: `Messenger bot showing a 2-column grid of round food category buttons (wrap, burger, drink, dessert icons) and a chat bubble with a lavash wrap photo and price.`
 
 **tg-4 · Oshme**
-```
-A smartphone showing a messenger bot with restaurant cards: interior photos of cozy cafes, star ratings, a time-slot picker for table booking; a reserved table with a small card and candle in soft focus behind.
-```
+- T: `Messenger bot restaurant guide: cards with cozy cafe interior photos and star ratings, then a time slot picker row (18:00, 19:00, 20:00 chips) for table booking.`
 
-## 03 · AI yordamchi — ACCENT: violet #7445e6
+## 03 · AI yordamchi yaratish — ACCENT: violet #7445e6
 
 **ai-1 · Lola — bank yordamchisi**
-```
-A banking mobile app on a phone with a friendly chat assistant panel open: a soft glowing round avatar orb, chat bubbles answering a question, quick-reply chips, and a small "talk to a person" headset icon.
-```
+- T: `Banking app chat assistant screen: round glowing assistant avatar at the top, chat bubbles answering a question, quick reply chips, a small "talk to an operator" headset button at the bottom.`
 
 **ai-2 · Kaspi AI yordamchisi**
-```
-A split scene: on the left a support chat on a phone answered by a glowing AI orb, on the right a shopping screen where the same orb suggests products with small cards; dotted lines connect both screens.
-```
+- T: `Shopping app with an AI assistant panel: chat bubble suggestions on top, below it three recommended product cards (headphones, kettle, backpack) with prices.`
 
 **ai-3 · Klarna AI yordamchisi**
-```
-A globe made of overlapping translucent chat bubbles in many scripts (abstract glyph shapes, not readable), with a calm AI orb in the center answering them; a small chart in the corner showing resolution time dropping.
-```
+- K: `Customer support chat widget on a payments website: chat window on the right with assistant bubbles and a language selector chip, order details card shown inside the chat.`
+- T: `Mobile support chat with an AI assistant: order card with status timeline inside the chat, quick reply chips, typing indicator.`
 
 **ai-4 · Uzum Avto chat-botlari**
-```
-A funnel diagram in 3D: many chat bubbles from a messenger flow in at the top, a glowing bot module answers most of them (green checkmarks), and only a few bubbles continue down to a support agent headset at the bottom; a car silhouette in the background.
-```
+- T: `Messenger chat with a car marketplace support bot: car photo card, inline buttons for frequently asked questions, a message saying the request was passed to an operator with a small headset icon.`
 
-## 04 · Ilova — ACCENT: orange #e2620a
+## 04 · Biznes uchun dastur va ilovalar — ACCENT: orange #e2620a
 
 **app-1 · Click SuperApp**
-```
-Three smartphones fanned out showing a payment super-app: home screen with balance and service tiles, money transfer screen with contact avatars, cashback screen with coin animation; floating card and QR icons.
-```
+- T: `Payment super-app home screen: balance card at the top, grid of service tiles (mobile, utilities, internet, transport icons), recent transactions list, bottom tab bar.`
 
 **app-2 · Uzum Market**
-```
-A smartphone showing a marketplace shopping app: product feed with clothing and gadgets, a cart with items, order tracking timeline; small shopping bags and a delivery box floating around the phone.
-```
+- T: `Marketplace shopping app feed: search bar, category chips, 2-column product grid with clothing and gadgets photos, prices and rating stars, bottom tab bar with cart badge.`
 
 **app-3 · EVOS ilovasi**
-```
-A smartphone showing a food-ordering app: menu with burger, wrap and drink cards, a map with a delivery route line, order status steps; a takeaway paper bag and drink cup beside the phone.
-```
+- T: `Food ordering app order tracking screen: map with a delivery route line and courier pin, order status steps (accepted, cooking, on the way), order items list.`
 
 **app-4 · Uzum Nasiya**
-```
-A smartphone showing an installment payment app: a circular credit limit gauge, a monthly payment schedule calendar, and payment method tiles; a shopping receipt and calendar floating beside it.
-```
+- T: `Installment payment app: circular credit limit gauge, monthly payment schedule list with dates and amounts, a pay button, payment method tiles as generic card shapes.`
 
-## 05 · Dizayn — ACCENT: magenta #d6337f
+## 05 · Sayt va ilova dizayni — ACCENT: magenta #d6337f
 
-**design-1 · TBC Bank brendi**
-```
-A brand identity flat lay: business cards, a bank card, a tote bag and a phone screen all decorated with a modern pattern inspired by Uzbek ikat (atlas) silk waves; color swatches and a film clapperboard at the edge.
-```
+**design-1 · Paynet ilovasi**
+- T: `Redesigned payments app home screen: wallet card with top-up and withdraw buttons, quick transfer contacts row with circle avatars (no faces, initials only), utility payments tiles, clean modern design system look.`
 
-**design-2 · O‘zbekiston havo yo‘llari logotipi**
-```
-A designer's desk with a large sheet showing an abstract round emblem of a stylized bird inside a circle (generic, not a real logo) in one color, before/after sketches next to it, and a passenger airplane tail model in soft focus.
-```
+**design-2 · Hamkorbank sayti**
+- K: `Bank website homepage: hero with loan offer and an online application button, credit calculator card with sliders for amount and term, row of product cards for cards, deposits and loans, green accent.`
+- T: `Mobile bank website: step-by-step online application form with a progress bar (step 2 of 4), input fields as grey bars, large continue button.`
 
-**design-3 · Milliy bank firma uslubi**
-```
-A corporate identity guidelines book open on a table: pages with an abstract geometric emblem, typography specimens, a ceramic-tile-inspired ornament pattern, color palette swatches; a tablet showing an animated version of the emblem.
-```
+**design-3 · Agrobank Mobile**
+- T: `Mobile banking app home: balance at the top, colorful bank card carousel, saved payment groups as rounded tiles, a small spending calendar with colored days.`
 
-**design-4 · East Telecom rebrendingi**
-```
-A rebranding moodboard: old and new versions of an abstract telecom logo shape (a curved boomerang-like mark, generic), new business stationery, a router device and a fiber cable with the new color applied.
-```
+**design-4 · Converse Bank ilovasi**
+- T: `Mobile banking app home built from widgets: cards widget, quick payments widget, currency rates widget, dark theme version, design tokens look with consistent spacing.`
 
-## 06 · Integratsiyalar — ACCENT: emerald #0c9a6f
+## 06 · To‘lov va boshqa tizimlarni ulash — ACCENT: emerald #0c9a6f
 
 **int-1 · Telegram + Bitrix24**
-```
-An isometric diagram: a messenger chat window on the left sending glowing data packets along a pipe into a CRM dashboard on the right (kanban columns, client cards), with small agent avatars receiving assigned conversations.
-```
+- K: `CRM dashboard with kanban columns (new, in progress, done) of client cards, each card with a small messenger icon; a side panel showing a chat conversation attached to the selected card.`
 
 **int-2 · Do‘konda to‘lov tizimlari**
-```
-An online store checkout page on a laptop, with four generic bank card and wallet icons plugged into it like puzzle pieces, and an installment calendar module snapping into place; a green success checkmark.
-```
+- K: `Online store checkout page: order summary on the right, payment method selection on the left as four generic card/wallet tiles, an installment option toggle, green pay button.`
 
 **int-3 · Ilovada to‘lov tizimlari**
-```
-A smartphone app at the center connected by glowing lines to four floating payment-provider tiles (generic wallet, card, bank, terminal icons), each line ending in a small green checkmark.
-```
+- T: `Mobile payment method picker: list of four payment options with generic wallet, card, bank and terminal icons, one selected with a green check, amount and pay button below.`
 
 **int-4 · Multicard — Bitrix24 uchun**
-```
-A CRM deal card on a monitor with a "pay" module attached; a payment link travels to a customer's phone, and money flows back into the CRM as a green paid status; plug and connector icons around.
-```
+- K: `CRM deal card with a payment block: amount, a "create payment link" button, payment status changing to paid with a green badge, payment history table below.`
 
-## 07 · SEO — ACCENT: amber #b98500
+## 07 · Google va Yandex uchun saytni sozlash — ACCENT: amber #b98500
 
 **seo-1 · Onlayn dorixona**
-```
-A pharmacy website on a laptop with a rising organic traffic line chart floating above it, a mobile speed gauge needle moving from red to green, and small medicine boxes on the desk.
-```
+- K: `Website analytics dashboard: rising line chart of visits from search, a page speed gauge in the green zone, table of top pages with small up arrows.`
 
 **seo-2 · Bank sayti**
-```
-A large search results page (abstract lines, no readable text) where one result card glows at the top position, a visibility meter rising beside it, and a small bank building icon on the glowing card.
-```
+- K: `Search results page mockup with abstract grey result blocks, the top result highlighted with an amber outline, and a side card showing visibility growing on a small bar chart.`
 
 **seo-3 · Ko‘chmas mulk sayti**
-```
-A grid of many small landing page tiles of apartment listings growing from a single page like a tree, with a traffic bar chart rising behind them; miniature residential buildings at the base.
-```
+- K: `Real estate website listing page: grid of apartment cards with building photos and price tags, clean URL breadcrumb bar at the top, filter sidebar.`
 
 **seo-4 · Maxsus kiyim ishlab chiqaruvchi**
-```
-A workwear jacket and hard hat next to a laptop showing a factory website, with a magnifying glass over a search bar and an upward arrow chart doubling in height.
-```
+- K: `Manufacturer catalog website: workwear jackets and hard hats in a product grid, search bar in the header, a small chart card in the corner showing traffic growth.`
 
-## 08 · Texnik yordam — ACCENT: red #d63a3a
+## 08 · Sayt va botlarga texnik xizmat — ACCENT: red #d63a3a
 
 **support-1 · Bulutga ko‘chirish va 24/7 yordam**
-```
-Server racks lifting into a soft cloud via glowing lines, a shield icon for DDoS protection, a backup disk icon, and a 24-hour clock badge; calm data-center lighting.
-```
+- K: `Cloud control panel: server cluster status cards all green, backup schedule list, DDoS protection shield status, 24/7 support chat button in the corner.`
 
 **support-2 · TCloud hosting**
-```
-A clean hosting control panel on a monitor with server plan cards (small, medium, large) and a domain name bar; a headset with a 24/7 glowing ring beside the monitor.
-```
+- K: `Hosting client area: three hosting plan cards (small, medium, large) with specs as grey bars, domain search bar on top, support ticket button.`
 
-**support-3 · Uztelecom data markazlari**
-```
-Inside a modern Tier III data center: long rows of server racks with cool blue LEDs, raised floor tiles, a technician's tablet showing rack status; symmetrical perspective.
-```
+**support-3 · Uztelecom ma’lumotlar markazlari**
+- K: `Data center colocation dashboard: rack diagram with occupied units highlighted, power and temperature gauges, uptime percentage card.`
 
-**support-4 · Sayt monitoringi**
-```
-A monitoring dashboard on a laptop with uptime bars mostly green and one red incident spike, a phone beside it receiving an alert notification, and a falling cost chart in the corner.
-```
+**support-4 · Sayt ishlashini kuzatish (monitoring)**
+- K: `Website monitoring dashboard: uptime bars mostly green with one red incident, response time chart, list of checks with status dots.`
+- T: `Phone notification screen: alert card saying a website is down (grey text bars, red dot), then a second card that it is back up (green dot).`

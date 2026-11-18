@@ -56,7 +56,7 @@ export function Journal() {
         ) : (
           <div className="empty-state">
             <BookOpen strokeWidth={1} />
-            <h2>Yangi fikrlar uchun ochiq sahifa.</h2>
+            <h2>Hozircha maqola yo‘q.</h2>
             <p>Birinchi qaydlar tayyor bo‘lgach shu yerda e’lon qilinadi.</p>
             <TextLink to="/about">Hozircha biz bilan tanishing</TextLink>
           </div>

@@ -187,7 +187,7 @@ function ServiceCard({
       )}
       <p className="nf-text">{service.short}</p>
 
-      <h3 className="nf-h">Ichiga nimalar kiradi</h3>
+      <h3 className="nf-h">Xizmatga nimalar kiradi?</h3>
       <ul className="nf-list nf-cols">
         {service.features.map((f) => (
           <li key={f}>

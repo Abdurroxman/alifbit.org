@@ -104,11 +104,11 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
         <div className="section-head">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>Qilgan ishlarimiz</Eyebrow>
+              <Eyebrow>Loyihalar</Eyebrow>
             </div>
             <Lines>
               {[
-                "Ishlar va yechimlar.",
+                "Loyihalar va namunalar.",
                 <span className="accent" key="a">
                   Sinab ko‘ring.
                 </span>,

@@ -1078,7 +1078,7 @@ function ServiceEditor({ service: s }: { service: Service }) {
         <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
         <Field label="Tavsif *" name="description" value={s.description} required area />
         <Field
-          label="«Ichiga nimalar kiradi» — har bir paketda bor bandlar, har biri yangi satrda *"
+          label="«Xizmatga nimalar kiradi?» — barcha paketlarga kiradigan bandlar, har biri yangi satrda *"
           name="features"
           value={s.features.join("\n")}
           required

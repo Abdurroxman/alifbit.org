@@ -15,15 +15,14 @@ export default function About() {
     <>
       <PageTop
         name="Biz haqimizda"
-        eyebrow="AlifBit falsafasi"
+        eyebrow="AlifBit"
         title={[
-          "Ilm — ildizimiz.",
-          "Texnologiya — vositamiz.",
+          "Sayt, Telegram bot va ilovalar",
           <span className="accent" key="a">
-            Foyda — maqsadimiz.
+            yaratadigan kichik studiya.
           </span>,
         ]}
-        text="AlifBit — kichik studiya: avval ehtiyojingizni tinglaymiz, keyin yechim va narxini aytamiz. O‘z mahsulotimiz ham bor: Sado — Windows uchun ovoz bilan yozish dasturi."
+        text="Loyihangizni muhokama qilib, bajariladigan ishlar, narx va muddatni oldindan kelishamiz. O‘z mahsulotimiz ham bor: Sado — ovoz bilan matn yozish dasturi."
       />
       <section className="about-banner on-dark">
         <div className="container about-banner-inner">

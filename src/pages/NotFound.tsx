@@ -7,12 +7,12 @@ export default function NotFound() {
       <div className="not-found-mark" aria-hidden="true">
         <BrandMark />
       </div>
-      <Eyebrow>404 / Sahifa topilmadi</Eyebrow>
+      <Eyebrow>404</Eyebrow>
       <Lines as="h1">
         {[
-          "Bu yo‘l hali",
+          "Sahifa",
           <span className="accent" key="a">
-            ochilmagan.
+            topilmadi.
           </span>,
         ]}
       </Lines>

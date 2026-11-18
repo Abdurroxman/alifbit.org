@@ -1,0 +1,2 @@
+-- Sayt yaratish xizmatining qisqa matni paket nomlariga mos: «Bir sahifali sayt», «Kompaniya sayti».
+UPDATE services SET data=json_set(data,'$.short','Bir sahifali sayt, kompaniya sayti yoki internet-do‘kon — telefon va kompyuterda birdek qulay.'),updated_at=CURRENT_TIMESTAMP WHERE slug='veb-sayt' AND json_extract(data,'$.short')='Landing, vizitka sayt yoki internet-do‘kon — telefon va kompyuterda birdek qulay.';

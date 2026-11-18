@@ -176,7 +176,7 @@ export default function Contact() {
                 </label>
                 <label className="field">
                   <span>
-                    Istalgan muddat <small>ixtiyoriy</small>
+                    Qachongacha tayyor bo‘lishi kerak? <small>ixtiyoriy</small>
                   </span>
                   <input className="input" name="deadline" type="date" min={new Date().toISOString().slice(0, 10)} />
                 </label>

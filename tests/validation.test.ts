@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
+import { DatabaseSync } from "node:sqlite";
 import { courseSchema, demoSchema, orderSchema, projectSchema, serviceSchema } from "../server/validation.ts";
 import { initialProjects, initialServices, type Course } from "../shared/content.ts";
 
@@ -90,7 +91,7 @@ test("every built-in service passes the admin schema", () => {
   assert.equal(new Set(initialServices.map((s) => s.number)).size, initialServices.length);
 });
 
-test("migration 0007 services pass the schema and match the built-in texts", () => {
+test("migration 0007 services pass the schema; built-in texts match the database after all migrations", () => {
   const sql = readFileSync(new URL("../db/migrations/0007_full_services.sql", import.meta.url), "utf8");
   const rows = [...sql.matchAll(/'(\{"slug":.*?\})',/g)].map((m) => JSON.parse(m[1].replace(/''/g, "'")));
   assert.equal(rows.length, initialServices.length);
@@ -98,12 +99,21 @@ test("migration 0007 services pass the schema and match the built-in texts", () 
     const parsed = serviceSchema.safeParse(row);
     assert.equal(parsed.success, true, row.slug);
     assert.ok(row.packages.length > 0, row.slug);
-    const base = initialServices.find((s) => s.slug === row.slug);
-    assert.ok(base, row.slug);
-    const { price, term, packages, ...texts } = row;
-    assert.deepEqual(texts, base);
   }
   assert.match(sql, /UPDATE projects SET published=0,data=json_set\(data,'\$\.published',json\('false'\)\)/);
+  // Keyingi migratsiyalar matnlarni o'zgartiradi: kod ichidagi boshlang'ich matnlar yakuniy baza holatiga teng bo'lishi kerak.
+  const dir = new URL("../db/migrations/", import.meta.url);
+  const db = new DatabaseSync(":memory:");
+  for (const file of readdirSync(dir).filter((f: string) => f.endsWith(".sql")).sort()) db.exec(readFileSync(new URL(file, dir), "utf8"));
+  const final = db.prepare("SELECT data FROM services ORDER BY rowid").all().map((r: Record<string, unknown>) => JSON.parse(String(r.data)));
+  assert.equal(final.length, initialServices.length);
+  for (const row of final) {
+    assert.equal(serviceSchema.safeParse(row).success, true, row.slug);
+    const base = initialServices.find((s) => s.slug === row.slug);
+    assert.ok(base, row.slug);
+    const { price, term, packages, examples, ...texts } = row;
+    assert.deepEqual(texts, base);
+  }
 });
 
 const demo = {

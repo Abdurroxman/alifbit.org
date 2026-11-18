@@ -20,10 +20,10 @@ export function Projects() {
   return (
     <>
       <PageTop
-        name="Ishlar"
-        eyebrow="Qilgan ishlarimiz"
+        name="Loyihalar"
+        eyebrow="Loyihalar"
         title={[
-          "Ishlar va yechimlar —",
+          "Loyihalar va namunalar —",
           <span className="accent" key="a">
             sinab ko‘ring.
           </span>,

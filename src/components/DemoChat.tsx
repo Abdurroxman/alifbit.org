@@ -190,7 +190,7 @@ export default function DemoChat({ demo }: { demo: DemoScript }) {
           )}
         </div>
         {owner.length === 0 ? (
-          <p className="demo-owner-empty">Mijoz harakat qilganda shu yerda sizga keladigan xabar paydo bo‘ladi.</p>
+          <p className="demo-owner-empty">Botdagi tugmalarni bosing. Sizga qanday xabar kelishini shu yerda ko‘rasiz.</p>
         ) : (
           <div className="demo-owner-list" aria-live="polite">
             {owner.map((o) => (
