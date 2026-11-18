@@ -11,10 +11,11 @@ export type StageFocus =
   | "integration"
   | "seo"
   | "support"
+  | "audit"
   | "course"
   | "unknown";
 
-const SERVICE_FOCUS: readonly StageFocus[] = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support"];
+const SERVICE_FOCUS: readonly StageFocus[] = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit"];
 
 /** Sahifaning qaysi qismi ko'rinib turibdi. */
 export type StageSection = "hero" | "works" | "hidden";

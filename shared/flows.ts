@@ -58,4 +58,10 @@ export const SERVICE_FLOWS: Record<string, FlowNode[]> = {
     { icon: "ShieldCheck", label: "Himoya", title: "Xavfsiz va yangi", text: "Xavfsizlik yangilanishlari; domen, hosting va SSL muddati." },
     { icon: "Wrench", label: "Tuzatish", title: "Xato va o‘zgarishlar", text: "Xatolarni tuzatish; matn, rasm va narxlarni yangilash." },
   ],
+  audit: [
+    { icon: "Monitor", label: "Loyihangiz", title: "Sayt, bot yoki ilova", text: "Havolani yuborasiz — telefon va kompyuterda tekshiramiz." },
+    { icon: "Bug", label: "Xatolar", title: "Xatolarni topamiz", text: "Tezlik, xavfsizlik, formalar va to‘lov — har biri skrinshot bilan." },
+    { icon: "FileCheck", label: "Texnik tavsif", title: "Tuzatish rejasi", text: "Har qanday dasturchi tushunadigan tavsif, narxi va muddati." },
+    { icon: "Wrench", label: "Tuzatish", title: "Tanlov sizda", text: "Bizga yoki boshqa dasturchiga berasiz. Bizga bersangiz, tekshiruv narxi chegiriladi." },
+  ],
 };

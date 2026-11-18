@@ -235,14 +235,16 @@ function ServiceCard({
         <PriceNote />
       )}
 
-      <ul className="nf-promises" aria-label="Har bir loyihada">
-        {PROMISES.map(([title, text]) => (
-          <li key={title} title={text}>
-            <Check size={14} aria-hidden="true" />
-            {title}
-          </li>
-        ))}
-      </ul>
+      {service.promises !== false && (
+        <ul className="nf-promises" aria-label="Har bir loyihada">
+          {PROMISES.map(([title, text]) => (
+            <li key={title} title={text}>
+              <Check size={14} aria-hidden="true" />
+              {title}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div className="nf-actions">
         <ButtonLink to={orderLink(service)} magnetic>

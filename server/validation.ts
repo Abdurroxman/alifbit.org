@@ -149,6 +149,7 @@ export const serviceSchema = z.object({
     .max(8)
     .default([]),
   published: z.boolean().default(true),
+  promises: z.boolean().optional(),
 });
 export const courseSchema = z.object({
   id: text(100).min(1),

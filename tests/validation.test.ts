@@ -86,7 +86,7 @@ test("package fit and hidden flag, service published flag and course need have s
 });
 
 test("every built-in service passes the admin schema", () => {
-  assert.equal(initialServices.length, 8);
+  assert.equal(initialServices.length, 9);
   for (const s of initialServices) assert.equal(serviceSchema.safeParse(s).success, true, s.slug);
   assert.equal(new Set(initialServices.map((s) => s.number)).size, initialServices.length);
 });
@@ -94,7 +94,7 @@ test("every built-in service passes the admin schema", () => {
 test("migration 0007 services pass the schema; built-in texts match the database after all migrations", () => {
   const sql = readFileSync(new URL("../db/migrations/0007_full_services.sql", import.meta.url), "utf8");
   const rows = [...sql.matchAll(/'(\{"slug":.*?\})',/g)].map((m) => JSON.parse(m[1].replace(/''/g, "'")));
-  assert.equal(rows.length, initialServices.length);
+  assert.equal(rows.length, 8);
   for (const row of rows) {
     const parsed = serviceSchema.safeParse(row);
     assert.equal(parsed.success, true, row.slug);

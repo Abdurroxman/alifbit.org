@@ -76,6 +76,8 @@ export type Service = {
   examples?: ServiceExample[];
   /** false bo'lsa xizmat saytning hech qayerida chiqmaydi. */
   published?: boolean;
+  /** false bo'lsa «Har bir loyihada» va'dalari (PROMISES) shu xizmat tanlanganda ko'rsatilmaydi. */
+  promises?: boolean;
 };
 export type ServiceExample = {
   name: string;
@@ -107,7 +109,7 @@ export type Course = {
   seoTitle?: string;
   seoDescription?: string;
 };
-export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support"] as const;
+export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit"] as const;
 /** Har bir loyihaga qo'shib beriladigan xizmatlar: xizmat kartasi va sahifasida «Har bir loyihada» qatori. */
 export const PROMISES: Array<[string, string]> = [
   ["3 oy bepul texnik yordam", "Ishga tushgandan keyin xatolarni tuzatamiz va savollaringizga javob beramiz."],
@@ -378,6 +380,26 @@ export const initialServices: Service[] = [
       "Boshqalar yasagan sayt va botlarni ham olamiz"
     ],
     icon: "support",
+    published: true
+  },
+  {
+    slug: "tekshiruv",
+    number: "09",
+    name: "Sayt, bot va ilovani tekshirish",
+    short: "Sayt, bot yoki ilovangizni tekshirib, xatolarini aytamiz va tuzatish uchun texnik tavsif yozib beramiz.",
+    description: "Sayt, Telegram bot yoki ilovangizni mijoz ko‘zi bilan va texnik tomondan tekshiramiz. Topilgan xatolarni tushunarli tilda aytamiz, ularni tuzatish uchun texnik tavsif yozib beramiz va tuzatish narxini hisoblaymiz. Tuzatishni xohlasangiz bizga, xohlasangiz boshqa dasturchiga berasiz. Bizga bersangiz, tekshiruv narxi tuzatish narxidan chegiriladi.",
+    features: [
+      "Telefon va kompyuterda tekshirish: nima ishlamayapti va nima noqulay",
+      "Formalar, tugmalar, buyurtma va to‘lov jarayonini sinab ko‘rish",
+      "Tezlik va yuklanish vaqti",
+      "Xavfsizlik: SSL, eskirgan versiyalar, ochiq qolgan ma’lumotlar",
+      "Matn, rasm va havolalardagi xatolar",
+      "Har bir xato skrinshot bilan, muhimligi bo‘yicha tartiblangan",
+      "Har qanday dasturchi tushunadigan texnik tavsif",
+      "Tuzatish narxi va muddati"
+    ],
+    icon: "audit",
+    promises: false,
     published: true
   }
 ];

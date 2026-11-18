@@ -477,7 +477,7 @@ export function ServiceDetail() {
         </section>
       )}
       {!loaded && <div className="container nf-wait">Narxlar yuklanmoqda…</div>}
-      <Promises />
+      {service.promises !== false && <Promises />}
       <WorkingProcess />
       <FAQ />
       <ContactBand />

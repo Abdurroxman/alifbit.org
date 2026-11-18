@@ -105,6 +105,7 @@
   --svc-integration: #0c9a6f;
   --svc-seo: #b98500;
   --svc-support: #d63a3a;
+  --svc-audit: #5b8a06;
 
   /* Fondagi nuqtalar to'ri */
   --net-dot: 52, 92, 68;
@@ -179,6 +180,7 @@
   --svc-integration: #2fd39b;
   --svc-seo: #f6c343;
   --svc-support: #ff6b6b;
+  --svc-audit: #b4e05a;
 
   --net-dot: 210, 174, 109;
   --net-line: 201, 168, 111;

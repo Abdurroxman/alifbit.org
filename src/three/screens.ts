@@ -13,7 +13,8 @@ export type DrawnScreen =
   | "ai"
   | "integration"
   | "seo"
-  | "support";
+  | "support"
+  | "audit";
 export type ImageScreen = "dalolat-site" | "dalolat-feed";
 export type ScreenKey = DrawnScreen | ImageScreen;
 export type Device = "laptop" | "phone";
@@ -92,6 +93,7 @@ const SVC: Record<ScreenTheme, Record<string, string>> = {
     integration: "#2fd39b",
     seo: "#f6c343",
     support: "#ff6b6b",
+    audit: "#b4e05a",
   },
   light: {
     web: "#2357e8",
@@ -102,6 +104,7 @@ const SVC: Record<ScreenTheme, Record<string, string>> = {
     integration: "#0c9a6f",
     seo: "#b98500",
     support: "#d63a3a",
+    audit: "#5b8a06",
   },
 };
 const SERVICE_ORDER: Array<[string, string]> = [
@@ -113,6 +116,7 @@ const SERVICE_ORDER: Array<[string, string]> = [
   ["integration", "Tizimlarni ulash"],
   ["seo", "Qidiruv (SEO)"],
   ["support", "Texnik xizmat"],
+  ["audit", "Tekshiruv"],
 ];
 
 type Ctx = CanvasRenderingContext2D;
@@ -234,19 +238,19 @@ const home: Draw = (c, w, h, phone, p, _a, t) => {
   txt(c, "— ALIFBIT · STUDIYA", 52, 128, 15, p.gold, 700);
   txt(c, "Sizga nima kerak?", 52, 204, 66, p.ink, 600, HEAD);
   SERVICE_ORDER.forEach(([k, name], i) => {
-    const y = 250 + i * 64;
-    rr(c, 52, y, 560, 54, 13, alpha(p.surface.slice(0, 7), 0.9));
-    stroke(c, 52, y, 560, 54, 13, p.line, 1.5);
-    rr(c, 52, y + 10, 4, 34, 2, svc[k]);
-    txt(c, `0${i + 1}`, 76, y + 34, 15, svc[k], 700);
-    txt(c, name, 118, y + 34, 20, p.ink, 600, HEAD);
-    txt(c, "→", 584, y + 35, 19, p.muted, 500);
+    const y = 240 + i * 58;
+    rr(c, 52, y, 560, 50, 13, alpha(p.surface.slice(0, 7), 0.9));
+    stroke(c, 52, y, 560, 50, 13, p.line, 1.5);
+    rr(c, 52, y + 9, 4, 32, 2, svc[k]);
+    txt(c, `0${i + 1}`, 76, y + 32, 15, svc[k], 700);
+    txt(c, name, 118, y + 32, 20, p.ink, 600, HEAD);
+    txt(c, "→", 584, y + 33, 19, p.muted, 500);
   });
   // O'ng tomonda: xizmatlar chizmasi
   const cx = 1010;
   const cy = 470;
   SERVICE_ORDER.forEach(([k], i) => {
-    const ang = -Math.PI / 2 + (i / 8) * Math.PI * 2;
+    const ang = -Math.PI / 2 + (i / SERVICE_ORDER.length) * Math.PI * 2;
     const x = cx + Math.cos(ang) * 230;
     const y = cy + Math.sin(ang) * 230;
     c.strokeStyle = alpha(svc[k], 0.8);
@@ -805,6 +809,87 @@ const support: Draw = (c, w, h, phone, p, a) => {
   }
 };
 
+/** Tekshiruv hisoboti: umumiy ball, muhimligi bo'yicha xatolar va texnik tavsif. */
+const audit: Draw = (c, w, h, phone, p, a) => {
+  c.fillStyle = p.bg;
+  c.fillRect(0, 0, w, h);
+  const top = phone ? 96 : 56;
+  if (phone) statusBar(c, w, p.ink);
+  else windowBar(c, w, p, "tekshiruv-hisoboti.pdf");
+  const pad = phone ? 30 : 52;
+  const colW = phone ? w - pad * 2 : 780;
+  txt(c, "Tekshiruv hisoboti", pad, top + (phone ? 72 : 70), phone ? 38 : 32, p.ink, 700, HEAD);
+  txt(c, "sizning-saytingiz.uz", pad, top + (phone ? 108 : 102), phone ? 19 : 16, p.muted, 500);
+  // Umumiy ball halqasi
+  const rx = pad + colW - (phone ? 70 : 64);
+  const ry = top + (phone ? 82 : 70);
+  const rad = phone ? 52 : 46;
+  c.lineWidth = phone ? 12 : 10;
+  c.strokeStyle = p.faint;
+  c.beginPath();
+  c.arc(rx, ry, rad, 0, Math.PI * 2);
+  c.stroke();
+  c.strokeStyle = a;
+  c.beginPath();
+  c.arc(rx, ry, rad, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * 0.62);
+  c.stroke();
+  txt(c, "62", rx, ry + (phone ? 12 : 10), phone ? 34 : 30, p.ink, 800, HEAD, "center");
+  const sev: Record<string, [string, string]> = {
+    high: ["Muhim", p.dark ? "#ff6b6b" : "#d63a3a"],
+    mid: ["O‘rtacha", p.dark ? "#f6c343" : "#b98500"],
+    low: ["Kichik", p.muted],
+  };
+  const issues: Array<[keyof typeof sev, string, string]> = [
+    ["high", "Buyurtma formasi telefonda yuborilmaydi", "Forma · iPhone, Android"],
+    ["high", "SSL sertifikati 9 kunda tugaydi", "Xavfsizlik"],
+    ["mid", "Bosh sahifa 6,4 soniyada ochiladi", "Tezlik · rasmlar siqilmagan"],
+    ["mid", "Sahifalarda sarlavha va tavsif yo‘q", "Google va Yandex"],
+    ["low", "3 ta havola ochilmaydi (404)", "Havolalar"],
+  ];
+  const ih = phone ? 112 : 92;
+  issues.forEach(([k, title, sub], i) => {
+    const y = top + (phone ? 170 : 140) + i * (ih + 14);
+    rr(c, pad, y, colW, ih, 18, p.surface);
+    stroke(c, pad, y, colW, ih, 18, p.line, 1.5);
+    const [label, col] = sev[k];
+    rr(c, pad, y + 18, 5, ih - 36, 3, col);
+    const tw = phone ? 120 : 104;
+    rr(c, pad + 24, y + 18, tw, phone ? 32 : 28, 14, alpha(col.slice(0, 7), 0.16));
+    txt(c, label, pad + 24 + tw / 2, y + (phone ? 40 : 37), phone ? 16 : 14, col, 700, BODY, "center");
+    if (phone) {
+      txt(c, title, pad + 24, y + 80, 20, p.ink, 600);
+    } else {
+      txt(c, title, pad + 24 + tw + 18, y + 38, 19, p.ink, 600);
+      txt(c, sub, pad + 24 + tw + 18, y + 68, 15, p.muted, 500);
+      rr(c, pad + colW - 120, y + ih / 2 - 16, 96, 32, 9, p.surface2);
+      txt(c, "Skrinshot", pad + colW - 72, y + ih / 2 + 6, 13, p.muted, 600, BODY, "center");
+    }
+  });
+  if (phone) {
+    const y = h - 150;
+    rr(c, pad, y, colW, 96, 20, a);
+    txt(c, "Texnik tavsifni ochish", w / 2, y + 58, 23, p.dark ? "#152000" : "#ffffff", 700, HEAD, "center");
+    return;
+  }
+  const x = pad + colW + 36;
+  const cw = w - x - pad;
+  rr(c, x, top + 40, cw, h - top - 80, 22, p.surface);
+  stroke(c, x, top + 40, cw, h - top - 80, 22, a, 2);
+  txt(c, "Texnik tavsif", x + 26, top + 88, 21, p.ink, 700, HEAD);
+  txt(c, "Har qanday dasturchi uchun", x + 26, top + 116, 15, p.muted, 500);
+  ["Formani tuzatish", "SSL’ni yangilash", "Rasmlarni siqish", "Sarlavha va tavsiflar", "Havolalarni tuzatish"].forEach((s2, i) => {
+    const y = top + 170 + i * 50;
+    rr(c, x + 26, y - 20, 26, 26, 7, alpha(a, 0.18));
+    txt(c, "✓", x + 39, y, 16, a, 800, BODY, "center");
+    txt(c, s2, x + 66, y, 17, p.ink, 500);
+  });
+  const by = h - 250;
+  rr(c, x + 26, by, cw - 52, 1, 0, p.line);
+  txt(c, "Tuzatish narxi", x + 26, by + 44, 16, p.muted, 500);
+  txt(c, "1 200 000 so‘m", x + 26, by + 86, 30, p.ink, 800, HEAD);
+  txt(c, "Muddat: 5 ish kuni", x + 26, by + 120, 16, p.muted, 500);
+};
+
 const course: Draw = (c, w, h, phone, p, a) => {
   const bg = p.dark ? "#0f1311" : "#1b221e";
   c.fillStyle = bg;
@@ -889,6 +974,7 @@ const ACCENT: Record<DrawnScreen, string> = {
   integration: "integration",
   seo: "seo",
   support: "support",
+  audit: "audit",
 };
 
 const DRAW: Record<DrawnScreen, Draw> = {
@@ -903,6 +989,7 @@ const DRAW: Record<DrawnScreen, Draw> = {
   integration,
   seo,
   support,
+  audit,
 };
 
 /** Maketni yangi canvas'ga chizadi. */

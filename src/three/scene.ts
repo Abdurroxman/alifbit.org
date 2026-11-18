@@ -58,6 +58,7 @@ const FOCUS_POSES: Record<StageFocus, Pose> = {
   integration: { laptop: [-0.45, 0, -0.15, 0.38, 1], phone: [1.0, 0.12, 1.2, -0.28, 1.15], ls: "integration", ps: "integration" },
   seo: { laptop: [-0.15, 0, 0.25, 0.22, 1.12], phone: [1.6, 0.04, 0.6, -0.5, 0.82], ls: "seo", ps: "seo" },
   support: { laptop: [-0.2, 0, 0.2, 0.3, 1.08], phone: [1.5, 0.04, 0.8, -0.45, 0.88], ls: "support", ps: "support" },
+  audit: { laptop: [-0.15, 0, 0.25, 0.26, 1.1], phone: [1.55, 0.04, 0.7, -0.45, 0.86], ls: "audit", ps: "audit" },
   course: { laptop: [-0.2, 0, 0.2, 0.1, 1.1], phone: [1.55, 0.04, 0.75, -0.55, 0.85], ls: "course", ps: "course" },
 };
 

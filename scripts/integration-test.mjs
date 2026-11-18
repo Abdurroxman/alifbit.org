@@ -64,7 +64,7 @@ try {
       assert.match(academy.headers.get("location"), /\/courses$/);
       const services = await (await req("/api/services")).json();
       assert.ok(services.some((s) => s.slug === "veb-sayt" && s.packages?.length));
-      assert.equal(services.length, 8);
+      assert.equal(services.length, 9);
       for (const s of services) {
         assert.ok(s.features.length >= 7, `${s.slug} lists what is included`);
         assert.ok(s.packages.length >= 1, `${s.slug} has packages`);
