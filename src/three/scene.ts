@@ -60,6 +60,42 @@ const WORK_POSES: Record<string, Pose> = {
   "dalolat-site": { laptop: [-0.1, 0, 0.3, 0.28, 1.12], phone: [1.6, 0.04, 0.7, -0.45, 0.85], ls: "dalolat-site", ps: "dalolat-feed" },
 };
 
+/**
+ * Telefon noutbuk korpusiga kirib ketmasligi uchun: telefon izi (yuqoridan qaraganda to'rtburchak)
+ * noutbukning old chetidan oldinda bo'lmasa, noutbuk o'qi bo'ylab oldinga suriladi.
+ * O'lchamlar sahna birligida, o'lcham 1 da: noutbuk eni ±1,5, old cheti z=1,03; telefon eni ±0,47, qalinligi ±0,11.
+ */
+const LAPTOP_HALF_W = 1.5;
+const LAPTOP_FRONT = 1.03;
+const PHONE_HALF_W = 0.47;
+const PHONE_HALF_D = 0.11;
+const DEVICE_GAP = 0.12;
+
+function separate(p: Pose): Pose {
+  const [lx, , lz, ly, ls] = p.laptop;
+  const [px, py, pz, pyaw, ps] = p.phone;
+  const lc = Math.cos(ly);
+  const lsn = Math.sin(ly);
+  const pc = Math.cos(pyaw);
+  const psn = Math.sin(pyaw);
+  let minX = Infinity;
+  let minZ = Infinity;
+  for (const [cx, cz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    // Telefon burchagi dunyoda, keyin noutbukning o'z koordinatalarida (Y atrofida burilish: x' = x·cos + z·sin).
+    const ox = cx * PHONE_HALF_W * ps;
+    const oz = cz * PHONE_HALF_D * ps;
+    const wx = px + ox * pc + oz * psn - lx;
+    const wz = pz - ox * psn + oz * pc - lz;
+    minX = Math.min(minX, (wx * lc - wz * lsn) / ls);
+    minZ = Math.min(minZ, (wx * lsn + wz * lc) / ls);
+  }
+  if (minX >= LAPTOP_HALF_W + DEVICE_GAP) return p;
+  const shift = LAPTOP_FRONT + DEVICE_GAP - minZ;
+  if (shift <= 0) return p;
+  return { ...p, phone: [px + shift * ls * lsn, py, pz + shift * ls * lc, pyaw, ps] };
+}
+for (const poses of [FOCUS_POSES, WORK_POSES] as Record<string, Pose>[]) for (const k in poses) poses[k] = separate(poses[k]);
+
 const LID_OPEN = -0.26;
 const LID_CLOSED = Math.PI / 2 - 0.02;
 // Kompozitsiya chegarasi (dunyo birligida): kamera masofasi shunga qarab tanlanadi.
