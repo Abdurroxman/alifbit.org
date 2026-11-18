@@ -86,7 +86,7 @@ test("package fit and hidden flag, service published flag and course need have s
 });
 
 test("every built-in service passes the admin schema", () => {
-  assert.equal(initialServices.length, 9);
+  assert.equal(initialServices.length, 10);
   for (const s of initialServices) assert.equal(serviceSchema.safeParse(s).success, true, s.slug);
   assert.equal(new Set(initialServices.map((s) => s.number)).size, initialServices.length);
 });

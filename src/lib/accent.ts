@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 /** Xizmat belgilari: har biri base.css da o'z `--svc-*` rangiga ega. */
-export const SERVICE_ICONS = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit"] as const;
+export const SERVICE_ICONS = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit", "ads"] as const;
 export type ServiceIcon = (typeof SERVICE_ICONS)[number];
 
 export function isServiceIcon(icon: string | undefined | null): icon is ServiceIcon {

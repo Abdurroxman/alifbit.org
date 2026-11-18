@@ -68,7 +68,7 @@ export type Service = {
   /** «Ichiga nimalar kiradi»: har bir paketda bor bandlar. Paketlarda faqat o'ziga xos bandlar turadi. */
   features: string[];
   icon: string;
-  /** «…so‘mdan» ko‘rinishidagi boshlang‘ich narx; bo‘sh bo‘lsa saytda ko‘rsatilmaydi. */
+  /** «1 200 000 so‘m» ko‘rinishidagi boshlang‘ich narx; bo‘sh bo‘lsa saytda ko‘rsatilmaydi. */
   price?: string;
   term?: string;
   packages?: ServicePackage[];
@@ -109,7 +109,7 @@ export type Course = {
   seoTitle?: string;
   seoDescription?: string;
 };
-export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit"] as const;
+export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit", "ads"] as const;
 /** Har bir loyihaga qo'shib beriladigan xizmatlar: xizmat kartasi va sahifasida «Har bir loyihada» qatori. */
 export const PROMISES: Array<[string, string]> = [
   ["3 oy bepul texnik yordam", "Ishga tushgandan keyin xatolarni tuzatamiz va savollaringizga javob beramiz."],
@@ -400,6 +400,25 @@ export const initialServices: Service[] = [
     ],
     icon: "audit",
     promises: false,
+    published: true
+    },
+  {
+    slug: "reklama",
+    number: "10",
+    name: "Telegram va Instagram’da reklama",
+    short: "Telegram Ads va Instagram’da reklamani sozlab, ishga tushiramiz va natijasini kuzatamiz.",
+    description: "Sayt, bot yoki kanalingizga kerakli odamlarni olib kelish uchun Telegram Ads va Instagram’da reklama sozlaymiz. Auditoriyani aniqlaymiz, reklama kabinetini ochamiz, ishga tushiramiz va natijani kuzatib boramiz. Natija yomon bo‘lsa, sozlamalarni o‘zgartiramiz va nima qilinganini hisobotda ko‘rsatamiz.",
+    features: [
+      "Maqsad va auditoriyani aniqlash: kim, qayerda, qaysi tilda",
+      "Reklama kabinetini ochish va sozlash",
+      "Sayt, bot yoki kanalni reklamaga tayyorlash",
+      "Reklamani ishga tushirish",
+      "Natijani kuzatish: ko‘rishlar, bosishlar va arizalar",
+      "Natija yomon bo‘lsa sozlamalarni o‘zgartirish",
+      "Hisobot: nima qilindi va natija qanday",
+      "Reklama byudjeti xizmat narxiga kirmaydi: platformaga mijozning o‘zi to‘laydi yoki alohida kelishiladi"
+    ],
+    icon: "ads",
     published: true
   }
 ];

@@ -16,6 +16,7 @@ import {
   Gauge,
   Globe,
   Layers,
+  Megaphone,
   LifeBuoy,
   MessageCircle,
   Monitor,
@@ -56,6 +57,7 @@ const ICONS: Record<string, LucideIcon> = {
   Gauge,
   Globe,
   Layers,
+  Megaphone,
   LifeBuoy,
   MessageCircle,
   Monitor,
@@ -89,6 +91,7 @@ export const SERVICE_GLYPH: Record<string, string> = {
   seo: "Search",
   support: "LifeBuoy",
   audit: "ScanSearch",
+  ads: "Megaphone",
 };
 
 export type DiagramItem = {

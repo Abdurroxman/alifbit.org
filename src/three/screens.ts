@@ -14,7 +14,8 @@ export type DrawnScreen =
   | "integration"
   | "seo"
   | "support"
-  | "audit";
+  | "audit"
+  | "ads";
 export type ImageScreen = "dalolat-site" | "dalolat-feed";
 export type ScreenKey = DrawnScreen | ImageScreen;
 export type Device = "laptop" | "phone";
@@ -94,6 +95,7 @@ const SVC: Record<ScreenTheme, Record<string, string>> = {
     seo: "#f6c343",
     support: "#ff6b6b",
     audit: "#b4e05a",
+    ads: "#3fd0d8",
   },
   light: {
     web: "#2357e8",
@@ -105,6 +107,7 @@ const SVC: Record<ScreenTheme, Record<string, string>> = {
     seo: "#b98500",
     support: "#d63a3a",
     audit: "#5b8a06",
+    ads: "#0a8a94",
   },
 };
 const SERVICE_ORDER: Array<[string, string]> = [
@@ -117,6 +120,7 @@ const SERVICE_ORDER: Array<[string, string]> = [
   ["seo", "Qidiruv (SEO)"],
   ["support", "Texnik xizmat"],
   ["audit", "Tekshiruv"],
+  ["ads", "Reklama"],
 ];
 
 type Ctx = CanvasRenderingContext2D;
@@ -238,13 +242,13 @@ const home: Draw = (c, w, h, phone, p, _a, t) => {
   txt(c, "— ALIFBIT · STUDIYA", 52, 128, 15, p.gold, 700);
   txt(c, "Sizga nima kerak?", 52, 204, 66, p.ink, 600, HEAD);
   SERVICE_ORDER.forEach(([k, name], i) => {
-    const y = 240 + i * 58;
-    rr(c, 52, y, 560, 50, 13, alpha(p.surface.slice(0, 7), 0.9));
-    stroke(c, 52, y, 560, 50, 13, p.line, 1.5);
-    rr(c, 52, y + 9, 4, 32, 2, svc[k]);
-    txt(c, `0${i + 1}`, 76, y + 32, 15, svc[k], 700);
-    txt(c, name, 118, y + 32, 20, p.ink, 600, HEAD);
-    txt(c, "→", 584, y + 33, 19, p.muted, 500);
+    const y = 236 + i * 53;
+    rr(c, 52, y, 560, 46, 12, alpha(p.surface.slice(0, 7), 0.9));
+    stroke(c, 52, y, 560, 46, 12, p.line, 1.5);
+    rr(c, 52, y + 8, 4, 30, 2, svc[k]);
+    txt(c, String(i + 1).padStart(2, "0"), 76, y + 30, 15, svc[k], 700);
+    txt(c, name, 118, y + 30, 19, p.ink, 600, HEAD);
+    txt(c, "→", 584, y + 31, 19, p.muted, 500);
   });
   // O'ng tomonda: xizmatlar chizmasi
   const cx = 1010;
@@ -890,6 +894,76 @@ const audit: Draw = (c, w, h, phone, p, a) => {
   txt(c, "Muddat: 5 ish kuni", x + 26, by + 120, 16, p.muted, 500);
 };
 
+/** Reklama kabineti: ko'rishlar, bosishlar, arizalar va ikki kanal natijasi. */
+const ads: Draw = (c, w, h, phone, p, a) => {
+  c.fillStyle = p.bg;
+  c.fillRect(0, 0, w, h);
+  const top = phone ? 96 : 56;
+  if (phone) statusBar(c, w, p.ink);
+  else windowBar(c, w, p, "ads.telegram.org");
+  const pad = phone ? 30 : 52;
+  txt(c, "Reklama natijasi", pad, top + (phone ? 72 : 70), phone ? 38 : 32, p.ink, 700, HEAD);
+  txt(c, "So‘nggi 14 kun", pad, top + (phone ? 108 : 102), phone ? 19 : 16, p.muted, 500);
+  const stats: Array<[string, string, string]> = [
+    ["Ko‘rishlar", "48 200", "+12%"],
+    ["Bosishlar", "1 930", "+18%"],
+    ["Arizalar", "126", "+24%"],
+  ];
+  const sw = phone ? w - pad * 2 : (w - pad * 2 - 40) / 3;
+  const sh = phone ? 118 : 130;
+  stats.forEach(([label, v, d], i) => {
+    const x = phone ? pad : pad + i * (sw + 20);
+    const y = top + (phone ? 140 : 130) + (phone ? i * (sh + 16) : 0);
+    rr(c, x, y, sw, sh, 20, p.surface);
+    stroke(c, x, y, sw, sh, 20, i === 2 ? a : p.line, i === 2 ? 2 : 1.5);
+    txt(c, label, x + 24, y + 40, phone ? 19 : 17, p.muted, 500);
+    txt(c, v, x + 24, y + (phone ? 94 : 98), phone ? 38 : 40, i === 2 ? a : p.ink, 800, HEAD);
+    txt(c, d, x + sw - 24, y + 40, phone ? 18 : 16, p.ok, 700, BODY, "right");
+  });
+  // Arizalar grafigi
+  const gx = pad;
+  const gy = top + (phone ? 560 : 290);
+  const gw = phone ? w - pad * 2 : 760;
+  const gh = phone ? 250 : 300;
+  rr(c, gx, gy, gw, gh, 20, p.surface);
+  stroke(c, gx, gy, gw, gh, 20, p.line, 1.5);
+  txt(c, "Kunlik arizalar", gx + 24, gy + 40, phone ? 19 : 17, p.ink, 600, HEAD);
+  const pts = [3, 4, 4, 6, 5, 7, 8, 7, 9, 11, 10, 12, 13, 15];
+  const bw = (gw - 48) / pts.length;
+  pts.forEach((v, i) => {
+    const bh = (v / 15) * (gh - 90);
+    rr(c, gx + 24 + i * bw, gy + gh - 24 - bh, bw - 8, bh, 5, i === pts.length - 1 ? a : alpha(a, 0.45));
+  });
+  // Kanallar
+  const ch: Array<[string, number, string]> = [
+    ["Telegram Ads", 0.62, "78 ariza"],
+    ["Instagram", 0.38, "48 ariza"],
+  ];
+  if (phone) {
+    ch.forEach(([name, share, s2], i) => {
+      const y = gy + gh + 30 + i * 84;
+      txt(c, name, pad, y + 26, 20, p.ink, 600);
+      txt(c, s2, w - pad, y + 26, 18, p.muted, 500, BODY, "right");
+      rr(c, pad, y + 42, w - pad * 2, 14, 7, p.faint);
+      rr(c, pad, y + 42, (w - pad * 2) * share, 14, 7, i ? alpha(a, 0.6) : a);
+    });
+    return;
+  }
+  const x = gx + gw + 30;
+  const cw = w - x - pad;
+  rr(c, x, gy, cw, gh, 20, p.surface);
+  stroke(c, x, gy, cw, gh, 20, p.line, 1.5);
+  txt(c, "Kanallar", x + 24, gy + 40, 17, p.ink, 600, HEAD);
+  ch.forEach(([name, share, s2], i) => {
+    const y = gy + 80 + i * 96;
+    txt(c, name, x + 24, y + 22, 18, p.ink, 600);
+    txt(c, s2, x + cw - 24, y + 22, 15, p.muted, 500, BODY, "right");
+    rr(c, x + 24, y + 40, cw - 48, 14, 7, p.faint);
+    rr(c, x + 24, y + 40, (cw - 48) * share, 14, 7, i ? alpha(a, 0.6) : a);
+  });
+  txt(c, "Byudjet: mijoz kabinetida", x + 24, gy + gh - 30, 15, p.muted, 500);
+};
+
 const course: Draw = (c, w, h, phone, p, a) => {
   const bg = p.dark ? "#0f1311" : "#1b221e";
   c.fillStyle = bg;
@@ -975,6 +1049,7 @@ const ACCENT: Record<DrawnScreen, string> = {
   seo: "seo",
   support: "support",
   audit: "audit",
+  ads: "ads",
 };
 
 const DRAW: Record<DrawnScreen, Draw> = {
@@ -990,6 +1065,7 @@ const DRAW: Record<DrawnScreen, Draw> = {
   seo,
   support,
   audit,
+  ads,
 };
 
 /** Maketni yangi canvas'ga chizadi. */

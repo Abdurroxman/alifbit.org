@@ -64,4 +64,10 @@ export const SERVICE_FLOWS: Record<string, FlowNode[]> = {
     { icon: "FileCheck", label: "Texnik tavsif", title: "Tuzatish rejasi", text: "Har qanday dasturchi tushunadigan tavsif, narxi va muddati." },
     { icon: "Wrench", label: "Tuzatish", title: "Tanlov sizda", text: "Bizga yoki boshqa dasturchiga berasiz. Bizga bersangiz, tekshiruv narxi chegiriladi." },
   ],
+  ads: [
+    { icon: "Users", label: "Auditoriya", title: "Kimga ko‘rsatamiz", text: "Kim, qayerda va qaysi tilda — maqsadga qarab aniqlaymiz." },
+    { icon: "Megaphone", label: "Reklama", title: "Telegram Ads va Instagram", text: "Kabinetni ochamiz, sozlaymiz va ishga tushiramiz." },
+    { icon: "Monitor", label: "Sayt yoki bot", title: "Odam sizga keladi", text: "Sayt, bot yoki kanalingiz reklamaga tayyorlanadi." },
+    { icon: "ChartColumn", label: "Natija", title: "Arizalar va hisobot", text: "Ko‘rishlar, bosishlar va arizalarni kuzatib, sozlamalarni yaxshilaymiz." },
+  ],
 };

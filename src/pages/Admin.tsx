@@ -1072,7 +1072,7 @@ function ServiceEditor({ service: s }: { service: Service }) {
         <div className="ad-grid">
           <Field label="Xizmat nomi *" name="name" value={s.name} required maxLength={100} />
           <Field label="Tartib raqami (01–99) *" name="number" value={s.number} required maxLength={2} />
-          <Field label="Boshlang‘ich narx — masalan, 1 200 000 so‘mdan" name="price" value={s.price || ""} maxLength={100} />
+          <Field label="Boshlang‘ich narx — masalan, 1 200 000 so‘m" name="price" value={s.price || ""} maxLength={100} />
           <Field label="Muddat — masalan, 2 haftadan" name="term" value={s.term || ""} maxLength={100} />
         </div>
         <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
