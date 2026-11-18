@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { afterIntro } from "../lib/motion";
 import type { StageHandle, StageState } from "../three/types";
@@ -18,21 +18,23 @@ function webglAvailable() {
 const isDocked = () => typeof window !== "undefined" && matchMedia(DOCK_QUERY).matches;
 
 /**
- * 3D noutbuk va telefon. Katta ekranda butun oynaga yoyilgan fon qatlami (matn chapda, qurilmalar o'ngda),
- * telefonda hero ichidagi oddiy blok. three.js sahifa chizilgandan keyin alohida yuklanadi;
- * sahnaning canvas'i shu blokka ulanadi va sahifadan chiqilganda uziladi.
- *
- * Katta ekrandagi qatlam body'ga chiqariladi: sahifa almashish animatsiyasidagi transform
- * «fixed» blokni oynaga emas, butun sahifaga bog'lab, canvas'ni ulkan qilib yuboradi.
+ * 3D noutbuk va telefon. Katta ekranda — hero va «Ishlar» bo'limlari ortida yopishib turadigan
+ * qatlam (o'z joyida chiziladi, bo'limlar tugagach sahifa bilan birga chiqib ketadi);
+ * telefonda — hero ichidagi `slot` blokka chiqariladi. three.js sahifa chizilgandan keyin
+ * alohida yuklanadi; sahnaning canvas'i shu blokka ulanadi va sahifadan chiqilganda uziladi.
  */
-export default function DeviceStage({ state }: { state: StageState }) {
+export default function DeviceStage({ state, slot }: { state: StageState; slot: RefObject<HTMLDivElement | null> }) {
   const box = useRef<HTMLDivElement>(null);
   const handle = useRef<StageHandle | null>(null);
   const latest = useRef(state);
   const [docked, setDocked] = useState(isDocked);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [slotEl, setSlotEl] = useState<HTMLDivElement | null>(null);
   latest.current = state;
+
+  // Hero ichidagi joy keyinroq chiziladi: u tayyor bo'lgach telefon ko'rinishi o'sha yerga ulanadi.
+  useEffect(() => setSlotEl(slot.current), [slot]);
 
   // Sahna modulini bir marta yuklaydi.
   useEffect(() => {
@@ -84,5 +86,6 @@ export default function DeviceStage({ state }: { state: StageState }) {
   const stage = (
     <div ref={box} className={`stage ${ready ? "is-ready" : ""}`} data-section={state.section} aria-hidden="true" />
   );
-  return docked ? createPortal(stage, document.body) : stage;
+  if (docked) return stage;
+  return slotEl ? createPortal(stage, slotEl) : null;
 }

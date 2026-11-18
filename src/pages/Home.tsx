@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { useContent } from "../App";
 import DeviceStage from "../components/DeviceStage";
 import { HubDiagram, SERVICE_GLYPH } from "../components/FlowDiagram";
@@ -20,14 +20,9 @@ function homeWorks(projects: Project[]) {
   return [...picked, ...rest].slice(0, 4);
 }
 
-function Hero({ onFlow, stage }: { onFlow: (s: FlowState) => void; stage: ReactNode }) {
+function Hero({ onFlow, slot }: { onFlow: (s: FlowState) => void; slot: RefObject<HTMLDivElement | null> }) {
   return (
     <section className="hero" data-stage="hero">
-      <div className="hero-glow" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </div>
       <div className="container hero-grid">
         <div className="hero-copy">
           <div data-reveal="rise">
@@ -41,7 +36,7 @@ function Hero({ onFlow, stage }: { onFlow: (s: FlowState) => void; stage: ReactN
             <NeedFlow onChange={onFlow} />
           </div>
         </div>
-        {stage}
+        <div className="stage-slot" ref={slot} />
       </div>
     </section>
   );
@@ -189,15 +184,25 @@ export default function Home() {
   const onWork = useCallback((id: string) => setWork(id || null), []);
   const { projects, services } = useContent();
   const icon = services.find((s) => s.slug === projects.find((p) => p.id === work)?.service)?.icon || "";
-  const stage = (
-    <DeviceStage state={{ section, focus: flow.focus, step: flow.step, work, workFocus: focusOfIcon(icon) }} />
-  );
+  const slot = useRef<HTMLDivElement>(null);
   return (
     <div className="home" ref={root}>
-      <Hero onFlow={onFlow} stage={stage} />
+      {/* Qurilmalar hero va «Ishlar» davomida ortda turadi, keyin sahifa bilan birga chiqib ketadi. */}
+      <div className="stage-track">
+        <div className="hero-glow" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
+        <DeviceStage
+          slot={slot}
+          state={{ section, focus: flow.focus, step: flow.step, work, workFocus: focusOfIcon(icon) }}
+        />
+        <Hero onFlow={onFlow} slot={slot} />
+        <Works onWork={onWork} />
+      </div>
       <ServiceMarquee />
       <ServiceMap />
-      <Works onWork={onWork} />
       <WorkingProcess />
       <Course />
       <FAQ priceMode="ask" />

@@ -1,25 +1,38 @@
 import {
   ACESFilmicToneMapping,
+  Box3,
   CanvasTexture,
+  ClampToEdgeWrapping,
   DirectionalLight,
   Group,
+  LinearFilter,
+  LinearMipmapLinearFilter,
   MathUtils,
   Mesh,
   MeshBasicMaterial,
   MeshPhysicalMaterial,
   MeshStandardMaterial,
+  MirroredRepeatWrapping,
+  NearestFilter,
+  Object3D,
   PerspectiveCamera,
   PlaneGeometry,
   PMREMGenerator,
+  Quaternion,
+  Raycaster,
+  RepeatWrapping,
   Scene,
   SRGBColorSpace,
+  Texture,
   TextureLoader,
+  Vector2,
+  Vector3,
   WebGLRenderer,
-  type Texture,
 } from "three";
+import { GLTFLoader, type GLTFLoaderPlugin, type GLTFParser } from "three/addons/loaders/GLTFLoader.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { drawScreen, IMAGE_SCREENS, isImageScreen, type Device, type ScreenKey } from "./screens";
+import { drawScreen, IMAGE_SCREENS, isImageScreen, type Device, type ScreenKey, type ScreenTheme } from "./screens";
 import type { StageFocus, StageHandle, StageState } from "./types";
 
 /** [x, y, z, burilish (rad), o'lcham] */
@@ -56,6 +69,65 @@ const FOV = 30;
 const MAX_PIXELS = 4_200_000;
 
 type Screen = { mat: MeshBasicMaterial; key: ScreenKey | null; next: ScreenKey; fade: number };
+type DeviceName = "laptop" | "phone";
+
+// Modellar (public/models). O'lchamlar metrda, glTF koordinatalarida (Y — yuqoriga).
+const LAPTOP_URL = "/models/macbook.glb";
+const PHONE_URL = "/models/iphone.glb";
+/** MacBook: kengligi 0,3579 m (Z o'qi bo'ylab), old tomoni −X; qopqoq tuguni ilmoq o'qida turadi. */
+const LAPTOP_WIDTH = 0.3579;
+const LAPTOP_LID = "Ecran_6";
+/** Qopqoq teksturasidagi ekran maydoni (model koordinatalarida): old yuz x=0,12504. */
+const LAPTOP_SCREEN = { x: 0.12504, y0: 0.0303, y1: 0.2351, z0: -0.1733, z1: 0.1731 };
+/** iPhone: balandligi 0,1634 m, old tomoni +Z, pastki cheti y=0; ekran — alohida tugun. */
+const PHONE_HEIGHT = 0.1634;
+const PHONE_SCREEN = "Front_Screen";
+/** Qo'yib yuborilgach qurilma shuncha vaqt kutadi, keyin o'z holatiga qaytadi. */
+const RETURN_DELAY = 1200;
+
+const WRAP: Record<number, number> = { 33071: ClampToEdgeWrapping, 33648: MirroredRepeatWrapping, 10497: RepeatWrapping };
+const FILTER: Record<number, number> = { 9728: NearestFilter, 9729: LinearFilter };
+
+/**
+ * GLB ichidagi rasmlarni `blob:` manzilsiz o'qiydi: sayt CSP'si img-src ga faqat 'self' va data: ruxsat beradi,
+ * GLTFLoader esa odatda rasmni blob URL orqali yuklaydi. createImageBitmap baytlardan to'g'ridan-to'g'ri ochadi.
+ */
+function bitmapTextures(parser: GLTFParser): GLTFLoaderPlugin {
+  return {
+    name: "alifbit_bitmap_textures",
+    loadTexture(index: number) {
+      const json = parser.json;
+      const def = json.textures[index];
+      const image = json.images[def.source];
+      if (image?.bufferView === undefined || typeof createImageBitmap !== "function") return null;
+      return parser
+        .getDependency("bufferView", image.bufferView)
+        .then((buf: ArrayBuffer) =>
+          createImageBitmap(new Blob([buf], { type: image.mimeType }), {
+            imageOrientation: "none",
+            premultiplyAlpha: "none",
+            colorSpaceConversion: "none",
+          }),
+        )
+        .then((bitmap: ImageBitmap) => {
+          const t = new Texture(bitmap);
+          const sampler = (json.samplers || [])[def.sampler] || {};
+          t.flipY = false;
+          t.magFilter = (FILTER[sampler.magFilter] ?? LinearFilter) as typeof t.magFilter;
+          t.minFilter = (sampler.minFilter === undefined ? LinearMipmapLinearFilter : FILTER[sampler.minFilter] ?? LinearMipmapLinearFilter) as typeof t.minFilter;
+          t.wrapS = (WRAP[sampler.wrapS] ?? RepeatWrapping) as typeof t.wrapS;
+          t.wrapT = (WRAP[sampler.wrapT] ?? RepeatWrapping) as typeof t.wrapT;
+          t.needsUpdate = true;
+          parser.associations.set(t, { textures: index });
+          return t;
+        });
+    },
+  } as GLTFLoaderPlugin;
+}
+
+function currentTheme(): ScreenTheme {
+  return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+}
 
 function roundedShadow(): CanvasTexture {
   const c = document.createElement("canvas");
@@ -115,15 +187,19 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const textures = new Map<string, Texture>();
   const loader = new TextureLoader();
   const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  // Telefon ekrani modelning o'z UV'sida (glTF: v yuqoridan pastga), noutbuk ekrani — oddiy tekislik.
+  const flip: Record<Device, boolean> = { laptop: true, phone: true };
   function texture(key: ScreenKey, device: Device): Texture {
-    const id = isImageScreen(key) ? key : `${key}-${device}`;
+    const theme = currentTheme();
+    const id = isImageScreen(key) ? `${key}-${device}-${flip[device]}` : `${key}-${device}-${theme}-${flip[device]}`;
     let t = textures.get(id);
     if (t) return t;
     if (isImageScreen(key)) {
       t = loader.load(IMAGE_SCREENS[key], () => requestRender());
     } else {
-      t = new CanvasTexture(drawScreen(key, device));
+      t = new CanvasTexture(drawScreen(key, device, theme));
     }
+    t.flipY = flip[device];
     t.colorSpace = SRGBColorSpace;
     t.anisotropy = maxAniso;
     textures.set(id, t);
@@ -198,6 +274,62 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   phone.add(pshadow);
   root.add(phone);
 
+  // Haqiqiy modellar: yuklanguncha yuqoridagi sodda shakllar turadi, yuklanmasa o'shalar qoladi.
+  // Kursor bilan aylantirishda faqat shu qismlar tekshiriladi (soya tekisliklari emas).
+  const hitParts: Record<DeviceName, Object3D[]> = { laptop: [base, keys, pad, hinge], phone: [shell, pbezel, pscreen] };
+  let lidPivot: Object3D = hinge;
+  let lidAxis: "x" | "z" = "x";
+  const gltf = new GLTFLoader().register(bitmapTextures);
+  gltf.load(
+    LAPTOP_URL,
+    ({ scene: model }) => {
+      const lidNode = model.getObjectByName(LAPTOP_LID);
+      if (!lidNode) return;
+      model.updateMatrixWorld(true);
+      // Ekran tekisligi qopqoq tuguniga bog'lanadi: qopqoq bilan birga ochilib-yopiladi.
+      const sc = LAPTOP_SCREEN;
+      const screen = new Mesh(new PlaneGeometry(sc.z1 - sc.z0, sc.y1 - sc.y0), laptopScreen.mat);
+      screen.position.copy(lidNode.worldToLocal(new Vector3(sc.x - 0.0004, (sc.y0 + sc.y1) / 2, (sc.z0 + sc.z1) / 2)));
+      const facing = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), -Math.PI / 2);
+      screen.quaternion.copy(lidNode.getWorldQuaternion(new Quaternion()).invert().multiply(facing));
+      lidNode.add(screen);
+      // Model eni sahnadagi noutbuk eniga (3) teng; old tomoni kameraga (+Z) buriladi.
+      const wrap = new Group();
+      wrap.rotation.y = Math.PI / 2;
+      wrap.scale.setScalar(3 / LAPTOP_WIDTH);
+      wrap.add(model);
+      [base, keys, pad, hinge].forEach((o) => (o.visible = false));
+      laptop.add(wrap);
+      hitParts.laptop = [wrap];
+      lidPivot = lidNode;
+      lidAxis = "z";
+      requestRender();
+    },
+    undefined,
+    () => {},
+  );
+  gltf.load(
+    PHONE_URL,
+    ({ scene: model }) => {
+      const screenNode = model.getObjectByName(PHONE_SCREEN);
+      if (!screenNode) return;
+      screenNode.traverse((o) => {
+        if ((o as Mesh).isMesh) (o as Mesh).material = phoneScreen.mat;
+      });
+      flip.phone = false;
+      phoneScreen.key = null;
+      const wrap = new Group();
+      wrap.scale.setScalar(1.95 / PHONE_HEIGHT);
+      wrap.add(model);
+      [shell, pbezel, pscreen].forEach((o) => (o.visible = false));
+      phone.add(wrap);
+      hitParts.phone = [wrap];
+      requestRender();
+    },
+    undefined,
+    () => {},
+  );
+
   // Holat
   let state: StageState = { section: "hero", focus: "idle", step: 1, work: null };
   let lidAngle = still ? LID_OPEN : LID_CLOSED;
@@ -205,6 +337,15 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const openAt = performance.now() + 350;
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const cur = { laptop: [...FOCUS_POSES.idle.laptop] as Place, phone: [...FOCUS_POSES.idle.phone] as Place };
+  // Mehmon qurilmani surib aylantiradi; qo'yib yuborgach u biroz kutib, o'z holatiga qaytadi.
+  const spin: Record<DeviceName, { yaw: number; pitch: number; releasedAt: number }> = {
+    laptop: { yaw: 0, pitch: 0, releasedAt: 0 },
+    phone: { yaw: 0, pitch: 0, releasedAt: 0 },
+  };
+  const drag = { target: null as DeviceName | null, x: 0, y: 0, id: -1 };
+  const raycaster = new Raycaster();
+  const ndc = new Vector2();
+  const box = new Box3();
 
   function pose(): Pose {
     // O'z maketi yo'q ish (namuna yechim) o'z xizmat yo'nalishidagi ekran bilan ko'rsatiladi.
@@ -274,15 +415,27 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
     });
     if (!still && now > openAt) lidTarget = LID_OPEN;
     lidAngle = still ? LID_OPEN : MathUtils.lerp(lidAngle, lidTarget, 1 - Math.exp(-dt * 2.4));
-    hinge.rotation.x = lidAngle;
+    if (lidAxis === "x") lidPivot.rotation.x = lidAngle;
+    else lidPivot.rotation.z = lidAngle;
+
+    for (const name of ["laptop", "phone"] as const) {
+      const sp = spin[name];
+      if (drag.target !== name && now - sp.releasedAt > RETURN_DELAY) {
+        const back = 1 - Math.exp(-dt * 2.6);
+        sp.yaw = MathUtils.lerp(sp.yaw, 0, back);
+        sp.pitch = MathUtils.lerp(sp.pitch, 0, back);
+        if (Math.abs(sp.yaw) < 1e-4) sp.yaw = 0;
+        if (Math.abs(sp.pitch) < 1e-4) sp.pitch = 0;
+      }
+    }
 
     const t = now / 1000;
     const float = still ? 0 : Math.sin(t * 0.9) * 0.05;
     laptop.position.set(cur.laptop[0], cur.laptop[1] + float, cur.laptop[2]);
-    laptop.rotation.y = cur.laptop[3];
+    laptop.rotation.set(spin.laptop.pitch, cur.laptop[3] + spin.laptop.yaw, 0);
     laptop.scale.setScalar(cur.laptop[4]);
     phone.position.set(cur.phone[0], cur.phone[1] + (still ? 0 : Math.sin(t * 1.1 + 1.3) * 0.07), cur.phone[2]);
-    phone.rotation.set(-0.12, cur.phone[3], still ? 0 : Math.sin(t * 0.7) * 0.02);
+    phone.rotation.set(-0.12 + spin.phone.pitch, cur.phone[3] + spin.phone.yaw, still ? 0 : Math.sin(t * 0.7) * 0.02);
     phone.scale.setScalar(cur.phone[4]);
 
     pointer.x = MathUtils.lerp(pointer.x, pointer.tx, 1 - Math.exp(-dt * 3));
@@ -331,10 +484,80 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
     if (!raf && attached) raf = requestAnimationFrame(tick);
   }
 
+  /** Kursor ostidagi qurilma (canvas sahifa ostida bo'lgani uchun nur bilan aniqlanadi). */
+  function deviceAt(x: number, y: number): DeviceName | null {
+    const r = canvas.getBoundingClientRect();
+    if (!r.width || x < r.left || x > r.right || y < r.top || y > r.bottom) return null;
+    ndc.set(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
+    raycaster.setFromCamera(ndc, camera);
+    let best: DeviceName | null = null;
+    let bestD = Infinity;
+    for (const name of ["phone", "laptop"] as const) {
+      for (const part of hitParts[name]) {
+        if (!part.visible) continue;
+        box.setFromObject(part);
+        const hit = raycaster.ray.intersectBox(box, new Vector3());
+        if (hit) {
+          const d = hit.distanceTo(raycaster.ray.origin);
+          if (d < bestD) {
+            bestD = d;
+            best = name;
+          }
+        }
+      }
+    }
+    return best;
+  }
+  let hoverAt = 0;
+  const html = document.documentElement;
   const onPointer = (e: PointerEvent) => {
-    pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
-    pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
+    if (fine) {
+      pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
+    }
+    if (drag.target && e.pointerId === drag.id) {
+      const sp = spin[drag.target];
+      sp.yaw += (e.clientX - drag.x) * 0.011;
+      sp.pitch = MathUtils.clamp(sp.pitch + (e.clientY - drag.y) * 0.005, -0.45, 0.45);
+      drag.x = e.clientX;
+      drag.y = e.clientY;
+      requestRender();
+      return;
+    }
+    if (e.pointerType === "mouse" && e.timeStamp - hoverAt > 80) {
+      hoverAt = e.timeStamp;
+      html.classList.toggle("stage-grab", !!deviceAt(e.clientX, e.clientY));
+    }
   };
+  const onDown = (e: PointerEvent) => {
+    if (still || !e.isPrimary || (e.pointerType === "mouse" && e.button !== 0)) return;
+    const target = deviceAt(e.clientX, e.clientY);
+    if (!target) return;
+    // Sichqonchada matn belgilanib ketmasin; barmoqda vertikal surish sahifani aylantiraveradi.
+    if (e.pointerType === "mouse") e.preventDefault();
+    drag.target = target;
+    drag.id = e.pointerId;
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    html.classList.add("stage-grabbing");
+    requestRender();
+  };
+  const onUp = (e: PointerEvent) => {
+    if (!drag.target || e.pointerId !== drag.id) return;
+    const sp = spin[drag.target];
+    // Qaytishda eng qisqa yo'l tanlanadi: bir necha marta aylantirilgan bo'lsa ham.
+    sp.yaw = MathUtils.euclideanModulo(sp.yaw + Math.PI, Math.PI * 2) - Math.PI;
+    sp.releasedAt = performance.now();
+    drag.target = null;
+    html.classList.remove("stage-grabbing");
+    requestRender();
+  };
+  // Mavzu almashganda ekranlar yangi ranglarda qayta chiziladi.
+  const themeWatch = new MutationObserver(() => {
+    laptopScreen.key = null;
+    phoneScreen.key = null;
+    requestRender();
+  });
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const onVisibility = () => {
     last = performance.now();
@@ -351,7 +574,13 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
       if (attached) return;
       attached = true;
       parent.appendChild(canvas);
-      if (fine && !still) window.addEventListener("pointermove", onPointer, { passive: true });
+      if (!still) {
+        window.addEventListener("pointermove", onPointer, { passive: true });
+        window.addEventListener("pointerdown", onDown);
+        window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
+      }
+      themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
       document.addEventListener("visibilitychange", onVisibility);
       io.observe(canvas);
       ro.observe(parent);
@@ -365,6 +594,11 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
       cancelAnimationFrame(raf);
       raf = 0;
       window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      themeWatch.disconnect();
+      html.classList.remove("stage-grab", "stage-grabbing");
       document.removeEventListener("visibilitychange", onVisibility);
       io.disconnect();
       ro.disconnect();
