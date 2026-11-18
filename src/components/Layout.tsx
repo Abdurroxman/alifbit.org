@@ -5,7 +5,7 @@ import Brand from "./Brand";
 import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
-import { copy, routeMeta, TELEGRAM_URL } from "../../shared/content";
+import { copy, PAY_URL, routeMeta, TELEGRAM_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 
 /** «Kurslar» bandi faqat nashr qilingan kurs bo'lsa ko'rinadi. */
@@ -175,6 +175,9 @@ function Footer() {
               <Link to="/contact">
                 Buyurtma berish <Arrow size={15} />
               </Link>
+              <a href={PAY_URL}>
+                To‘lov qilish <Arrow size={15} />
+              </a>
               <small>O‘zbekiston</small>
             </div>
           </div>
