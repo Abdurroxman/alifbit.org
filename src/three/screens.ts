@@ -1,7 +1,18 @@
 // 3D qurilmalar ekranidagi maketlar: canvas'da chiziladi, tashqi rasm talab qilmaydi.
 // Haqiqiy ishlar (DALOLAT, Sado sayti) esa rasm sifatida yuklanadi — IMAGE_SCREENS.
 
-export type DrawnScreen = "home" | "web" | "design" | "telegram" | "app" | "course" | "sado";
+export type DrawnScreen =
+  | "home"
+  | "web"
+  | "design"
+  | "telegram"
+  | "app"
+  | "course"
+  | "sado"
+  | "ai"
+  | "integration"
+  | "seo"
+  | "support";
 export type ImageScreen = "dalolat-site" | "sado-site" | "dalolat-feed";
 export type ScreenKey = DrawnScreen | ImageScreen;
 export type Device = "laptop" | "phone";
@@ -69,7 +80,7 @@ function home(c: Ctx, w: number, h: number, phone: boolean) {
   const top = phone ? 230 : 210;
   txt(c, "Sizga nima", 40 * s, top, (phone ? 62 : 74) * s, C.ink, 600, HEAD);
   txt(c, "kerak?", 40 * s, top + (phone ? 74 : 84) * s, (phone ? 62 : 74) * s, C.green, 600, HEAD);
-  const opts = ["Mijozlar meni topsin", "Telegram’da buyurtma", "Ishimni avtomatlashtirish", "Hali aniq bilmayman"];
+  const opts = ["Veb-sayt", "Telegram bot", "AI yordamchi", "Integratsiyalar", "SEO"];
   const ow = phone ? w - 80 : 520;
   opts.forEach((o, i) => {
     const y = top + (phone ? 150 : 140) * s + i * (phone ? 92 : 74);
@@ -77,17 +88,227 @@ function home(c: Ctx, w: number, h: number, phone: boolean) {
     c.strokeStyle = C.line;
     c.lineWidth = 2;
     c.stroke();
-    txt(c, o, 64, y + (phone ? 45 : 37), phone ? 26 : 22, C.ink, 500);
+    txt(c, `0${i + 1}`, 64, y + (phone ? 45 : 37), phone ? 20 : 16, C.bronze, 600);
+    txt(c, o, phone ? 112 : 104, y + (phone ? 45 : 37), phone ? 26 : 22, C.ink, 600, HEAD);
     txt(c, "→", 40 + ow - 44, y + (phone ? 45 : 37), phone ? 26 : 22, C.green, 600);
   });
   if (!phone) {
-    rr(c, 680, 200, 520, 420, 28, C.paper);
-    rr(c, 720, 250, 200, 16, 8, C.bronze);
-    txt(c, "Sizga mos", 720, 320, 28, C.muted, 500);
-    txt(c, "Vizitka sayt", 720, 380, 46, C.ink, 600, HEAD);
-    lines(c, 720, 430, 400, 4, 34, C.stone, 14);
-    rr(c, 720, 560, 220, 52, 26, C.forest);
-    txt(c, "Buyurtma berish", 748, 594, 20, "#fff", 600, HEAD);
+    rr(c, 680, 200, 520, 440, 28, C.paper);
+    txt(c, "Xizmat 01", 720, 260, 20, C.bronze, 600);
+    txt(c, "Veb-sayt", 720, 318, 46, C.ink, 600, HEAD);
+    txt(c, "Ichiga nimalar kiradi", 720, 372, 18, C.muted, 600);
+    for (let i = 0; i < 4; i++) {
+      txt(c, "✓", 720, 412 + i * 34, 18, C.green, 700);
+      rr(c, 750, 400 + i * 34, 330 - (i % 3) * 40, 12, 6, C.stone);
+    }
+    rr(c, 720, 568, 220, 52, 26, C.forest);
+    txt(c, "Buyurtma berish", 748, 602, 20, "#fff", 600, HEAD);
+  }
+}
+
+/** Suhbat pufakchalari: chapdagi — yordamchi, o'ngdagi — mijoz. */
+function chat(c: Ctx, x0: number, cw: number, y0: number, fs: number, items: Array<[boolean, string[]]>, mineBg: string, theirBg: string) {
+  let y = y0;
+  for (const [mine, text] of items) {
+    c.font = `400 ${fs}px ${BODY}`;
+    const bw = Math.min(cw * 0.78, 44 + Math.max(...text.map((t) => c.measureText(t).width)));
+    const bh = 26 + text.length * fs * 1.45;
+    const bx = mine ? x0 + cw - bw - 24 : x0 + 24;
+    rr(c, bx, y, bw, bh, 20, mine ? mineBg : theirBg);
+    text.forEach((t, i) => txt(c, t, bx + 22, y + 12 + fs * 1.15 + i * fs * 1.45, fs, C.ink, 400));
+    y += bh + 14;
+  }
+  return y;
+}
+
+function ai(c: Ctx, w: number, h: number, phone: boolean) {
+  c.fillStyle = "#eef1ec";
+  c.fillRect(0, 0, w, h);
+  const x0 = phone ? 0 : 380;
+  if (!phone) {
+    c.fillStyle = C.forest;
+    c.fillRect(0, 0, 380, h);
+    txt(c, "Bilimlar bazasi", 32, 62, 24, "#fff", 700, HEAD);
+    ["Narxlar", "Xizmatlar", "Savol-javob", "Yetkazib berish", "Ish vaqti"].forEach((t, i) => {
+      rr(c, 24, 96 + i * 72, 332, 56, 14, "#ffffff14");
+      rr(c, 44, 112 + i * 72, 24, 24, 6, i % 2 ? C.bronze : C.green2);
+      txt(c, t, 84, 131 + i * 72, 19, "#e8eee9", 500);
+      txt(c, "✓", 322, 131 + i * 72, 19, C.green2, 700);
+    });
+    txt(c, "Bugun: 46 ta savol, 9 ta ariza", 32, h - 48, 17, "#b3c0b0", 500);
+  }
+  const cw = w - x0;
+  rr(c, x0, 0, cw, phone ? 124 : 88, 0, "#ffffff");
+  rr(c, x0 + 28, phone ? 32 : 18, phone ? 64 : 52, phone ? 64 : 52, 32, C.forest);
+  txt(c, "AI", x0 + (phone ? 44 : 40), phone ? 74 : 52, phone ? 24 : 20, "#fff", 700, HEAD);
+  txt(c, "AI yordamchi", x0 + (phone ? 112 : 96), phone ? 66 : 44, phone ? 30 : 24, C.ink, 600, HEAD);
+  rr(c, x0 + (phone ? 112 : 96), phone ? 84 : 58, 12, 12, 6, "#3fae6a");
+  txt(c, "onlayn", x0 + (phone ? 132 : 114), phone ? 96 : 69, phone ? 21 : 16, C.muted, 400);
+  const fs = phone ? 24 : 20;
+  const y = chat(
+    c,
+    x0,
+    cw,
+    phone ? 160 : 120,
+    fs,
+    [
+      [true, ["Vizitka sayt qancha turadi?"]],
+      [false, ["2 400 000 so‘mdan, 2 haftada.", "5 sahifa, admin panel, 2 til."]],
+      [true, ["Buyurtma bermoqchiman"]],
+      [false, ["Ajoyib! Raqamingizni yozing —", "menejer bugun qo‘ng‘iroq qiladi."]],
+      [true, ["+998 90 123 45 67"]],
+      [false, ["Ariza qabul qilindi ✓"]],
+    ],
+    "#d6ecd3",
+    "#ffffff",
+  );
+  if (y < h - 120) [0, 1, 2].forEach((i) => rr(c, x0 + 44 + i * 22, y + 18, 12, 12, 6, C.green2));
+  rr(c, x0 + 16, h - (phone ? 96 : 72), cw - 32, phone ? 72 : 54, 26, "#ffffff");
+  rr(c, x0 + 44, h - (phone ? 66 : 51), 240, 12, 6, C.line);
+}
+
+function integration(c: Ctx, w: number, h: number, phone: boolean) {
+  c.fillStyle = "#f4f3ee";
+  c.fillRect(0, 0, w, h);
+  if (phone) {
+    txt(c, "To‘lov", 40, 96, 44, C.ink, 700, HEAD);
+    rr(c, 40, 130, w - 80, 150, 22, "#ffffff");
+    txt(c, "Buyurtma №1024", 70, 184, 22, C.muted, 500);
+    txt(c, "2 400 000 so‘m", 70, 246, 44, C.forest, 700, HEAD);
+    ["Payme", "Click", "Uzum", "Uzcard / Humo"].forEach((m, i) => {
+      const y = 310 + i * 96;
+      rr(c, 40, y, w - 80, 80, 18, "#ffffff");
+      if (i === 0) {
+        c.strokeStyle = C.green;
+        c.lineWidth = 3;
+        c.beginPath();
+        c.roundRect(40, y, w - 80, 80, 18);
+        c.stroke();
+      }
+      rr(c, 66, y + 22, 36, 36, 18, i === 0 ? C.green : C.line);
+      txt(c, m, 124, y + 50, 26, C.ink, 600);
+    });
+    rr(c, 40, 712, w - 80, 76, 38, C.forest);
+    c.textAlign = "center";
+    txt(c, "To‘lash", w / 2, 760, 28, "#fff", 600, HEAD);
+    c.textAlign = "left";
+    rr(c, 30, h - 250, w - 60, 120, 22, C.forest);
+    txt(c, "✓ To‘lov qabul qilindi", 64, h - 196, 28, "#fff", 600, HEAD);
+    txt(c, "CRM va SMS yuborildi", 64, h - 156, 21, "#b3c0b0", 500);
+    return;
+  }
+  txt(c, "Buyurtma yo‘li", 48, 76, 34, C.ink, 700, HEAD);
+  const steps = [["Sayt", "Buyurtma"], ["To‘lov", "Payme · Click"], ["CRM", "amoCRM"], ["SMS", "Mijozga"], ["Telegram", "Sizga xabar"]];
+  const bw = 196;
+  const gap = (w - 96 - steps.length * bw) / (steps.length - 1);
+  steps.forEach(([t, s], i) => {
+    const x = 48 + i * (bw + gap);
+    rr(c, x, 120, bw, 130, 20, i === 1 ? C.forest : "#ffffff");
+    txt(c, t, x + 22, 172, 26, i === 1 ? "#fff" : C.ink, 700, HEAD);
+    txt(c, s, x + 22, 212, 17, i === 1 ? "#b3c0b0" : C.muted, 500);
+    if (i < steps.length - 1) {
+      rr(c, x + bw + 8, 182, gap - 16, 4, 2, C.green2);
+      txt(c, "›", x + bw + gap - 18, 192, 26, C.green, 700);
+    }
+  });
+  rr(c, 48, 290, w - 96, h - 340, 22, "#ffffff");
+  txt(c, "So‘nggi to‘lovlar", 80, 344, 22, C.ink, 600, HEAD);
+  const rows = [["№1024", "2 400 000 so‘m", "Payme"], ["№1023", "1 200 000 so‘m", "Click"], ["№1022", "860 000 so‘m", "Uzum"], ["№1021", "3 600 000 so‘m", "Payme"], ["№1020", "540 000 so‘m", "Click"]];
+  rows.forEach(([n, sum, m], i) => {
+    const y = 384 + i * 66;
+    rr(c, 80, y, w - 160, 1, 0, C.line);
+    txt(c, n, 80, y + 42, 19, C.muted, 500);
+    txt(c, sum, 260, y + 42, 20, C.ink, 600);
+    txt(c, m, 560, y + 42, 19, C.muted, 500);
+    rr(c, w - 260, y + 18, 150, 36, 18, "#e6efe7");
+    txt(c, "To‘landi ✓", w - 238, y + 43, 17, C.green, 600);
+  });
+}
+
+function seo(c: Ctx, w: number, h: number, phone: boolean) {
+  c.fillStyle = "#ffffff";
+  c.fillRect(0, 0, w, h);
+  const pad = phone ? 32 : 60;
+  const colW = phone ? w - pad * 2 : w * 0.56;
+  rr(c, pad, phone ? 56 : 40, colW, phone ? 72 : 60, 36, "#f1f3f1");
+  txt(c, "sayt yaratish toshkent", pad + 34, phone ? 102 : 79, phone ? 25 : 22, C.ink, 400);
+  txt(c, "⌕", pad + colW - 56, phone ? 104 : 80, phone ? 30 : 26, C.green, 600);
+  let y = phone ? 180 : 140;
+  for (let i = 0; i < (phone ? 5 : 5); i++) {
+    const top = i === 0;
+    const bh = phone ? 150 : 104;
+    if (top) {
+      rr(c, pad - 16, y - 14, colW + 32, bh + 4, 18, "#e9f3ea");
+      c.strokeStyle = C.green;
+      c.lineWidth = 3;
+      c.beginPath();
+      c.roundRect(pad - 16, y - 14, colW + 32, bh + 4, 18);
+      c.stroke();
+    }
+    txt(c, top ? "sizning-saytingiz.uz" : `boshqa-sayt-${i}.uz`, pad, y + (phone ? 22 : 18), phone ? 19 : 16, top ? C.green : C.muted, 500);
+    if (top) txt(c, "Saytingiz — 1-o‘rinda", pad, y + (phone ? 62 : 52), phone ? 30 : 25, "#1a4d8f", 600);
+    else rr(c, pad, y + (phone ? 40 : 32), colW * (0.62 - (i % 3) * 0.08), phone ? 20 : 16, 8, "#c9d6e8");
+    lines(c, pad, y + (phone ? 84 : 70), colW - 20, 2, phone ? 26 : 20, top ? "#cfe0d2" : C.stone, phone ? 11 : 9);
+    y += bh + (phone ? 36 : 30);
+  }
+  if (!phone) {
+    const x = w * 0.56 + 110;
+    const cw = w - x - 50;
+    rr(c, x, 40, cw, 360, 22, "#f4f3ee");
+    txt(c, "Qidiruvdan tashriflar", x + 28, 92, 20, C.muted, 500);
+    txt(c, "+240%", x + 28, 150, 48, C.forest, 700, HEAD);
+    c.beginPath();
+    const pts = [0.9, 0.84, 0.86, 0.7, 0.62, 0.48, 0.4, 0.22];
+    pts.forEach((p, i) => {
+      const px = x + 28 + (i * (cw - 56)) / (pts.length - 1);
+      const py = 190 + p * 170;
+      if (i) c.lineTo(px, py);
+      else c.moveTo(px, py);
+    });
+    c.strokeStyle = C.green;
+    c.lineWidth = 5;
+    c.stroke();
+    rr(c, x, 430, cw, 300, 22, "#f4f3ee");
+    txt(c, "Hisobot", x + 28, 480, 22, C.ink, 600, HEAD);
+    ["Texnik audit", "Sarlavha va tavsiflar", "Sitemap", "Google Biznes"].forEach((t, i) => {
+      txt(c, "✓", x + 28, 530 + i * 46, 20, C.green, 700);
+      txt(c, t, x + 60, 530 + i * 46, 19, C.ink, 500);
+    });
+  }
+}
+
+function support(c: Ctx, w: number, h: number, phone: boolean) {
+  c.fillStyle = "#f4f3ee";
+  c.fillRect(0, 0, w, h);
+  const pad = phone ? 32 : 56;
+  txt(c, "Holat", pad, phone ? 100 : 82, phone ? 44 : 36, C.ink, 700, HEAD);
+  rr(c, phone ? pad : w - 380, phone ? 130 : 44, phone ? w - pad * 2 : 320, phone ? 70 : 56, 35, "#e1efe3");
+  rr(c, (phone ? pad : w - 380) + 26, phone ? 157 : 64, 16, 16, 8, "#3fae6a");
+  txt(c, "Hammasi ishlayapti", (phone ? pad : w - 380) + 56, phone ? 175 : 81, phone ? 25 : 21, C.forest, 600);
+  const rows: Array<[string, string]> = [
+    ["Sayt", "99,98% ishlagan"],
+    ["Zaxira nusxa", "Bugun 03:00 ✓"],
+    ["SSL sertifikat", "284 kun qoldi"],
+    ["Xavfsizlik", "Yangilangan ✓"],
+    ["Tezlik", "0,8 s"],
+  ];
+  const cols = phone ? 1 : 2;
+  const cw = (w - pad * 2 - (cols - 1) * 24) / cols;
+  rows.forEach(([t, v], i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = pad + col * (cw + 24);
+    const y = (phone ? 236 : 140) + row * (phone ? 132 : 150);
+    rr(c, x, y, cw, phone ? 112 : 128, 20, "#ffffff");
+    txt(c, t, x + 26, y + (phone ? 44 : 48), phone ? 22 : 20, C.muted, 500);
+    txt(c, v, x + 26, y + (phone ? 88 : 96), phone ? 30 : 30, C.forest, 700, HEAD);
+  });
+  if (!phone) {
+    const x = pad + cw + 24;
+    const y = 140 + 2 * 150;
+    rr(c, x, y, cw, 128, 20, "#ffffff");
+    txt(c, "So‘nggi 30 kun", x + 26, y + 44, 20, C.muted, 500);
+    for (let i = 0; i < 30; i++) rr(c, x + 26 + i * ((cw - 52) / 30), y + 66, (cw - 52) / 30 - 4, 36, 4, i === 17 ? C.bronze : "#7fb48a");
   }
 }
 
@@ -343,6 +564,10 @@ const DRAW: Record<DrawnScreen, (c: Ctx, w: number, h: number, phone: boolean) =
   app,
   course,
   sado,
+  ai,
+  integration,
+  seo,
+  support,
 };
 
 /** Maketni yangi canvas'ga chizadi. */

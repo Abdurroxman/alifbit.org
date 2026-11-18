@@ -459,3 +459,21 @@ html.motion [data-tilt]::after {
 html.motion [data-tilt].is-tilting::after {
   opacity: 1;
 }
+
+/* Xizmat tarkibi va «Har bir loyihada» */
+.pkg-fit {
+  margin-top: -12px;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+@media (min-width: 900px) {
+  .includes-list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+  }
+}
+@media (min-width: 1024px) {
+  .promises-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

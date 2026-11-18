@@ -23,7 +23,7 @@ export default function About() {
             Foyda — maqsadimiz.
           </span>,
         ]}
-        text="AlifBit — kichik studiya: avval ehtiyojingizni tinglaymiz, keyin yechim va narxini aytamiz. O‘z mahsulotlarimizni ham yasaymiz: DALOLAT va Sado."
+        text="AlifBit — kichik studiya: avval ehtiyojingizni tinglaymiz, keyin yechim va narxini aytamiz. O‘z mahsulotimiz ham bor: Sado — Windows uchun ovoz bilan yozish dasturi."
       />
       <section className="about-banner on-dark">
         <div className="container about-banner-inner">

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { courseSchema, orderSchema, serviceSchema } from "../server/validation.ts";
 import { initialServices, type Course } from "../shared/content.ts";
 
@@ -65,18 +66,42 @@ test("course sign-up uses a slug-safe service value", () => {
   assert.equal(orderSchema.safeParse(order).success, true);
 });
 
-test("intro answers: service need, package fit and course need are optional texts", () => {
+test("package fit and hidden flag, service published flag and course need have safe defaults", () => {
   const parsed = serviceSchema.safeParse({
     ...initialServices[0],
-    need: "Mijozlar meni internetdan topsin",
-    packages: [{ name: "Landing", price: "", term: "", features: [], recommended: false, fit: "Bitta sahifa kerak" }],
+    published: false,
+    packages: [{ name: "Landing", price: "", term: "", features: [], recommended: false, fit: "Bitta sahifa kerak", hidden: true }],
   });
   assert.equal(parsed.success, true);
   assert.equal(parsed.success && parsed.data.packages[0].fit, "Bitta sahifa kerak");
-  const bare = serviceSchema.safeParse({ ...initialServices[0], need: undefined, packages: [{ name: "Landing", features: [] }] });
-  assert.equal(bare.success && bare.data.need, "");
+  assert.equal(parsed.success && parsed.data.packages[0].hidden, true);
+  assert.equal(parsed.success && parsed.data.published, false);
+  const bare = serviceSchema.safeParse({ ...initialServices[0], published: undefined, packages: [{ name: "Landing", features: [] }] });
+  assert.equal(bare.success && bare.data.published, true);
   assert.equal(bare.success && bare.data.packages[0].fit, "");
-  assert.equal(serviceSchema.safeParse({ ...initialServices[0], need: "x".repeat(161) }).success, false);
+  assert.equal(bare.success && bare.data.packages[0].hidden, false);
+  assert.equal(serviceSchema.safeParse({ ...initialServices[0], packages: [{ name: "Landing", features: [], fit: "x".repeat(161) }] }).success, false);
   assert.equal(courseSchema.safeParse({ ...course, need: "O‘zim yasashni o‘rganmoqchiman" }).success, true);
-  assert.equal(initialServices.every((s) => s.need), true);
+});
+
+test("every built-in service passes the admin schema", () => {
+  assert.equal(initialServices.length, 8);
+  for (const s of initialServices) assert.equal(serviceSchema.safeParse(s).success, true, s.slug);
+  assert.equal(new Set(initialServices.map((s) => s.number)).size, initialServices.length);
+});
+
+test("migration 0007 services pass the schema and match the built-in texts", () => {
+  const sql = readFileSync(new URL("../db/migrations/0007_full_services.sql", import.meta.url), "utf8");
+  const rows = [...sql.matchAll(/'(\{"slug":.*?\})',/g)].map((m) => JSON.parse(m[1].replace(/''/g, "'")));
+  assert.equal(rows.length, initialServices.length);
+  for (const row of rows) {
+    const parsed = serviceSchema.safeParse(row);
+    assert.equal(parsed.success, true, row.slug);
+    assert.ok(row.packages.length > 0, row.slug);
+    const base = initialServices.find((s) => s.slug === row.slug);
+    assert.ok(base, row.slug);
+    const { price, term, packages, ...texts } = row;
+    assert.deepEqual(texts, base);
+  }
+  assert.match(sql, /UPDATE projects SET published=0,data=json_set\(data,'\$\.published',json\('false'\)\)/);
 });

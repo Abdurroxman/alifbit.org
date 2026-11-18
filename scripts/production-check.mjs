@@ -5,7 +5,8 @@ const results = [];
 for (const path of [
   "/",
   "/projects",
-  "/projects/dalolat",
+  "/projects/ovozdan-matnga",
+  "/services/integratsiyalar",
   "/services",
   "/about",
   "/contact",
@@ -44,6 +45,11 @@ assert.equal(
   projects.some((p) => p.name.startsWith("QA")),
   false,
 );
+assert.equal(projects.some((p) => p.id.startsWith("dalolat")), false);
+assert.equal((await fetch(base + "/projects/dalolat")).status, 404);
+const services = await (await fetch(base + "/api/services")).json();
+assert.equal(services.length, 8);
+assert.ok(services.every((s) => s.features.length >= 7 && s.packages.length >= 1));
 assert.equal((await fetch(base + "/api/admin/orders")).status, 401);
 const www = await fetch("https://www.alifbit.org/", { redirect: "manual" });
 assert.equal(www.status, 308);

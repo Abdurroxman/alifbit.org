@@ -74,11 +74,12 @@ export const serviceSchema = z.object({
         features: z.array(text(250).min(1)).max(20),
         recommended: z.boolean().default(false),
         fit: text(160).default(""),
+        hidden: z.boolean().default(false),
       }),
     )
     .max(6)
     .default([]),
-  need: text(160).default(""),
+  published: z.boolean().default(true),
 });
 export const courseSchema = z.object({
   id: text(100).min(1),

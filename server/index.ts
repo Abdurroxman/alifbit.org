@@ -152,10 +152,13 @@ async function listContent(
   const { results } = await env.DB.prepare(
     `SELECT data,updated_at FROM ${table} ${admin ? "" : "WHERE published=1"} ORDER BY rowid`,
   ).all<{ data: string; updated_at: string }>();
-  return results.map((row) => ({
-    ...JSON.parse(row.data),
-    updated_at: row.updated_at,
-  }));
+  return results.map((row) => {
+    const data = JSON.parse(row.data);
+    // Saytdan yashirilgan paketlar ochiq javobga kirmaydi; admin hammasini ko'radi.
+    if (table === "services" && !admin && Array.isArray(data.packages))
+      data.packages = data.packages.filter((p: { hidden?: boolean }) => !p.hidden);
+    return { ...data, updated_at: row.updated_at };
+  });
 }
 async function notify(env: Env, ctx: ExecutionContext) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return;
@@ -458,7 +461,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
               id,
               data.slug,
               JSON.stringify(data),
-              t === "services" ? 1 : data.published ? 1 : 0,
+              data.published ? 1 : 0,
             ),
             env.DB.prepare(
               "INSERT INTO audit_log(action,entity_id) VALUES(?1,?2)",

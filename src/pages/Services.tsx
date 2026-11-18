@@ -11,7 +11,7 @@ import {
   PageTop,
 } from "../components/ui";
 import NotFound from "./NotFound";
-import type { Service, ServicePackage } from "../../shared/content";
+import { PROMISES, type Service, type ServicePackage } from "../../shared/content";
 
 const WORK = [
   [
@@ -67,6 +67,38 @@ export function WorkingProcess() {
   );
 }
 
+/** «Har bir loyihada»: barcha xizmatlarga qo'shib beriladigan narsalar. */
+export function Promises() {
+  return (
+    <section className="container section hairline">
+      <div className="section-head">
+        <div>
+          <div data-reveal="fade">
+            <Eyebrow>Har bir loyihada</Eyebrow>
+          </div>
+          <Lines>
+            {[
+              "Topshirgandan keyin ham",
+              <span className="accent" key="a">
+                yoningizdamiz.
+              </span>,
+            ]}
+          </Lines>
+        </div>
+      </div>
+      <ol className="working-grid promises-grid">
+        {PROMISES.map(([title, text], i) => (
+          <li key={title} data-reveal style={{ "--d": i * 100 } as CSSProperties}>
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
 /**
@@ -81,7 +113,7 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
   if (priceMode === "ask")
     items.push([
       "Narxlar qancha?",
-      "Narx sizga nima kerakligiga bog‘liq. Sahifa boshidagi ikki savolga javob bering — mos yechim narxini darhol ko‘rasiz. Barcha paketlar va narxlar «Xizmatlar» sahifasida.",
+      "Narx xizmat va paketga bog‘liq. Sahifa boshida xizmatni tanlang — har bir paketning narxi va muddati shu yerda ko‘rinadi. Paketlarni taqqoslash jadvali «Xizmatlar» sahifasida.",
     ]);
   else if (priced.length)
     items.push([
@@ -106,7 +138,7 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
   items.push(
     [
       "Narxga nimalar kiradi?",
-      "Har bir paket tarkibi xizmat sahifasida yozilgan. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.",
+      `Har bir xizmatning «Ichiga nimalar kiradi» ro‘yxati va paketlar tarkibi xizmat sahifasida yozilgan. Har bir loyihada yana: ${PROMISES.map(([t]) => lower(t)).join(", ")}. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.`,
     ],
     [
       "Faqat tayyor texnik topshiriq bilan ishlaysizmi?",
@@ -183,11 +215,12 @@ export function Services() {
             narxi oldindan ma’lum.
           </span>,
         ]}
-        text="Sayt, dizayn, Telegram bot va ilova. Har bir xizmatda paketlar, narx va muddat ko‘rsatilgan."
+        text="Veb-sayt, Telegram bot, AI yordamchi, ilova, dizayn, integratsiyalar, SEO va texnik yordam. Har birida tarkibi, paketlar, narx va muddat yozilgan."
       />
       <section className="container">
         <ServiceCards services={services} />
       </section>
+      <Promises />
       <WorkingProcess />
       <FAQ />
       <ContactBand />
@@ -215,6 +248,7 @@ function Packages({ service }: { service: Service }) {
         >
           {p.recommended && <span className="pkg-badge">Tavsiya etiladi</span>}
           <h3>{p.name}</h3>
+          {p.fit && <p className="pkg-fit">{p.fit}</p>}
           <div className="pkg-price">
             <b>{p.price || "Narxi kelishiladi"}</b>
             {p.term && <small>{p.term}</small>}
@@ -324,7 +358,25 @@ export function ServiceDetail() {
           </ButtonLink>
         </div>
       </PageTop>
-      {packages.length > 0 ? (
+      <section className="container section hairline">
+        <div className="section-head">
+          <div>
+            <div data-reveal="fade">
+              <Eyebrow>Ichiga nimalar kiradi</Eyebrow>
+            </div>
+            <Lines>{["Har bir paketda bor."]}</Lines>
+          </div>
+        </div>
+        <ul className="check-list includes-list" data-reveal>
+          {service.features.map((f) => (
+            <li key={f}>
+              <Check size={18} />
+              {f}
+            </li>
+          ))}
+        </ul>
+      </section>
+      {packages.length > 0 && (
         <section className="container section hairline">
           <div className="section-head">
             <div>
@@ -337,20 +389,9 @@ export function ServiceDetail() {
           <Packages service={service} />
           {packages.length > 1 && <Compare packages={packages} />}
         </section>
-      ) : (
-        loaded && (
-          <section className="container section hairline">
-            <ul className="check-list" data-reveal>
-              {service.features.map((f) => (
-                <li key={f}>
-                  <Check size={18} />
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
       )}
+      {!loaded && <div className="container nf-wait">Narxlar yuklanmoqda…</div>}
+      <Promises />
       <WorkingProcess />
       <FAQ />
       <ContactBand />

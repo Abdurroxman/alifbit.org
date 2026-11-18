@@ -1,7 +1,20 @@
 // 3D sahna holati. Bu fayl three.js'ni import qilmaydi: asosiy bundle yengil qoladi.
 
 /** Mehmon tanlagan yo'nalish: sahna shunga qarab qurilmalarni joylaydi va ekranni almashtiradi. */
-export type StageFocus = "idle" | "web" | "design" | "telegram" | "app" | "course" | "unknown";
+export type StageFocus =
+  | "idle"
+  | "web"
+  | "design"
+  | "telegram"
+  | "app"
+  | "ai"
+  | "integration"
+  | "seo"
+  | "support"
+  | "course"
+  | "unknown";
+
+const SERVICE_FOCUS: readonly StageFocus[] = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support"];
 
 /** Sahifaning qaysi qismi ko'rinib turibdi. */
 export type StageSection = "hero" | "works" | "hidden";
@@ -26,5 +39,5 @@ export type StageHandle = {
 
 /** Xizmat belgisi → sahna yo'nalishi. */
 export function focusOfIcon(icon: string): StageFocus {
-  return icon === "web" || icon === "design" || icon === "telegram" || icon === "app" ? icon : "idle";
+  return SERVICE_FOCUS.find((f) => f === icon) || "idle";
 }

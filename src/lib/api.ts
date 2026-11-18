@@ -19,10 +19,14 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
 export async function getProjects(): Promise<Project[]> {
   return api<Project[]>("/api/projects");
 }
+/** Xizmatlar saytda tartib raqami bo'yicha chiqadi. */
+const byNumber = (list: Service[]) => [...list].sort((a, b) => a.number.localeCompare(b.number));
 export async function getServices(): Promise<Service[]> {
-  return api<Service[]>("/api/services");
+  return byNumber(await api<Service[]>("/api/services"));
 }
 export async function getCourses(): Promise<Course[]> {
   return api<Course[]>("/api/courses");
 }
-export { initialProjects, initialServices };
+const publicProjects = initialProjects.filter((p) => p.published);
+const publicServices = byNumber(initialServices.filter((s) => s.published !== false));
+export { publicProjects as initialProjects, publicServices as initialServices };

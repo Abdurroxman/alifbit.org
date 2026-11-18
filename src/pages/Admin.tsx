@@ -328,6 +328,7 @@ export default function Admin() {
         price: p.price.trim(),
         term: p.term.trim(),
         fit: (p.fit || "").trim(),
+        hidden: !!p.hidden,
         features: p.features.map((f) => f.trim()).filter(Boolean),
       }));
       delete data.packages_json;
@@ -626,7 +627,7 @@ export default function Admin() {
 
           {!edit && tab === "services" && (
             <section className="ad-panel ad-list">
-              {services.map((s) => (
+              {[...services].sort((a, b) => a.number.localeCompare(b.number)).map((s) => (
                 <Row key={s.slug} onClick={() => setEdit(s)}>
                   <span className="ad-thumb">{s.number}</span>
                   <span className="ad-row-main">
@@ -634,6 +635,7 @@ export default function Admin() {
                     <small>{s.short}</small>
                   </span>
                   <span className="ad-row-meta">{s.price || "Narxsiz"}</span>
+                  <Publish on={s.published !== false} />
                 </Row>
               ))}
             </section>
@@ -698,13 +700,15 @@ export default function Admin() {
                 <ArticleEditor article={edit as Article} />
               )}
               <div className="ad-savebar">
-                {tab !== "services" && (
-                  <label className="ad-toggle">
-                    <input name="published" type="checkbox" defaultChecked={"published" in edit && edit.published} />
-                    <span className="ad-switch" aria-hidden="true" />
-                    <span>Saytda nashr qilish</span>
-                  </label>
-                )}
+                <label className="ad-toggle">
+                  <input
+                    name="published"
+                    type="checkbox"
+                    defaultChecked={tab === "services" ? (edit as Service).published !== false : "published" in edit && !!edit.published}
+                  />
+                  <span className="ad-switch" aria-hidden="true" />
+                  <span>{tab === "services" ? "Saytda ko‘rinsin" : "Saytda nashr qilish"}</span>
+                </label>
                 <button className="button" type="submit" disabled={busy}>
                   O‘zgarishlarni saqlash
                   <span className="button-icon" aria-hidden="true">
@@ -986,21 +990,29 @@ function ServiceEditor({ service: s }: { service: Service }) {
           <Field label="Muddat — masalan, 2 haftadan" name="term" value={s.term || ""} maxLength={100} />
         </div>
         <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
-        <Field
-          label="Bosh sahifadagi «Sizga nima kerak?» javobi — bo‘sh bo‘lsa, xizmat u yerda chiqmaydi"
-          name="need"
-          value={s.need || ""}
-          maxLength={160}
-        />
         <Field label="Tavsif *" name="description" value={s.description} required area />
-        <Field label="Xizmat tarkibi — har biri yangi satrda *" name="features" value={s.features.join("\n")} required area />
+        <Field
+          label="«Ichiga nimalar kiradi» — har bir paketda bor bandlar, har biri yangi satrda *"
+          name="features"
+          value={s.features.join("\n")}
+          required
+          area
+        />
       </section>
       <PackagesEditor initial={s.packages || []} />
     </>
   );
 }
 
-const blankPackage = (): ServicePackage => ({ name: "", price: "", term: "", features: [], recommended: false, fit: "" });
+const blankPackage = (): ServicePackage => ({
+  name: "",
+  price: "",
+  term: "",
+  features: [],
+  recommended: false,
+  fit: "",
+  hidden: false,
+});
 
 function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
   const [items, setItems] = useState(initial);
@@ -1011,7 +1023,8 @@ function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
       <h2>Paketlar</h2>
       <p className="ad-hint">
         Narx bo‘sh qolsa, saytda «Narxi kelishiladi» deb chiqadi. Paketlardagi bir xil yozilgan bandlar
-        taqqoslash jadvalida bitta qator bo‘ladi.
+        taqqoslash jadvalida bitta qator bo‘ladi. «Saytda ko‘rinsin» belgisi olinsa, paket saytda chiqmaydi,
+        lekin shu yerda saqlanib qoladi.
       </p>
       <input type="hidden" name="packages_json" value={JSON.stringify(items)} />
       {items.map((p, i) => (
@@ -1034,13 +1047,17 @@ function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
               <input type="checkbox" checked={p.recommended} onChange={(e) => update(i, { recommended: e.target.checked })} />
               Tavsiya etiladi
             </label>
+            <label className="ad-check">
+              <input type="checkbox" checked={!p.hidden} onChange={(e) => update(i, { hidden: !e.target.checked })} />
+              Saytda ko‘rinsin
+            </label>
           </div>
           <label className="field">
-            <span>«Qaysi biri sizga yaqinroq?» javobi — bo‘sh bo‘lsa, paket u yerda chiqmaydi</span>
+            <span>Kimga mos — paket nomi ostida chiqadi, masalan «Internetda sotmoqchiman»</span>
             <input className="input" value={p.fit || ""} maxLength={160} onChange={(e) => update(i, { fit: e.target.value })} />
           </label>
           <label className="field">
-            <span>Tarkibi — har biri yangi satrda</span>
+            <span>Paketning o‘ziga xos tarkibi — har biri yangi satrda</span>
             <textarea
               className="input"
               rows={5}

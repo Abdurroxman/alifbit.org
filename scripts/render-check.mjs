@@ -19,7 +19,7 @@ const { render } = await import("../test-artifacts/renderer.mjs");
 const routes = [
   "/",
   "/projects",
-  "/projects/dalolat",
+  "/services/ai-yordamchi",
   "/projects/ovozdan-matnga",
   "/services",
   "/services/veb-sayt",

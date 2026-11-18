@@ -16,6 +16,7 @@ const req = (path, init = {}) =>
 let cookie = "",
   orderId = "",
   original = null,
+  originalService = null,
   originalCourse = null,
   courseOrderId = "",
   qaProject = null;
@@ -33,8 +34,9 @@ try {
         "/contact",
         "/privacy",
         "/journal",
-        "/projects/dalolat",
+        "/projects/ovozdan-matnga",
         "/services/veb-sayt",
+        "/services/integratsiyalar",
         "/fonts/manrope-latin.woff2",
         "/fonts/inter-latin.woff2",
         "/brand/mark.svg",
@@ -44,12 +46,16 @@ try {
         assert.equal(response.status, 200, route);
         assert.equal(response.headers.get("x-content-type-options"), "nosniff");
       }
-      const detail = await (await req("/projects/dalolat")).text();
-      assert.match(detail, /<title>DALOLAT — AlifBit<\/title>/);
+      const detail = await (await req("/projects/ovozdan-matnga")).text();
+      assert.match(detail, /<title>[^<]+ — AlifBit<\/title>/);
       assert.match(
         detail,
-        /rel="canonical" href="https:\/\/alifbit.org\/projects\/dalolat"/,
+        /rel="canonical" href="https:\/\/alifbit.org\/projects\/ovozdan-matnga"/,
       );
+      for (const hidden of ["/projects/dalolat", "/projects/dalolat-sayti"])
+        assert.equal((await req(hidden)).status, 404, hidden);
+      const projects = await (await req("/api/projects")).json();
+      assert.equal(projects.some((p) => p.id.startsWith("dalolat")), false);
       assert.equal((await req("/missing-page")).status, 404);
       for (const gone of ["/library", "/films", "/render", "/services/development"])
         assert.equal((await req(gone)).status, 404, gone);
@@ -58,13 +64,16 @@ try {
       assert.match(academy.headers.get("location"), /\/courses$/);
       const services = await (await req("/api/services")).json();
       assert.ok(services.some((s) => s.slug === "veb-sayt" && s.packages?.length));
-      assert.ok(services.every((s) => s.need), "every service has an intro answer");
-      assert.ok(
-        services.find((s) => s.slug === "veb-sayt").packages.every((p) => p.fit),
-        "every website package has an intro answer",
-      );
+      assert.equal(services.length, 8);
+      for (const s of services) {
+        assert.ok(s.features.length >= 7, `${s.slug} lists what is included`);
+        assert.ok(s.packages.length >= 1, `${s.slug} has packages`);
+        assert.ok(s.packages.every((p) => p.fit), `${s.slug} packages say who they fit`);
+      }
       const sitemap = await (await req("/sitemap.xml")).text();
-      assert.match(sitemap, /projects\/dalolat/);
+      assert.match(sitemap, /projects\/ovozdan-matnga/);
+      assert.match(sitemap, /services\/ai-yordamchi/);
+      assert.doesNotMatch(sitemap, /projects\/dalolat/);
     },
   );
   await check(
@@ -182,7 +191,7 @@ try {
       const list = await (
         await req("/api/admin/projects", { headers: auth() })
       ).json();
-      original = list.find((p) => p.id === "dalolat");
+      original = list.find((p) => p.id === "voice");
       assert.ok(original);
       const unpublished = await req("/api/admin/projects", {
         method: "POST",
@@ -192,17 +201,51 @@ try {
       assert.equal(unpublished.status, 200);
       const hidden = await (await req("/api/projects")).json();
       assert.equal(
-        hidden.some((p) => p.id === "dalolat"),
+        hidden.some((p) => p.id === "voice"),
         false,
       );
-      assert.equal((await req("/projects/dalolat")).status, 404);
+      assert.equal((await req("/projects/ovozdan-matnga")).status, 404);
       const restore = await req("/api/admin/projects", {
         method: "POST",
         headers: { ...auth(), "content-type": "application/json" },
         body: JSON.stringify(original),
       });
       assert.equal(restore.status, 200);
-      assert.equal((await req("/projects/dalolat")).status, 200);
+      assert.equal((await req("/projects/ovozdan-matnga")).status, 200);
+    },
+  );
+  await check(
+    "admin switches hide a whole service or a single package",
+    async () => {
+      const list = await (await req("/api/admin/services", { headers: auth() })).json();
+      originalService = list.find((s) => s.slug === "integratsiyalar");
+      assert.ok(originalService);
+      const save = (value) =>
+        req("/api/admin/services", {
+          method: "POST",
+          headers: { ...auth(), "content-type": "application/json" },
+          body: JSON.stringify(value),
+        });
+      const publicOne = async () =>
+        (await (await req("/api/services")).json()).find((s) => s.slug === "integratsiyalar");
+      const target = originalService.packages[originalService.packages.length - 1].name;
+      const packages = originalService.packages.map((p) => (p.name === target ? { ...p, hidden: true } : p));
+      assert.equal((await save({ ...originalService, packages })).status, 200);
+      const shown = await publicOne();
+      assert.equal(shown.packages.some((p) => p.name === target), false);
+      assert.equal(shown.packages.length, originalService.packages.length - 1);
+      const admin = (await (await req("/api/admin/services", { headers: auth() })).json()).find(
+        (s) => s.slug === "integratsiyalar",
+      );
+      assert.equal(admin.packages.length, originalService.packages.length);
+      assert.equal((await save({ ...originalService, published: false })).status, 200);
+      assert.equal(await publicOne(), undefined);
+      assert.equal((await req("/services/integratsiyalar")).status, 404);
+      assert.doesNotMatch(await (await req("/sitemap.xml")).text(), /services\/integratsiyalar/);
+      assert.equal((await save(originalService)).status, 200);
+      assert.equal((await req("/services/integratsiyalar")).status, 200);
+      assert.equal((await publicOne()).packages.length, originalService.packages.length);
+      originalService = null;
     },
   );
   await check(
@@ -390,6 +433,12 @@ try {
       method: "POST",
       headers: { ...auth(), "content-type": "application/json" },
       body: JSON.stringify(original),
+    });
+  if (originalService && cookie)
+    await req("/api/admin/services", {
+      method: "POST",
+      headers: { ...auth(), "content-type": "application/json" },
+      body: JSON.stringify(originalService),
     });
   if (orderId && cookie)
     await req(`/api/admin/orders/${orderId}`, {
