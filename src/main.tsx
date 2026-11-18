@@ -8,6 +8,7 @@ import "./styles/ui.css";
 import "./styles/layout.css";
 import "./styles/motion.css";
 import "./styles/art.css";
+import "./styles/intro.css";
 import "./styles/hero.css";
 import "./styles/home.css";
 import "./styles/pages.css";

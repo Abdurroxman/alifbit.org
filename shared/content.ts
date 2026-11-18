@@ -21,6 +21,8 @@ export type ServicePackage = {
   term: string;
   features: string[];
   recommended: boolean;
+  /** Kirish suhbatidagi 2-savol javobi, mijoz tilida: «Internetda sotmoqchiman». */
+  fit?: string;
 };
 export type Service = {
   slug: string;
@@ -34,6 +36,8 @@ export type Service = {
   price?: string;
   term?: string;
   packages?: ServicePackage[];
+  /** Kirish suhbatidagi 1-savol javobi, mijoz tilida; bo'sh bo'lsa xizmat u yerda chiqmaydi. */
+  need?: string;
 };
 export type CourseStep = { title: string; text: string };
 export type Course = {
@@ -48,6 +52,8 @@ export type Course = {
   steps: CourseStep[];
   contents: string[];
   published: boolean;
+  /** Kirish suhbatidagi javob; bo'sh bo'lsa kurs u yerda chiqmaydi. */
+  need?: string;
   seoTitle?: string;
   seoDescription?: string;
 };
@@ -193,6 +199,7 @@ export const initialServices: Service[] = [
       "Domen va hostingga ulash",
     ],
     icon: "web",
+    need: "Mijozlar meni internetdan topsin",
   },
   {
     slug: "dizayn",
@@ -207,6 +214,7 @@ export const initialServices: Service[] = [
       "Ranglar va shriftlar tizimi",
     ],
     icon: "design",
+    need: "Sayt yoki ilovam ko‘rinishini yangilamoqchiman",
   },
   {
     slug: "telegram-bot",
@@ -221,6 +229,7 @@ export const initialServices: Service[] = [
       "Admin uchun xabarnomalar",
     ],
     icon: "telegram",
+    need: "Buyurtmalarni Telegram’da qabul qilmoqchiman",
   },
   {
     slug: "ilova",
@@ -235,12 +244,13 @@ export const initialServices: Service[] = [
       "Hisobotlar",
     ],
     icon: "app",
+    need: "Ishimni bitta dasturga jamlamoqchiman",
   },
 ];
 export const TELEGRAM_URL = "https://t.me/alifbitbot?start=alifbit";
 export const copy = {
   uz: {
-    tagline: "Sayt, ilova va Telegram bot yasaymiz.",
+    tagline: "Avval tinglaymiz. Keyin narxini aytamiz.",
     nav: [
       ["Xizmatlar", "/services"],
       ["Ishlar", "/projects"],
@@ -248,15 +258,15 @@ export const copy = {
       ["Biz haqimizda", "/about"],
     ],
     hero: {
-      title: "Sayt, ilova va Telegram bot yasaymiz.",
-      text: "Dizayndan ishga tushirishgacha. Narxi va muddati oldindan ma’lum.",
+      title: "Sizga nima kerak?",
+      text: "Tanlang — mos yechim va narxini aytamiz.",
     },
   },
 };
 export const routeMeta: Record<string, [string, string]> = {
   "/": [
-    "AlifBit — sayt, ilova va Telegram bot yasaymiz",
-    "Veb-sayt, dizayn, Telegram bot va ilovalar: narxi va muddati oldindan ma’lum. Qilgan ishlarimiz va vayb koding kursi.",
+    "AlifBit — veb-sayt, Telegram bot va ilova studiyasi",
+    "Sizga nima kerakligini so‘raymiz va mos yechim narxini darhol aytamiz: veb-sayt, dizayn, Telegram bot, ilova. Qilgan ishlarimiz va vayb koding kursi.",
   ],
   "/projects": [
     "Ishlar — AlifBit",
@@ -272,7 +282,7 @@ export const routeMeta: Record<string, [string, string]> = {
   ],
   "/about": [
     "Biz haqimizda — AlifBit",
-    "AlifBit — sayt, ilova va Telegram bot yasaydigan kichik studiya.",
+    "AlifBit — kichik studiya: avval ehtiyojingizni tinglaymiz, keyin yechim va narxini aytamiz.",
   ],
   "/contact": [
     "Buyurtma berish — AlifBit",

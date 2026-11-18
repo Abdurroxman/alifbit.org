@@ -28,10 +28,11 @@ Loyihaga lokal Node 22 dev dependency sifatida kiritilgan: npm skriptlari shu ve
 
 ## Tuzilishi va texnologiyalar
 
-- `src/components` — header/footer (`Layout`), logotip (`Brand`), xizmat, ish va kurs kartalari (`Studio`), ish muqovalari (`ProjectArt`) va umumiy UI (`ui.tsx`, jumladan harfma-harf sarlavha `Chars`).
+- `src/components` — header/footer (`Layout`), kirish animatsiyasi (`Intro`), logotip (`Brand`), bosh sahifadagi suhbat (`NeedFlow`), 3D sahna bloki (`DeviceStage`), xizmat, ish va kurs kartalari (`Studio`), ish muqovalari (`ProjectArt`) va umumiy UI (`ui.tsx`, jumladan harfma-harf sarlavha `Chars`).
+- `src/three` — 3D sahna (three.js): noutbuk va telefon modellari (`scene.ts`), ekran maketlari (`screens.ts`), sahna holati turlari (`types.ts`). Faqat bosh sahifada, alohida faylda yuklanadi.
 - `src/pages` — har bir sahifa alohida faylda: `Home`, `Services` (paketlar, taqqoslash jadvali, savol-javob), `Projects`, `Courses`, `About`, `Contact`, `Journal`, `Privacy`, `NotFound`, `Admin`.
-- `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish, harfma-harf sarlavha), `hero.css`, `home.css` (kartalar, paketlar, kurs), `pages.css`, `art.css`, `admin.css`.
-- `src/lib/motion.ts` — scroll’da ochilish va magnit tugmalar.
+- `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish, harfma-harf sarlavha), `intro.css`, `hero.css` (hero, 3D qatlam, suhbat), `home.css` (kartalar, paketlar, kurs, 3D egilish), `pages.css`, `art.css`, `admin.css`.
+- `src/lib/motion.ts` — kirish rejimi, scroll’da ochilish, magnit tugmalar va kartalarning 3D egilishi.
 - `shared/logo.ts` — logotipning yagona vektor manbasi (sayt va `public/brand` fayllari shundan olinadi).
 - `shared/content.ts` — turlashtirilgan kontent, boshlang‘ich ma’lumotlar, menyu va SEO metadata.
 - `server` — Cloudflare Worker API, server validatsiyasi, autentifikatsiya va metadata.
@@ -45,7 +46,9 @@ Frontend: React, TypeScript, React Router, Vite. Backend: Cloudflare Workers, D1
 
 `/`, `/services`, `/services/:slug`, `/projects`, `/projects/:slug`, `/courses`, `/courses/:slug`, `/about`, `/contact`, `/privacy`, `/journal`, `/journal/:slug`, `/admin`. Eski `/academy` manzili `/courses` ga 301 bilan yo‘naltiriladi.
 
-Bosh sahifa: harfma-harf ochiladigan sarlavha, xizmatlar va narxlar, qilgan ishlar, ish jarayoni, kurs (nashr qilingan bo‘lsa), savol-javob. Narx, muddat va paketlar faqat bazadan keladi: sahifa API javobigacha narxsiz chiziladi, kodda narx yo‘q. Savol-javobdagi narx va muddat javoblari xizmatlar ma’lumotidan yig‘iladi. Ishlar sahifasida faqat ichida ish bor kategoriyalar filtr bo‘lib chiqadi. «Kurslar» menyuda faqat nashr qilingan kurs bo‘lsa ko‘rinadi; kursga yozilish oddiy murojaat formasi orqali (`service = kurs-<slug>`) bo‘ladi va server uni nashr qilingan kurs bo‘yicha tekshiradi. Harakat kamaytirilgan rejimda animatsiyalar o‘chadi.
+Bosh sahifa mehmondan avval nima kerakligini so‘raydi: «Sizga nima kerak?» (xizmatning `need` matni), keyin «Qaysi biri sizga yaqinroq?» (paketning `fit` matni), so‘ng mos paket, narx va muddat chiqadi; aloqa ma’lumoti narxdan oldin so‘ralmaydi. «Buyurtma berish» formani shu paket bilan to‘ldirib ochadi. `need`/`fit` bo‘sh bo‘lsa, xizmat yoki paket suhbatda chiqmaydi — admin paneldan tahrirlanadi. Narx kartalari bosh sahifada yo‘q, ular «Xizmatlar» sahifasida.
+
+3D sahna (three.js): noutbuk va telefon tanlangan javobga qarab joylashadi va ekranida mos maket ko‘rsatadi; «Qilgan ishlarimiz»da har bir ish markazga kelganda uning haqiqiy ekrani chiqadi (`public/images/works/`, `public/images/dalolat/feed.webp`). Katta ekranda sahna body’dagi fon qatlami, telefonda hero ichidagi blok. Sahna sahifa davomida bitta (WebGL konteksti qayta yaratilmaydi), faqat ko‘rinib turganda chiziladi, sekin qurilmada sifati pasayadi, «harakatni kamaytirish»da qimirlamaydi, WebGL bo‘lmasa umuman chiqmaydi. Birinchi tashrifda logotip 3D holda yig‘iladigan kirish animatsiyasi (`/?intro=1` bilan qayta ko‘rish), kartalar sichqoncha ostida 3D egiladi. Narx, muddat va paketlar faqat bazadan keladi. Ishlar sahifasida faqat ichida ish bor kategoriyalar filtr bo‘lib chiqadi. «Kurslar» menyuda faqat nashr qilingan kurs bo‘lsa ko‘rinadi; kursga yozilish oddiy murojaat formasi orqali (`service = kurs-<slug>`) bo‘ladi va server uni nashr qilingan kurs bo‘yicha tekshiradi.
 
 ## Sado
 
@@ -58,7 +61,7 @@ Sado’ning asosiy sayti — https://sado.alifbit.org (yuklab olish va kalit so�
 3. Muqova uchun mavjud dizaynni tanlang yoki PNG/JPG/WEBP yuklang. Fayl 5 MB dan oshmasin.
 4. **Saytda nashr qilish** belgisiz loyiha qoralama holatida qoladi. Nashr qilinmagan loyiha public API va sitemap’da chiqmaydi, sahifasi 404 qaytaradi.
 5. **Kategoriyalar**: har birini alohida satrda yozib saqlang. Ishlatilayotgan kategoriyani o‘chirishdan oldin tegishli loyihalarning kategoriyasini o‘zgartiring.
-6. **Xizmatlar**: nom, qisqa matn, tavsif, boshlang‘ich narx va muddatni tahrirlang. **Paketlar** bo‘limida har paketning nomi, narxi, muddati, tarkibi va «Tavsiya etiladi» belgisi bor. Narx bo‘sh qolsa, saytda «Narxi kelishiladi» deb chiqadi. Paketlardagi bir xil yozilgan bandlar taqqoslash jadvalida bitta qator bo‘ladi.
+6. **Xizmatlar**: nom, qisqa matn, bosh sahifadagi «Sizga nima kerak?» javobi, tavsif, boshlang‘ich narx va muddatni tahrirlang. **Paketlar** bo‘limida har paketning nomi, narxi, muddati, tarkibi va «Tavsiya etiladi» belgisi bor. Har paketda «Qaysi biri sizga yaqinroq?» javobi ham bor. Narx bo‘sh qolsa, saytda «Narxi kelishiladi» deb chiqadi. Paketlardagi bir xil yozilgan bandlar taqqoslash jadvalida bitta qator bo‘ladi.
 7. **Kurslar → Kurs qo‘shish**: nom, slug, qisqa jumla, tavsif, narx, format, boshlanish sanasi, qadamlar (har biri yangi satrda: `Sarlavha | izoh`) va kurs ichidagi mavzular. **Saytda nashr qilish** belgisiz kurs saytda ko‘rinmaydi va unga yozilib bo‘lmaydi.
 8. **Qaydlar → Qayd yozish**: maqola, slug va SEO matnini kiriting. Qoralama yoki nashr holatini tanlang. Matn oddiy xatboshilar sifatida chiqariladi; HTML ishlatilmaydi.
 9. **Murojaatlar**: qidiring, holat bo‘yicha filtrlang, batafsil ko‘ring va statusni o‘zgartiring. Biriktirilgan fayl faqat kirgan administratorga ochiladi.

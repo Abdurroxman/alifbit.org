@@ -1,0 +1,245 @@
+/* To'liq kirish: belgi bo'laklardan yig'iladi va header'ga uchib boradi. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+  /* JS to'xtab qolsa ham parda 3,2 soniyada yo'qoladi */
+  animation: intro-failsafe 0.3s 3.2s forwards;
+}
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--ivory);
+}
+.intro-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding-bottom: 4vh;
+  perspective: 1000px;
+}
+.intro-mark {
+  width: clamp(116px, 14vw, 156px);
+  height: auto;
+  aspect-ratio: 1;
+  overflow: visible;
+  transform-origin: 50% 50%;
+  animation: i-mark-3d 1.15s var(--ease-out) both;
+}
+.intro-mark * {
+  transform-box: fill-box;
+}
+.intro-word {
+  display: flex;
+  font-size: clamp(34px, 4vw, 44px);
+  transform-origin: 50% 50%;
+  perspective: 600px;
+}
+.intro-word span {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+  animation: i-letter 0.55s var(--ease-out) both;
+  animation-delay: calc(1000ms + var(--i) * 40ms);
+}
+.intro-word span {
+  color: var(--forest);
+}
+.intro-word span.gold {
+  color: var(--gold);
+}
+
+.i-dot {
+  fill: var(--bronze);
+  transform-origin: 50% 50%;
+  animation: i-dot 1.05s var(--ease-out) both;
+}
+.i-rays line {
+  stroke: var(--bronze);
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    i-draw 0.5s var(--ease-out) forwards,
+    i-fade 0.45s ease-in forwards;
+  animation-delay:
+    calc(140ms + var(--i) * 22ms),
+    720ms;
+}
+.i-ring {
+  stroke: var(--bronze);
+  stroke-width: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.7;
+  transform-origin: 50% 50%;
+  animation:
+    i-draw 0.75s var(--ease-in-out) 0.2s forwards,
+    i-ring-out 0.5s ease-in 0.85s forwards;
+}
+.i-arm {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  animation: i-arm-top 0.62s var(--ease-out) forwards;
+  animation-delay: 0.36s;
+}
+.i-arm-bottom {
+  animation-name: i-arm-bottom;
+  animation-delay: 0.44s;
+}
+.i-alif {
+  opacity: 0;
+  transform-origin: 50% 58%;
+  animation: i-alif 0.6s var(--ease-out) 0.6s forwards;
+}
+
+@keyframes i-dot {
+  0% {
+    transform: scale(0);
+  }
+  18% {
+    transform: scale(1.4);
+  }
+  32%,
+  58% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes i-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes i-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes i-ring-out {
+  to {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+@keyframes i-arm-top {
+  from {
+    opacity: 0;
+    transform: translate(-46px, -34px) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes i-arm-bottom {
+  from {
+    opacity: 0;
+    transform: translate(-46px, 34px) rotate(14deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes i-alif {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.2, 0.05);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes i-letter {
+  from {
+    opacity: 0;
+    transform: rotateX(-95deg) translateY(0.3em);
+  }
+}
+/* Belgi chuqurlikdan aylanib keladi; ichidagi bo'laklar shu payt yig'iladi. */
+@keyframes i-mark-3d {
+  from {
+    opacity: 0;
+    transform: translateZ(-520px) rotateY(-160deg) rotateX(28deg);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* To'liq kirish paytida header logosi joyini bo'shatib turadi */
+html.intro-full .header-brand .brand-mark,
+html.intro-full .header-brand .wordmark {
+  opacity: 0;
+  animation: intro-failsafe-show 0s 3.2s forwards;
+}
+@keyframes intro-failsafe-show {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Qisqa kirish: header logosi joyida yig'iladi */
+html.intro-short .header-brand .logo-left,
+html.intro-short .header-brand .logo-right {
+  animation: s-side 0.7s var(--ease-out) both;
+}
+html.intro-short .header-brand .logo-right {
+  animation-name: s-side-r;
+}
+html.intro-short .header-brand .logo-alif {
+  transform-origin: 50% 60%;
+  animation: s-alif 0.6s var(--ease-out) 0.12s both;
+}
+html.intro-short .header-brand .wordmark {
+  animation: s-word 0.6s var(--ease-out) 0.18s both;
+}
+@keyframes s-side {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+@keyframes s-side-r {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+@keyframes s-alif {
+  from {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+}
+@keyframes s-word {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}

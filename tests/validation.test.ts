@@ -64,3 +64,19 @@ test("course sign-up uses a slug-safe service value", () => {
   };
   assert.equal(orderSchema.safeParse(order).success, true);
 });
+
+test("intro answers: service need, package fit and course need are optional texts", () => {
+  const parsed = serviceSchema.safeParse({
+    ...initialServices[0],
+    need: "Mijozlar meni internetdan topsin",
+    packages: [{ name: "Landing", price: "", term: "", features: [], recommended: false, fit: "Bitta sahifa kerak" }],
+  });
+  assert.equal(parsed.success, true);
+  assert.equal(parsed.success && parsed.data.packages[0].fit, "Bitta sahifa kerak");
+  const bare = serviceSchema.safeParse({ ...initialServices[0], need: undefined, packages: [{ name: "Landing", features: [] }] });
+  assert.equal(bare.success && bare.data.need, "");
+  assert.equal(bare.success && bare.data.packages[0].fit, "");
+  assert.equal(serviceSchema.safeParse({ ...initialServices[0], need: "x".repeat(161) }).success, false);
+  assert.equal(courseSchema.safeParse({ ...course, need: "O‘zim yasashni o‘rganmoqchiman" }).success, true);
+  assert.equal(initialServices.every((s) => s.need), true);
+});

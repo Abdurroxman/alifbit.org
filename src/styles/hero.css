@@ -1,36 +1,34 @@
-/* Birinchi ekran: markazdagi sarlavha va fonda sekin suzuvchi xira dog'lar */
+/* Birinchi ekran: chapda savol va javoblar, o'ngda (katta ekranda) 3D qurilmalar */
 .hero {
   position: relative;
   isolation: isolate;
   display: grid;
-  place-items: center;
+  align-items: start;
   min-height: calc(100svh - var(--header-h));
-  padding-block: 72px 120px;
+  padding-block: clamp(40px, 8vh, 96px) 88px;
   overflow: hidden;
-  text-align: center;
 }
-.hero-inner {
+.hero-grid {
   display: grid;
-  justify-items: center;
-  gap: 28px;
-  max-width: 1040px;
+  gap: 8px;
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 20px;
+  max-width: 560px;
 }
 .hero h1 {
-  font-size: clamp(42px, 8vw, 112px);
+  font-size: clamp(44px, 6.6vw, 96px);
   font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.05em;
 }
 .hero-text {
-  max-width: 560px;
-  font-size: clamp(17px, 1.6vw, 21px);
+  max-width: 520px;
+  font-size: clamp(17px, 1.5vw, 20px);
   line-height: 1.55;
-}
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
 }
 
 .hero-glow {
@@ -97,38 +95,6 @@
   }
 }
 
-.hero-cue {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-left: -22px;
-  border: 1px solid var(--line-2);
-  border-radius: 50%;
-  color: var(--muted);
-  transition:
-    color 0.3s,
-    border-color 0.3s;
-}
-.hero-cue:hover {
-  color: var(--forest);
-  border-color: var(--green);
-}
-html.motion .hero-cue svg {
-  animation: hero-bounce 2s ease-in-out infinite;
-}
-@keyframes hero-bounce {
-  0%,
-  to {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(5px);
-  }
-}
 @media (max-width: 640px) {
   .hero-glow i {
     filter: blur(56px);
@@ -141,4 +107,203 @@ html.motion .hero-cue svg {
     width: 70vw;
     height: 70vw;
   }
+}
+
+/* 3D sahna. Telefonda — hero ichidagi blok; katta ekranda — butun oyna bo'ylab fon qatlami. */
+.stage {
+  position: relative;
+  height: min(78vw, 400px);
+  margin-inline: calc(-1 * var(--gutter));
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+  pointer-events: none;
+}
+.stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.stage.is-ready {
+  opacity: 1;
+}
+@media (min-width: 1024px) {
+  .stage {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    height: auto;
+    margin: 0;
+  }
+  .stage.is-ready[data-section="hidden"] {
+    opacity: 0;
+  }
+  .hero-copy {
+    max-width: min(560px, 46vw);
+  }
+}
+
+/* Kirish suhbati */
+.nf {
+  max-width: 560px;
+}
+.nf-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 34px;
+  margin-bottom: 8px;
+}
+.nf-count {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.nf-back,
+.nf-again {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--green);
+}
+.nf-again {
+  margin-top: 18px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.nf-options {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.nf-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fdfcfacc;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  font-size: 16.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+  transition:
+    border-color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out),
+    transform 0.4s var(--ease-out);
+}
+.nf-option svg {
+  flex: none;
+  color: var(--green);
+  transition: transform 0.4s var(--ease-out);
+}
+.nf-option:hover,
+.nf-option:focus-visible {
+  border-color: var(--green-2);
+  background: #fff;
+  transform: translateX(4px);
+}
+.nf-option:hover svg,
+.nf-option:focus-visible svg {
+  transform: translateX(3px);
+}
+.nf-option-quiet {
+  background: transparent;
+  color: var(--muted);
+}
+.nf-step {
+  animation: nf-in 0.45s var(--ease-out);
+}
+@keyframes nf-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.nf-q {
+  margin-bottom: 16px;
+  font-family: var(--font-head);
+  font-size: clamp(22px, 2.3vw, 30px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  outline: none;
+}
+.nf-wait,
+.nf-text {
+  font-size: 16px;
+}
+.nf-result {
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  background: #fdfcfae6;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-m);
+}
+.nf-result .nf-q {
+  margin: 8px 0 10px;
+  font-size: clamp(28px, 3vw, 40px);
+}
+.nf-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.nf-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-bottom: 16px;
+}
+.nf-price b {
+  font-family: var(--font-head);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--forest);
+  white-space: nowrap;
+}
+.nf-price small {
+  font-size: 14px;
+  color: var(--muted);
+}
+.nf-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.nf-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--ink);
+}
+.nf-list svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--green);
+}
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
 }

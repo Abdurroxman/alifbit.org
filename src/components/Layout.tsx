@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ArrowUp, Menu, X } from "lucide-react";
 import Brand from "./Brand";
+import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
 import { copy, routeMeta, TELEGRAM_URL } from "../../shared/content";
@@ -231,6 +232,7 @@ export default function Layout() {
       <a className="skip-link" href="#main">
         Asosiy mazmunga o‘tish
       </a>
+      <Intro />
       <Header onMenu={() => dialog.current?.showModal()} />
       <MobileMenu dialog={dialog} />
       <main id="main" ref={main} tabIndex={-1}>

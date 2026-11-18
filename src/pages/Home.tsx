@@ -1,93 +1,85 @@
-import { ArrowDown } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { useContent } from "../App";
-import { CourseTeaser, ServiceCards, WorkGrid } from "../components/Studio";
-import { ButtonLink, Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
+import DeviceStage from "../components/DeviceStage";
+import NeedFlow, { type FlowState } from "../components/NeedFlow";
+import { CourseTeaser, WorkCard } from "../components/Studio";
+import { Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { FAQ, WorkingProcess } from "./Services";
 import { copy } from "../../shared/content";
+import type { StageSection } from "../three/types";
 
-function Hero() {
+function Hero({ onFlow, stage }: { onFlow: (s: FlowState) => void; stage: ReactNode }) {
   return (
-    <section className="hero">
+    <section className="hero" data-stage="hero">
       <div className="hero-glow" aria-hidden="true">
         <i />
         <i />
         <i />
       </div>
-      <div className="container hero-inner">
-        <div data-reveal="rise">
-          <Eyebrow>AlifBit · studiya</Eyebrow>
-        </div>
-        <Chars text="Sayt, ilova va" accent="Telegram bot yasaymiz." delay={120} />
-        <p className="hero-text" data-reveal="rise" style={delay(520)}>
-          {copy.uz.hero.text}
-        </p>
-        <div className="hero-actions" data-reveal="rise" style={delay(640)}>
-          <ButtonLink to="#narxlar" magnetic>
-            Narxlarni ko‘rish
-          </ButtonLink>
-          <ButtonLink to="/contact" variant="outline">
-            Buyurtma berish
-          </ButtonLink>
-        </div>
-      </div>
-      <a href="#narxlar" className="hero-cue" aria-label="Xizmatlar va narxlarga o‘tish">
-        <ArrowDown size={20} strokeWidth={1.6} />
-      </a>
-    </section>
-  );
-}
-
-function Prices() {
-  const { services } = useContent();
-  return (
-    <section id="narxlar" className="container section">
-      <div className="section-head">
-        <div>
-          <div data-reveal="fade">
-            <Eyebrow>Xizmatlar va narxlar</Eyebrow>
+      <div className="container hero-grid">
+        <div className="hero-copy">
+          <div data-reveal="rise">
+            <Eyebrow>AlifBit · studiya</Eyebrow>
           </div>
-          <Lines>
-            {[
-              "Nima yasaymiz.",
-              <span className="accent" key="a">
-                Narxi qancha.
-              </span>,
-            ]}
-          </Lines>
+          <Chars text={copy.uz.hero.title} delay={120} />
+          <p className="hero-text" data-reveal="rise" style={delay(420)}>
+            {copy.uz.hero.text}
+          </p>
+          <div data-reveal="rise" style={delay(540)}>
+            <NeedFlow onChange={onFlow} />
+          </div>
         </div>
-        <div className="section-aside" data-reveal style={delay(150)}>
-          <p>Paketlar, tarkibi va muddati — har bir xizmat sahifasida.</p>
-          <TextLink to="/services">Barcha xizmatlar</TextLink>
-        </div>
+        {stage}
       </div>
-      <ServiceCards services={services} />
     </section>
   );
 }
 
-function Works() {
+/** Har bir ish alohida «qadam»: u ekran markaziga kelganda 3D sahna shu ishni ko'rsatadi. */
+function Works({ onWork }: { onWork: (id: string) => void }) {
   const { projects } = useContent();
+  const list = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = list.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) onWork((e.target as HTMLElement).dataset.work || "");
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    root.querySelectorAll("[data-work]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [projects, onWork]);
   return (
-    <section className="container section hairline">
-      <div className="section-head">
-        <div>
-          <div data-reveal="fade">
-            <Eyebrow>Qilgan ishlarimiz</Eyebrow>
+    <section className="container section works" data-stage="works">
+      <div className="works-copy">
+        <div className="section-head">
+          <div>
+            <div data-reveal="fade">
+              <Eyebrow>Qilgan ishlarimiz</Eyebrow>
+            </div>
+            <Lines>
+              {[
+                "Ishlayotgan mahsulotlar.",
+                <span className="accent" key="a">
+                  Ochib ko‘ring.
+                </span>,
+              ]}
+            </Lines>
           </div>
-          <Lines>
-            {[
-              "Ishlayotgan mahsulotlar.",
-              <span className="accent" key="a">
-                Ochib ko‘ring.
-              </span>,
-            ]}
-          </Lines>
         </div>
-        <div className="section-aside" data-reveal style={delay(150)}>
+        <div className="work-steps" ref={list}>
+          {projects.slice(0, 4).map((p, i) => (
+            <div className="work-step" key={p.id} data-work={p.id}>
+              <WorkCard project={p} delay={(i % 2) * 90} thumb />
+            </div>
+          ))}
+        </div>
+        <div data-reveal>
           <TextLink to="/projects">Barcha ishlar</TextLink>
         </div>
       </div>
-      <WorkGrid projects={projects.slice(0, 4)} />
     </section>
   );
 }
@@ -105,16 +97,49 @@ function Course() {
   );
 }
 
+/**
+ * Ekran o'rtasidagi bo'limni kuzatadi: sahna faqat hero va ishlar bo'limida chiqadi.
+ * Kuzatuv chizig'i — oynaning o'rta qismi, shuning uchun bo'lim balandligi ahamiyatsiz.
+ */
+function useStageSection(root: RefObject<HTMLDivElement | null>) {
+  const [section, setSection] = useState<StageSection>("hero");
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const inside = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const name = (e.target as HTMLElement).dataset.stage || "";
+          if (e.isIntersecting) inside.add(name);
+          else inside.delete(name);
+        }
+        setSection(inside.has("hero") ? "hero" : inside.has("works") ? "works" : "hidden");
+      },
+      { rootMargin: "-40% 0px -40% 0px" },
+    );
+    el.querySelectorAll("[data-stage]").forEach((s) => io.observe(s));
+    return () => io.disconnect();
+  }, [root]);
+  return section;
+}
+
 export default function Home() {
+  const root = useRef<HTMLDivElement>(null);
+  const [flow, setFlow] = useState<FlowState>({ focus: "idle", step: 1 });
+  const [work, setWork] = useState<string | null>(null);
+  const section = useStageSection(root);
+  const onFlow = useCallback((s: FlowState) => setFlow(s), []);
+  const onWork = useCallback((id: string) => setWork(id || null), []);
+  const stage = <DeviceStage state={{ section, focus: flow.focus, step: flow.step, work }} />;
   return (
-    <>
-      <Hero />
-      <Prices />
-      <Works />
+    <div className="home" ref={root}>
+      <Hero onFlow={onFlow} stage={stage} />
+      <Works onWork={onWork} />
       <WorkingProcess />
       <Course />
-      <FAQ />
+      <FAQ priceMode="ask" />
       <ContactBand />
-    </>
+    </div>
   );
 }

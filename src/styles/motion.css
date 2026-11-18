@@ -96,6 +96,16 @@ html.motion [data-reveal="rise"]:not(.is-in) {
   transform: translate3d(0, 12px, 0);
 }
 
+/* Kirish animatsiyasi davomida hero kutib turadi */
+html.intro-running .hero [data-reveal="rise"] {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+}
+html.intro-running .hero [data-reveal="chars"] .ch {
+  opacity: 0;
+  transform: translateX(10px) skewX(10deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

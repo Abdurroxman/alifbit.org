@@ -2,7 +2,11 @@
 
 ## Hero
 
-The home page hero is typography only: a centered headline revealed letter by letter (`Chars` in `src/components/ui.tsx`) over three slowly drifting blurred green and bronze shapes (`src/styles/hero.css`). No raster hero image is used.
+The home page hero asks "Sizga nima kerak?" (headline revealed letter by letter, `Chars` in `src/components/ui.tsx`) over three slowly drifting blurred green and bronze shapes (`src/styles/hero.css`). Beside it a three.js scene (`src/three/scene.ts`) shows a laptop and a phone built in code (no model files). Their screens are canvas-drawn mockups (`src/three/screens.ts`: website, design tool, Telegram bot, CRM dashboard, AI coding, Sado) or real screenshots of the owner's own products: `public/images/works/dalolat-site.webp` (dalolat.app) and `public/images/works/sado-site.webp` (sado.alifbit.org), both captured 2026-11-18 at 1280×800, plus `public/images/dalolat/feed.webp`.
+
+## Intro
+
+`src/components/Intro.tsx`: on the first visit the logo pieces assemble while the mark turns in from depth (CSS 3D, `src/styles/intro.css`) and fly into the header.
 
 ## Logo
 

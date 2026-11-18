@@ -327,6 +327,7 @@ export default function Admin() {
         name: p.name.trim(),
         price: p.price.trim(),
         term: p.term.trim(),
+        fit: (p.fit || "").trim(),
         features: p.features.map((f) => f.trim()).filter(Boolean),
       }));
       delete data.packages_json;
@@ -985,6 +986,12 @@ function ServiceEditor({ service: s }: { service: Service }) {
           <Field label="Muddat — masalan, 2 haftadan" name="term" value={s.term || ""} maxLength={100} />
         </div>
         <Field label="Qisqa matn *" name="short" value={s.short} required maxLength={300} />
+        <Field
+          label="Bosh sahifadagi «Sizga nima kerak?» javobi — bo‘sh bo‘lsa, xizmat u yerda chiqmaydi"
+          name="need"
+          value={s.need || ""}
+          maxLength={160}
+        />
         <Field label="Tavsif *" name="description" value={s.description} required area />
         <Field label="Xizmat tarkibi — har biri yangi satrda *" name="features" value={s.features.join("\n")} required area />
       </section>
@@ -993,7 +1000,7 @@ function ServiceEditor({ service: s }: { service: Service }) {
   );
 }
 
-const blankPackage = (): ServicePackage => ({ name: "", price: "", term: "", features: [], recommended: false });
+const blankPackage = (): ServicePackage => ({ name: "", price: "", term: "", features: [], recommended: false, fit: "" });
 
 function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
   const [items, setItems] = useState(initial);
@@ -1028,6 +1035,10 @@ function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
               Tavsiya etiladi
             </label>
           </div>
+          <label className="field">
+            <span>«Qaysi biri sizga yaqinroq?» javobi — bo‘sh bo‘lsa, paket u yerda chiqmaydi</span>
+            <input className="input" value={p.fit || ""} maxLength={160} onChange={(e) => update(i, { fit: e.target.value })} />
+          </label>
           <label className="field">
             <span>Tarkibi — har biri yangi satrda</span>
             <textarea
@@ -1067,6 +1078,12 @@ function CourseEditor({ course: c }: { course: Course }) {
           <Field label="Boshlanishi — ixtiyoriy" name="start" value={c.start} maxLength={100} />
         </div>
         <Field label="Qisqa jumla *" name="tagline" value={c.tagline} required maxLength={300} />
+        <Field
+          label="Bosh sahifadagi «Sizga nima kerak?» javobi — bo‘sh bo‘lsa, kurs u yerda chiqmaydi"
+          name="need"
+          value={c.need || ""}
+          maxLength={160}
+        />
         <Field label="Kurs haqida *" name="description" value={c.description} required area />
         <Field
           label="Qadamlar — har biri yangi satrda: Sarlavha | izoh"

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { COURSE_ORDER_PREFIX, SADO_URL, type Course, type Project, type Service } from "../../shared/content";
-import { Status } from "./Projects";
+import { ProjectCover, Status } from "./Projects";
 import { Arrow, ButtonLink, TextLink } from "./ui";
 
 /** Ishning jonli manzili; eski Sado yozuvida manzil bo'sh bo'lsa, Sado sayti olinadi. */
@@ -27,6 +27,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
           to={`/services/${s.slug}`}
           className="svc-card"
           data-reveal
+          data-tilt
           style={{ "--d": (i % 2) * 90 } as CSSProperties}
         >
           <span className="svc-top">
@@ -47,10 +48,15 @@ export function ServiceCards({ services }: { services: Service[] }) {
   );
 }
 
-export function WorkCard({ project, delay = 0 }: { project: Project; delay?: number }) {
+export function WorkCard({ project, delay = 0, thumb = false }: { project: Project; delay?: number; thumb?: boolean }) {
   const link = projectLink(project);
   return (
-    <article className="work-card" data-reveal style={{ "--d": delay } as CSSProperties}>
+    <article className="work-card" data-reveal data-tilt style={{ "--d": delay } as CSSProperties}>
+      {thumb && (
+        <div className="work-thumb" aria-hidden="true">
+          <ProjectCover project={project} />
+        </div>
+      )}
       <div className="work-meta">
         <span>{project.category}</span>
         <Status value={project.status} />
@@ -90,7 +96,7 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
 
 export function CourseTeaser({ course }: { course: Course }) {
   return (
-    <div className="course-teaser" data-reveal>
+    <div className="course-teaser" data-reveal data-tilt>
       <div>
         <span className="course-teaser-label">{course.format ? `Kurs · ${course.format}` : "Kurs"}</span>
         <h3>{course.title}</h3>

@@ -58,6 +58,11 @@ try {
       assert.match(academy.headers.get("location"), /\/courses$/);
       const services = await (await req("/api/services")).json();
       assert.ok(services.some((s) => s.slug === "veb-sayt" && s.packages?.length));
+      assert.ok(services.every((s) => s.need), "every service has an intro answer");
+      assert.ok(
+        services.find((s) => s.slug === "veb-sayt").packages.every((p) => p.fit),
+        "every website package has an intro answer",
+      );
       const sitemap = await (await req("/sitemap.xml")).text();
       assert.match(sitemap, /projects\/dalolat/);
     },

@@ -69,13 +69,21 @@ export function WorkingProcess() {
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
-/** Narx va muddat haqidagi javoblar xizmatlar ma'lumotidan yig'iladi. */
-function faqItems(services: Service[]) {
+/**
+ * Narx va muddat haqidagi javoblar xizmatlar ma'lumotidan yig'iladi.
+ * «ask» rejimida (bosh sahifa) narxlar ro'yxati o'rniga kirish savollariga yo'naltiriladi.
+ */
+function faqItems(services: Service[], priceMode: "list" | "ask") {
   const priced = services.filter((s) => s.price);
   const unpriced = services.filter((s) => !s.price);
   const timed = services.filter((s) => s.term);
   const items: Array<[string, string]> = [];
-  if (priced.length)
+  if (priceMode === "ask")
+    items.push([
+      "Narxlar qancha?",
+      "Narx sizga nima kerakligiga bog‘liq. Sahifa boshidagi ikki savolga javob bering — mos yechim narxini darhol ko‘rasiz. Barcha paketlar va narxlar «Xizmatlar» sahifasida.",
+    ]);
+  else if (priced.length)
     items.push([
       "Narxlar qancha?",
       [
@@ -108,10 +116,10 @@ function faqItems(services: Service[]) {
   return items;
 }
 
-export function FAQ() {
+export function FAQ({ priceMode = "list" }: { priceMode?: "list" | "ask" }) {
   const { services } = useContent();
   const [open, setOpen] = useState<number | null>(0);
-  const items = faqItems(services);
+  const items = faqItems(services, priceMode);
   return (
     <section className="container section faq hairline">
       <div>
@@ -202,6 +210,7 @@ function Packages({ service }: { service: Service }) {
           key={p.name}
           className={`pkg ${p.recommended ? "is-recommended" : ""}`}
           data-reveal
+          data-tilt
           style={{ "--d": i * 90 } as CSSProperties}
         >
           {p.recommended && <span className="pkg-badge">Tavsiya etiladi</span>}
