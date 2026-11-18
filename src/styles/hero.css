@@ -159,12 +159,17 @@ html.stage-grabbing * {
   opacity: 1;
 }
 @media (min-width: 1024px) {
+  .stage-rail {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
   .stage {
     position: sticky;
     top: 0;
-    z-index: 0;
     height: 100vh;
-    margin: 0 0 -100vh;
+    margin: 0;
   }
   .stage-slot {
     display: none;

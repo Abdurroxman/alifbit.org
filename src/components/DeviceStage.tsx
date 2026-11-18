@@ -86,6 +86,7 @@ export default function DeviceStage({ state, slot }: { state: StageState; slot: 
   const stage = (
     <div ref={box} className={`stage ${ready ? "is-ready" : ""}`} data-section={state.section} aria-hidden="true" />
   );
-  if (docked) return stage;
+  // Katta ekranda sahna Hero+Ishlar bo'yi cho'zilgan qatlam ichida yopishadi va uning oxirida to'xtaydi.
+  if (docked) return <div className="stage-rail">{stage}</div>;
   return slotEl ? createPortal(stage, slotEl) : null;
 }
