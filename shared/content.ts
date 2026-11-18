@@ -84,8 +84,10 @@ export type ServiceExample = {
   text: string;
   /** Manba: sayt yoki t.me havolasi. */
   url: string;
-  /** Admin yuklagan rasm (/media/public/...); bo'sh bo'lsa kartada xizmat rangidagi fon chiqadi. */
+  /** Kompyuter ekrani skrinshoti (/media/public/...): kartadagi noutbuk va bosh sahifadagi 3D noutbuk ekranida chiqadi. */
   image: string;
+  /** Telefon ekrani skrinshoti: kartadagi va 3D telefon ekranida. */
+  imageMobile?: string;
 };
 export type CourseStep = { title: string; text: string };
 export type Course = {

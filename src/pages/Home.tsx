@@ -184,6 +184,11 @@ export default function Home() {
   const onWork = useCallback((id: string) => setWork(id || null), []);
   const { projects, services } = useContent();
   const icon = services.find((s) => s.slug === projects.find((p) => p.id === work)?.service)?.icon || "";
+  // Tanlangan xizmat misollarining skrinshotlari 3D ekranlarda navbat bilan chiqadi.
+  const examples = services.find((s) => s.icon === flow.focus)?.examples || [];
+  const shotsOf = (pick: (e: (typeof examples)[number]) => string | undefined) =>
+    examples.map(pick).filter((u): u is string => !!u && u.startsWith("/media/"));
+  const shots = { laptop: shotsOf((e) => e.image), phone: shotsOf((e) => e.imageMobile) };
   const slot = useRef<HTMLDivElement>(null);
   return (
     <div className="home" ref={root}>
@@ -196,7 +201,7 @@ export default function Home() {
         </div>
         <DeviceStage
           slot={slot}
-          state={{ section, focus: flow.focus, step: flow.step, work, workFocus: focusOfIcon(icon) }}
+          state={{ section, focus: flow.focus, step: flow.step, work, workFocus: focusOfIcon(icon), shots }}
         />
         <Hero onFlow={onFlow} slot={slot} />
         <Works onWork={onWork} />

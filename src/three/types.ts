@@ -28,6 +28,8 @@ export type StageState = {
   work: string | null;
   /** Ishning xizmat yo'nalishi: ishning o'z maketi bo'lmasa, sahna shu yo'nalish ekranini ko'rsatadi. */
   workFocus?: StageFocus;
+  /** Tanlangan xizmat misollarining skrinshotlari (/media/...): bo'sh bo'lsa, chizilgan maket qoladi. */
+  shots?: { laptop: string[]; phone: string[] };
 };
 
 export type StageHandle = {

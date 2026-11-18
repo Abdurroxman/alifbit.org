@@ -349,6 +349,7 @@ export default function Admin() {
           text: x.text.trim(),
           url: x.url.trim(),
           image: x.image,
+          imageMobile: x.imageMobile || "",
         }))
         .filter((x) => x.name || x.url);
       delete data.examples_json;
@@ -1090,26 +1091,31 @@ function ServiceEditor({ service: s }: { service: Service }) {
   );
 }
 
-const blankExample = (): ServiceExample => ({ name: "", owner: "", text: "", url: "", image: "" });
+const blankExample = (): ServiceExample => ({ name: "", owner: "", text: "", url: "", image: "", imageMobile: "" });
+type ShotField = "image" | "imageMobile";
+const SHOT_LABEL: Record<ShotField, [string, string]> = {
+  image: ["Kompyuter ekrani", "16:9 skrinshot · noutbuk ekraniga"],
+  imageMobile: ["Telefon ekrani", "9:16 skrinshot · telefon ekraniga"],
+};
 
 /** Xizmat sahifasidagi misollar: har biriga alohida rasm yuklanadi, xizmat saqlanganda bazaga yoziladi. */
 function ExamplesEditor({ initial }: { initial: ServiceExample[] }) {
   const [items, setItems] = useState(initial);
-  const [uploading, setUploading] = useState<number | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState("");
   const update = (i: number, patch: Partial<ServiceExample>) =>
     setItems((list) => list.map((x, j) => (j === i ? { ...x, ...patch } : x)));
-  async function upload(i: number, file: File) {
+  async function upload(i: number, field: ShotField, file: File) {
     setUploadError("");
     if (file.size > 5 * 1024 * 1024) return setUploadError("Rasm 5 MB dan kichik bo‘lsin.");
-    setUploading(i);
+    setUploading(`${i}-${field}`);
     try {
       const result = await api<{ url: string }>("/api/admin/upload", {
         method: "POST",
         headers: { "content-type": file.type },
         body: file,
       });
-      update(i, { image: result.url });
+      update(i, { [field]: result.url });
     } catch (e) {
       setUploadError((e as Error).message);
     } finally {
@@ -1121,7 +1127,9 @@ function ExamplesEditor({ initial }: { initial: ServiceExample[] }) {
       <h2>Misollar</h2>
       <p className="ad-hint">
         Shu turdagi, boshqa kompaniyalar ishga tushirgan yechimlar. Karta manba havolasiga yangi oynada olib
-        boradi. Rasm yuklanmasa, kartada xizmat rangidagi fon chiqadi. Rasm yuklangach xizmatni saqlang.
+        boradi. Skrinshotlar kartada noutbuk va telefon ekranida, bosh sahifada esa shu xizmat tanlanganda 3D
+        qurilmalar ekranida chiqadi. Bittasi yuklansa, faqat o‘sha qurilma ko‘rinadi; ikkalasi ham bo‘lmasa,
+        kartada xizmat rangidagi fon turadi. Yuklagach xizmatni saqlang.
       </p>
       <input type="hidden" name="examples_json" value={JSON.stringify(items)} />
       {uploadError && <p role="alert" className="form-error">{uploadError}</p>}
@@ -1146,32 +1154,40 @@ function ExamplesEditor({ initial }: { initial: ServiceExample[] }) {
             <span>Qisqa tavsif</span>
             <textarea className="input" rows={3} value={x.text} maxLength={400} onChange={(e) => update(i, { text: e.target.value })} />
           </label>
-          <label className="ad-upload">
-            <span className="ad-upload-icon">
-              <ImagePlus size={22} strokeWidth={1.5} />
-            </span>
-            <span>
-              <b>{uploading === i ? "Yuklanmoqda…" : x.image ? "Rasmni almashtirish" : "Rasm yuklash"}</b>
-              <small>PNG, JPG yoki WEBP · 5 MB gacha · 4:3 nisbat</small>
-            </span>
-            <input
-              type="file"
-              disabled={uploading !== null}
-              accept="image/png,image/jpeg,image/webp"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) upload(i, file);
-                e.target.value = "";
-              }}
-            />
-          </label>
-          {x.image && <img className="ad-cover" src={x.image} alt={x.name} />}
+          <div className="ad-example-shots">
+            {(Object.keys(SHOT_LABEL) as ShotField[]).map((field) => (
+              <div key={field}>
+                <label className="ad-upload">
+                  <span className="ad-upload-icon">
+                    <ImagePlus size={22} strokeWidth={1.5} />
+                  </span>
+                  <span>
+                    <b>{uploading === `${i}-${field}` ? "Yuklanmoqda…" : SHOT_LABEL[field][0]}</b>
+                    <small>{SHOT_LABEL[field][1]} · PNG, JPG, WEBP · 5 MB gacha</small>
+                  </span>
+                  <input
+                    type="file"
+                    disabled={uploading !== null}
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) upload(i, field, file);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+                {x[field] && (
+                  <>
+                    <img className="ad-cover" src={x[field]} alt={`${x.name} — ${SHOT_LABEL[field][0]}`} />
+                    <button type="button" className="ad-remove" onClick={() => update(i, { [field]: "" })}>
+                      <Trash2 size={15} /> Olib tashlash
+                    </button>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
           <div className="ad-example-actions">
-            {x.image && (
-              <button type="button" className="ad-remove" onClick={() => update(i, { image: "" })}>
-                <Trash2 size={15} /> Rasmni olib tashlash
-              </button>
-            )}
             <button type="button" className="ad-remove" onClick={() => setItems(items.filter((_, j) => j !== i))}>
               <Trash2 size={15} /> Misolni olib tashlash
             </button>

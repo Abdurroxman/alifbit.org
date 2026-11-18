@@ -32,7 +32,15 @@ import {
 import { GLTFLoader, type GLTFLoaderPlugin, type GLTFParser } from "three/addons/loaders/GLTFLoader.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { drawScreen, IMAGE_SCREENS, isImageScreen, type Device, type ScreenKey, type ScreenTheme } from "./screens";
+import {
+  drawScreen,
+  IMAGE_SCREENS,
+  isImageScreen,
+  SCREEN_SIZE,
+  type Device,
+  type ScreenKey,
+  type ScreenTheme,
+} from "./screens";
 import type { StageFocus, StageHandle, StageState } from "./types";
 
 /** [x, y, z, burilish (rad), o'lcham] */
@@ -104,7 +112,16 @@ const SPAN_H = 3.4;
 const FOV = 30;
 const MAX_PIXELS = 4_200_000;
 
-type Screen = { mat: MeshBasicMaterial; key: ScreenKey | null; next: ScreenKey; fade: number };
+/** Admin yuklagan skrinshot (xizmat misollari): ekranga to'g'ridan-to'g'ri rasm sifatida qo'yiladi. */
+type MediaKey = `/media/${string}`;
+type ShownKey = ScreenKey | MediaKey;
+type Screen = { mat: MeshBasicMaterial; key: ShownKey | null; next: ShownKey; fade: number };
+/** Misollar skrinshotlari ekranda shuncha vaqtdan keyin almashadi. */
+const SHOT_INTERVAL = 4000;
+
+function isMediaKey(key: ShownKey): key is MediaKey {
+  return key.startsWith("/media/");
+}
 type DeviceName = "laptop" | "phone";
 
 // Modellar (public/models). O'lchamlar metrda, glTF koordinatalarida (Y — yuqoriga).
@@ -225,12 +242,37 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
   // Telefon ekrani modelning o'z UV'sida (glTF: v yuqoridan pastga), noutbuk ekrani — oddiy tekislik.
   const flip: Record<Device, boolean> = { laptop: true, phone: true };
-  function texture(key: ScreenKey, device: Device): Texture {
+  /** Skrinshot ekran nisbatiga «cover» qilib, yuqori chetidan kesiladi: rasm cho'zilmaydi. */
+  function mediaTexture(url: string, device: Device): Texture {
+    const [w, h] = SCREEN_SIZE[device];
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const c = canvas.getContext("2d")!;
+    c.fillStyle = "#0d0f0e";
+    c.fillRect(0, 0, w, h);
+    const t = new CanvasTexture(canvas);
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => {
+      const k = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      const dw = img.naturalWidth * k;
+      c.drawImage(img, (w - dw) / 2, 0, dw, img.naturalHeight * k);
+      t.needsUpdate = true;
+      requestRender();
+    };
+    img.src = url;
+    return t;
+  }
+  function texture(key: ShownKey, device: Device): Texture {
     const theme = currentTheme();
-    const id = isImageScreen(key) ? `${key}-${device}-${flip[device]}` : `${key}-${device}-${theme}-${flip[device]}`;
+    const id =
+      isMediaKey(key) || isImageScreen(key) ? `${key}-${device}-${flip[device]}` : `${key}-${device}-${theme}-${flip[device]}`;
     let t = textures.get(id);
     if (t) return t;
-    if (isImageScreen(key)) {
+    if (isMediaKey(key)) {
+      t = mediaTexture(key, device);
+    } else if (isImageScreen(key)) {
       t = loader.load(IMAGE_SCREENS[key], () => requestRender());
     } else {
       t = new CanvasTexture(drawScreen(key, device, theme));
@@ -480,8 +522,12 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
     root.rotation.x = pointer.y * 0.05;
 
     // Ekran almashishi: so'nib, yangi maket bilan qayta yonadi.
+    // Kirish suhbatida xizmat tanlanganda, uning misollari skrinshotlari navbat bilan chiqadi.
+    const shots = state.section === "hero" ? state.shots : undefined;
+    const turn = still ? 0 : Math.floor(now / SHOT_INTERVAL);
     for (const [s, dev] of [[laptopScreen, "laptop"], [phoneScreen, "phone"]] as const) {
-      s.next = dev === "laptop" ? p.ls : p.ps;
+      const list = (shots?.[dev] || []) as MediaKey[];
+      s.next = list.length ? list[turn % list.length] : dev === "laptop" ? p.ls : p.ps;
       if (s.key === null || still) applyScreen(s, dev);
       else if (s.key !== s.next) {
         s.fade = Math.max(0, s.fade - dt * 7);

@@ -14,6 +14,7 @@ import {
 import NotFound from "./NotFound";
 import { ChainDiagram } from "../components/FlowDiagram";
 import AiPrompt from "../components/AiPrompt";
+import DeviceMock from "../components/DeviceMock";
 import { SERVICE_FLOWS } from "../../shared/flows";
 import { accentStyle, setNetworkAccent } from "../lib/accent";
 import {
@@ -363,9 +364,9 @@ function Examples({ items }: { items: ServiceExample[] }) {
             data-reveal
             style={{ "--d": i * 90 } as CSSProperties}
           >
-            <div className="ex-media" aria-hidden={!e.image}>
-              {e.image ? (
-                <img src={e.image} alt={e.name} loading="lazy" decoding="async" />
+            <div className="ex-media" aria-hidden={!e.image && !e.imageMobile}>
+              {e.image || e.imageMobile ? (
+                <DeviceMock laptop={e.image} phone={e.imageMobile} name={e.name} />
               ) : (
                 <span className="ex-initial">{e.name.charAt(0)}</span>
               )}

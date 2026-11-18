@@ -107,6 +107,10 @@ export const projectSchema = z.object({
     .default([]),
   demo: demoSchema.optional(),
 });
+/** Admin yuklagan rasm yoki bo'sh qiymat. */
+const mediaImage = text(250)
+  .refine((v) => !v || /^\/media\/public\/[a-f0-9-]+\.(png|jpg|webp)$/.test(v), "Misol rasmi yuklangan fayl bo‘lsin.")
+  .default("");
 export const serviceSchema = z.object({
   slug,
   number: z.string().regex(/^\d{2}$/),
@@ -138,9 +142,8 @@ export const serviceSchema = z.object({
         owner: text(120).default(""),
         text: text(400).default(""),
         url: text(1000).refine((v) => !!safeUrl(v), "Misol havolasi http yoki https bilan boshlansin."),
-        image: text(250)
-          .refine((v) => !v || /^\/media\/public\/[a-f0-9-]+\.(png|jpg|webp)$/.test(v), "Misol rasmi yuklangan fayl bo‘lsin.")
-          .default(""),
+        image: mediaImage,
+        imageMobile: mediaImage,
       }),
     )
     .max(8)

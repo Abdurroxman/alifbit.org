@@ -170,3 +170,11 @@ test("examples seeded by migration 0010 pass the service schema", () => {
     assert.equal(examples.length, 4);
   }
 });
+
+test("service examples accept an uploaded phone screenshot next to the laptop one", () => {
+  const ex = { name: "Bot", url: "https://t.me/example_bot", imageMobile: "/media/public/0b6c8a52-1d7e-4f6a-9f43-2a6f1d3c9e10.png" };
+  const parsed = serviceSchema.safeParse({ ...initialServices[0], examples: [ex] });
+  assert.equal(parsed.success, true);
+  assert.equal(parsed.success && parsed.data.examples[0].image, "");
+  assert.equal(serviceSchema.safeParse({ ...initialServices[0], examples: [{ ...ex, imageMobile: "/images/x.png" }] }).success, false);
+});
