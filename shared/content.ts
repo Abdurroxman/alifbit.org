@@ -72,8 +72,20 @@ export type Service = {
   price?: string;
   term?: string;
   packages?: ServicePackage[];
+  /** Shu turdagi, boshqa kompaniyalar ishga tushirgan haqiqiy yechimlar: xizmat sahifasida manba havolasi bilan chiqadi. */
+  examples?: ServiceExample[];
   /** false bo'lsa xizmat saytning hech qayerida chiqmaydi. */
   published?: boolean;
+};
+export type ServiceExample = {
+  name: string;
+  /** Kompaniya va mamlakat, masalan «EVOS · O‘zbekiston». */
+  owner: string;
+  text: string;
+  /** Manba: sayt yoki t.me havolasi. */
+  url: string;
+  /** Admin yuklagan rasm (/media/public/...); bo'sh bo'lsa kartada xizmat rangidagi fon chiqadi. */
+  image: string;
 };
 export type CourseStep = { title: string; text: string };
 export type Course = {

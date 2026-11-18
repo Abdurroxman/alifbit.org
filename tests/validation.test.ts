@@ -137,3 +137,36 @@ test("demo graph rejects broken links, duplicate ids and a missing start", () =>
   assert.equal(demoSchema.safeParse({ ...demo, start: "x" }).success, false);
   assert.equal(demoSchema.safeParse({ ...demo, nodes: [{ ...demo.nodes[0], id: "A B" }, demo.nodes[1]] }).success, false);
 });
+
+test("service examples need a name and a safe link; images must be uploaded files", () => {
+  const ok = {
+    name: "Savdo boti",
+    owner: "Do‘kon · O‘zbekiston",
+    text: "Buyurtma qabul qiladi.",
+    url: "https://t.me/example_bot",
+    image: "/media/public/0b6c8a52-1d7e-4f6a-9f43-2a6f1d3c9e10.webp",
+  };
+  const parsed = serviceSchema.safeParse({ ...initialServices[0], examples: [ok, { name: "Sayt", url: "https://example.uz" }] });
+  assert.equal(parsed.success, true);
+  assert.equal(parsed.success && parsed.data.examples[1].image, "");
+  assert.deepEqual(serviceSchema.safeParse(initialServices[0]).success && serviceSchema.parse(initialServices[0]).examples, []);
+  const bad = (patch: object) => serviceSchema.safeParse({ ...initialServices[0], examples: [{ ...ok, ...patch }] }).success;
+  assert.equal(bad({ url: "javascript:alert(1)" }), false);
+  assert.equal(bad({ url: "" }), false);
+  assert.equal(bad({ name: "" }), false);
+  assert.equal(bad({ image: "https://evil.example/x.png" }), false);
+  assert.equal(bad({ image: "/media/public/../x.png" }), false);
+  const many = Array.from({ length: 9 }, () => ok);
+  assert.equal(serviceSchema.safeParse({ ...initialServices[0], examples: many }).success, false);
+});
+
+test("examples seeded by migration 0010 pass the service schema", () => {
+  const sql = readFileSync(new URL("../db/migrations/0010_service_examples.sql", import.meta.url), "utf8");
+  const lists = [...sql.matchAll(/json\('((?:[^']|'')*)'\)/g)].map((m) => JSON.parse(m[1].replace(/''/g, "'")));
+  assert.equal(lists.length, 8);
+  for (const examples of lists) {
+    const parsed = serviceSchema.safeParse({ ...initialServices[0], examples });
+    assert.equal(parsed.success, true, parsed.success ? "" : parsed.error.issues[0].message);
+    assert.equal(examples.length, 4);
+  }
+});

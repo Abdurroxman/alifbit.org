@@ -131,6 +131,20 @@ export const serviceSchema = z.object({
     )
     .max(6)
     .default([]),
+  examples: z
+    .array(
+      z.object({
+        name: text(120).min(2, "Misol nomini kiriting."),
+        owner: text(120).default(""),
+        text: text(400).default(""),
+        url: text(1000).refine((v) => !!safeUrl(v), "Misol havolasi http yoki https bilan boshlansin."),
+        image: text(250)
+          .refine((v) => !v || /^\/media\/public\/[a-f0-9-]+\.(png|jpg|webp)$/.test(v), "Misol rasmi yuklangan fayl bo‘lsin.")
+          .default(""),
+      }),
+    )
+    .max(8)
+    .default([]),
   published: z.boolean().default(true),
 });
 export const courseSchema = z.object({

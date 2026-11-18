@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useParams } from "react-router-dom";
-import { Check, Minus, Plus } from "lucide-react";
+import { ArrowUpRight, Check, Minus, Plus } from "lucide-react";
 import { useContent } from "../App";
 import { keepNumbers, ServiceCards } from "../components/Studio";
 import {
@@ -16,7 +16,12 @@ import { ChainDiagram } from "../components/FlowDiagram";
 import AiPrompt from "../components/AiPrompt";
 import { SERVICE_FLOWS } from "../../shared/flows";
 import { accentStyle, setNetworkAccent } from "../lib/accent";
-import { PROMISES, type Service, type ServicePackage } from "../../shared/content";
+import {
+  PROMISES,
+  type Service,
+  type ServiceExample,
+  type ServicePackage,
+} from "../../shared/content";
 
 const WORK = [
   [
@@ -335,6 +340,63 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
   );
 }
 
+/** Xizmat sahifasidagi haqiqiy misollar: har biri manba saytiga yangi oynada olib boradi. */
+function Examples({ items }: { items: ServiceExample[] }) {
+  return (
+    <section className="container section hairline">
+      <div className="section-head">
+        <div>
+          <div data-reveal="fade">
+            <Eyebrow>Misollar</Eyebrow>
+          </div>
+          <Lines>{["Bunday yechimlar", <span className="accent" key="a">allaqachon ishlayapti.</span>]}</Lines>
+        </div>
+      </div>
+      <div className="ex-grid">
+        {items.map((e, i) => (
+          <a
+            key={e.url + e.name}
+            className="ex-card"
+            href={e.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-reveal
+            style={{ "--d": i * 90 } as CSSProperties}
+          >
+            <div className="ex-media" aria-hidden={!e.image}>
+              {e.image ? (
+                <img src={e.image} alt={e.name} loading="lazy" decoding="async" />
+              ) : (
+                <span className="ex-initial">{e.name.charAt(0)}</span>
+              )}
+            </div>
+            <div className="ex-body">
+              {e.owner && <span className="ex-owner">{e.owner}</span>}
+              <h3>
+                {e.name}
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </h3>
+              {e.text && <p>{e.text}</p>}
+              <span className="ex-host">{hostOf(e.url)}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function hostOf(url: string) {
+  try {
+    const u = new URL(url);
+    // Telegram havolasida bot nomi ko'rinsin: t.me/evosdeliverybot
+    if (u.host === "t.me") return `t.me${u.pathname}`.replace(/\/$/, "");
+    return u.host.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
 export function ServiceDetail() {
   const { slug } = useParams();
   const { services, loaded } = useContent();
@@ -379,6 +441,7 @@ export function ServiceDetail() {
           {service.icon === "ai" && <AiPrompt />}
         </section>
       )}
+      {(service.examples || []).length > 0 && <Examples items={service.examples!} />}
       <section className="container section hairline">
         <div className="section-head">
           <div>

@@ -36,6 +36,7 @@ import {
   type Course,
   type Project,
   type Service,
+  type ServiceExample,
   type ServicePackage,
 } from "../../shared/content";
 import "../styles/admin.css";
@@ -340,6 +341,17 @@ export default function Admin() {
         features: p.features.map((f) => f.trim()).filter(Boolean),
       }));
       delete data.packages_json;
+      const examples = JSON.parse(String(form.get("examples_json") || "[]")) as ServiceExample[];
+      data.examples = examples
+        .map((x) => ({
+          name: x.name.trim(),
+          owner: x.owner.trim(),
+          text: x.text.trim(),
+          url: x.url.trim(),
+          image: x.image,
+        }))
+        .filter((x) => x.name || x.url);
+      delete data.examples_json;
     }
     if (tab === "courses") {
       data.contents = lines(form.get("contents"));
@@ -1073,7 +1085,108 @@ function ServiceEditor({ service: s }: { service: Service }) {
         />
       </section>
       <PackagesEditor initial={s.packages || []} />
+      <ExamplesEditor initial={s.examples || []} />
     </>
+  );
+}
+
+const blankExample = (): ServiceExample => ({ name: "", owner: "", text: "", url: "", image: "" });
+
+/** Xizmat sahifasidagi misollar: har biriga alohida rasm yuklanadi, xizmat saqlanganda bazaga yoziladi. */
+function ExamplesEditor({ initial }: { initial: ServiceExample[] }) {
+  const [items, setItems] = useState(initial);
+  const [uploading, setUploading] = useState<number | null>(null);
+  const [uploadError, setUploadError] = useState("");
+  const update = (i: number, patch: Partial<ServiceExample>) =>
+    setItems((list) => list.map((x, j) => (j === i ? { ...x, ...patch } : x)));
+  async function upload(i: number, file: File) {
+    setUploadError("");
+    if (file.size > 5 * 1024 * 1024) return setUploadError("Rasm 5 MB dan kichik bo‘lsin.");
+    setUploading(i);
+    try {
+      const result = await api<{ url: string }>("/api/admin/upload", {
+        method: "POST",
+        headers: { "content-type": file.type },
+        body: file,
+      });
+      update(i, { image: result.url });
+    } catch (e) {
+      setUploadError((e as Error).message);
+    } finally {
+      setUploading(null);
+    }
+  }
+  return (
+    <section className="ad-panel ad-form">
+      <h2>Misollar</h2>
+      <p className="ad-hint">
+        Shu turdagi, boshqa kompaniyalar ishga tushirgan yechimlar. Karta manba havolasiga yangi oynada olib
+        boradi. Rasm yuklanmasa, kartada xizmat rangidagi fon chiqadi. Rasm yuklangach xizmatni saqlang.
+      </p>
+      <input type="hidden" name="examples_json" value={JSON.stringify(items)} />
+      {uploadError && <p role="alert" className="form-error">{uploadError}</p>}
+      {items.map((x, i) => (
+        <fieldset className="ad-package" key={i}>
+          <legend>Misol {i + 1}</legend>
+          <div className="ad-grid">
+            <label className="field">
+              <span>Nomi *</span>
+              <input className="input" value={x.name} required maxLength={120} onChange={(e) => update(i, { name: e.target.value })} />
+            </label>
+            <label className="field">
+              <span>Kimniki — masalan «EVOS · O‘zbekiston»</span>
+              <input className="input" value={x.owner} maxLength={120} onChange={(e) => update(i, { owner: e.target.value })} />
+            </label>
+          </div>
+          <label className="field">
+            <span>Havola * — sayt yoki t.me/…</span>
+            <input className="input" type="url" value={x.url} required maxLength={1000} onChange={(e) => update(i, { url: e.target.value })} />
+          </label>
+          <label className="field">
+            <span>Qisqa tavsif</span>
+            <textarea className="input" rows={3} value={x.text} maxLength={400} onChange={(e) => update(i, { text: e.target.value })} />
+          </label>
+          <label className="ad-upload">
+            <span className="ad-upload-icon">
+              <ImagePlus size={22} strokeWidth={1.5} />
+            </span>
+            <span>
+              <b>{uploading === i ? "Yuklanmoqda…" : x.image ? "Rasmni almashtirish" : "Rasm yuklash"}</b>
+              <small>PNG, JPG yoki WEBP · 5 MB gacha · 4:3 nisbat</small>
+            </span>
+            <input
+              type="file"
+              disabled={uploading !== null}
+              accept="image/png,image/jpeg,image/webp"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) upload(i, file);
+                e.target.value = "";
+              }}
+            />
+          </label>
+          {x.image && <img className="ad-cover" src={x.image} alt={x.name} />}
+          <div className="ad-example-actions">
+            {x.image && (
+              <button type="button" className="ad-remove" onClick={() => update(i, { image: "" })}>
+                <Trash2 size={15} /> Rasmni olib tashlash
+              </button>
+            )}
+            <button type="button" className="ad-remove" onClick={() => setItems(items.filter((_, j) => j !== i))}>
+              <Trash2 size={15} /> Misolni olib tashlash
+            </button>
+          </div>
+        </fieldset>
+      ))}
+      {items.length < 8 && (
+        <button type="button" className="button button-outline" onClick={() => setItems([...items, blankExample()])}>
+          Misol qo‘shish
+          <span className="button-icon" aria-hidden="true">
+            <Plus size={16} />
+          </span>
+        </button>
+      )}
+    </section>
   );
 }
 

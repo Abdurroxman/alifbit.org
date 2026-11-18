@@ -932,3 +932,10 @@ body:has(.ad-login) {
   font-size: 14px;
   color: #a33b2b;
 }
+
+/* Xizmat misollari tahriri */
+.ad-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
