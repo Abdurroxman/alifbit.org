@@ -279,7 +279,7 @@ try {
       assert.equal((await req("/api/admin/courses", options({ ...originalCourse, published: true }))).status, 200);
       const page = await req("/courses/vayb-koding");
       assert.equal(page.status, 200);
-      assert.match(await page.text(), /<title>Vayb koding — AlifBit<\/title>/);
+      assert.match(await page.text(), /<title>AI yordamida sayt va bot yaratish — AlifBit<\/title>/);
       assert.match(await (await req("/sitemap.xml")).text(), /courses\/vayb-koding/);
       const accepted = await signUp();
       assert.equal(accepted.status, 201, await accepted.clone().text());
