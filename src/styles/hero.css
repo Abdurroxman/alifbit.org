@@ -359,8 +359,22 @@ html.stage-grabbing * {
   border-radius: 14px;
   background: var(--glass-strong);
 }
-.nf-pkgs li.is-recommended {
-  border-color: var(--green-2);
+.nf-pkgs li[role="radio"] {
+  cursor: pointer;
+  transition:
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
+}
+.nf-pkgs li[role="radio"]:hover {
+  border-color: color-mix(in srgb, var(--accent, var(--green-2)) 55%, var(--line));
+}
+.nf-pkgs li[role="radio"]:focus-visible {
+  outline: 2px solid var(--accent, var(--green-2));
+  outline-offset: 2px;
+}
+.nf-pkgs li.is-selected {
+  border-color: var(--accent, var(--green-2));
+  box-shadow: 0 0 0 1px var(--accent, var(--green-2));
 }
 .nf-pkg-head {
   display: flex;
@@ -398,8 +412,12 @@ html.stage-grabbing * {
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 6px 16px;
+  gap: 2px 16px;
   margin-top: 10px;
+}
+.nf-pkg-foot .price-label,
+.nf-price .price-label {
+  flex-basis: 100%;
 }
 .nf-pkg-foot span {
   display: flex;

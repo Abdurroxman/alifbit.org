@@ -86,7 +86,7 @@
 .svc-page .check-list svg {
   color: var(--accent, var(--gold-text));
 }
-.svc-page .pkg.is-recommended {
+.svc-page .pkg.is-selected {
   border-color: var(--accent, var(--green));
   box-shadow: 0 0 0 1px var(--accent, var(--green));
 }
@@ -103,7 +103,7 @@
 .nf-card {
   position: relative;
 }
-.pkg.is-recommended::before,
+.pkg.is-selected::before,
 .nf-card::before {
   content: "";
   position: absolute;
@@ -127,7 +127,7 @@
     linear-gradient(#000 0 0);
   pointer-events: none;
 }
-html.motion .pkg.is-recommended::before,
+html.motion .pkg.is-selected::before,
 html.motion .nf-card::before {
   animation: spin-border 6s linear infinite;
 }

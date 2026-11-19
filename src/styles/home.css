@@ -231,7 +231,7 @@
   border-radius: var(--r-l);
   background: var(--paper);
 }
-.pkg.is-recommended {
+.pkg.is-selected {
   border-color: var(--green);
   box-shadow: 0 0 0 1px var(--green);
 }
@@ -266,8 +266,30 @@
   flex: 1;
   align-content: start;
 }
-.pkg .button {
-  align-self: flex-start;
+.pkg[role="radio"] {
+  cursor: pointer;
+  transition:
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
+}
+.pkg[role="radio"]:hover {
+  border-color: color-mix(in srgb, var(--accent, var(--green)) 55%, var(--line));
+}
+.pkg[role="radio"]:focus-visible {
+  outline: 2px solid var(--accent, var(--green));
+  outline-offset: 3px;
+}
+.pkg-order {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin-top: 28px;
+}
+.detail-price,
+.svc-price-main {
+  display: grid;
+  gap: 2px;
 }
 .compare-wrap {
   position: relative;
@@ -476,4 +498,20 @@ html.motion [data-tilt].is-tilting::after {
   .promises-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+/* Narx ustidagi «Boshlang'ich narx» yozuvi: atrofdagi `small`/`span` uslublaridan ustun turadi */
+.detail-quick:has(.detail-price) {
+  align-items: flex-end;
+}
+.detail-quick .detail-price {
+  font-size: inherit;
+  color: inherit;
+}
+:is(.svc-price, .pkg-price, .detail-price, .nf-price, .nf-pkg-foot) .price-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.svc-price:has(.svc-price-main) {
+  align-items: flex-end;
 }

@@ -9,8 +9,10 @@ import {
   Eyebrow,
   Lines,
   PageTop,
+  PriceLabel,
   PriceNote,
 } from "../components/ui";
+import { usePackageChoice } from "../lib/packageChoice";
 import NotFound from "./NotFound";
 import { ChainDiagram } from "../components/FlowDiagram";
 import AiPrompt from "../components/AiPrompt";
@@ -248,42 +250,47 @@ function orderLink(service: Service, pkg?: ServicePackage) {
   return `/contact?${params}`;
 }
 
+/** Paketlar radio guruh sifatida: bittasi tanlanadi, pastdagi tugma shu paket bilan buyurtma qiladi. */
 function Packages({ service }: { service: Service }) {
   const packages = service.packages || [];
+  const { selected, optionProps } = usePackageChoice(packages);
   return (
-    <div className="pkg-grid">
-      {packages.map((p, i) => (
-        <article
-          key={p.name}
-          className={`pkg ${p.recommended ? "is-recommended" : ""}`}
-          data-reveal
-          data-tilt
-          style={{ "--d": i * 90 } as CSSProperties}
-        >
-          {p.recommended && <span className="pkg-badge">Tavsiya etiladi</span>}
-          <h3>{p.name}</h3>
-          {p.fit && <p className="pkg-fit">{p.fit}</p>}
-          <div className="pkg-price">
-            <b>{p.price || "Narxi kelishiladi"}</b>
-            {p.term && <small>{p.term}</small>}
-          </div>
-          <ul className="check-list">
-            {p.features.map((f) => (
-              <li key={f}>
-                <Check size={18} />
-                {f}
-              </li>
-            ))}
-          </ul>
-          <ButtonLink
-            to={orderLink(service, p)}
-            variant={p.recommended ? "primary" : "outline"}
+    <>
+      <div className="pkg-grid" role="radiogroup" aria-label="Paketlar">
+        {packages.map((p, i) => (
+          <article
+            key={p.name}
+            className={`pkg ${p === selected ? "is-selected" : ""}`}
+            data-reveal
+            data-tilt
+            style={{ "--d": i * 90 } as CSSProperties}
+            {...optionProps(p)}
           >
-            Buyurtma berish
-          </ButtonLink>
-        </article>
-      ))}
-    </div>
+            {p.recommended && <span className="pkg-badge">Tavsiya etiladi</span>}
+            <h3>{p.name}</h3>
+            {p.fit && <p className="pkg-fit">{p.fit}</p>}
+            <div className="pkg-price">
+              {p.price && <PriceLabel />}
+              <b>{p.price || "Narxi kelishiladi"}</b>
+              {p.term && <small>{p.term}</small>}
+            </div>
+            <ul className="check-list">
+              {p.features.map((f) => (
+                <li key={f}>
+                  <Check size={18} />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <div className="pkg-order">
+        <ButtonLink to={orderLink(service, selected)} magnetic>
+          Buyurtma berish
+        </ButtonLink>
+      </div>
+    </>
   );
 }
 
@@ -330,7 +337,7 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
             </tr>
           ))}
           <tr className="compare-price">
-            <th scope="row">Narxi</th>
+            <th scope="row">Boshlang‘ich narx</th>
             {packages.map((p) => (
               <td key={p.name}>{p.price || "Kelishiladi"}</td>
             ))}
@@ -428,7 +435,12 @@ export function ServiceDetail() {
           data-reveal
           style={{ "--d": 300 } as CSSProperties}
         >
-          {service.price && <b>{service.price}</b>}
+          {service.price && (
+            <span className="detail-price">
+              <PriceLabel />
+              <b>{service.price}</b>
+            </span>
+          )}
           {service.term && <span>{service.term}</span>}
           <ButtonLink to={orderLink(service)} magnetic>
             Buyurtma berish
@@ -436,6 +448,20 @@ export function ServiceDetail() {
         </div>
         {service.price && <PriceNote />}
       </PageTop>
+      {packages.length > 0 && (
+        <section className="container section hairline">
+          <div className="section-head">
+            <div>
+              <div data-reveal="fade">
+                <Eyebrow>Paketlar</Eyebrow>
+              </div>
+              <Lines>{["O‘zingizga mosini tanlang."]}</Lines>
+            </div>
+          </div>
+          <Packages key={service.slug} service={service} />
+          {!service.price && packages.some((p) => p.price) && <PriceNote />}
+        </section>
+      )}
       {flow.length > 0 && (
         <section className="container section diagram-section hairline">
           <ChainDiagram items={flow.map((n, i) => ({ ...n, key: String(i) }))} accent={service.icon} />
@@ -460,22 +486,8 @@ export function ServiceDetail() {
             </li>
           ))}
         </ul>
+        {packages.length > 1 && <Compare packages={packages} />}
       </section>
-      {packages.length > 0 && (
-        <section className="container section hairline">
-          <div className="section-head">
-            <div>
-              <div data-reveal="fade">
-                <Eyebrow>Paketlar</Eyebrow>
-              </div>
-              <Lines>{["O‘zingizga mosini tanlang."]}</Lines>
-            </div>
-          </div>
-          <Packages service={service} />
-          {packages.length > 1 && <Compare packages={packages} />}
-          <PriceNote />
-        </section>
-      )}
       {!loaded && <div className="container nf-wait">Narxlar yuklanmoqda…</div>}
       {service.promises !== false && <Promises />}
       <WorkingProcess />

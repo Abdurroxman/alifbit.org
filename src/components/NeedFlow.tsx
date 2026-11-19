@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useContent } from "../App";
 import { courseOrderLink, keepNumbers } from "./Studio";
-import { ButtonLink, PriceNote, TextLink } from "./ui";
+import { ButtonLink, PriceNote, PriceLabel, TextLink } from "./ui";
+import { usePackageChoice } from "../lib/packageChoice";
 import { accentStyle } from "../lib/accent";
 import { focusOfIcon, type StageFocus } from "../three/types";
 import { PROMISES, TELEGRAM_URL, type Course, type Service, type ServicePackage } from "../../shared/content";
@@ -173,6 +174,7 @@ function ServiceCard({
   onNext: (slug: string) => void;
 }) {
   const packages = service.packages || [];
+  const { selected, optionProps } = usePackageChoice(packages);
   return (
     <article className="nf-step nf-result nf-card" style={accentStyle(service.icon)}>
       <span className="nf-label">Xizmat {service.number}</span>
@@ -181,6 +183,7 @@ function ServiceCard({
       </p>
       {loaded && (service.price || service.term) && (
         <p className="nf-price">
+          {service.price && <PriceLabel />}
           <b>{keepNumbers(service.price || "Narxi kelishiladi")}</b>
           {service.term && <small>{service.term}</small>}
         </p>
@@ -199,9 +202,13 @@ function ServiceCard({
 
       <h3 className="nf-h">{packages.length > 1 ? "Paketlar" : "Narxi"}</h3>
       {loaded ? (
-        <ul className="nf-pkgs">
+        <ul
+          className="nf-pkgs"
+          role={packages.length ? "radiogroup" : undefined}
+          aria-label={packages.length ? "Paketlar" : undefined}
+        >
           {packages.map((p) => (
-            <li key={p.name} className={p.recommended ? "is-recommended" : ""}>
+            <li key={p.name} className={p === selected ? "is-selected" : ""} {...optionProps(p)}>
               <div className="nf-pkg-head">
                 <b>{p.name}</b>
                 {p.recommended && <span className="nf-badge">Tavsiya</span>}
@@ -209,11 +216,11 @@ function ServiceCard({
               {p.fit && <p className="nf-pkg-fit">{p.fit}</p>}
               {p.features.length > 0 && <p className="nf-pkg-items">{p.features.join(" · ")}</p>}
               <div className="nf-pkg-foot">
+                {p.price && <PriceLabel />}
                 <span>
                   <b>{keepNumbers(p.price || "Narxi kelishiladi")}</b>
                   {p.term && <small>{p.term}</small>}
                 </span>
-                <TextLink to={orderLink(service, p)}>Buyurtma berish</TextLink>
               </div>
             </li>
           ))}
@@ -247,10 +254,12 @@ function ServiceCard({
       )}
 
       <div className="nf-actions">
-        <ButtonLink to={orderLink(service)} magnetic>
+        <ButtonLink to={orderLink(service, selected)} magnetic>
           Buyurtma berish
         </ButtonLink>
-        <TextLink to={`/services/${service.slug}`}>Batafsil</TextLink>
+        <ButtonLink to={`/services/${service.slug}`} variant="outline">
+          Batafsil
+        </ButtonLink>
       </div>
       {next && (
         <button className="nf-next" onClick={() => onNext(next.slug)}>

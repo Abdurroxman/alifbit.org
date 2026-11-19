@@ -4,7 +4,7 @@ import { useContent } from "../App";
 import { accentStyle } from "../lib/accent";
 import { COURSE_ORDER_PREFIX, SADO_URL, type Course, type Project, type Service } from "../../shared/content";
 import { ProjectCover, Status } from "./Projects";
-import { Arrow, ButtonLink, TextLink } from "./ui";
+import { Arrow, ButtonLink, PriceLabel, TextLink } from "./ui";
 
 /** Ishning jonli manzili; eski Sado yozuvida manzil bo'sh bo'lsa, Sado sayti olinadi. */
 export function projectLink(project: Project) {
@@ -40,7 +40,12 @@ export function ServiceCards({ services }: { services: Service[] }) {
           <p>{s.short}</p>
           {(s.price || s.term) && (
             <span className="svc-price">
-              {s.price && <b>{s.price}</b>}
+              {s.price && (
+                <span className="svc-price-main">
+                  <PriceLabel />
+                  <b>{s.price}</b>
+                </span>
+              )}
               {s.term && <small>{s.term}</small>}
             </span>
           )}

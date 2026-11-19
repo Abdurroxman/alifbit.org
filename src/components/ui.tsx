@@ -57,7 +57,16 @@ export function ButtonLink({
 
 /** Narxlar yonida: ko'rsatilgan narx boshlang'ich, yakuniysi ishga qarab kelishiladi. */
 export function PriceNote() {
-  return <p className="price-note">Narx ishga qarab kelishiladi.</p>;
+  return (
+    <p className="price-note">
+      Saytdagi narx — boshlang‘ich narx. Aniq narx ish hajmi va sifatiga qarab kelishiladi.
+    </p>
+  );
+}
+
+/** Aniq narx ustidagi kichik yozuv. Narx yozilmagan («kelishiladi») joyda qo'yilmaydi. */
+export function PriceLabel() {
+  return <small className="price-label">Boshlang‘ich narx</small>;
 }
 
 export function Eyebrow({ children }: { children: ReactNode }) {
