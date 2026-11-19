@@ -1,0 +1,58 @@
+{
+ "uz": [
+  "Omonat ochish",
+  null,
+  null,
+  null,
+  "2-qadam, 4 tadan",
+  "Shaxsiy ma’lumotlar",
+  "Pasportdagi kabi to‘ldiring",
+  "F.I.Sh.",
+  "Rahimov Aziz",
+  "Tug‘ilgan sana",
+  "12.04.1990",
+  "Telefon",
+  "+998 90 123 45 67",
+  "Email",
+  "aziz@example.uz",
+  "Manzil",
+  "Toshkent, Chilonzor",
+  "Shartlarga roziman",
+  "Ma’lumotlarim tekshirilishiga ruxsat beraman",
+  "Davom etish"
+ ],
+ "extra": {
+  "uz": [
+   {
+    "erase": [
+     76,
+     217,
+     396,
+     260
+    ],
+    "t": "Omonat 22%",
+    "size": 38,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "left",
+    "x": 76,
+    "y": 238
+   },
+   {
+    "erase": [
+     76,
+     283,
+     321,
+     315
+    ],
+    "t": "Yillik, onlayn",
+    "size": 26,
+    "color": "#4b5563",
+    "bold": false,
+    "align": "left",
+    "x": 76,
+    "y": 299
+   }
+  ]
+ }
+}

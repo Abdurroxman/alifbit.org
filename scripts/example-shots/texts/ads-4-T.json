@@ -1,0 +1,47 @@
+{
+ "uz": [
+  null,
+  null,
+  "Toshkent markazida yangi uylar",
+  "Park va ko‘l yonidagi majmua",
+  "Xona",
+  "Hammom",
+  "Maydon",
+  "Boshlang‘ich to‘lov 30%",
+  "Batafsil"
+ ],
+ "extra": {
+  "uz": [
+   {
+    "erase": [
+     164,
+     77,
+     450,
+     107
+    ],
+    "t": "grand_residence",
+    "size": 30,
+    "color": "#ffffff",
+    "bold": true,
+    "align": "left",
+    "x": 164,
+    "y": 92
+   },
+   {
+    "erase": [
+     164,
+     122,
+     353,
+     148
+    ],
+    "t": "Reklama",
+    "size": 24,
+    "color": "#f3f4f6",
+    "bold": false,
+    "align": "left",
+    "x": 164,
+    "y": 135
+   }
+  ]
+ }
+}

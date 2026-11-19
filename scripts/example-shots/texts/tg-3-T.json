@@ -1,0 +1,78 @@
+{
+ "uz": [
+  "Burger Bot",
+  "bot",
+  "Menyudan tanlang",
+  "Rasmni bosing",
+  "Lavash, katta",
+  "Tovuqli lavash, katta",
+  "Pishloq va maxsus sous bilan",
+  "Savatga",
+  null,
+  "Xabar yozing…"
+ ],
+ "extra": {
+  "uz": [
+   {
+    "erase": [
+     155,
+     503,
+     332,
+     534
+    ],
+    "t": "Lavash",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 518
+   },
+   {
+    "erase": [
+     502,
+     503,
+     681,
+     534
+    ],
+    "t": "Burger",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 591,
+    "y": 518
+   },
+   {
+    "erase": [
+     155,
+     780,
+     332,
+     810
+    ],
+    "t": "Ichimlik",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 795
+   },
+   {
+    "erase": [
+     503,
+     780,
+     681,
+     810
+    ],
+    "t": "Desert",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 592,
+    "y": 795
+   }
+  ]
+ }
+}

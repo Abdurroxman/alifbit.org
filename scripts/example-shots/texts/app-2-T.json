@@ -1,0 +1,35 @@
+{
+ "uz": [
+  "Mahsulot qidirish",
+  "Kiyim",
+  "Texnika",
+  "Audio",
+  "Telefon",
+  "Boshqa",
+  {
+   "t": "Katta chegirmalar",
+   "align": "left",
+   "color": "#ffffff"
+  },
+  {
+   "t": "Barcha bo‘limlarda 40% gacha",
+   "align": "left",
+   "bold": false,
+   "color": "#fff4ea"
+  },
+  "Ko‘rish",
+  "Xudi, bej",
+  "Simsiz quloqchin",
+  "Paxta, unisex",
+  "Shovqinsiz",
+  "Aqlli soat",
+  "Polo futbolka",
+  "Sport rejimi",
+  "To‘q ko‘k",
+  "Bosh",
+  "Katalog",
+  "Saralangan",
+  "Savat",
+  "Profil"
+ ]
+}

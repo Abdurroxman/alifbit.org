@@ -1,0 +1,29 @@
+{
+ "uz": [
+  "Fast Food Bot",
+  {
+   "t": "bot",
+   "align": "left",
+   "bold": false
+  },
+  "Buyurtmangizni tekshiring",
+  "Hammasi to‘g‘rimi?",
+  "Ha, tasdiqlayman",
+  "Yetkazib berish yoki olib ketish?",
+  "Quyidagidan tanlang",
+  "Savatingiz",
+  "Buyurtma raqami",
+  "Tovuq qanotlari, 12 dona",
+  "Achchiq sous bilan",
+  "Kola 0,5 L",
+  "Muz bilan",
+  "Taomlar",
+  "Ichimliklar",
+  "Yetkazib berish",
+  "Jami",
+  "Yetkazish",
+  "Olib ketish",
+  "Buyurtmani tasdiqlash",
+  "Xabar yozing…"
+ ]
+}

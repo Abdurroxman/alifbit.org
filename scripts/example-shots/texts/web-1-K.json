@@ -1,0 +1,38 @@
+{
+ "uz": [
+  "Menyu",
+  "Aksiyalar",
+  "Filiallar",
+  "Biz haqimizda",
+  "Buyurtma berish",
+  "Issiq lavash 20 daqiqada",
+  "Yangi tayyorlangan lavash, burger va kartoshka fri",
+  "Toshkent bo‘ylab tez yetkazib beramiz",
+  "Lavash, katta",
+  {
+   "t": "Qo‘ng‘iroq qilish",
+   "align": "left",
+   "scale": 0.95
+  },
+  "Chilonzor filiali",
+  "Bunyodkor shoh ko‘chasi, 12",
+  "Yunusobod filiali",
+  "Amir Temur ko‘chasi, 108",
+  "Sergeli filiali",
+  "Yangi Sergeli ko‘chasi, 5",
+  "Mirzo Ulug‘bek filiali",
+  "Buyuk Ipak yo‘li, 77",
+  "Yakkasaroy filiali",
+  "Shota Rustaveli ko‘chasi, 41"
+ ],
+ "extra": {
+  "uz": [
+   {
+    "x": 134,
+    "y": 55,
+    "t": "LAVASH HOUSE",
+    "size": 24
+   }
+  ]
+ }
+}

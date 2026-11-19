@@ -1,0 +1,43 @@
+{
+ "uz": [
+  "Lavash House",
+  null,
+  "Assalomu alaykum!",
+  "Bugun nima buyurtma qilamiz?",
+  "Tovuqli lavash",
+  "Sous, pomidor va salat bilan",
+  null,
+  "Menyudan tanlang",
+  "Toifani bosing — taomlar ochiladi",
+  "Burgerlar",
+  "Pitsa",
+  "Lavash",
+  "Fri",
+  "Ichimliklar",
+  "Desertlar",
+  "Manzil yuborildi",
+  "Chilonzor, 9-mavze",
+  "Buyurtma qabul qilindi",
+  "Kuryer 30 daqiqada yetib keladi",
+  "Xabar yozing…"
+ ],
+ "extra": {
+  "uz": [
+   {
+    "erase": [
+     270,
+     73,
+     460,
+     98
+    ],
+    "t": "bot",
+    "size": 24,
+    "color": "#d6e8f7",
+    "bold": false,
+    "align": "left",
+    "x": 270,
+    "y": 85
+   }
+  ]
+ }
+}
