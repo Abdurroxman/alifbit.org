@@ -163,7 +163,7 @@ test("admin: full payment link is created once, amounts go in tiyin", async () =
   assert.equal(body.external_id, "ord-1");
   assert.equal(body.total_amount, 150_000_000);
   assert.deepEqual(body.invoices, [{ kind: "full", amount: 150_000_000 }]);
-  assert.equal(body.title, "Veb-sayt");
+  assert.equal(body.title, "Sayt yaratish");
   const row = stored(DB);
   assert.equal(row.pay_order_id, "po_1");
   assert.equal((JSON.parse(row.pay_data!) as PayOrder).pay_url, `${PAY}/p/token1`);
