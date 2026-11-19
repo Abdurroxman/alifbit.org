@@ -183,3 +183,36 @@ Telegram-style messenger look: header with back arrow, round bot avatar, a title
 **support-4 · Sayt ishlashini kuzatish (monitoring)** (asosiy texnik xizmat)
 - K: `Website monitoring dashboard: uptime bars for 30 days mostly green with one red incident; response time chart in ms; list of checks with status dots.`
 - T: `Phone notifications: alert card that a website is down with a red dot and time 02:14, then a second card that it is back up with a green dot and time 02:21.`
+
+## 09 · Sayt, bot va ilovani tekshirish — ACCENT: green #5b8a06
+
+**audit-1 · Uzoq Sharq quvur zavodi — UX tekshiruvi** (sayt tekshiruvi, Rossiya, workspace.ru keysi)
+- K: `UX audit report page in a web app: left column with a website screenshot thumbnail of an industrial company homepage with numbered red markers 1–5 on problem areas; right column with a findings list, each item with a number, severity chip (critical, medium, low), title bar and two text bars; a small before/after toggle at the top.`
+- T: `Mobile view of the same audit: website screenshot with numbered markers on top, below a list of findings cards with severity chips and an arrow.`
+
+**audit-2 · Kompleks tekshiruv: 96 sahifa** (sayt tekshiruvi, Rossiya, workspace.ru keysi)
+- K: `Website audit findings registry: header with summary cards (pages checked 96, findings 54, critical 9); a table of findings with columns for area chip (technical, content, links, conversion), severity dot, title bar and status; a roadmap strip at the bottom with three stages 1, 6, 12 months.`
+
+**audit-3 · Google PageSpeed Insights** (tezlikni tekshirish vositasi, Google)
+- K: `Page speed test result screen: URL field at the top with an analyze button; four circular score gauges (performance 92 green, accessibility 88 orange-green, best practices 100, SEO 95); a row of metric cards with values like 1.2 s, 0.03, 180 ms; a list of opportunities with small expand arrows.`
+- T: `Mobile page speed result: device toggle (phone selected), one big circular score 84 in green, metric list with green, orange and red dots and values like 2.1 s.`
+
+**audit-4 · MDN HTTP Observatory** (xavfsizlikni tekshirish vositasi, Mozilla)
+- K: `Website security scan result: big grade badge A+ in a green circle, score 115/100, tests passed 10/10; table of security header checks (content policy, cookies, redirection, transport security) each with a green check or red cross and a short bar.`
+
+## 10 · Telegram va Instagram’da reklama — ACCENT: teal #0a8a94
+
+**ads-1 · Telegram Ads** (Telegram'ning rasmiy reklama platformasi, ads.telegram.org)
+- K: `Telegram advertising account dashboard: left menu; table of ad campaigns with status toggles, columns for views, clicks, joined, spent with numbers like 195 405, 1 280, 275; a selected ad preview card on the right showing a short sponsored message with a button below it, as it appears at the bottom of a channel.`
+- T: `Telegram channel view with posts and, at the bottom of the feed, a sponsored message card labelled with a small bar, short text bars and a {ACCENT} button.`
+
+**ads-2 · Telegram Ads keyslari, Toshkent** (kanalga obunachi jalb qilish, telegrad.uz)
+- K: `Ad campaign report: line chart of new channel subscribers per day; summary cards (impressions 195 405, subscribers 275, cost per subscriber 3 098); list of target channels with round avatars and small bars of share.`
+
+**ads-3 · local Tours — Instagram reklamasi** (Instagram va Facebook'da reklama, Toshkent)
+- T: `Instagram-style feed with a sponsored post: header with round avatar, name bar and small "sponsored" bar; large photo of mountains and a travel group in Uzbekistan landscape (no faces visible); action icons row; caption bars; wide {ACCENT} call-to-action button bar under the photo.`
+- K: `Ads manager results table: campaign rows with toggles and columns for reach, clicks, leads, cost per lead; a chart of leads per day; a side card with audience: city Tashkent, age 25–45, interest chips.`
+
+**ads-4 · Grand Development Group — Instagram reklamasi** (ko‘chmas mulk, Toshkent)
+- T: `Instagram-style story ad: full-screen photo of a modern premium residential building at sunset; top progress bars and a small avatar with name bar and "sponsored" bar; at the bottom a swipe-up style {ACCENT} button with a light text bar.`
+- K: `Lead form results screen: list of incoming leads with name bars, phone numbers like +998 90 *** ** 45, apartment type chips (2 rooms, 3 rooms) and status chips (new, called, visit); a summary card with total leads.`
