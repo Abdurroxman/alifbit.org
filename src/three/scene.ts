@@ -117,12 +117,47 @@ const MAX_PIXELS = 4_200_000;
 /** Admin yuklagan skrinshot (xizmat misollari): ekranga to'g'ridan-to'g'ri rasm sifatida qo'yiladi. */
 type MediaKey = `/media/${string}`;
 type ShownKey = ScreenKey | MediaKey;
-type Screen = { mat: MeshBasicMaterial; key: ShownKey | null; next: ShownKey; fade: number };
+type SlideUniforms = { prevMap: { value: Texture | null }; uSlide: { value: number }; uSpan: { value: Vector2 } };
+/** slide: 0 → 1 — almashish jarayoni; 1 bo'lsa ekranda faqat joriy rasm turadi. */
+type Screen = { mat: MeshBasicMaterial; u: SlideUniforms; key: ShownKey | null; next: ShownKey; slide: number };
 /** Misollar skrinshotlari ekranda shuncha vaqtdan keyin almashadi. */
 const SHOT_INTERVAL = 4000;
+/** Yangi rasm o'ngdan surilib kirishi shuncha soniya davom etadi. */
+const SLIDE_TIME = 0.65;
 
 function isMediaKey(key: ShownKey): key is MediaKey {
   return key.startsWith("/media/");
+}
+
+/**
+ * Ekran materiali ikki rasmni bir vaqtda chizadi: eskisi (prevMap) chapga surilib chiqadi,
+ * yangisi (map) o'ng tomondan kiradi. uSpan — ekran UV'sining gorizontal boshi va eni
+ * (telefon modeli ekrani UV'ning bir qismini egallashi mumkin).
+ */
+function slideScreen(): Pick<Screen, "mat" | "u"> {
+  const u: SlideUniforms = { prevMap: { value: null }, uSlide: { value: 1 }, uSpan: { value: new Vector2(0, 1) } };
+  const mat = new MeshBasicMaterial({ toneMapped: false });
+  mat.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, u);
+    sh.fragmentShader = sh.fragmentShader
+      .replace("#include <common>", "#include <common>\nuniform sampler2D prevMap;\nuniform float uSlide;\nuniform vec2 uSpan;")
+      .replace(
+        "#include <map_fragment>",
+        `#ifdef USE_MAP
+  float shift = 1.0 - uSlide;
+  vec4 nextTexel = texture2D(map, vec2(vMapUv.x - shift * uSpan.y, vMapUv.y));
+  vec4 prevTexel = texture2D(prevMap, vec2(vMapUv.x + uSlide * uSpan.y, vMapUv.y));
+  float sx = (vMapUv.x - uSpan.x) / uSpan.y;
+  diffuseColor *= mix(nextTexel, prevTexel, step(sx, shift));
+#endif`,
+      );
+  };
+  return { mat, u };
+}
+
+/** Sekin boshlanib, sekin to'xtaydi. */
+function easeInOut(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 type DeviceName = "laptop" | "phone";
 
@@ -311,12 +346,7 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const bezel = new Mesh(new PlaneGeometry(2.92, 1.87), glass);
   bezel.position.set(0, 0.975, 0.036);
   hinge.add(bezel);
-  const laptopScreen: Screen = {
-    mat: new MeshBasicMaterial({ toneMapped: false }),
-    key: null,
-    next: "home",
-    fade: 1,
-  };
+  const laptopScreen: Screen = { ...slideScreen(), key: null, next: "home", slide: 1 };
   const lscreen = new Mesh(new PlaneGeometry(2.78, 1.74), laptopScreen.mat);
   lscreen.position.set(0, 0.99, 0.037);
   hinge.add(lscreen);
@@ -339,12 +369,7 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
   const pbezel = new Mesh(new PlaneGeometry(0.9, 1.9), glass);
   pbezel.position.set(0, 0.975, 0.051);
   phone.add(pbezel);
-  const phoneScreen: Screen = {
-    mat: new MeshBasicMaterial({ toneMapped: false }),
-    key: null,
-    next: "home",
-    fade: 1,
-  };
+  const phoneScreen: Screen = { ...slideScreen(), key: null, next: "home", slide: 1 };
   const pscreen = new Mesh(new PlaneGeometry(0.85, 1.82), phoneScreen.mat);
   pscreen.position.set(0, 0.975, 0.052);
   phone.add(pscreen);
@@ -393,9 +418,18 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
     ({ scene: model }) => {
       const screenNode = model.getObjectByName(PHONE_SCREEN);
       if (!screenNode) return;
+      let u0 = Infinity;
+      let u1 = -Infinity;
       screenNode.traverse((o) => {
-        if ((o as Mesh).isMesh) (o as Mesh).material = phoneScreen.mat;
+        if (!(o as Mesh).isMesh) return;
+        (o as Mesh).material = phoneScreen.mat;
+        const uv = (o as Mesh).geometry.getAttribute("uv");
+        for (let i = 0; uv && i < uv.count; i++) {
+          u0 = Math.min(u0, uv.getX(i));
+          u1 = Math.max(u1, uv.getX(i));
+        }
       });
+      if (u1 > u0) phoneScreen.u.uSpan.value.set(u0, u1 - u0);
       flip.phone = false;
       phoneScreen.key = null;
       const wrap = new Group();
@@ -440,6 +474,8 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
       s.key = s.next;
       s.mat.map = texture(s.next, device);
       s.mat.needsUpdate = true;
+      s.slide = 1;
+      s.u.uSlide.value = 1;
     }
   }
 
@@ -523,23 +559,24 @@ function createScene(opts: { docked: boolean; reducedMotion: boolean }): StageHa
     root.rotation.y = pointer.x * 0.14;
     root.rotation.x = pointer.y * 0.05;
 
-    // Ekran almashishi: so'nib, yangi maket bilan qayta yonadi.
+    // Ekran almashishi: eski maket chapga surilib chiqadi, yangisi o'ngdan kiradi.
     // Kirish suhbatida xizmat tanlanganda, uning misollari skrinshotlari navbat bilan chiqadi.
     const shots = state.section === "hero" ? state.shots : undefined;
     const turn = still ? 0 : Math.floor(now / SHOT_INTERVAL);
     for (const [s, dev] of [[laptopScreen, "laptop"], [phoneScreen, "phone"]] as const) {
       const list = (shots?.[dev] || []) as MediaKey[];
       s.next = list.length ? list[turn % list.length] : dev === "laptop" ? p.ls : p.ps;
+      // Keyingi skrinshot oldindan yuklanadi: surilib kirganda bo'sh ekran ko'rinmaydi.
+      if (list.length > 1) texture(list[(turn + 1) % list.length], dev);
       if (s.key === null || still) applyScreen(s, dev);
-      else if (s.key !== s.next) {
-        s.fade = Math.max(0, s.fade - dt * 7);
-        if (s.fade === 0) {
-          s.key = s.next;
-          s.mat.map = texture(s.next, dev);
-          s.mat.needsUpdate = true;
-        }
-      } else s.fade = Math.min(1, s.fade + dt * 5);
-      s.mat.color.setScalar(0.12 + s.fade * 0.88);
+      else if (s.key !== s.next && s.slide >= 1) {
+        s.u.prevMap.value = s.mat.map;
+        s.key = s.next;
+        s.mat.map = texture(s.next, dev);
+        s.slide = 0;
+      }
+      if (s.slide < 1) s.slide = Math.min(1, s.slide + dt / SLIDE_TIME);
+      s.u.uSlide.value = easeInOut(s.slide);
     }
 
     renderer.render(scene, camera);
