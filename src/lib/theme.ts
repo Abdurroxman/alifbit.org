@@ -35,9 +35,28 @@ export function applyStoredTheme() {
   apply(stored());
 }
 
-/** Boshqaruv paneli doim yorug' mavzuda; mehmon tanlovi saqlanib qoladi. */
+/** Boshqaruv panelining mavzusi saytnikidan alohida saqlanadi; standart — yorug'. */
+export const ADMIN_THEME_KEY = "alifbit-admin-theme";
+
+function storedAdmin(): Theme {
+  try {
+    return localStorage.getItem(ADMIN_THEME_KEY) === "dark" ? "dark" : "light";
+  } catch {
+    return "light";
+  }
+}
+
 export function applyAdminTheme() {
-  apply("light");
+  apply(storedAdmin());
+}
+
+export function setAdminTheme(theme: Theme) {
+  try {
+    localStorage.setItem(ADMIN_THEME_KEY, theme);
+  } catch {
+    /* saqlab bo'lmasa ham mavzu shu sahifada almashadi */
+  }
+  apply(theme);
 }
 
 export function setTheme(theme: Theme) {

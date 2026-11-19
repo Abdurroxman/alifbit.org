@@ -405,6 +405,35 @@ try {
       orderId = "";
     },
   );
+  await check("admin password changes from settings and other sessions close", async () => {
+    const password = readFileSync("local-admin.txt", "utf8").match(/Password: (.+)/)[1];
+    const temporary = `qa-temporary-${crypto.randomUUID()}`;
+    const change = (current, next, headers = auth()) =>
+      req("/api/admin/password", {
+        method: "POST",
+        headers: { ...headers, "content-type": "application/json" },
+        body: JSON.stringify({ current, next }),
+      });
+    const other = await req("/api/admin/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    assert.equal(other.status, 200);
+    const otherCookie = other.headers.get("set-cookie").split(";")[0];
+    assert.equal((await change("wrong-current-password", temporary)).status, 400);
+    assert.equal((await change(password, "short")).status, 400);
+    assert.equal((await req("/api/admin/password", { method: "POST", headers: { ...origin, "content-type": "application/json" }, body: "{}" })).status, 401);
+    const changed = await change(password, temporary);
+    assert.equal(changed.status, 200, await changed.clone().text());
+    try {
+      assert.equal((await req("/api/admin/session", { headers: { ...origin, cookie: otherCookie } })).status, 401);
+      assert.equal((await req("/api/admin/session", { headers: auth() })).status, 200);
+    } finally {
+      const restored = await change(temporary, password);
+      assert.equal(restored.status, 200, await restored.clone().text());
+    }
+  });
   await check("logout invalidates the session on the server", async () => {
     const response = await req("/api/admin/logout", {
       method: "POST",

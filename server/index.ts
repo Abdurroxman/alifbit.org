@@ -15,6 +15,7 @@ import {
   hash,
   keyedHash,
   verifyPassword,
+  hashPassword,
   isLocalRequest,
   isSameOrigin,
   cookieValue,
@@ -151,6 +152,15 @@ async function readJson(request: Request) {
   } catch {
     throw new HttpError(400, "Ma’lumot formati noto‘g‘ri.");
   }
+}
+/** Admin paneldan almashtirilgan parol xeshi bazada turadi; bo'lmasa Cloudflare secret'i ishlatiladi. */
+const ADMIN_HASH_KEY = "admin_password_hash";
+async function adminPasswordHash(env: Env) {
+  const row = await env.DB.prepare("SELECT data FROM settings WHERE key=?1")
+    .bind(ADMIN_HASH_KEY)
+    .first<{ data: string }>();
+  const stored = row ? JSON.parse(row.data) : "";
+  return typeof stored === "string" && stored ? stored : env.ADMIN_PASSWORD_HASH || "";
 }
 async function audit(env: Env, action: string, id: string) {
   await env.DB.prepare("INSERT INTO audit_log(action,entity_id) VALUES(?1,?2)")
@@ -354,14 +364,15 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     return json({ reference }, 201);
   }
   if (path === "/api/admin/login" && method === "POST") {
-    if (!env.ADMIN_PASSWORD_HASH || !env.SESSION_SECRET)
+    const passwordHash = await adminPasswordHash(env);
+    if (!passwordHash || !env.SESSION_SECRET)
       throw new HttpError(503, "Administrator kirishi hali sozlanmagan.");
     await rateLimit(env, `login:${await clientKey(request, env)}`, 8, 900);
     const data = (await readJson(request)) as { password?: unknown };
     if (
       typeof data.password !== "string" ||
       data.password.length > 256 ||
-      !(await verifyPassword(data.password, env.ADMIN_PASSWORD_HASH))
+      !(await verifyPassword(data.password, passwordHash))
     )
       throw new HttpError(401, "Kirish ma’lumoti noto‘g‘ri.");
     const token = crypto.randomUUID() + crypto.randomUUID();
@@ -384,6 +395,30 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
   if (path.startsWith("/api/admin/")) {
     await requireAdmin(request, env);
     if (path === "/api/admin/session") return json({ ok: true });
+    if (path === "/api/admin/password" && method === "POST") {
+      await rateLimit(env, `password:${await clientKey(request, env)}`, 10, 900);
+      const data = (await readJson(request)) as { current?: unknown; next?: unknown };
+      if (typeof data.current !== "string" || typeof data.next !== "string" || data.current.length > 256)
+        throw new HttpError(400, "Joriy va yangi parolni kiriting.");
+      if (data.next.length < 16 || data.next.length > 256)
+        throw new HttpError(400, "Yangi parol 16–256 belgidan iborat bo‘lsin.");
+      if (!(await verifyPassword(data.current, await adminPasswordHash(env))))
+        throw new HttpError(400, "Joriy parol noto‘g‘ri.");
+      if (data.next === data.current)
+        throw new HttpError(400, "Yangi parol joriy paroldan farq qilsin.");
+      await env.DB.prepare(
+        "INSERT INTO settings(key,data) VALUES(?1,?2) ON CONFLICT(key) DO UPDATE SET data=excluded.data",
+      )
+        .bind(ADMIN_HASH_KEY, JSON.stringify(await hashPassword(data.next)))
+        .run();
+      // Boshqa qurilmalardagi kirishlar yopiladi, shu sessiya qoladi.
+      const token = cookieValue(request.headers.get("cookie"), "alifbit_session") || "";
+      await env.DB.prepare("DELETE FROM sessions WHERE token_hash<>?1")
+        .bind(await keyedHash(token, env.SESSION_SECRET || ""))
+        .run();
+      await audit(env, "admin.password", "admin");
+      return json({ ok: true });
+    }
     if (path === "/api/admin/payments" && method === "GET")
       return json({ configured: paymentsConfigured(env) });
     if (path === "/api/admin/categories") {

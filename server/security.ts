@@ -101,6 +101,28 @@ export async function verifyPassword(password: string, stored: string) {
     digest,
   );
 }
+/** Parol xeshi verifyPassword va scripts/hash-password.mjs bilan bir xil formatda: pbkdf2-sha256$100000$tuz$xesh. */
+export async function hashPassword(password: string) {
+  const salt = [...crypto.getRandomValues(new Uint8Array(24))]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  const material = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"],
+  );
+  const derived = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: new TextEncoder().encode(salt), iterations: 100000, hash: "SHA-256" },
+    material,
+    256,
+  );
+  const digest = [...new Uint8Array(derived)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return `pbkdf2-sha256$100000$${salt}$${digest}`;
+}
 export function fileType(bytes: Uint8Array): string | null {
   if (
     bytes.length >= 5 &&

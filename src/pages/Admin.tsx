@@ -15,19 +15,25 @@ import {
   LoaderCircle,
   LogOut,
   Menu,
+  Moon,
   Plus,
   Search,
   Settings2,
+  SlidersHorizontal,
+  Sun,
   ShieldCheck,
   Tags,
   Trash2,
   X,
 } from "lucide-react";
 import Brand, { BrandMark } from "../components/Brand";
+import { MoveButtons, moveItem } from "../components/AdminParts";
+import DemoEditor from "../components/DemoEditor";
 import { Status } from "../components/Projects";
 import PaymentPanel, { parsePayData } from "../components/PaymentPanel";
 import { useContent } from "../App";
 import { api } from "../lib/api";
+import { setAdminTheme, useTheme } from "../lib/theme";
 import {
   initialProjects,
   orderStatuses,
@@ -68,7 +74,7 @@ type Article = {
   seoDescription?: string;
 };
 type Audit = { id: number; action: string; entity_id: string; created_at: string };
-type Tab = "overview" | "projects" | "orders" | "services" | "courses" | "articles" | "categories" | "audit";
+type Tab = "overview" | "projects" | "orders" | "services" | "courses" | "articles" | "categories" | "audit" | "settings";
 
 const blankProject = (): Project => ({
   ...initialProjects[0],
@@ -103,12 +109,16 @@ const lines = (value: FormDataEntryValue | null) =>
     .split("\n")
     .map((v) => v.trim())
     .filter(Boolean);
-/** «Chap | o'ng» satrlari: qadamlar, oldin/keyin va savol-javob shunday kiritiladi. */
-const pairLines = (value: FormDataEntryValue | null) =>
-  lines(value).map((line) => {
-    const [left, ...rest] = line.split("|");
-    return [left.trim(), rest.join("|").trim()] as const;
-  });
+/** Juft qatorlar muharriridan (qadamlar, oldin/keyin, savol-javob) kelgan JSON: bo'sh qatorlar tashlanadi. */
+const pairsFrom = (value: FormDataEntryValue | null) => {
+  try {
+    return (JSON.parse(String(value || "[]")) as Array<[string, string]>)
+      .map(([a, b]) => [a.trim(), b.trim()] as const)
+      .filter(([a, b]) => a || b);
+  } catch {
+    return [];
+  }
+};
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(),
   slug: "",
@@ -137,6 +147,7 @@ const TITLES: Record<Tab, string> = {
   articles: "Qaydlar",
   categories: "Kategoriyalar",
   audit: "Faoliyat tarixi",
+  settings: "Sozlamalar",
 };
 const TABS: Array<[Tab, typeof Inbox]> = [
   ["overview", LayoutDashboard],
@@ -147,6 +158,7 @@ const TABS: Array<[Tab, typeof Inbox]> = [
   ["articles", BookOpen],
   ["categories", Tags],
   ["audit", History],
+  ["settings", SlidersHorizontal],
 ];
 
 function Login({ onDone }: { onDone: () => void }) {
@@ -237,6 +249,7 @@ function Empty({ icon, title, children }: { icon: ReactNode; title: string; chil
 
 export default function Admin() {
   const { categories, refresh: refreshPublic } = useContent();
+  const theme = useTheme();
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [tab, setTab] = useState<Tab>("overview");
   const [projects, setProjects] = useState<Project[]>([]);
@@ -256,6 +269,8 @@ export default function Admin() {
   const [orderFilter, setOrderFilter] = useState("Barchasi");
   const [deleteId, setDeleteId] = useState("");
   const [categoryText, setCategoryText] = useState("");
+  // Tahrir oynasida saqlanmagan o'zgarish bor-yo'qligi: chiqib ketishdan oldin so'raladi.
+  const [dirty, setDirty] = useState(false);
 
   async function refresh() {
     try {
@@ -290,8 +305,27 @@ export default function Admin() {
   useEffect(() => {
     if (authenticated) void refresh();
   }, [authenticated]);
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
+  /** Saqlanmagan o'zgarish bo'lsa, tasdiq so'raydi; true — davom etish mumkin. */
+  function canLeave() {
+    if (!dirty) return true;
+    if (!window.confirm("Saqlanmagan o‘zgarishlar bor. Chiqib ketsangiz, ular yo‘qoladi. Davom etasizmi?")) return false;
+    setDirty(false);
+    return true;
+  }
+  function openEdit(item: Project | Service | Course | Article | null) {
+    setDirty(false);
+    setEdit(item);
+  }
 
   async function logout() {
+    if (!canLeave()) return;
     try {
       await api("/api/admin/logout", { method: "POST" });
       setAuthenticated(false);
@@ -302,6 +336,7 @@ export default function Admin() {
     }
   }
   function go(value: Tab) {
+    if (!canLeave()) return;
     setTab(value);
     setEdit(null);
     setSelected(null);
@@ -330,6 +365,10 @@ export default function Admin() {
         .map((v) => v.trim())
         .filter(Boolean);
     if (tab === "services") {
+      // Belgi qo'yilgan bo'lsa (standart holat) maydon umuman yozilmaydi.
+      if (form.has("promises_on")) delete data.promises;
+      else data.promises = false;
+      delete data.promises_on;
       const packages = JSON.parse(String(form.get("packages_json") || "[]")) as ServicePackage[];
       data.packages = packages.map((p) => ({
         ...p,
@@ -356,16 +395,19 @@ export default function Admin() {
     }
     if (tab === "courses") {
       data.contents = lines(form.get("contents"));
-      // Har bir qadam alohida satrda: «Sarlavha | izoh».
-      data.steps = pairLines(form.get("steps")).map(([title, text]) => ({ title, text }));
+      data.steps = pairsFrom(form.get("steps_json")).map(([title, text]) => ({ title, text }));
+      delete data.steps_json;
     }
     if (tab === "projects") {
-      data.steps = pairLines(form.get("steps")).map(([title, text]) => ({ title, text }));
+      data.steps = pairsFrom(form.get("steps_json")).map(([title, text]) => ({ title, text }));
       data.customerView = lines(form.get("customerView"));
       data.ownerView = lines(form.get("ownerView"));
-      data.beforeAfter = pairLines(form.get("beforeAfter")).map(([before, after]) => ({ before, after }));
+      data.beforeAfter = pairsFrom(form.get("beforeAfter_json")).map(([before, after]) => ({ before, after }));
       data.fit = lines(form.get("fit"));
-      data.faq = pairLines(form.get("faq")).map(([q, a]) => ({ q, a }));
+      data.faq = pairsFrom(form.get("faq_json")).map(([q, a]) => ({ q, a }));
+      delete data.steps_json;
+      delete data.beforeAfter_json;
+      delete data.faq_json;
       // Demo JSON ko'rinishida tahrirlanadi; tuzilmasini server tekshiradi.
       const demo = String(form.get("demo_json") || "").trim();
       delete data.demo_json;
@@ -374,7 +416,7 @@ export default function Admin() {
         try {
           data.demo = JSON.parse(demo);
         } catch {
-          setError("Demo JSON noto‘g‘ri yozilgan: qavslar va qo‘shtirnoqlarni tekshiring.");
+          setError("Demo suhbatni o‘qib bo‘lmadi: «JSON ko‘rinishi»dagi matnni tekshiring.");
           setBusy(false);
           return;
         }
@@ -383,6 +425,7 @@ export default function Admin() {
     try {
       await api(`/api/admin/${tab}`, post(data));
       setMessage("O‘zgarishlar saqlandi.");
+      setDirty(false);
       setEdit(null);
       refreshPublic();
       await refresh();
@@ -443,6 +486,28 @@ export default function Admin() {
       setBusy(false);
     }
   }
+  async function changePassword(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formEl = event.currentTarget;
+    const form = new FormData(formEl);
+    const next = String(form.get("next") || "");
+    setError("");
+    setMessage("");
+    if (next !== String(form.get("repeat") || "")) {
+      setError("Yangi parol ikki marta bir xil yozilmadi.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await api("/api/admin/password", post({ current: String(form.get("current") || ""), next }));
+      formEl.reset();
+      setMessage("Parol almashtirildi. Boshqa qurilmalardagi kirishlar yopildi.");
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
   async function saveCategories(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
@@ -486,7 +551,22 @@ export default function Admin() {
         ? "Ma’lumotlarni to‘ldiring va saqlang. Nashr holatini o‘zingiz tanlaysiz."
         : tab === "orders"
           ? "Saytdan kelgan murojaatlar va ularning bajarilish holati."
+          : tab === "settings"
+            ? "Kirish paroli va panel sozlamalari."
           : "Saytingizdagi ma’lumotlarni shu yerdan boshqaring.";
+  // Tahrirdagi yozuvning saytdagi sahifasi: faqat saqlangan va nashrdagi yozuv uchun.
+  const publicPath = (() => {
+    if (!edit || !edit.slug) return "";
+    if (tab === "services") {
+      const saved = services.find((x) => x.slug === edit.slug);
+      return saved && saved.published !== false ? `/services/${saved.slug}` : "";
+    }
+    const list: Array<{ id: string; slug: string; published: boolean }> =
+      tab === "projects" ? projects : tab === "courses" ? courses : tab === "articles" ? articles : [];
+    const saved = "id" in edit ? list.find((x) => x.id === edit.id) : undefined;
+    const base = tab === "projects" ? "/projects/" : tab === "courses" ? "/courses/" : "/journal/";
+    return saved && saved.published ? base + saved.slug : "";
+  })();
   const filteredOrders = orders.filter(
     (o) =>
       (orderFilter === "Barchasi" || o.status === orderFilter) &&
@@ -532,6 +612,14 @@ export default function Admin() {
           <span className="ad-crumbs">
             AlifBit <i>/</i> Boshqaruv <i>/</i> <b>{TITLES[tab]}</b>
           </span>
+          <button
+            className="ad-icon-btn ad-theme-btn"
+            aria-label={theme === "dark" ? "Yorug‘ rejimga o‘tish" : "To‘q rejimga o‘tish"}
+            title={theme === "dark" ? "Yorug‘ rejim" : "To‘q rejim"}
+            onClick={() => setAdminTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <span className="ad-owner">
             <i /> Administrator
           </span>
@@ -546,7 +634,7 @@ export default function Admin() {
             {!edit && !selected && (tab === "projects" || tab === "articles" || tab === "courses") && (
               <button
                 className="button"
-                onClick={() => setEdit(tab === "projects" ? blankProject() : tab === "courses" ? blankCourse() : blankArticle())}
+                onClick={() => openEdit(tab === "projects" ? blankProject() : tab === "courses" ? blankCourse() : blankArticle())}
               >
                 {tab === "projects" ? "Loyiha qo‘shish" : tab === "courses" ? "Kurs qo‘shish" : "Qayd yozish"}
                 <span className="button-icon" aria-hidden="true">
@@ -555,9 +643,16 @@ export default function Admin() {
               </button>
             )}
             {(edit || selected) && (
+              <div className="ad-heading-actions">
+              {publicPath && (
+                <a className="button button-outline" href={publicPath} target="_blank" rel="noreferrer">
+                  Saytda ko‘rish <ArrowUpRight size={16} />
+                </a>
+              )}
               <button
                 className="button button-outline"
                 onClick={() => {
+                  if (!canLeave()) return;
                   setEdit(null);
                   setSelected(null);
                   setDeleteId("");
@@ -565,6 +660,7 @@ export default function Admin() {
               >
                 <ArrowLeft size={16} /> Ro‘yxatga qaytish
               </button>
+              </div>
             )}
           </div>
 
@@ -651,7 +747,7 @@ export default function Admin() {
           {!edit && !selected && tab === "projects" && (
             <section className="ad-panel ad-list">
               {projects.map((p) => (
-                <Row key={p.id} onClick={() => setEdit(p)}>
+                <Row key={p.id} onClick={() => openEdit(p)}>
                   <span className="ad-thumb">{p.name.slice(0, 1)}</span>
                   <span className="ad-row-main">
                     <strong>{p.name}</strong>
@@ -667,13 +763,13 @@ export default function Admin() {
           {!edit && tab === "services" && (
             <section className="ad-panel ad-list">
               {[...services].sort((a, b) => a.number.localeCompare(b.number)).map((s) => (
-                <Row key={s.slug} onClick={() => setEdit(s)}>
+                <Row key={s.slug} onClick={() => openEdit(s)}>
                   <span className="ad-thumb">{s.number}</span>
                   <span className="ad-row-main">
                     <strong>{s.name}</strong>
                     <small>{s.short}</small>
                   </span>
-                  <span className="ad-row-meta">{s.price || "Narxsiz"}</span>
+                  <span className="ad-row-meta">{s.price || "Kelishiladi"}</span>
                   <Publish on={s.published !== false} />
                 </Row>
               ))}
@@ -684,7 +780,7 @@ export default function Admin() {
             <section className="ad-panel ad-list">
               {courses.length ? (
                 courses.map((c) => (
-                  <Row key={c.id} onClick={() => setEdit(c)}>
+                  <Row key={c.id} onClick={() => openEdit(c)}>
                     <span className="ad-thumb">
                       <GraduationCap size={17} />
                     </span>
@@ -708,7 +804,7 @@ export default function Admin() {
             <section className="ad-panel ad-list">
               {articles.length ? (
                 articles.map((a) => (
-                  <Row key={a.id} onClick={() => setEdit(a)}>
+                  <Row key={a.id} onClick={() => openEdit(a)}>
                     <span className="ad-thumb">
                       <BookOpen size={17} />
                     </span>
@@ -728,7 +824,14 @@ export default function Admin() {
           )}
 
           {edit && (
-            <form className="ad-editor" onSubmit={save}>
+            <form
+              className="ad-editor"
+              onSubmit={save}
+              onChange={() => setDirty(true)}
+              onClickCapture={(e) => {
+                if ((e.target as HTMLElement).closest("button[type=button]")) setDirty(true);
+              }}
+            >
               {tab === "projects" ? (
                 <ProjectEditor project={edit as Project} onUpload={upload} busy={busy} />
               ) : tab === "services" ? (
@@ -893,6 +996,35 @@ export default function Admin() {
             </form>
           )}
 
+          {tab === "settings" && (
+            <form className="ad-panel ad-form ad-settings" onSubmit={changePassword}>
+              <h2>Kirish paroli</h2>
+              <p className="ad-help">
+                Yangi parol kamida 16 belgidan iborat bo‘lsin. Almashtirilgach, boshqa qurilma va brauzerlardagi kirishlar yopiladi, shu oyna
+                ochiq qoladi.
+              </p>
+              <input type="text" name="username" autoComplete="username" value="admin" readOnly hidden />
+              <label className="field">
+                <span>Joriy parol</span>
+                <input className="input" name="current" type="password" autoComplete="current-password" required maxLength={256} />
+              </label>
+              <label className="field">
+                <span>Yangi parol</span>
+                <input className="input" name="next" type="password" autoComplete="new-password" required minLength={16} maxLength={256} />
+              </label>
+              <label className="field">
+                <span>Yangi parol — yana bir marta</span>
+                <input className="input" name="repeat" type="password" autoComplete="new-password" required minLength={16} maxLength={256} />
+              </label>
+              <button className="button" disabled={busy}>
+                Parolni almashtirish
+                <span className="button-icon" aria-hidden="true">
+                  {busy ? <LoaderCircle className="spin" size={15} /> : <Check size={15} />}
+                </span>
+              </button>
+            </form>
+          )}
+
           {tab === "audit" && (
             <section className="ad-panel ad-audit">
               <div className="ad-audit-head">
@@ -946,6 +1078,13 @@ function Field({
 
 function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpload: (f: File) => void; busy: boolean }) {
   const { categories, services } = useContent();
+  // Yechim ma'lumoti bor loyihada blok ochiq, oddiy loyihada yig'ilgan turadi.
+  const hasSolution = !!(
+    p.service ||
+    p.problem ||
+    p.demo ||
+    [p.steps, p.customerView, p.ownerView, p.beforeAfter, p.fit, p.faq].some((x) => x && x.length)
+  );
   return (
     <>
       <section className="ad-panel ad-form">
@@ -1013,8 +1152,11 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
         </label>
         {p.cover.startsWith("/media/") && <img className="ad-cover" src={p.cover} alt="Yuklangan muqova" />}
       </section>
-      <section className="ad-panel ad-form">
-        <h2>Yechim sahifasi</h2>
+      <details className="ad-panel ad-form ad-fold" open={hasSolution}>
+        <summary>
+          <h2>Yechim sahifasi</h2>
+          <small>Muammo, qanday ishlashi, oldin/keyin, savol-javob va demo — namuna yechimlar uchun</small>
+        </summary>
         <label className="field">
           <span>Xizmat — sahifada narx havolasi va buyurtma shundan olinadi</span>
           <select className="input" name="service" defaultValue={p.service || ""}>
@@ -1027,38 +1169,40 @@ function ProjectEditor({ project: p, onUpload, busy }: { project: Project; onUpl
           </select>
         </label>
         <Field label="Muammo — mijozning hayotiy holati" name="problem" value={p.problem} area maxLength={2000} />
-        <Field
-          label="Qanday ishlaydi — har qadam yangi satrda: «Sarlavha | izoh»"
-          name="steps"
-          value={(p.steps || []).map((s) => (s.text ? `${s.title} | ${s.text}` : s.title)).join("\n")}
-          area
+        <PairListEditor
+          title="Qanday ishlaydi"
+          name="steps_json"
+          item="Qadam"
+          labels={["Sarlavha", "Izoh"]}
+          limits={[120, 400]}
+          max={8}
+          initial={(p.steps || []).map((x) => [x.title, x.text])}
         />
         <div className="ad-grid">
           <Field label="Mijoz ko‘radi — har biri yangi satrda" name="customerView" value={(p.customerView || []).join("\n")} area />
           <Field label="Siz ko‘rasiz — har biri yangi satrda" name="ownerView" value={(p.ownerView || []).join("\n")} area />
         </div>
-        <Field
-          label="Oldin va keyin — har satrda: «oldin | keyin»"
-          name="beforeAfter"
-          value={(p.beforeAfter || []).map((r) => `${r.before} | ${r.after}`).join("\n")}
-          area
+        <PairListEditor
+          title="Oldin va keyin"
+          name="beforeAfter_json"
+          item="Qator"
+          labels={["Oldin", "Keyin"]}
+          limits={[300, 300]}
+          max={8}
+          initial={(p.beforeAfter || []).map((x) => [x.before, x.after])}
         />
         <Field label="Kimga mos — har biri yangi satrda" name="fit" value={(p.fit || []).join("\n")} area />
-        <Field
-          label="Savol-javob — har satrda: «savol | javob»"
-          name="faq"
-          value={(p.faq || []).map((f) => `${f.q} | ${f.a}`).join("\n")}
-          area
-          maxLength={12000}
+        <PairListEditor
+          title="Savol-javob"
+          name="faq_json"
+          item="Savol"
+          labels={["Savol", "Javob"]}
+          limits={[300, 1200]}
+          max={10}
+          initial={(p.faq || []).map((x) => [x.q, x.a])}
         />
-        <Field
-          label="Demo suhbat (JSON) — bo‘sh qolsa sahifada demo chiqmaydi"
-          name="demo_json"
-          value={p.demo ? JSON.stringify(p.demo, null, 2) : ""}
-          area
-          maxLength={40000}
-        />
-      </section>
+        <DemoEditor initial={p.demo} />
+      </details>
       <SEO item={p} />
     </>
   );
@@ -1084,10 +1228,70 @@ function ServiceEditor({ service: s }: { service: Service }) {
           required
           area
         />
+        <label className="ad-check">
+          <input type="checkbox" name="promises_on" defaultChecked={s.promises !== false} />
+          «Har bir loyihada» va’dalari ko‘rinsin — 3 oy bepul texnik yordam, o‘rgatish, 1 yil kafolat
+        </label>
       </section>
       <PackagesEditor initial={s.packages || []} />
       <ExamplesEditor initial={s.examples || []} />
     </>
+  );
+}
+
+/** Ikki maydonli qatorlar ro'yxati (sarlavha va izoh, savol va javob): qo'shish, surish, olib tashlash. */
+function PairListEditor({
+  title,
+  name,
+  item,
+  labels,
+  limits,
+  max,
+  initial,
+}: {
+  title: string;
+  name: string;
+  item: string;
+  labels: [string, string];
+  limits: [number, number];
+  max: number;
+  initial: Array<[string, string]>;
+}) {
+  const [items, setItems] = useState<Array<[string, string]>>(initial);
+  const update = (i: number, k: 0 | 1, v: string) =>
+    setItems(items.map((x, j) => (j === i ? ((k ? [x[0], v] : [v, x[1]]) as [string, string]) : x)));
+  return (
+    <div className="ad-pairs">
+      <h3>{title}</h3>
+      <input type="hidden" name={name} value={JSON.stringify(items)} />
+      {items.map((x, i) => (
+        <fieldset className="ad-package ad-pair" key={i}>
+          <legend>
+            {item} {i + 1}
+          </legend>
+          <MoveButtons index={i} count={items.length} onMove={(step) => setItems(moveItem(items, i, step))} />
+          <label className="field">
+            <span>{labels[0]}</span>
+            <input className="input" value={x[0]} maxLength={limits[0]} onChange={(e) => update(i, 0, e.target.value)} />
+          </label>
+          <label className="field">
+            <span>{labels[1]}</span>
+            <textarea className="input" rows={2} value={x[1]} maxLength={limits[1]} onChange={(e) => update(i, 1, e.target.value)} />
+          </label>
+          <button type="button" className="ad-remove" onClick={() => setItems(items.filter((_, j) => j !== i))}>
+            <Trash2 size={15} /> Olib tashlash
+          </button>
+        </fieldset>
+      ))}
+      {items.length < max && (
+        <button type="button" className="button button-outline" onClick={() => setItems([...items, ["", ""]])}>
+          {item} qo‘shish
+          <span className="button-icon" aria-hidden="true">
+            <Plus size={16} />
+          </span>
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -1220,6 +1424,7 @@ function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
   const [items, setItems] = useState(initial);
   const update = (i: number, patch: Partial<ServicePackage>) =>
     setItems(items.map((p, j) => (j === i ? { ...p, ...patch } : p)));
+  const move = (i: number, step: -1 | 1) => setItems(moveItem(items, i, step));
   return (
     <section className="ad-panel ad-form">
       <h2>Paketlar</h2>
@@ -1232,6 +1437,7 @@ function PackagesEditor({ initial }: { initial: ServicePackage[] }) {
       {items.map((p, i) => (
         <fieldset className="ad-package" key={i}>
           <legend>Paket {i + 1}</legend>
+          <MoveButtons index={i} count={items.length} onMove={(step) => move(i, step)} />
           <div className="ad-grid">
             <label className="field">
               <span>Nomi *</span>
@@ -1304,11 +1510,14 @@ function CourseEditor({ course: c }: { course: Course }) {
           maxLength={160}
         />
         <Field label="Kurs haqida *" name="description" value={c.description} required area />
-        <Field
-          label="Qadamlar — har biri yangi satrda: Sarlavha | izoh"
-          name="steps"
-          value={c.steps.map((s) => (s.text ? `${s.title} | ${s.text}` : s.title)).join("\n")}
-          area
+        <PairListEditor
+          title="Qadamlar"
+          name="steps_json"
+          item="Qadam"
+          labels={["Sarlavha", "Izoh"]}
+          limits={[120, 400]}
+          max={6}
+          initial={c.steps.map((x) => [x.title, x.text])}
         />
         <Field label="Kurs ichida — har biri yangi satrda" name="contents" value={c.contents.join("\n")} area />
       </section>

@@ -6,6 +6,7 @@ import {
   safeUrl,
   validSlug,
   verifyPassword,
+  hashPassword,
   fileType,
   isSameOrigin,
   isLocalRequest,
@@ -87,6 +88,12 @@ test("password verification rejects wrong passwords and malformed hashes", async
   assert.equal(await verifyPassword("correct-test-password", stored), true);
   assert.equal(await verifyPassword("wrong-test-password", stored), false);
   assert.equal(await verifyPassword("test", "broken"), false);
+  // Admin paneldan yaratilgan xesh shu formatda va o'sha tekshiruvdan o'tadi.
+  const made = await hashPassword("panel-new-password-123");
+  assert.match(made, /^pbkdf2-sha256\$100000\$[0-9a-f]{48}\$[0-9a-f]{64}$/);
+  assert.equal(await verifyPassword("panel-new-password-123", made), true);
+  assert.equal(await verifyPassword("panel-new-password-124", made), false);
+  assert.notEqual(await hashPassword("panel-new-password-123"), made);
   assert.equal(
     cookieValue(
       "another=one; alifbit_session=abc; theme=ivory",
