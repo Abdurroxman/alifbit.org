@@ -4,9 +4,9 @@ import DeviceStage from "../components/DeviceStage";
 import { HubDiagram, SERVICE_GLYPH } from "../components/FlowDiagram";
 import NeedFlow, { type FlowState } from "../components/NeedFlow";
 import { CourseTeaser, WorkCard } from "../components/Studio";
-import { Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
+import { ButtonLink, Chars, ContactBand, Eyebrow, Lines, TextLink, delay } from "../components/ui";
 import { FAQ, WorkingProcess } from "./Services";
-import { copy } from "../../shared/content";
+import { copy, OFFICE_URL } from "../../shared/content";
 import { focusOfIcon, type StageSection } from "../three/types";
 import type { Project } from "../../shared/content";
 import { accentStyle, setNetworkAccent } from "../lib/accent";
@@ -131,6 +131,21 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
   );
 }
 
+/** Virtual ofisga taklif (office.alifbit.org). */
+function OfficeInvite() {
+  return (
+    <section className="container section hairline">
+      <div className="section-head">
+        <Lines>{["Bizga mehmonga keling"]}</Lines>
+        <div className="section-aside" data-reveal>
+          <p>Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.</p>
+          <ButtonLink to={OFFICE_URL}>Ofisga kirish</ButtonLink>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Course() {
   const { courses } = useContent();
   if (!courses.length) return null;
@@ -207,6 +222,7 @@ export default function Home() {
         <Works onWork={onWork} />
       </div>
       <ServiceMarquee />
+      <OfficeInvite />
       <ServiceMap />
       <WorkingProcess />
       <Course />

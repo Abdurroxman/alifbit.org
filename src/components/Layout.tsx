@@ -5,7 +5,7 @@ import Brand from "./Brand";
 import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
-import { copy, PAY_URL, routeMeta, TELEGRAM_URL } from "../../shared/content";
+import { copy, OFFICE_URL, PAY_URL, routeMeta, TELEGRAM_URL } from "../../shared/content";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 import { applyStoredTheme, setTheme, useTheme } from "../lib/theme";
 import NetworkBackground from "./NetworkBackground";
@@ -93,6 +93,7 @@ function Header({ onMenu }: { onMenu: () => void }) {
               {label}
             </NavLink>
           ))}
+          <a href={OFFICE_URL}>Virtual ofis</a>
         </nav>
         <ThemeToggle />
         <ButtonLink to="/contact" small className="header-cta">
@@ -108,7 +109,7 @@ function Header({ onMenu }: { onMenu: () => void }) {
 
 function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | null> }) {
   const close = () => dialog.current?.close();
-  const items = [["Bosh sahifa", "/"], ...useNav(), ["Buyurtma berish", "/contact"]];
+  const items = [["Bosh sahifa", "/"], ...useNav(), ["Virtual ofis", OFFICE_URL], ["Buyurtma berish", "/contact"]];
   return (
     <dialog ref={dialog} className="mobile-menu" aria-label="Menyu">
       <div className="mobile-menu-inner">

@@ -152,6 +152,8 @@ export const DALOLAT_URL = "https://dalolat.app";
 export const DALOLAT_APP_URL = "https://app.dalolat.app";
 // Buyurtmalar uchun Payme/Click to'lov sayti.
 export const PAY_URL = "https://pay.alifbit.org";
+// AlifBit virtual ofisi (3D ofis, alohida sayt).
+export const OFFICE_URL = "https://office.alifbit.org/";
 // API javobigacha ko'rsatiladigan boshlang'ich ma'lumot. Jonli qiymatlar D1 bazasida.
 export const initialProjects: Project[] = [
   {
