@@ -12,6 +12,7 @@ import {
   orderStatusSchema,
 } from "./validation";
 import {
+  constantEqual,
   hash,
   keyedHash,
   verifyPassword,
@@ -46,6 +47,9 @@ interface Env {
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
   INTEGRATION_TOKEN?: string;
+  /** office.alifbit.org suhbatidan kelgan murojaat (Worker'dan Worker'ga): x-office-token shu qiymatga teng bo'lsa,
+   * chastota chegarasi mijozning o'z IP'si (x-office-client) bo'yicha hisoblanadi. */
+  OFFICE_LEAD_TOKEN?: string;
   PAY_API_URL?: string;
   PAY_API_TOKEN?: string;
   PAY_CALLBACK_SECRET?: string;
@@ -265,7 +269,17 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     return json(row ? JSON.parse(row.data) : categories.slice(1));
   }
   if (method === "POST" && path === "/api/orders") {
-    await rateLimit(env, `order:${await clientKey(request, env)}`, 5, 3600);
+    // Virtual ofis suhbatidan kelgan murojaat Worker IP'sidan keladi: chegarani mijozning o'z IP'si bo'yicha hisoblaymiz
+    const officeToken = request.headers.get("x-office-token") || "";
+    const officeClient =
+      env.OFFICE_LEAD_TOKEN && officeToken && constantEqual(officeToken, env.OFFICE_LEAD_TOKEN)
+        ? (request.headers.get("x-office-client") || "unknown").slice(0, 64)
+        : null;
+    const limitKey =
+      officeClient !== null && env.IP_HASH_SECRET
+        ? `order:office:${await keyedHash(officeClient, env.IP_HASH_SECRET)}`
+        : `order:${await clientKey(request, env)}`;
+    await rateLimit(env, limitKey, 5, 3600);
     if (
       !(request.headers.get("content-type") || "").startsWith(
         "multipart/form-data",
