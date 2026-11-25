@@ -166,7 +166,7 @@ Maxfiylik siyosatidagi 12 oylik muddatni administrator nazorat qiladi: yakunlang
 
 ## Brend va tasdiqlanishi kerak bo‘lgan kontent
 
-Logotip — 3D render (yashil qavslar, oltin Alif, «AlifBit» yozuvi), fonsiz qirqilgan, piksellari o‘zgartirilmagan. Yorug‘ rejimda rangli, to‘q rejim va yashil fonda kumush variant chiqadi. Sayt rasmlari, favicon, ilova ikonkalari va ijtimoiy rasm `public/brand` ichida.
+Logotip — 3D render (yashil qavslar, oltin Alif, «AlifBit» yozuvi), fonsiz qirqilgan. Yorug‘ rejimda rangli, to‘q rejim va yashil fonda kumush variant chiqadi. Sayt rasmlari, favicon, ilova ikonkalari va ijtimoiy rasm `public/brand` ichida.
 
 Vizual manbalar `docs/ASSETS.md` da. Haqiqiy foydalanuvchi statistikasi yoki soxta mijozlar kiritilmagan. `0005_studio_content.sql` dagi narxlar, muddatlar va «Vayb koding» kursi matni — qoralama: egasi admin paneldan tasdiqlaydi yoki o‘zgartiradi. Kurs nashr qilinmagan holda qo‘shiladi.
 

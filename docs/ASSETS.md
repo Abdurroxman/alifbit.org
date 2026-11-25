@@ -10,7 +10,7 @@ The home page hero asks "Sizga nima kerak?" (headline revealed letter by letter,
 
 ## Logo
 
-The 3D-rendered AlifBit logo with its background removed; the logo pixels themselves are unchanged. Source: `assets/brand` holds a color and a silver variant, each split into four layers on the full logo canvas (left bracket, Alif, right bracket, wordmark), plus `brand.json` with the mark and wordmark boxes. `scripts/prepare-assets.mjs` emits `public/brand`: the three mark layers in two sizes (stacked by `BrandMark` so the intro can assemble them), the wordmark, a single-image mark, `logo.png` (schema.org), `favicon-32.png`, `apple-touch-icon.png`, 192 and 512 px icons, `social.png`, and `public/favicon.ico`. The silver variant is padded to the color variant's aspect ratio so the theme can swap them in place. Light theme shows the color variant; dark theme and green surfaces show silver.
+The 3D-rendered AlifBit logo with its background removed. Source: `assets/brand` holds a color and a silver variant, each split into four layers on the full logo canvas (left bracket, Alif, right bracket, wordmark), plus `brand.json` with the mark and wordmark boxes. `scripts/prepare-assets.mjs` emits `public/brand`: the three mark layers in two sizes (stacked by `BrandMark` so the intro can assemble them), the wordmark, a single-image mark, `logo.png` (schema.org), `favicon-32.png`, `apple-touch-icon.png`, 192 and 512 px icons, `social.png`, and `public/favicon.ico`. The silver variant is padded to the color variant's aspect ratio so the theme can swap them in place. Light theme shows the color variant; dark theme and green surfaces show silver.
 
 ## Concept covers
 
