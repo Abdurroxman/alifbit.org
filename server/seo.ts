@@ -479,6 +479,8 @@ export async function buildSitemap(source: ContentSource, origin: string) {
   ]);
   const entries: Array<[string, string | undefined]> = [
     ...Object.keys(routeMeta).map((route): [string, undefined] => [route, undefined]),
+    // virtual ofis — shu domendagi alohida Worker (alifbit.org/office/)
+    ["/office/", undefined],
     ...services.filter(visibleService).map((s): [string, string | undefined] => [`/services/${s.slug}`, isoDate(s.updated_at)]),
     ...projects.map((p): [string, string | undefined] => [`/projects/${p.slug}`, isoDate(p.updated_at)]),
     ...courses.map((c): [string, string | undefined] => [`/courses/${c.slug}`, isoDate(c.updated_at)]),

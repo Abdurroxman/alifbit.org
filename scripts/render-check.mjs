@@ -56,6 +56,7 @@ for (const route of routes) {
           "/contact",
           "/privacy",
           "/journal",
+          "/office/",
         ].includes(path) ||
         /^\/(projects|services|courses)\/[a-z0-9-]+$/.test(path) ||
         /^\/(images|brand|fonts)\//.test(path);

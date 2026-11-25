@@ -131,7 +131,7 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
   );
 }
 
-/** Virtual ofisga taklif (office.alifbit.org). */
+/** Virtual ofisga taklif (alifbit.org/office). */
 function OfficeInvite() {
   return (
     <section className="container section hairline">
@@ -139,7 +139,7 @@ function OfficeInvite() {
         <Lines>{["Bizga mehmonga keling"]}</Lines>
         <div className="section-aside" data-reveal>
           <p>Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.</p>
-          <ButtonLink to={OFFICE_URL}>Ofisga kirish</ButtonLink>
+          <ButtonLink to={OFFICE_URL} external>Ofisga kirish</ButtonLink>
         </div>
       </div>
     </section>

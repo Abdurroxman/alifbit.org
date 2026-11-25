@@ -131,7 +131,7 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
               </>
             );
             const style = { "--i": i } as CSSProperties;
-            return to.startsWith("http") ? (
+            return to.startsWith("http") || to === OFFICE_URL ? (
               <a key={to} href={to} style={style}>
                 {inner}
               </a>
