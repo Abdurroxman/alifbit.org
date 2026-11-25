@@ -1,25 +1,10 @@
-import { LOGO } from "../../shared/logo";
 import type { DemoScript } from "../../shared/content";
 
 const KINDS = ["dalolat", "voice"];
 
-function Mark({ x, y, size, light = false }: { x: number; y: number; size: number; light?: boolean }) {
-  const s = size / 200;
-  const top = light ? "#dfe7d8" : "#557a5d";
-  const bottom = light ? "#b9c8b2" : "#2f5440";
-  const arms = (
-    <>
-      <path d={LOGO.lowerArm} fill={bottom} />
-      <path d={LOGO.upperArm} fill={top} />
-    </>
-  );
-  return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      {arms}
-      <g transform="matrix(-1 0 0 1 200 0)">{arms}</g>
-      <path d={LOGO.alif} fill="#c9a66b" />
-    </g>
-  );
+/** AlifBit belgisi `size`×`size` kvadrat ichida, nisbati saqlangan holda. */
+function Mark({ x, y, size }: { x: number; y: number; size: number }) {
+  return <image href="/brand/mark.webp" x={x} y={y} width={size} height={size} preserveAspectRatio="xMidYMid meet" />;
 }
 
 /** DALOLAT muqovasi: ilova ranglari (bej, bordo, oltin), oltin ravoq va telefon ichida ilovaning haqiqiy ekrani. */

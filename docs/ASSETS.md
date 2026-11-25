@@ -6,11 +6,11 @@ The home page hero asks "Sizga nima kerak?" (headline revealed letter by letter,
 
 ## Intro
 
-`src/components/Intro.tsx`: on the first visit the logo pieces assemble while the mark turns in from depth (CSS 3D, `src/styles/intro.css`) and fly into the header.
+`src/components/Intro.tsx`: on the first visit the brackets and the Alif assemble while the mark turns in from depth (CSS 3D, `src/styles/intro.css`), the wordmark is revealed left to right, and both fly into the header.
 
 ## Logo
 
-Hand-drawn vector interpretation of the user-supplied raster logo: each bracket is a two-arm folded ribbon with a bronze edge, the Alif keeps its hooked top and tapered tail. Single source: `shared/logo.ts`. `scripts/prepare-assets.mjs` emits `public/brand` variants (color, light, dark, mono, mark/favicon, apple-touch-icon, 512 px icon, social image). This is true vector path artwork, not an embedded PNG.
+The 3D-rendered AlifBit logo with its background removed; the logo pixels themselves are unchanged. Source: `assets/brand` holds a color and a silver variant, each split into four layers on the full logo canvas (left bracket, Alif, right bracket, wordmark), plus `brand.json` with the mark and wordmark boxes. `scripts/prepare-assets.mjs` emits `public/brand`: the three mark layers in two sizes (stacked by `BrandMark` so the intro can assemble them), the wordmark, a single-image mark, `logo.png` (schema.org), `favicon-32.png`, `apple-touch-icon.png`, 192 and 512 px icons, `social.png`, and `public/favicon.ico`. The silver variant is padded to the color variant's aspect ratio so the theme can swap them in place. Light theme shows the color variant; dark theme and green surfaces show silver.
 
 ## Concept covers
 

@@ -27,7 +27,7 @@ export default function About() {
       <section className="about-banner on-dark">
         <div className="container about-banner-inner">
           <div className="about-banner-mark" data-reveal="scale">
-            <BrandMark />
+            <BrandMark size="l" silver />
           </div>
           <p className="about-banner-quote" data-reveal style={delay(150)}>
             Ilmdan g‘oyaga.

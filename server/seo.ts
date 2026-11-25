@@ -344,7 +344,7 @@ export function siteNodes(origin: string, email?: string) {
       "@id": `${origin}/#organization`,
       name: SITE_NAME,
       url: `${origin}/`,
-      logo: `${origin}/brand/logo-color.svg`,
+      logo: `${origin}/brand/logo.png`,
       image: `${origin}/brand/social.png`,
       description: routeMeta["/"][1],
       areaServed: [

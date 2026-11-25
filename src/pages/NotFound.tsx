@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <section className="container not-found">
       <div className="not-found-mark" aria-hidden="true">
-        <BrandMark />
+        <BrandMark size="l" />
       </div>
       <Eyebrow>404</Eyebrow>
       <Lines as="h1">

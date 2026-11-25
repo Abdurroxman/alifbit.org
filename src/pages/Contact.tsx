@@ -81,7 +81,7 @@ export default function Contact() {
             </ol>
           </div>
           <div className="contact-aside-mark" aria-hidden="true">
-            <BrandMark />
+            <BrandMark size="l" />
           </div>
         </aside>
         <div className="contact-card" data-reveal>

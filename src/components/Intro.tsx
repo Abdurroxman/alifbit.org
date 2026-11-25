@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { LOGO } from "../../shared/logo";
 import { finishIntro, getIntroMode, type IntroMode } from "../lib/motion";
 
 const FLIGHT_AT = 1320;
@@ -32,15 +31,6 @@ function flyTo(source: Element | null, target: Element | null, duration: number)
       { transform: `translate3d(${dx}px, ${dy}px, 0) scale(${s})` },
     ],
     { duration, easing: "cubic-bezier(0.7, 0, 0.2, 1)", fill: "forwards" },
-  );
-}
-
-function Arms({ id }: { id: string }) {
-  return (
-    <>
-      <path className="i-arm i-arm-bottom" d={LOGO.lowerArm} fill={`url(#${id}b)`} stroke={LOGO.colors.edge} strokeWidth="1.1" strokeLinejoin="round" />
-      <path className="i-arm i-arm-top" d={LOGO.upperArm} fill={`url(#${id}t)`} stroke={LOGO.colors.edge} strokeWidth="1.1" strokeLinejoin="round" />
-    </>
   );
 }
 
@@ -105,52 +95,25 @@ export default function Intro() {
   }, [mode]);
 
   if (mode !== "full") return null;
-  const id = "intro";
-  const c = LOGO.colors;
   return (
     <div className="intro" ref={root} aria-hidden="true">
       <div className="intro-bg" />
       <div className="intro-stage">
-        <svg className="intro-mark" viewBox={LOGO.viewBox} fill="none">
-          <defs>
-            <linearGradient id={`${id}t`} x1="80" y1="60" x2="10" y2="118" gradientUnits="userSpaceOnUse">
-              <stop stopColor={c.armTop[0]} />
-              <stop offset="1" stopColor={c.armTop[1]} />
-            </linearGradient>
-            <linearGradient id={`${id}b`} x1="10" y1="116" x2="80" y2="172" gradientUnits="userSpaceOnUse">
-              <stop stopColor={c.armBottom[0]} />
-              <stop offset="1" stopColor={c.armBottom[1]} />
-            </linearGradient>
-            <linearGradient id={`${id}a`} x1="80" y1="40" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-              <stop stopColor={c.alif[0]} />
-              <stop offset=".45" stopColor={c.alif[1]} />
-              <stop offset="1" stopColor={c.alif[2]} />
-            </linearGradient>
-          </defs>
-          <g className="i-rays">
-            {RAYS.map((r, i) => (
-              <line key={i} {...r} pathLength={1} style={{ "--i": i } as CSSProperties} />
-            ))}
-          </g>
-          <circle className="i-ring" cx="100" cy="112" r="88" pathLength={1} />
-          <g className="i-side">
-            <Arms id={id} />
-          </g>
-          <g className="i-side">
-            <g transform="matrix(-1 0 0 1 200 0)">
-              <Arms id={id} />
+        <span className="intro-mark brand-mark is-l">
+          <svg className="intro-fx" viewBox="0 0 200 200" fill="none">
+            <g className="i-rays">
+              {RAYS.map((r, i) => (
+                <line key={i} {...r} pathLength={1} style={{ "--i": i } as CSSProperties} />
+              ))}
             </g>
-          </g>
-          <path className="i-alif" d={LOGO.alif} fill={`url(#${id}a)`} stroke="#a7834b" strokeWidth=".8" />
-          <circle className="i-dot" cx="100" cy="112" r="4.5" />
-        </svg>
-        <div className="intro-word wordmark">
-          {"AlifBit".split("").map((ch, i) => (
-            <span key={i} className={i > 3 ? "gold" : ""} style={{ "--i": i } as CSSProperties}>
-              {ch}
-            </span>
-          ))}
-        </div>
+            <circle className="i-ring" cx="100" cy="112" r="88" pathLength={1} />
+            <circle className="i-dot" cx="100" cy="112" r="4.5" />
+          </svg>
+          <span className="logo-left" />
+          <span className="logo-alif" />
+          <span className="logo-right" />
+        </span>
+        <span className="intro-word wordmark" />
       </div>
     </div>
   );

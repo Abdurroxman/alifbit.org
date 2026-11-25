@@ -20,7 +20,8 @@ for (const path of [
   "/robots.txt",
   "/fonts/manrope-latin.woff2",
   "/fonts/inter-latin.woff2",
-  "/brand/mark.svg",
+  "/brand/mark-left-s.webp",
+  "/favicon.ico",
   "/brand/social.png",
 ]) {
   const response = await fetch(base + path);

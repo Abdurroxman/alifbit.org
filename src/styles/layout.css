@@ -1,45 +1,70 @@
-/* Logo */
+/* Logo: public/brand dagi rasmlar (scripts/prepare-assets.mjs). Nisbatlar rangli variantdan
+   (assets/brand/brand.json: belgi 1019×969, yozuv 1512×400); kumush rasmlar ham shu nisbatda.
+   Yorug' rejimda rangli, to'q rejim va yashil fonda kumush. */
+:root {
+  --mark-ratio: 1019 / 969;
+  --word-ratio: 1512 / 400;
+}
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
 }
 .brand-mark {
-  width: 40px;
-  height: 40px;
+  --m-left: url("/brand/mark-left-s.webp");
+  --m-alif: url("/brand/mark-alif-s.webp");
+  --m-right: url("/brand/mark-right-s.webp");
+  position: relative;
+  display: block;
   flex-shrink: 0;
-  overflow: visible;
+  height: 40px;
+  aspect-ratio: var(--mark-ratio);
 }
-.brand-mark g,
-.brand-mark path {
-  transform-box: fill-box;
+.brand-mark.is-l {
+  --m-left: url("/brand/mark-left-l.webp");
+  --m-alif: url("/brand/mark-alif-l.webp");
+  --m-right: url("/brand/mark-right-l.webp");
 }
+:is(.brand-light .brand-mark, .brand-mark.is-silver, :root[data-theme="dark"] .brand-mark) {
+  --m-left: url("/brand/mark-left-s-silver.webp");
+  --m-alif: url("/brand/mark-alif-s-silver.webp");
+  --m-right: url("/brand/mark-right-s-silver.webp");
+}
+:is(.brand-light .brand-mark, .brand-mark.is-silver, :root[data-theme="dark"] .brand-mark).is-l {
+  --m-left: url("/brand/mark-left-l-silver.webp");
+  --m-alif: url("/brand/mark-alif-l-silver.webp");
+  --m-right: url("/brand/mark-right-l-silver.webp");
+}
+/* Qismlar belgining to'liq tuvalida turadi; transform-origin har qismning o'z markazida. */
+.brand-mark > span {
+  position: absolute;
+  inset: 0;
+  background: no-repeat center / 100% 100%;
+}
+.brand-mark > .logo-left {
+  background-image: var(--m-left);
+  transform-origin: 22% 58%;
+}
+.brand-mark > .logo-alif {
+  background-image: var(--m-alif);
+  transform-origin: 51% 60%;
+}
+.brand-mark > .logo-right {
+  background-image: var(--m-right);
+  transform-origin: 80% 58%;
+}
+/* Yozuv balandligi font-size ga bog'liq, shuning uchun o'lcham font-size bilan beriladi. */
 .wordmark {
-  font-family: var(--font-head);
+  display: block;
+  flex-shrink: 0;
   font-size: 25px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.045em;
-  color: var(--forest-ink);
-}
-.wordmark > span {
-  color: var(--gold);
+  height: 0.72em;
+  aspect-ratio: var(--word-ratio);
+  background: url("/brand/wordmark.webp") no-repeat center / 100% 100%;
 }
 .brand-light .wordmark,
 :root[data-theme="dark"] .wordmark {
-  color: var(--on-dark);
-}
-.brand-light .wordmark > span,
-:root[data-theme="dark"] .wordmark > span {
-  color: var(--bronze);
-}
-.brand-light .logo-arm-top,
-:root[data-theme="dark"] .logo-arm-top {
-  fill: #dfe7d8;
-}
-.brand-light .logo-arm-bottom,
-:root[data-theme="dark"] .logo-arm-bottom {
-  fill: #a9bba3;
+  background-image: url("/brand/wordmark-silver.webp");
 }
 
 /* Skip link */
@@ -89,14 +114,10 @@
   gap: 24px;
 }
 .header .brand-mark {
-  width: 36px;
   height: 36px;
-  transition:
-    width 0.4s var(--ease-out),
-    height 0.4s var(--ease-out);
+  transition: height 0.4s var(--ease-out);
 }
 .header.is-scrolled .brand-mark {
-  width: 32px;
   height: 32px;
 }
 .nav {
@@ -210,7 +231,6 @@
   margin-bottom: 28px;
 }
 .mobile-menu-head .brand-mark {
-  width: 34px;
   height: 34px;
 }
 .mobile-menu nav {
@@ -370,7 +390,6 @@ html:has(.mobile-menu[open]) {
   max-width: 340px;
 }
 .footer-about .brand-mark {
-  width: 46px;
   height: 46px;
 }
 .footer-about .wordmark {

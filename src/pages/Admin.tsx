@@ -182,7 +182,7 @@ function Login({ onDone }: { onDone: () => void }) {
   return (
     <main className="ad-login">
       <section className="ad-login-art" aria-hidden="true">
-        <BrandMark />
+        <BrandMark size="l" silver />
         <p>
           Ilmdan g‘oyaga.
           <br />

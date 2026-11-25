@@ -33,7 +33,7 @@ Loyihaga lokal Node 22 dev dependency sifatida kiritilgan: npm skriptlari shu ve
 - `src/pages` — har bir sahifa alohida faylda: `Home`, `Services` (paketlar, taqqoslash jadvali, savol-javob), `Projects`, `Courses`, `About`, `Contact`, `Journal`, `Privacy`, `NotFound`, `Admin`.
 - `src/styles` — dizayn tizimi: `base.css` (tokenlar), `ui.css` (tugma, forma, belgilar), `layout.css`, `motion.css` (scroll’da ochilish, harfma-harf sarlavha), `intro.css`, `hero.css` (hero, 3D qatlam, suhbat), `home.css` (kartalar, paketlar, kurs, 3D egilish), `pages.css`, `art.css`, `admin.css`.
 - `src/lib/motion.ts` — kirish rejimi, scroll’da ochilish, magnit tugmalar va kartalarning 3D egilishi.
-- `shared/logo.ts` — logotipning yagona vektor manbasi (sayt va `public/brand` fayllari shundan olinadi).
+- `assets/brand` — logotip manbasi: 3D logo fonsiz qirqilgan, rangli va kumush variant, har biri to‘rt qismda (chap qavs, alif, o‘ng qavs, yozuv). `scripts/prepare-assets.mjs` shulardan `public/brand` va `public/favicon.ico` fayllarini yasaydi.
 - `shared/content.ts` — turlashtirilgan kontent, boshlang‘ich ma’lumotlar, menyu va SEO metadata.
 - `server` — Cloudflare Worker API, server validatsiyasi, autentifikatsiya va metadata.
 - `db/migrations` — Cloudflare D1 / SQLite migratsiyalari.
@@ -166,7 +166,7 @@ Maxfiylik siyosatidagi 12 oylik muddatni administrator nazorat qiladi: yakunlang
 
 ## Brend va tasdiqlanishi kerak bo‘lgan kontent
 
-Foydalanuvchi yuborgan yashil qavslar va oltin Alif logosi asosida qo‘lda SVG belgi qayta chizildi. Bu tasvirning soddalashtirilgan vektor talqini; original professional vektor manba bilan piksel darajasidagi moslik da’vo qilinmaydi. Rangli, och fon, to‘q fon, bir rangli va favicon versiyalari `public/brand` ichida.
+Logotip — 3D render (yashil qavslar, oltin Alif, «AlifBit» yozuvi), fonsiz qirqilgan, piksellari o‘zgartirilmagan. Yorug‘ rejimda rangli, to‘q rejim va yashil fonda kumush variant chiqadi. Sayt rasmlari, favicon, ilova ikonkalari va ijtimoiy rasm `public/brand` ichida.
 
 Vizual manbalar `docs/ASSETS.md` da. Haqiqiy foydalanuvchi statistikasi yoki soxta mijozlar kiritilmagan. `0005_studio_content.sql` dagi narxlar, muddatlar va «Vayb koding» kursi matni — qoralama: egasi admin paneldan tasdiqlaydi yoki o‘zgartiradi. Kurs nashr qilinmagan holda qo‘shiladi.
 
