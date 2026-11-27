@@ -206,6 +206,9 @@ const en: Record<string, string> = {
   "Bizga mehmonga keling": "Come visit us",
   "Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.": "We’ll welcome you in our virtual office — explore our services and place an order.",
   "Ofisga kirish": "Enter the office",
+  "Telegram ichida qo‘ng‘iroqlar": "Calls right inside Telegram",
+  "AlifCall — bir kishi bilan yoki 100 kishigacha jamoaviy ovozli va video qo‘ng‘iroq. Ilova o‘rnatish shart emas, bepul.": "AlifCall — voice and video calls one-on-one or in a group of up to 100 people. Nothing to install, free.",
+  "AlifCall’ni ochish": "Open AlifCall",
 
   // Qaydlar, 404
   "Qaydlarni yuklab bo‘lmadi. Keyinroq urinib ko‘ring.": "Couldn’t load the notes. Please try again later.",

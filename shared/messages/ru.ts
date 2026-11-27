@@ -206,6 +206,9 @@ const ru: Record<string, string> = {
   "Bizga mehmonga keling": "Приходите к нам в гости",
   "Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.": "Встретим вас в нашем виртуальном офисе — посмотрите услуги и оставьте заказ.",
   "Ofisga kirish": "Войти в офис",
+  "Telegram ichida qo‘ng‘iroqlar": "Звонки прямо в Telegram",
+  "AlifCall — bir kishi bilan yoki 100 kishigacha jamoaviy ovozli va video qo‘ng‘iroq. Ilova o‘rnatish shart emas, bepul.": "AlifCall — голосовые и видеозвонки один на один или в группе до 100 человек. Ничего не нужно устанавливать, бесплатно.",
+  "AlifCall’ni ochish": "Открыть AlifCall",
 
   // Qaydlar, 404
   "Qaydlarni yuklab bo‘lmadi. Keyinroq urinib ko‘ring.": "Не удалось загрузить заметки. Попробуйте позже.",

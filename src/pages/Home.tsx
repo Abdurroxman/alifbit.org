@@ -149,6 +149,25 @@ function OfficeInvite() {
   );
 }
 
+/** AlifCall (call.alifbit.org) - Telegram ichidagi qo'ng'iroqlar mahsulotimiz. */
+const ALIFCALL_URL = "https://call.alifbit.org/";
+
+function AlifCallInvite() {
+  return (
+    <section className="container section hairline">
+      <div className="section-head">
+        <Lines>{[tr("Telegram ichida qo‘ng‘iroqlar")]}</Lines>
+        <div className="section-aside" data-reveal>
+          <p>{tr("AlifCall — bir kishi bilan yoki 100 kishigacha jamoaviy ovozli va video qo‘ng‘iroq. Ilova o‘rnatish shart emas, bepul.")}</p>
+          <ButtonLink to={lang === "uz" ? ALIFCALL_URL : `${ALIFCALL_URL}?lang=${lang}`} external>
+            {tr("AlifCall’ni ochish")}
+          </ButtonLink>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Course() {
   const { courses } = useContent();
   if (!courses.length) return null;
@@ -226,6 +245,7 @@ export default function Home() {
       </div>
       <ServiceMarquee />
       <OfficeInvite />
+      <AlifCallInvite />
       <ServiceMap />
       <WorkingProcess />
       <Course />
