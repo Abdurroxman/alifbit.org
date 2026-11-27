@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import type { DemoCard, DemoNode, DemoScript } from "../../shared/content";
+import { tr } from "../lib/i18n";
 
 type Entry =
   | { kind: "bot"; text: string }
@@ -138,7 +139,7 @@ export default function DemoChat({ demo }: { demo: DemoScript }) {
           </span>
           <span>
             <b>{demo.bot}</b>
-            <small>{typing ? "yozmoqda…" : "bot"}</small>
+            <small>{typing ? tr("yozmoqda…") : tr("bot")}</small>
           </span>
         </div>
         <div className="demo-feed" ref={feed} aria-live="polite">
@@ -152,7 +153,7 @@ export default function DemoChat({ demo }: { demo: DemoScript }) {
             ),
           )}
           {typing && (
-            <p className="demo-msg demo-bot demo-typing" aria-label="Bot yozmoqda">
+            <p className="demo-msg demo-bot demo-typing" aria-label={tr("Bot yozmoqda")}>
               <i />
               <i />
               <i />
@@ -162,7 +163,7 @@ export default function DemoChat({ demo }: { demo: DemoScript }) {
         <div className="demo-keys">
           {!started && (
             <button type="button" className="demo-start" onClick={() => setStarted(true)}>
-              Demoni boshlash
+              {tr("Demoni boshlash")}
             </button>
           )}
           {ready &&
@@ -174,23 +175,23 @@ export default function DemoChat({ demo }: { demo: DemoScript }) {
           {done && (
             <button type="button" className="demo-restart" onClick={restart}>
               <RotateCcw size={15} aria-hidden="true" />
-              Qaytadan
+              {tr("Qaytadan")}
             </button>
           )}
         </div>
       </div>
       <div className="demo-owner">
         <div className="demo-owner-head">
-          <b>Siz ko‘rasiz</b>
+          <b>{tr("Siz ko‘rasiz")}</b>
           {started && !done && owner.length > 0 && (
             <button type="button" className="demo-reset" onClick={restart}>
               <RotateCcw size={14} aria-hidden="true" />
-              Qaytadan
+              {tr("Qaytadan")}
             </button>
           )}
         </div>
         {owner.length === 0 ? (
-          <p className="demo-owner-empty">Botdagi tugmalarni bosing. Sizga qanday xabar kelishini shu yerda ko‘rasiz.</p>
+          <p className="demo-owner-empty">{tr("Botdagi tugmalarni bosing. Sizga qanday xabar kelishini shu yerda ko‘rasiz.")}</p>
         ) : (
           <div className="demo-owner-list" aria-live="polite">
             {owner.map((o) => (

@@ -31,5 +31,71 @@
   "Saralangan",
   "Savat",
   "Profil"
+ ],
+ "ru": [
+  "Поиск товаров",
+  "Одежда",
+  "Техника",
+  "Аудио",
+  "Телефон",
+  "Другое",
+  {
+   "t": "Большие скидки",
+   "align": "left",
+   "color": "#ffffff"
+  },
+  {
+   "t": "До 40% во всех разделах",
+   "align": "left",
+   "bold": false,
+   "color": "#fff4ea"
+  },
+  "Показ",
+  "Худи, бежевое",
+  "Беспроводные наушники",
+  "Хлопок, унисекс",
+  "Бесшумный",
+  "Умные часы",
+  "Футболка поло",
+  "Спортивный режим",
+  "Тёмно-синий",
+  "Главная",
+  "Каталог",
+  "Избранное",
+  "Корзина",
+  "Профиль"
+ ],
+ "en": [
+  "Search products",
+  "Clothing",
+  "Electronics",
+  "Audio",
+  "Phone",
+  "Other",
+  {
+   "t": "Big sales",
+   "align": "left",
+   "color": "#ffffff"
+  },
+  {
+   "t": "Up to 40% off everywhere",
+   "align": "left",
+   "bold": false,
+   "color": "#fff4ea"
+  },
+  "View",
+  "Hoodie, beige",
+  "Wireless headphones",
+  "Cotton, unisex",
+  "Quiet",
+  "Smartwatch",
+  "Polo shirt",
+  "Sport mode",
+  "Navy",
+  "Home",
+  "Catalog",
+  "Saved",
+  "Cart",
+  "Profile"
  ]
 }

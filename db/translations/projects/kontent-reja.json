@@ -1,0 +1,85 @@
+{
+  "ru": {
+    "name": "Помощник для подготовки постов",
+    "summary": "Готовит темы и тексты постов для вашего бизнеса на неделю. Вы проверяете их и утверждаете или правите.",
+    "description": "Помощник составляет недельный план постов на основе вашего бизнеса, продуктов и тона: тема, текст, идея для картинки и время публикации. Каждый понедельник план приходит в Telegram, а вы утверждаете каждый пост, просите переписать или убираете его. Утверждённые посты попадают в контент-календарь в Google Sheets или Notion.",
+    "purpose": "Не тратить каждый день время на вопрос «что сегодня выложить?» и вести страницу регулярно.",
+    "features": [
+      "Тексты под ваш бизнес и ваш тон",
+      "Недельный план: тема, текст, идея картинки, время",
+      "Каждый пост можно утвердить, переписать или убрать",
+      "Учитывает праздники и сезонные даты",
+      "Контент-календарь в Google Sheets или Notion",
+      "Автоматическая публикация в Telegram-канал",
+      "Отдельные форматы для Instagram и Telegram"
+    ],
+    "platforms": ["Telegram-бот", "AI", "Notion / Google Sheets"],
+    "problem": "Страница неделями не обновляется: работы много, на посты нет времени. SMM-специалист дорогой или плохо знает бизнес. В итоге посты выходят случайно и похожи друг на друга.",
+    "customerView": ["Регулярные и упорядоченные посты", "Своевременные новости о продуктах и акциях", "Единый тон и стиль"],
+    "ownerView": ["Готовый недельный план каждый понедельник", "Кнопки утверждения для каждого поста", "Контент-календарь в Notion или таблице", "Готовый текст ко времени публикации"],
+    "fit": ["Кафе и рестораны", "Салоны красоты", "Учебные центры", "Интернет-магазины", "Личные бренды и эксперты", "Клиники"]
+  },
+  "en": {
+    "name": "Social media post assistant",
+    "summary": "Prepares weekly topics and post copy for your business. You review them and approve or edit.",
+    "description": "The assistant builds a weekly post plan based on your business, products and tone of voice: topic, copy, image idea and publishing time. Every Monday the plan arrives in Telegram, and you approve each post, ask for a rewrite or drop it. Approved posts go into a content calendar in Google Sheets or Notion.",
+    "purpose": "To stop spending time every day on “what do we post today?” and keep your page active.",
+    "features": [
+      "Copy tailored to your business and tone",
+      "Weekly plan: topic, copy, image idea, time",
+      "Approve, rewrite or drop each post",
+      "Takes holidays and seasonal dates into account",
+      "Content calendar in Google Sheets or Notion",
+      "Automatic posting to your Telegram channel",
+      "Separate formats for Instagram and Telegram"
+    ],
+    "platforms": ["Telegram bot", "AI", "Notion / Google Sheets"],
+    "problem": "The page goes quiet for weeks: there’s too much work and no time to write posts. An SMM specialist is expensive or doesn’t know the business well. As a result, posts are random and look alike.",
+    "customerView": ["Regular, well-organized posts", "Timely news about products and promotions", "A consistent tone and style"],
+    "ownerView": ["A ready weekly plan every Monday", "Approval buttons for every post", "Content calendar in Notion or a spreadsheet", "Ready copy at publishing time"],
+    "fit": ["Cafes and restaurants", "Beauty salons", "Training centers", "Online stores", "Personal brands and experts", "Clinics"]
+  },
+  "steps": [
+    { "ru": { "title": "Знакомство", "text": "Один раз записываем ваш бизнес, продукты, клиентов и тон." }, "en": { "title": "Onboarding", "text": "We record your business, products, customers and tone once." } },
+    { "ru": { "title": "План", "text": "Каждый понедельник AI составляет план на неделю." }, "en": { "title": "Plan", "text": "Every Monday the AI drafts a weekly plan." } },
+    { "ru": { "title": "Утверждение", "text": "Вы утверждаете каждый пост в Telegram или просите переписать." }, "en": { "title": "Approval", "text": "You approve each post in Telegram or ask for a rewrite." } },
+    { "ru": { "title": "Календарь", "text": "Утверждённые посты попадают в контент-календарь." }, "en": { "title": "Calendar", "text": "Approved posts go into the content calendar." } },
+    { "ru": { "title": "Публикация", "text": "В назначенное время пост выходит в канале, а текст для Instagram приходит вам." }, "en": { "title": "Publishing", "text": "At the scheduled time the post goes out to the channel, and the Instagram copy is sent to you." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "На посты каждый день уходит время", "after": "Недельный план утверждается за один раз" }, "en": { "before": "Writing posts eats time every day", "after": "The weekly plan is approved in one go" } },
+    { "ru": { "before": "Страница неделями молчит", "after": "Посты выходят регулярно по плану" }, "en": { "before": "The page stays silent for weeks", "after": "Posts go out regularly to plan" } },
+    { "ru": { "before": "Трудно найти идею", "after": "Каждую неделю готовы идеи под сезон и продукт" }, "en": { "before": "Ideas are hard to come by", "after": "Every week brings ideas that fit the season and product" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Тексты не будут звучать «как робот»?", "a": "Вначале настраиваем ваш тон и даём в качестве образца ваши лучшие посты. И каждый пост всё равно утверждаете вы." }, "en": { "q": "Won’t the copy sound robotic?", "a": "At the start we tune it to your tone and use your best posts as examples. And you still approve every post." } },
+    { "ru": { "q": "Он сам публикует посты?", "a": "В Telegram-канал может публиковать автоматически. А для Instagram готовый текст и идея картинки приходят вам ко времени публикации." }, "en": { "q": "Does it publish posts itself?", "a": "It can post to your Telegram channel automatically. For Instagram, the ready copy and image idea are sent to you at publishing time." } },
+    { "ru": { "q": "Он готовит и картинки?", "a": "Для каждого поста пишет конкретную идею картинки; при необходимости подключим и создание картинок с помощью AI." }, "en": { "q": "Does it make images too?", "a": "It writes a specific image idea for every post; if needed, we can also connect AI image generation." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Ширин Лахза · план" },
+    "en": { "bot": "Shirin Lahza · plan" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Доброе утро! План на эту неделю для кондитерской «Ширин Лахза» готов: 5 постов."], "card": { "title": "План недели", "lines": ["Пн — Новинка: фисташковый торт", "Ср — Как готовится торт", "Пт — Вопрос: за сколько дней заказывать?", "Сб — Акция выходного дня", "Вс — Знакомство с командой"] }, "buttons": ["Посмотреть пост на понедельник"] },
+        "en": { "messages": ["Good morning! This week’s plan for the Shirin Lahza patisserie is ready: 5 posts."], "card": { "title": "Weekly plan", "lines": ["Mon — New: pistachio cake", "Wed — How a cake is made", "Fri — Q&A: how many days ahead to order?", "Sat — Weekend promotion", "Sun — Meet the team"] }, "buttons": ["See Monday’s post"] }
+      },
+      {
+        "ru": { "messages": ["Понедельник, 10:00 · Instagram и Telegram"], "card": { "title": "Фисташковый торт уже здесь", "lines": ["Лёгкий крем, хрустящая фисташка и щепотка соли — наш новый торт на витрине с этой недели.", "Заказ целого торта принимается за 1 день.", "Идея картинки: отрезанный кусочек, сбоку, при дневном свете"] }, "buttons": ["Утвердить", "Сделай короче"] },
+        "en": { "messages": ["Monday, 10:00 · Instagram and Telegram"], "card": { "title": "Pistachio cake is here", "lines": ["Light cream, crunchy pistachio and a pinch of salt — our new cake is in the display case from this week.", "Whole cakes can be ordered 1 day in advance.", "Image idea: a cut slice, side view, daylight"] }, "buttons": ["Approve", "Make it shorter"] }
+      },
+      {
+        "ru": { "messages": ["Короткий вариант:"], "card": { "title": "Фисташковый торт уже здесь", "lines": ["Фисташка, крем и хрустящий слой. На витрине с этой недели — закажите целый торт за 1 день."] }, "buttons": ["Утвердить"] },
+        "en": { "messages": ["Short version:"], "card": { "title": "Pistachio cake is here", "lines": ["Pistachio, cream and a crunchy layer. In the display case from this week — order a whole cake 1 day ahead."] }, "buttons": ["Approve"] }
+      },
+      {
+        "ru": { "messages": ["Утверждено. Пост выйдет в канале в понедельник в 10:00, текст для Instagram придёт вам в это же время."], "buttons": ["Утвердить и остальные"], "owner": { "title": "Контент-календарь", "lines": ["Пн 10:00 — Фисташковый торт · утверждён", "Ещё 4 поста ждут утверждения", "Обновлено в Notion"] } },
+        "en": { "messages": ["Approved. The post goes out to the channel on Monday at 10:00, and the Instagram copy will reach you at the same time."], "buttons": ["Approve the rest too"], "owner": { "title": "Content calendar", "lines": ["Mon 10:00 — Pistachio cake · approved", "4 more posts awaiting approval", "Updated in Notion"] } }
+      },
+      {
+        "ru": { "messages": ["Все 5 постов утверждены. Следующий план — в понедельник."], "owner": { "title": "План недели готов", "lines": ["Утверждено 5/5 постов", "Канал: автоматически · Instagram: с напоминанием"] } },
+        "en": { "messages": ["All 5 posts are approved. The next plan comes next Monday."], "owner": { "title": "Weekly plan ready", "lines": ["5/5 posts approved", "Channel: automatic · Instagram: with a reminder"] } }
+      }
+    ]
+  }
+}

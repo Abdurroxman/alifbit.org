@@ -1,4 +1,5 @@
 import type { DemoScript } from "../../shared/content";
+import { tr } from "../lib/i18n";
 
 const KINDS = ["dalolat", "voice"];
 
@@ -40,10 +41,10 @@ function Dalolat() {
         <path d="M222 300V128c0-46 36-74 80-106 44 32 80 60 80 106v172" fill="#fffaf1" stroke="#c9a55a" strokeWidth="1.4" />
         <image href="/images/dalolat/wordmark.webp" x="32" y="104" width="150" height="25" />
         <text x="33" y="160" className="pa-serif" fill="#302525" fontSize="17" style={{ fontStyle: "normal" }}>
-          Munosib juft —
+          {tr("Munosib juft —")}
         </text>
         <text x="33" y="182" className="pa-serif" fill="url(#pa-dl-gold)" fontSize="17" style={{ fontStyle: "normal" }}>
-          mustahkam oila
+          {tr("mustahkam oila")}
         </text>
         <rect x="33" y="198" width="96" height="20" rx="10" fill="#742d3d" />
         <text x="81" y="211.5" className="pa-small" fill="#fffcf7" fontSize="8.5" textAnchor="middle" fontWeight="600">
@@ -82,7 +83,7 @@ function Voice() {
           <rect key={i} className="pa-wave" x={84 + i * 7.1} y={136 - h / 2} width="3.4" height={h} rx="1.7" fill={i % 9 === 4 ? "#8ff0e2" : "#2ccfb8"} />
         ))}
         <text x="84" y="190" className="pa-head" fill="#e9f3f0" fontSize="13">
-          Gapiring. Sado yozadi.
+          {tr("Gapiring. Sado yozadi.")}
         </text>
         <rect x="84" y="202" width="150" height="5" rx="2.5" fill="#21413b" />
         <rect x="84" y="213" width="112" height="5" rx="2.5" fill="#21413b" />

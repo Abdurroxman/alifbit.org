@@ -33,6 +33,74 @@
     "t": "LAVASH HOUSE",
     "size": 24
    }
+  ],
+  "ru": [
+   {
+    "x": 134,
+    "y": 55,
+    "t": "LAVASH HOUSE",
+    "size": 24
+   }
+  ],
+  "en": [
+   {
+    "x": 134,
+    "y": 55,
+    "t": "LAVASH HOUSE",
+    "size": 24
+   }
   ]
- }
+ },
+ "ru": [
+  "Меню",
+  "Акции",
+  "Филиалы",
+  "О нас",
+  "Заказать",
+  "Горячий лаваш за 20 минут",
+  "Свежий лаваш, бургеры и картофель фри",
+  "Быстрая доставка по Ташкенту",
+  "Лаваш, большой",
+  {
+   "t": "Позвонить",
+   "align": "left",
+   "scale": 0.95
+  },
+  "Филиал Чиланзар",
+  "ул. Бунёдкор, 12",
+  "Филиал Юнусабад",
+  "ул. Амира Темура, 108",
+  "Филиал Сергели",
+  "ул. Янги Сергели, 5",
+  "Филиал Мирзо-Улугбек",
+  "Буюк Ипак йули, 77",
+  "Филиал Яккасарай",
+  "ул. Шота Руставели, 41"
+ ],
+ "en": [
+  "Menu",
+  "Promotions",
+  "Branches",
+  "About us",
+  "Order now",
+  "Hot lavash in 20 minutes",
+  "Freshly made lavash, burgers and fries",
+  "Fast delivery across Tashkent",
+  "Lavash, large",
+  {
+   "t": "Call us",
+   "align": "left",
+   "scale": 0.95
+  },
+  "Chilanzar branch",
+  "12 Bunyodkor Avenue",
+  "Yunusabad branch",
+  "108 Amir Temur Street",
+  "Sergeli branch",
+  "5 Yangi Sergeli Street",
+  "Mirzo Ulugbek branch",
+  "77 Buyuk Ipak Yuli",
+  "Yakkasaray branch",
+  "41 Shota Rustaveli Street"
+ ]
 }

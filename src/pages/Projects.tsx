@@ -8,9 +8,10 @@ import { ProjectCover, Status } from "../components/Projects";
 import { projectLink, WorkGrid } from "../components/Studio";
 import { Breadcrumb, ButtonLink, ContactBand, Eyebrow, Lines, PageTop, TextLink, delay } from "../components/ui";
 import NotFound from "./NotFound";
+import { tr, trn } from "../lib/i18n";
 
 export function Projects() {
-  const { projects, categories, error, refresh } = useContent();
+  const { projects, categories, categoryLabel, error, refresh } = useContent();
   const [params, setParams] = useSearchParams();
   // Filtrda faqat ichida ish bor kategoriyalar ko'rinadi.
   const used = categories.filter((c) => c === "Barchasi" || projects.some((p) => p.category === c));
@@ -20,26 +21,26 @@ export function Projects() {
   return (
     <>
       <PageTop
-        name="Loyihalar"
-        eyebrow="Loyihalar"
+        name={tr("Loyihalar")}
+        eyebrow={tr("Loyihalar")}
         title={[
-          "Loyihalar va namunalar —",
+          tr("Loyihalar va namunalar —"),
           <span className="accent" key="a">
-            sinab ko‘ring.
+            {tr("sinab ko‘ring.")}
           </span>,
         ]}
-        text="Telegram botlar, AI yordamchilar, saytlar va dasturlar. Har bir yechimning qanday ishlashini sahifasidagi demoda bosib ko‘rasiz."
+        text={tr("Telegram botlar, AI yordamchilar, saytlar va dasturlar. Har bir yechimning qanday ishlashini sahifasidagi demoda bosib ko‘rasiz.")}
       />
       <section className="container catalog">
         {error && (
           <div className="notice" role="status">
             {error}
-            <button onClick={refresh}>Qayta yuklash</button>
+            <button onClick={refresh}>{tr("Qayta yuklash")}</button>
           </div>
         )}
         {used.length > 2 && (
           <div className="catalog-bar" data-reveal="fade">
-            <div className="chips" role="group" aria-label="Ish turlari">
+            <div className="chips" role="group" aria-label={tr("Ish turlari")}>
               {used.map((c) => (
                 <button
                   key={c}
@@ -47,12 +48,12 @@ export function Projects() {
                   aria-pressed={filter === c}
                   onClick={() => setParams(c === "Barchasi" ? {} : { category: c }, { preventScrollReset: true })}
                 >
-                  {c}
+                  {categoryLabel(c)}
                 </button>
               ))}
             </div>
             <span className="catalog-count" aria-live="polite">
-              {list.length} ta ish
+              {trn(list.length, "{n} ta ish")}
             </span>
           </div>
         )}
@@ -70,9 +71,9 @@ function ProjectFaq({ items }: { items: FaqItem[] }) {
     <section className="container section faq hairline">
       <div>
         <div data-reveal="fade">
-          <Eyebrow>Savol-javob</Eyebrow>
+          <Eyebrow>{tr("Savol-javob")}</Eyebrow>
         </div>
-        <Lines>{["Ko‘p so‘raladi."]}</Lines>
+        <Lines>{[tr("Ko‘p so‘raladi.")]}</Lines>
       </div>
       <div className="faq-list">
         {items.map(({ q, a }, i) => (
@@ -126,7 +127,7 @@ function CheckList({ items }: { items: string[] }) {
 
 export function ProjectDetail() {
   const { slug } = useParams();
-  const { projects, services, loaded, error } = useContent();
+  const { projects, services, categoryLabel, loaded, error } = useContent();
   const project = projects.find((p) => p.slug === slug);
   useEffect(() => {
     if (!project) return;
@@ -144,7 +145,7 @@ export function ProjectDetail() {
     return () => window.clearTimeout(t);
   }, [hash, hasDemo, slug]);
   // Bazadagi loyiha boshlang'ich ro'yxatda yo'q: API javobini kutamiz, aks holda 404 miltillaydi.
-  if (!project) return loaded || error ? <NotFound /> : <div className="loading-page">Yuklanmoqda…</div>;
+  if (!project) return loaded || error ? <NotFound /> : <div className="loading-page">{tr("Yuklanmoqda…")}</div>;
   const related = projects
     .filter((p) => p.id !== project.id)
     .sort((a, b) => Number(b.category === project.category) - Number(a.category === project.category))
@@ -162,8 +163,8 @@ export function ProjectDetail() {
   const fit = project.fit || [];
   const faq = project.faq || [];
   const views: Array<[string, string[]]> = [
-    ["Mijoz ko‘radi", customerView],
-    ["Siz ko‘rasiz", ownerView],
+    [tr("Mijoz ko‘radi"), customerView],
+    [tr("Siz ko‘rasiz"), ownerView],
   ];
   return (
     <>
@@ -172,7 +173,7 @@ export function ProjectDetail() {
         <div className="detail-heading">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>{project.category}</Eyebrow>
+              <Eyebrow>{categoryLabel(project.category)}</Eyebrow>
             </div>
             <Lines as="h1">
               {[
@@ -194,7 +195,7 @@ export function ProjectDetail() {
           {project.problem && (
             <section className="container detail-problem hairline">
               <div data-reveal="fade">
-                <Eyebrow>Muammo</Eyebrow>
+                <Eyebrow>{tr("Muammo")}</Eyebrow>
               </div>
               <p className="lead" data-reveal>
                 {project.problem}
@@ -203,9 +204,9 @@ export function ProjectDetail() {
           )}
           <section className="container section hairline detail-demo" id="demo">
             <SectionHead
-              eyebrow="Demo"
-              title="Bosib sinab ko‘ring."
-              text="Tugmalarni bosing: bot suhbati bilan birga shu paytda tizimga va sizga keladigan xabarlar ham ko‘rinadi."
+              eyebrow={tr("Demo")}
+              title={tr("Bosib sinab ko‘ring.")}
+              text={tr("Tugmalarni bosing: bot suhbati bilan birga shu paytda tizimga va sizga keladigan xabarlar ham ko‘rinadi.")}
             />
             <DemoChat demo={project.demo} />
           </section>
@@ -220,38 +221,38 @@ export function ProjectDetail() {
       <section className="container detail-body section">
         <aside className="detail-aside">
           <div className="detail-aside-inner" data-reveal>
-            <Eyebrow>{project.demo ? "Yechim haqida" : "Ish haqida"}</Eyebrow>
+            <Eyebrow>{project.demo ? tr("Yechim haqida") : tr("Ish haqida")}</Eyebrow>
             <dl>
               <div>
-                <dt>Turi</dt>
-                <dd>{project.category}</dd>
+                <dt>{tr("Turi")}</dt>
+                <dd>{categoryLabel(project.category)}</dd>
               </div>
               {project.platforms.length > 0 && (
                 <div>
-                  <dt>Platforma</dt>
+                  <dt>{tr("Platforma")}</dt>
                   <dd>{project.platforms.join(" · ")}</dd>
                 </div>
               )}
               <div>
-                <dt>Holati</dt>
-                <dd>{project.status}</dd>
+                <dt>{tr("Holati")}</dt>
+                <dd>{tr(project.status)}</dd>
               </div>
               {service && (
                 <div>
-                  <dt>Xizmat</dt>
+                  <dt>{tr("Xizmat")}</dt>
                   <dd>
-                    <Link to={`/services/${service.slug}`}>{service.name}: narxi va paketlari</Link>
+                    <Link to={`/services/${service.slug}`}>{tr("{name}: narxi va paketlari", { name: service.name })}</Link>
                   </dd>
                 </div>
               )}
             </dl>
             {link && (
               <ButtonLink to={link} external magnetic>
-                Ochish
+                {tr("Ochish")}
               </ButtonLink>
             )}
             <ButtonLink to={order} variant="outline">
-              Shunga o‘xshash buyurtma berish
+              {tr("Shunga o‘xshash buyurtma berish")}
             </ButtonLink>
           </div>
         </aside>
@@ -261,19 +262,19 @@ export function ProjectDetail() {
           </p>
           {project.purpose && (
             <div data-reveal>
-              <h3>Maqsadi</h3>
+              <h3>{tr("Maqsadi")}</h3>
               <p>{project.purpose}</p>
             </div>
           )}
           <div data-reveal>
-            <h3>Imkoniyatlari</h3>
+            <h3>{tr("Imkoniyatlari")}</h3>
             <CheckList items={project.features} />
           </div>
         </div>
       </section>
       {steps.length > 0 && (
         <section className="container section hairline">
-          <SectionHead eyebrow="Qanday ishlaydi" title={`${steps.length} qadam.`} />
+          <SectionHead eyebrow={tr("Qanday ishlaydi")} title={trn(steps.length, "{n} qadam.")} />
           <ol className="working-grid course-steps">
             {steps.map((s, i) => (
               <li key={s.title} data-reveal style={{ "--d": (i % 4) * 100 } as CSSProperties}>
@@ -287,7 +288,7 @@ export function ProjectDetail() {
       )}
       {(customerView.length > 0 || ownerView.length > 0) && (
         <section className="container section hairline">
-          <SectionHead eyebrow="Ikki tomon" title="Kim nimani ko‘radi." />
+          <SectionHead eyebrow={tr("Ikki tomon")} title={tr("Kim nimani ko‘radi.")} />
           <div className="detail-views">
             {views
               .filter(([, list]) => list.length > 0)
@@ -302,18 +303,18 @@ export function ProjectDetail() {
       )}
       {beforeAfter.length > 0 && (
         <section className="container section hairline">
-          <SectionHead eyebrow="Oldin va keyin" title="Nima o‘zgaradi." />
-          <div className="before-after" role="table" aria-label="Oldin va keyin">
+          <SectionHead eyebrow={tr("Oldin va keyin")} title={tr("Nima o‘zgaradi.")} />
+          <div className="before-after" role="table" aria-label={tr("Oldin va keyin")}>
             <div className="ba-row ba-head" role="row">
-              <span role="columnheader">Oldin</span>
-              <span role="columnheader">Keyin</span>
+              <span role="columnheader">{tr("Oldin")}</span>
+              <span role="columnheader">{tr("Keyin")}</span>
             </div>
             {beforeAfter.map((r, i) => (
               <div className="ba-row" role="row" key={i} data-reveal style={delay(i * 60)}>
-                <span role="cell" data-label="Oldin">
+                <span role="cell" data-label={tr("Oldin")}>
                   {r.before}
                 </span>
-                <span role="cell" data-label="Keyin">
+                <span role="cell" data-label={tr("Keyin")}>
                   <ArrowRight size={16} aria-hidden="true" />
                   {r.after}
                 </span>
@@ -324,7 +325,7 @@ export function ProjectDetail() {
       )}
       {fit.length > 0 && (
         <section className="container section hairline">
-          <SectionHead eyebrow="Kimga mos" title="Kimlar ishlatadi." />
+          <SectionHead eyebrow={tr("Kimga mos")} title={tr("Kimlar ishlatadi.")} />
           <ul className="tags fit-tags" data-reveal>
             {fit.map((f) => (
               <li key={f}>{f}</li>
@@ -336,9 +337,9 @@ export function ProjectDetail() {
       {related.length > 0 && (
         <section className="container related section hairline">
           <div className="section-head">
-            <Lines>{[project.demo ? "Boshqa yechimlar." : "Boshqa ishlarimiz."]}</Lines>
+            <Lines>{[project.demo ? tr("Boshqa yechimlar.") : tr("Boshqa ishlarimiz.")]}</Lines>
             <div className="section-aside">
-              <TextLink to="/projects">Barcha ishlar</TextLink>
+              <TextLink to="/projects">{tr("Barcha ishlar")}</TextLink>
             </div>
           </div>
           <WorkGrid projects={related} />

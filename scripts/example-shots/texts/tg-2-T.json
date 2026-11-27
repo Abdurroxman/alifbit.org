@@ -25,5 +25,59 @@
   "Olib ketish",
   "Buyurtmani tasdiqlash",
   "Xabar yozing…"
+ ],
+ "ru": [
+  "Fast Food Bot",
+  {
+   "t": "бот",
+   "align": "left",
+   "bold": false
+  },
+  "Проверьте ваш заказ",
+  "Всё верно?",
+  "Да, подтверждаю",
+  "Доставка или самовывоз?",
+  "Выберите ниже",
+  "Ваша корзина",
+  "Номер заказа",
+  "Куриные крылышки, 12 шт.",
+  "С острым соусом",
+  "Кола 0,5 л",
+  "Со льдом",
+  "Блюда",
+  "Напитки",
+  "Доставка",
+  "Итого",
+  "Доставка",
+  "Самовывоз",
+  "Подтвердить заказ",
+  "Сообщение…"
+ ],
+ "en": [
+  "Fast Food Bot",
+  {
+   "t": "bot",
+   "align": "left",
+   "bold": false
+  },
+  "Check your order",
+  "Is everything right?",
+  "Yes, confirm",
+  "Delivery or pickup?",
+  "Choose below",
+  "Your cart",
+  "Order number",
+  "Chicken wings, 12 pcs",
+  "With hot sauce",
+  "Cola 0.5 L",
+  "With ice",
+  "Food",
+  "Drinks",
+  "Delivery",
+  "Total",
+  "Delivery",
+  "Pickup",
+  "Confirm order",
+  "Message…"
  ]
 }

@@ -100,7 +100,7 @@ export async function handleIntegration(
 
   if (!id && method === "GET") {
     const { results } = await env.DB.prepare(
-      "SELECT o.id,o.reference,o.name,o.contact,o.service,s.data AS service_data,c.data AS course_data,o.description,o.budget,o.deadline,o.status,o.attachment_name,o.attachment_type,o.created_at,o.updated_at FROM orders o LEFT JOIN services s ON s.slug=o.service LEFT JOIN courses c ON o.service='kurs-'||c.slug ORDER BY o.created_at DESC LIMIT 500",
+      "SELECT o.id,o.reference,o.name,o.contact,o.service,s.data AS service_data,c.data AS course_data,o.description,o.budget,o.deadline,o.lang,o.status,o.attachment_name,o.attachment_type,o.created_at,o.updated_at FROM orders o LEFT JOIN services s ON s.slug=o.service LEFT JOIN courses c ON o.service='kurs-'||c.slug ORDER BY o.created_at DESC LIMIT 500",
     ).all<OrderRow>();
     const orders = results.map((row) => {
       const { service_data: _s, course_data: _c, ...rest } = row;

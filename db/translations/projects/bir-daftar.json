@@ -1,0 +1,104 @@
+{
+  "ru": {
+    "name": "Система клиентов и заказов",
+    "summary": "Клиенты, заказы, задолженности и задачи сотрудников — в одном месте. Вы всегда видите, на каком этапе каждый заказ.",
+    "description": "Система собирает в одном месте работу, разбросанную по Excel, тетрадям и чатам. История, заказы и долг каждого клиента — на одной странице. Сотрудники видят свои задачи, руководитель — отчёты за день и месяц. Через Telegram-помощника можно добавить заказ, сменить статус и получить напоминание с телефона в несколько нажатий.",
+    "purpose": "Чтобы данные не терялись, клиентам перезванивали вовремя, а состояние бизнеса было видно в цифрах.",
+    "features": [
+      "База клиентов: контакты, история, заказы, долг",
+      "Заказы по этапам: новый, в работе, готов, сдан",
+      "Задачи и сроки для сотрудников",
+      "Роли: руководитель, менеджер, сотрудник — у каждого свои права",
+      "Telegram-помощник: добавить заказ, статус, напоминание",
+      "Автоматические сообщения клиенту о статусе",
+      "Отчёты за день и месяц, графики",
+      "Перенос старых данных из Excel и регулярное резервное копирование"
+    ],
+    "platforms": ["Веб-приложение", "Telegram-бот"],
+    "problem": "Список клиентов — в телефоне одного сотрудника, заказы — в Excel, долги — в тетради. Уходит сотрудник — уходят и данные. Чтобы понять, как прошёл месяц, руководитель вечерами сводит таблицы.",
+    "customerView": ["Своевременные уведомления о статусе заказа", "Напоминания перезвонить клиенту", "Сотрудник, который знает историю клиента"],
+    "ownerView": ["Все клиенты и заказы в одном месте", "Задачи и сроки сотрудников", "Сводка за день в Telegram", "Выручка за месяц, долги и графики"],
+    "fit": ["Производственные цеха", "Мебель и ремонт", "Оптовая и розничная торговля", "Сервисные компании", "Учебные центры", "Рекламные агентства"]
+  },
+  "en": {
+    "name": "Customer and order system",
+    "summary": "Customers, orders, debts and staff tasks in one place. You always see what stage every order is at.",
+    "description": "The system brings together work scattered across Excel, notebooks and chats. Each customer’s history, orders and balance are on one page. Staff see their tasks, and the manager sees daily and monthly reports. With the Telegram helper you can add an order, change its status and get reminders from your phone in a few taps.",
+    "purpose": "So no data gets lost, customers get called back on time and the state of the business is visible in numbers.",
+    "features": [
+      "Customer database: contacts, history, orders, balance",
+      "Orders by stage: new, in progress, ready, delivered",
+      "Tasks and deadlines for staff",
+      "Roles: owner, manager, staff — each with their own permissions",
+      "Telegram helper: add orders, update status, get reminders",
+      "Automatic status messages to customers",
+      "Daily and monthly reports with charts",
+      "Migration of old Excel data and regular backups"
+    ],
+    "platforms": ["Web app", "Telegram bot"],
+    "problem": "The customer list is on one employee’s phone, orders are in Excel, debts are in a notebook. When an employee leaves, the data leaves too. To see how the month went, the owner spends evenings stitching spreadsheets together.",
+    "customerView": ["Timely updates on order status", "Reminders to call the customer back", "A staff member who knows their history"],
+    "ownerView": ["All customers and orders in one place", "Staff tasks and deadlines", "Daily summary in Telegram", "Monthly revenue, debts and charts"],
+    "fit": ["Production workshops", "Furniture and renovation", "Wholesale and retail", "Service companies", "Training centers", "Advertising agencies"]
+  },
+  "steps": [
+    { "ru": { "title": "Изучение", "text": "Смотрим на ваш рабочий процесс и определяем нужные этапы и поля." }, "en": { "title": "Discovery", "text": "We look at your workflow and define the stages and fields you need." } },
+    { "ru": { "title": "Перенос", "text": "Переносим клиентов и заказы из Excel и тетрадей в систему." }, "en": { "title": "Migration", "text": "We move customers and orders from Excel and notebooks into the system." } },
+    { "ru": { "title": "Роли", "text": "У каждого сотрудника свои права: кто что видит и меняет." }, "en": { "title": "Roles", "text": "Each staff member gets their own permissions: who sees and changes what." } },
+    { "ru": { "title": "Повседневная работа", "text": "Заказы и задачи ведутся в системе или через Telegram-помощника." }, "en": { "title": "Daily work", "text": "Orders and tasks are managed in the system or via the Telegram helper." } },
+    { "ru": { "title": "Отчёт", "text": "Руководитель получает сводку за день и отчёт за месяц." }, "en": { "title": "Reports", "text": "The owner gets a daily summary and a monthly report." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Клиенты — в телефоне сотрудника", "after": "Все данные — в системе компании" }, "en": { "before": "Customers live on an employee’s phone", "after": "All data lives in the company system" } },
+    { "ru": { "before": "Клиент звонит узнать статус", "after": "Клиенту приходит сообщение, как только статус меняется" }, "en": { "before": "Customers call to ask about status", "after": "Customers get a message as soon as the status changes" } },
+    { "ru": { "before": "Таблицы для отчёта собирают вручную", "after": "Отчёт готов каждый день" }, "en": { "before": "Report spreadsheets are compiled by hand", "after": "The report is ready every day" } },
+    { "ru": { "before": "Долги в тетради забываются", "after": "О просроченном долге приходит напоминание" }, "en": { "before": "Debts in a notebook get forgotten", "after": "Overdue balances trigger a reminder" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Чем это отличается от готовой CRM (amoCRM, Bitrix24)?", "a": "У готовых CRM много возможностей, но они сложные и с ежемесячной подпиской. Эта система делается только с нужными вам полями и этапами, а код и данные принадлежат вам." }, "en": { "q": "How is this different from an off-the-shelf CRM (amoCRM, Bitrix24)?", "a": "Off-the-shelf CRMs have lots of features, but they’re complex and need a monthly subscription. This system is built with only the fields and stages you need, and the code and data are yours." } },
+    { "ru": { "q": "Можно ли работать с телефона?", "a": "Да, система адаптирована под телефон, а самые частые действия есть и в Telegram-помощнике." }, "en": { "q": "Can I use it from my phone?", "a": "Yes, the system is mobile-friendly, and the most common actions are also in the Telegram helper." } },
+    { "ru": { "q": "Не потеряются ли наши данные?", "a": "Регулярно делаются резервные копии, а вход защищён паролем и ролями." }, "en": { "q": "Could we lose our data?", "a": "Regular backups are made, and access is protected by passwords and roles." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Уста Мебель · CRM" },
+    "en": { "bot": "Usta Furniture · CRM" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Доброе утро, Жавлон! Дела на сегодня:"], "card": { "title": "Сегодня", "lines": ["Сдаём 3 заказа", "Запланировано 2 звонка", "1 платёж просрочен"] }, "buttons": ["Добавить заказ", "Просроченный платёж"] },
+        "en": { "messages": ["Good morning, Javlon! Today’s agenda:"], "card": { "title": "Today", "lines": ["3 orders to deliver", "2 calls planned", "1 overdue payment"] }, "buttons": ["Add an order", "Overdue payment"] }
+      },
+      {
+        "ru": { "messages": ["Имя или телефон клиента?"], "buttons": ["Дильфуза Каримова"] },
+        "en": { "messages": ["Customer’s name or phone?"], "buttons": ["Dilfuza Karimova"] }
+      },
+      {
+        "ru": { "messages": ["Дильфуза Каримова — 2 прошлых заказа, последний: кухонная мебель, в мае.", "Тип заказа?"], "buttons": ["Шкаф-купе"] },
+        "en": { "messages": ["Dilfuza Karimova — 2 previous orders, the latest: kitchen furniture in May.", "Order type?"], "buttons": ["Sliding wardrobe"] }
+      },
+      {
+        "ru": { "messages": ["Заказ №214 создан. Мастеру Рустаму поставлена задача на замер — завтра в 11:00."], "buttons": ["Изменить статус"], "owner": { "title": "CRM: новый заказ №214", "lines": ["Дильфуза Каримова · шкаф-купе", "Этап: замер · мастер Рустам", "Задача: завтра 11:00"] } },
+        "en": { "messages": ["Order #214 created. Measuring task assigned to craftsman Rustam — tomorrow at 11:00."], "buttons": ["Change status"], "owner": { "title": "CRM: new order #214", "lines": ["Dilfuza Karimova · sliding wardrobe", "Stage: measuring · Rustam", "Task: tomorrow 11:00"] } }
+      },
+      {
+        "ru": { "messages": ["На какой этап перешёл №214?"], "buttons": ["В производстве"] },
+        "en": { "messages": ["Which stage has #214 moved to?"], "buttons": ["In production"] }
+      },
+      {
+        "ru": { "messages": ["Статус обновлён. Клиенту отправлено сообщение: «Ваш шкаф в производстве, до готовности примерно 10 дней.»"], "owner": { "title": "№214 → в производстве", "lines": ["Клиенту ушло автоматическое сообщение", "Обновлено в отчёте руководителя"] } },
+        "en": { "messages": ["Status updated. The customer was sent a message: “Your wardrobe is in production, about 10 days until it’s ready.”"], "owner": { "title": "#214 → in production", "lines": ["Automatic message sent to the customer", "Updated in the owner’s report"] } }
+      },
+      {
+        "ru": { "messages": ["Просроченный платёж:"], "card": { "title": "№198 · Акмал Тошев", "lines": ["Остаток: 2 400 000 сум", "Срок: 15 ноября (прошло 3 дня)"] }, "buttons": ["Отправить напоминание клиенту", "Поставить задачу менеджеру"] },
+        "en": { "messages": ["Overdue payment:"], "card": { "title": "#198 · Akmal Toshev", "lines": ["Balance due: 2,400,000 UZS", "Due date: November 15 (3 days overdue)"] }, "buttons": ["Send the customer a reminder", "Assign a task to a manager"] }
+      },
+      {
+        "ru": { "messages": ["Акмалу Тошеву отправлено вежливое напоминание. Если он ответит, я передам вам."], "buttons": ["Добавить заказ"], "owner": { "title": "Напоминание о долге отправлено", "lines": ["№198 · 2 400 000 сум", "Ждём ответа клиента"] } },
+        "en": { "messages": ["A polite reminder was sent to Akmal Toshev. If he replies, I’ll pass it on to you."], "buttons": ["Add an order"], "owner": { "title": "Payment reminder sent", "lines": ["#198 · 2,400,000 UZS", "Awaiting customer reply"] } }
+      },
+      {
+        "ru": { "messages": ["Менеджеру Севаре поставлена задача: позвонить Акмалу Тошеву сегодня до 16:00."], "buttons": ["Добавить заказ"], "owner": { "title": "Задача: Севара", "lines": ["Звонок: Акмал Тошев, №198", "Срок: сегодня 16:00"] } },
+        "en": { "messages": ["Manager Sevara has been assigned a task: call Akmal Toshev today by 16:00."], "buttons": ["Add an order"], "owner": { "title": "Task: Sevara", "lines": ["Call: Akmal Toshev, #198", "Due: today 16:00"] } }
+      }
+    ]
+  }
+}

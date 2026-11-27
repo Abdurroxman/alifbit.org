@@ -6,8 +6,10 @@ import { api } from "../lib/api";
 import { BrandMark } from "../components/Brand";
 import { ButtonLink, Eyebrow, PageTop } from "../components/ui";
 import { COURSE_ORDER_PREFIX, TELEGRAM_URL } from "../../shared/content";
+import { lang, mk, tr } from "../lib/i18n";
 
 const MAX_FILE = 5 * 1024 * 1024;
+const BUDGETS = [mk("5 mln so‘mgacha"), mk("5–15 mln so‘m"), mk("15–50 mln so‘m"), mk("50 mln so‘mdan yuqori")];
 
 export default function Contact() {
   const { services, courses } = useContent();
@@ -25,13 +27,14 @@ export default function Contact() {
     try {
       const data = new FormData(form);
       const file = data.get("attachment") as File | null;
-      if (file && file.size > MAX_FILE) throw new Error("Fayl 5 MB dan kichik bo‘lishi kerak.");
+      if (file && file.size > MAX_FILE) throw new Error(tr("Fayl 5 MB dan kichik bo‘lishi kerak."));
+      data.set("lang", lang);
       const result = await api<{ reference: string }>("/api/orders", { method: "POST", body: data });
       setReference(result.reference);
       setFileName("");
       form.reset();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Murojaat yuborilmadi.");
+      setError(e instanceof Error ? e.message : tr("Murojaat yuborilmadi."));
     } finally {
       setSending(false);
     }
@@ -44,40 +47,42 @@ export default function Contact() {
     ? courses.find((c) => `${COURSE_ORDER_PREFIX}${c.slug}` === selected)
     : undefined;
   const prefill = course
-    ? `«${course.title}» kursiga yozilmoqchiman.`
+    ? tr("«{title}» kursiga yozilmoqchiman.", { title: course.title })
     : pkg
-      ? `«${pkg}» paketi bo‘yicha buyurtma bermoqchiman.`
+      ? tr("«{name}» paketi bo‘yicha buyurtma bermoqchiman.", { name: pkg })
       : project
-        ? `${project} loyihasi haqida batafsil ma’lumot olmoqchiman.`
+        ? tr("{name} loyihasi haqida batafsil ma’lumot olmoqchiman.", { name: project })
         : "";
+  // Rozilik jumlasi: «{link}» o'rnida «Maxfiylik siyosati» havolasi turadi.
+  const consent = tr("{link} bilan tanishdim va murojaatimni ko‘rib chiqish uchun ma’lumotlarimni qayta ishlashga roziman.").split("{link}");
   return (
     <>
       <PageTop
-        name="Buyurtma berish"
-        eyebrow={course ? "Kursga yozilish" : "Buyurtma berish"}
+        name={tr("Buyurtma berish")}
+        eyebrow={course ? tr("Kursga yozilish") : tr("Buyurtma berish")}
         title={[
-          course ? "Kursga" : "Loyihangiz",
+          course ? tr("Kursga") : tr("Loyihangiz"),
           <span className="accent" key="a">
-            {course ? "yoziling." : "haqida yozing."}
+            {course ? tr("yoziling.") : tr("haqida yozing.")}
           </span>,
         ]}
-        text="Formani to‘ldiring yoki Telegram’da yozing. Tafsilot va narxni birga aniqlaymiz."
+        text={tr("Formani to‘ldiring yoki Telegram’da yozing. Tafsilot va narxni birga aniqlaymiz.")}
       />
       <section className="container contact-layout">
         <aside className="contact-aside" data-reveal="left">
           <div>
-            <small>BEVOSITA ALOQA</small>
+            <small>{tr("BEVOSITA ALOQA")}</small>
             <ButtonLink to={TELEGRAM_URL} className="contact-telegram">
               Telegram · @alifbitbot
             </ButtonLink>
-            <p>Qisqa savol yoki dastlabki suhbat uchun Telegram’da yozishingiz mumkin.</p>
+            <p>{tr("Qisqa savol yoki dastlabki suhbat uchun Telegram’da yozishingiz mumkin.")}</p>
           </div>
           <div>
-            <small>QANDAY DAVOM ETAMIZ?</small>
+            <small>{tr("QANDAY DAVOM ETAMIZ?")}</small>
             <ol>
-              <li>Murojaatingiz bilan tanishamiz.</li>
-              <li>Tafsilotlarni birgalikda aniqlaymiz.</li>
-              <li>Yechim va keyingi qadamlarni kelishamiz.</li>
+              <li>{tr("Murojaatingiz bilan tanishamiz.")}</li>
+              <li>{tr("Tafsilotlarni birgalikda aniqlaymiz.")}</li>
+              <li>{tr("Yechim va keyingi qadamlarni kelishamiz.")}</li>
             </ol>
           </div>
           <div className="contact-aside-mark" aria-hidden="true">
@@ -90,47 +95,47 @@ export default function Contact() {
               <span className="success-icon">
                 <Check size={30} />
               </span>
-              <Eyebrow>Suhbatimiz boshlandi</Eyebrow>
+              <Eyebrow>{tr("Suhbatimiz boshlandi")}</Eyebrow>
               <h2>
-                Murojaatingiz
+                {tr("Murojaatingiz")}
                 <br />
-                <span className="accent">qabul qilindi.</span>
+                <span className="accent">{tr("qabul qilindi.")}</span>
               </h2>
-              <p>Ma’lumotlaringiz saqlandi. Siz ko‘rsatgan aloqa manzili orqali bog‘lanamiz.</p>
+              <p>{tr("Ma’lumotlaringiz saqlandi. Siz ko‘rsatgan aloqa manzili orqali bog‘lanamiz.")}</p>
               <p className="reference">
-                Murojaat raqami: <strong>{reference}</strong>
+                {tr("Murojaat raqami:")} <strong>{reference}</strong>
               </p>
               <button className="button button-outline" onClick={() => setReference("")}>
-                Yangi murojaat
+                {tr("Yangi murojaat")}
               </button>
             </div>
           ) : (
             <form className="contact-form" onSubmit={submit} noValidate={false}>
               <div className="form-heading">
-                <h2>Loyihangiz haqida</h2>
-                <span>01 / TANISHUV</span>
+                <h2>{tr("Loyihangiz haqida")}</h2>
+                <span>{tr("01 / TANISHUV")}</span>
               </div>
               <div className="form-row">
                 <label className="field">
                   <span>
-                    Ismingiz <em>*</em>
+                    {tr("Ismingiz")} <em>*</em>
                   </span>
-                  <input className="input" name="name" autoComplete="name" placeholder="Sizga qanday murojaat qilaylik?" required minLength={2} maxLength={100} />
+                  <input className="input" name="name" autoComplete="name" placeholder={tr("Sizga qanday murojaat qilaylik?")} required minLength={2} maxLength={100} />
                 </label>
                 <label className="field">
                   <span>
-                    Email yoki Telegram <em>*</em>
+                    {tr("Email yoki Telegram")} <em>*</em>
                   </span>
-                  <input className="input" name="contact" autoComplete="email" placeholder="email@manzil.uz yoki @username" required minLength={4} maxLength={150} />
+                  <input className="input" name="contact" autoComplete="email" placeholder={tr("email@manzil.uz yoki @username")} required minLength={4} maxLength={150} />
                 </label>
               </div>
               <label className="field">
                 <span>
-                  Qaysi yo‘nalish? <em>*</em>
+                  {tr("Qaysi yo‘nalish?")} <em>*</em>
                 </span>
                 <select className="input" name="service" required defaultValue={selected} key={`${selected}-${courses.length}`}>
                   <option value="" disabled>
-                    Yo‘nalishni tanlang
+                    {tr("Yo‘nalishni tanlang")}
                   </option>
                   {services.map((s) => (
                     <option value={s.slug} key={s.slug}>
@@ -139,21 +144,21 @@ export default function Contact() {
                   ))}
                   {courses.map((c) => (
                     <option value={`${COURSE_ORDER_PREFIX}${c.slug}`} key={c.id}>
-                      Kurs: {c.title}
+                      {tr("Kurs: {title}", { title: c.title })}
                     </option>
                   ))}
-                  <option value="other">Birgalikda aniqlaymiz</option>
+                  <option value="other">{tr("Birgalikda aniqlaymiz")}</option>
                 </select>
               </label>
               <label className="field">
                 <span>
-                  G‘oyangiz haqida <em>*</em>
+                  {tr("G‘oyangiz haqida")} <em>*</em>
                 </span>
                 <textarea
                   className="input"
                   name="description"
                   rows={5}
-                  placeholder="Nima yaratmoqchisiz? Kimlar uchun va qanday muammoni hal qiladi?"
+                  placeholder={tr("Nima yaratmoqchisiz? Kimlar uchun va qanday muammoni hal qiladi?")}
                   required
                   minLength={20}
                   maxLength={6000}
@@ -164,19 +169,21 @@ export default function Contact() {
               <div className="form-row">
                 <label className="field">
                   <span>
-                    Taxminiy byudjet <small>ixtiyoriy</small>
+                    {tr("Taxminiy byudjet")} <small>{tr("ixtiyoriy")}</small>
                   </span>
+                  {/* Qiymat o'zbekcha saqlanadi, sahifada tarjimasi ko'rinadi. */}
                   <select className="input" name="budget" defaultValue="">
-                    <option value="">Hali aniqlanmagan</option>
-                    <option>5 mln so‘mgacha</option>
-                    <option>5–15 mln so‘m</option>
-                    <option>15–50 mln so‘m</option>
-                    <option>50 mln so‘mdan yuqori</option>
+                    <option value="">{tr("Hali aniqlanmagan")}</option>
+                    {BUDGETS.map((b) => (
+                      <option key={b} value={b}>
+                        {tr(b)}
+                      </option>
+                    ))}
                   </select>
                 </label>
                 <label className="field">
                   <span>
-                    Qachongacha tayyor bo‘lishi kerak? <small>ixtiyoriy</small>
+                    {tr("Qachongacha tayyor bo‘lishi kerak?")} <small>{tr("ixtiyoriy")}</small>
                   </span>
                   <input className="input" name="deadline" type="date" min={new Date().toISOString().slice(0, 10)} />
                 </label>
@@ -186,8 +193,8 @@ export default function Contact() {
                   <Paperclip size={18} />
                 </span>
                 <span className="file-text">
-                  <b>{fileName || "Qo‘shimcha fayl biriktirish"}</b>
-                  <small>PDF, PNG, JPG, WEBP · 5 MB gacha</small>
+                  <b>{fileName || tr("Qo‘shimcha fayl biriktirish")}</b>
+                  <small>{tr("PDF, PNG, JPG, WEBP · 5 MB gacha")}</small>
                 </span>
                 <input
                   type="file"
@@ -197,17 +204,17 @@ export default function Contact() {
                 />
               </label>
               <label className="honeypot" aria-hidden="true">
-                Veb-saytingiz
+                {tr("Veb-saytingiz")}
                 <input name="website" tabIndex={-1} autoComplete="off" />
               </label>
               <label className="consent">
                 <input type="checkbox" name="consent" value="yes" required />
                 <span>
+                  {consent[0]}
                   <Link to="/privacy" target="_blank">
-                    Maxfiylik siyosati
-                  </Link>{" "}
-                  bilan tanishdim va murojaatimni ko‘rib chiqish uchun ma’lumotlarimni qayta ishlashga
-                  roziman.
+                    {tr("Maxfiylik siyosati")}
+                  </Link>
+                  {consent[1]}
                 </span>
               </label>
               {error && (
@@ -217,12 +224,12 @@ export default function Contact() {
               )}
               <div className="form-submit">
                 <span>
-                  Yaxshi hamkorlik
+                  {tr("Yaxshi hamkorlik")}
                   <br />
-                  shu yerdan boshlanadi.
+                  {tr("shu yerdan boshlanadi.")}
                 </span>
                 <button className="button" disabled={sending} type="submit">
-                  {sending ? "Yuborilmoqda…" : "Murojaatni yuborish"}
+                  {sending ? tr("Yuborilmoqda…") : tr("Murojaatni yuborish")}
                   <span className="button-icon" aria-hidden="true">
                     {sending ? <LoaderCircle className="spin" size={16} /> : <Send size={15} />}
                   </span>

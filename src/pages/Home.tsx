@@ -10,6 +10,7 @@ import { copy, OFFICE_URL } from "../../shared/content";
 import { focusOfIcon, type StageSection } from "../three/types";
 import type { Project } from "../../shared/content";
 import { accentStyle, setNetworkAccent } from "../lib/accent";
+import { lang, tr } from "../lib/i18n";
 
 /** Bosh sahifada ko'rsatiladigan ishlar tartibi: jonli mahsulot, keyin uchta namuna yechim. */
 const HOME_WORKS = ["voice", "tungi-navbatchi", "peshtaxta", "qabulxona"];
@@ -26,11 +27,11 @@ function Hero({ onFlow, slot }: { onFlow: (s: FlowState) => void; slot: RefObjec
       <div className="container hero-grid">
         <div className="hero-copy">
           <div data-reveal="rise">
-            <Eyebrow>AlifBit · studiya</Eyebrow>
+            <Eyebrow>{tr("AlifBit · studiya")}</Eyebrow>
           </div>
-          <Chars text={copy.uz.hero.title} delay={120} />
+          <Chars text={tr(copy.uz.hero.title)} delay={120} />
           <p className="hero-text" data-reveal="rise" style={delay(420)}>
-            {copy.uz.hero.text}
+            {tr(copy.uz.hero.text)}
           </p>
           <div data-reveal="rise" style={delay(540)}>
             <NeedFlow onChange={onFlow} />
@@ -69,7 +70,7 @@ function ServiceMap() {
   const items = services.map((s) => ({
     key: s.slug,
     icon: SERVICE_GLYPH[s.icon] || "Sparkles",
-    label: `Xizmat ${s.number}`,
+    label: tr("Xizmat {number}", { number: s.number }),
     title: s.name,
     text: s.short,
     accent: s.icon,
@@ -77,7 +78,7 @@ function ServiceMap() {
   }));
   return (
     <section className="container section diagram-section hairline">
-      <HubDiagram center={{ icon: "Building2", label: "Sizning biznesingiz" }} items={items} />
+      <HubDiagram center={{ icon: "Building2", label: tr("Sizning biznesingiz") }} items={items} />
     </section>
   );
 }
@@ -104,13 +105,13 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
         <div className="section-head">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>Loyihalar</Eyebrow>
+              <Eyebrow>{tr("Loyihalar")}</Eyebrow>
             </div>
             <Lines>
               {[
-                "Loyihalar va namunalar.",
+                tr("Loyihalar va namunalar."),
                 <span className="accent" key="a">
-                  Sinab ko‘ring.
+                  {tr("Sinab ko‘ring.")}
                 </span>,
               ]}
             </Lines>
@@ -124,7 +125,7 @@ function Works({ onWork }: { onWork: (id: string) => void }) {
           ))}
         </div>
         <div data-reveal>
-          <TextLink to="/projects">Barcha ishlar</TextLink>
+          <TextLink to="/projects">{tr("Barcha ishlar")}</TextLink>
         </div>
       </div>
     </section>
@@ -136,10 +137,12 @@ function OfficeInvite() {
   return (
     <section className="container section hairline">
       <div className="section-head">
-        <Lines>{["Bizga mehmonga keling"]}</Lines>
+        <Lines>{[tr("Bizga mehmonga keling")]}</Lines>
         <div className="section-aside" data-reveal>
-          <p>Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.</p>
-          <ButtonLink to={OFFICE_URL} external>Ofisga kirish</ButtonLink>
+          <p>{tr("Virtual ofisimizda sizni kutib olamiz — xizmatlarni ko‘ring va buyurtma bering.")}</p>
+          <ButtonLink to={lang === "uz" ? OFFICE_URL : `${OFFICE_URL}?lang=${lang}`} external>
+            {tr("Ofisga kirish")}
+          </ButtonLink>
         </div>
       </div>
     </section>
@@ -152,7 +155,7 @@ function Course() {
   return (
     <section className="container section hairline">
       <div data-reveal="fade">
-        <Eyebrow>Kurs</Eyebrow>
+        <Eyebrow>{tr("Kurs")}</Eyebrow>
       </div>
       <CourseTeaser course={courses[0]} />
     </section>

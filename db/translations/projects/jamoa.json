@@ -1,0 +1,96 @@
+{
+  "ru": {
+    "name": "Бот учёта посещаемости и задач",
+    "summary": "Сотрудники отмечают приход на работу и сдают выполненные задачи. Руководитель видит посещаемость, выполненную работу и запросы на отгул.",
+    "description": "Внутренний Telegram-бот, которым сотрудники пользуются каждый день. Сотрудник отмечает приход с геолокацией, получает задачи на день и сдаёт выполненное с фото или комментарием. Запросы на отпуск и отгул — тоже здесь. В конце дня руководитель получает сводку: кто пришёл, кто опоздал и какие задачи не выполнены.",
+    "purpose": "Перевести контроль из звонков и хаоса в групповых чатах в одну понятную систему.",
+    "features": [
+      "Отметка прихода и ухода с геолокацией",
+      "Задачи и сроки на день для каждого сотрудника",
+      "Сдача задачи с фото или комментарием",
+      "Запросы на отпуск, больничный и отгул",
+      "Сводка для руководителя в конце дня",
+      "Табель посещаемости за месяц — для расчёта зарплаты",
+      "По филиалам и отделам"
+    ],
+    "platforms": ["Telegram-бот", "Веб-панель"],
+    "problem": "Кто пришёл на работу, кто опоздал — руководитель выясняет звонками. Задачи дают в общем чате, и они теряются среди сообщений. В конце месяца посещаемость и зарплата становятся предметом споров.",
+    "ownerView": ["Кто пришёл, кто опоздал — каждое утро", "Невыполненные задачи", "Запросы на отпуск и отгул — в одну кнопку", "Табель посещаемости за месяц"],
+    "fit": ["Сети магазинов", "Кафе и рестораны", "Строительные бригады", "Клининговые службы", "Производство", "Компании с филиалами"]
+  },
+  "en": {
+    "name": "Attendance and task bot",
+    "summary": "Employees check in when they arrive and hand in completed tasks. The manager sees attendance, finished work and time-off requests.",
+    "description": "An internal Telegram bot your team uses every day. Employees check in with their location, get their daily tasks and submit finished work with a photo or comment. Leave and time-off requests live here too. At the end of the day the manager gets a summary: who came in, who was late and which tasks weren’t done.",
+    "purpose": "To move oversight from phone calls and chaotic group chats into one clear system.",
+    "features": [
+      "Check-in and check-out with location",
+      "Daily tasks and deadlines for each employee",
+      "Submit tasks with a photo or comment",
+      "Leave, sick day and time-off requests",
+      "End-of-day summary for the manager",
+      "Monthly attendance sheet — ready for payroll",
+      "By branch and department"
+    ],
+    "platforms": ["Telegram bot", "Web dashboard"],
+    "problem": "The manager finds out who came to work and who was late by calling around. Tasks are handed out in a group chat and get lost among the messages. At the end of the month, attendance and pay turn into arguments.",
+    "ownerView": ["Who came in and who was late — every morning", "Unfinished tasks", "Leave and time-off requests in one tap", "Monthly attendance sheet"],
+    "fit": ["Retail chains", "Cafes and restaurants", "Construction crews", "Cleaning services", "Manufacturing", "Companies with branches"]
+  },
+  "steps": [
+    { "ru": { "title": "Настройка", "text": "Вносим сотрудников, филиалы, рабочее время и геолокации." }, "en": { "title": "Setup", "text": "We add employees, branches, working hours and locations." } },
+    { "ru": { "title": "Приход", "text": "Сотрудник нажимает в боте «Я на месте» и отправляет геолокацию." }, "en": { "title": "Check-in", "text": "The employee taps “I’m here” in the bot and shares their location." } },
+    { "ru": { "title": "Задачи", "text": "Сотрудник получает задачи на день и сдаёт выполненное." }, "en": { "title": "Tasks", "text": "The employee gets the day’s tasks and submits completed work." } },
+    { "ru": { "title": "Запросы", "text": "Запрос на отпуск или отгул уходит руководителю, он решает одной кнопкой." }, "en": { "title": "Requests", "text": "Leave or time-off requests go to the manager, who decides with one tap." } },
+    { "ru": { "title": "Итоги дня", "text": "Руководитель получает сводку по посещаемости и задачам." }, "en": { "title": "End of day", "text": "The manager gets a summary of attendance and tasks." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Посещаемость выясняют звонками", "after": "Каждое утро готовый список" }, "en": { "before": "Attendance is checked by phone", "after": "A ready list every morning" } },
+    { "ru": { "before": "Задачи теряются в групповом чате", "after": "У каждого сотрудника свой список задач" }, "en": { "before": "Tasks get lost in the group chat", "after": "Each employee has their own task list" } },
+    { "ru": { "before": "Выполненная работа остаётся на словах", "after": "Сдаётся с фото или комментарием" }, "en": { "before": "Finished work is just word of mouth", "after": "It’s submitted with a photo or comment" } },
+    { "ru": { "before": "Расчёт зарплаты вызывает споры", "after": "Табель посещаемости точный" }, "en": { "before": "Payroll leads to disputes", "after": "The attendance sheet is accurate" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Не сможет ли сотрудник нажать «Я на месте» из дома?", "a": "Бот проверяет геолокацию: отметка принимается только в пределах заданного расстояния от рабочего места." }, "en": { "q": "Can’t an employee tap “I’m here” from home?", "a": "The bot checks the location: check-ins are accepted only within a set distance of the workplace." } },
+    { "ru": { "q": "Работает в нескольких филиалах?", "a": "Да, у каждого филиала своя геолокация, рабочее время и ответственный; руководитель получает общую сводку и по каждому филиалу." }, "en": { "q": "Does it work across several branches?", "a": "Yes, each branch has its own location, hours and supervisor; the manager gets an overall summary and one per branch." } },
+    { "ru": { "q": "Он считает и зарплату?", "a": "Табель посещаемости и опозданий будет готов для расчёта зарплаты; его можно подключить и к вашей учётной системе." }, "en": { "q": "Does it calculate payroll too?", "a": "The attendance and lateness sheet is ready for payroll, and it can also be connected to your accounting system." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Сифат · команда" },
+    "en": { "bot": "Sifat · team" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Доброе утро, Ойбек! Работа начинается в 9:00."], "buttons": ["Я на месте · геолокация"] },
+        "en": { "messages": ["Good morning, Oybek! Work starts at 9:00."], "buttons": ["I’m here · location"] }
+      },
+      {
+        "ru": { "messages": ["Отмечено: 8:52, филиал Чиланзар. Ваши задачи на сегодня:"], "card": { "title": "Задачи · 3", "lines": ["1. Выложить новый товар на витрину", "2. Сдать кассовый отчёт до 18:00", "3. Пересчитать остатки на складе"] }, "buttons": ["Задача 1 выполнена", "Попросить отгул"], "owner": { "title": "Посещаемость: Чиланзар", "lines": ["Ойбек — 8:52", "Сардор — ещё не пришёл"] } },
+        "en": { "messages": ["Checked in: 8:52, Chilanzar branch. Your tasks for today:"], "card": { "title": "Tasks · 3", "lines": ["1. Put the new products on display", "2. Submit the cash report by 18:00", "3. Count the warehouse stock"] }, "buttons": ["Task 1 done", "Request time off"], "owner": { "title": "Attendance: Chilanzar", "lines": ["Oybek — 8:52", "Sardor — not in yet"] } }
+      },
+      {
+        "ru": { "messages": ["Отправьте фото витрины, чтобы руководитель мог посмотреть."], "buttons": ["Отправить фото"] },
+        "en": { "messages": ["Send a photo of the display so the manager can see it."], "buttons": ["Send a photo"] }
+      },
+      {
+        "ru": { "messages": ["Принято. Осталось 2 задачи."], "buttons": ["Итоги дня"], "owner": { "title": "Задача выполнена", "lines": ["Ойбек: витрина готова · с фото", "Чиланзар · 10:14"] } },
+        "en": { "messages": ["Received. 2 tasks left."], "buttons": ["End of day"], "owner": { "title": "Task completed", "lines": ["Oybek: display ready · with photo", "Chilanzar · 10:14"] } }
+      },
+      {
+        "ru": { "messages": ["Когда и по какой причине?"], "buttons": ["Завтра, по семейным обстоятельствам"] },
+        "en": { "messages": ["When, and for what reason?"], "buttons": ["Tomorrow, family reasons"] }
+      },
+      {
+        "ru": { "messages": ["Ваш запрос отправлен руководителю. Сообщу, как только придёт ответ."], "buttons": ["Ответ руководителя"], "owner": { "title": "Запрос на отгул", "lines": ["Ойбек · завтра · семейные обстоятельства", "Разрешить / Отклонить"] } },
+        "en": { "messages": ["Your request has been sent to the manager. I’ll let you know as soon as they reply."], "buttons": ["Manager’s reply"], "owner": { "title": "Time-off request", "lines": ["Oybek · tomorrow · family reasons", "Approve / Decline"] } }
+      },
+      {
+        "ru": { "messages": ["Руководитель разрешил: завтра у вас выходной. Вместо вас назначен Сардор."], "buttons": ["Итоги дня"], "owner": { "title": "Отгул разрешён", "lines": ["Ойбек — завтра выходной", "Замена: Сардор"] } },
+        "en": { "messages": ["The manager approved it: you’re off tomorrow. Sardor will cover for you."], "buttons": ["End of day"], "owner": { "title": "Time off approved", "lines": ["Oybek — off tomorrow", "Cover: Sardor"] } }
+      },
+      {
+        "ru": { "messages": ["Рабочий день завершён. Сводка отправлена руководителю."], "owner": { "title": "Итоги дня · 20 ноября", "lines": ["Пришли: 14/15 · опоздал: 1", "Задачи: выполнено 38/42", "4 невыполненные — перенесены на завтра"] } },
+        "en": { "messages": ["The workday is over. The summary has been sent to the manager."], "owner": { "title": "End of day · November 20", "lines": ["Present: 14/15 · late: 1", "Tasks: 38/42 done", "4 unfinished — moved to tomorrow"] } }
+      }
+    ]
+  }
+}

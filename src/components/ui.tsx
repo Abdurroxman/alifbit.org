@@ -1,6 +1,7 @@
 import { Children, Fragment, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { tr } from "../lib/i18n";
 
 export function Arrow({ size = 18 }: { size?: number }) {
   return <ArrowUpRight size={size} strokeWidth={1.6} aria-hidden="true" />;
@@ -59,14 +60,14 @@ export function ButtonLink({
 export function PriceNote() {
   return (
     <p className="price-note">
-      Saytdagi narx — boshlang‘ich narx. Aniq narx ish hajmi va sifatiga qarab kelishiladi.
+      {tr("Saytdagi narx — boshlang‘ich narx. Aniq narx ish hajmi va sifatiga qarab kelishiladi.")}
     </p>
   );
 }
 
 /** Aniq narx ustidagi kichik yozuv. Narx yozilmagan («kelishiladi») joyda qo'yilmaydi. */
 export function PriceLabel() {
-  return <small className="price-label">Boshlang‘ich narx</small>;
+  return <small className="price-label">{tr("Boshlang‘ich narx")}</small>;
 }
 
 export function Eyebrow({ children }: { children: ReactNode }) {
@@ -84,8 +85,8 @@ export function TextLink({ to, children }: { to: string; children: ReactNode }) 
 
 export function Breadcrumb({ name }: { name: string }) {
   return (
-    <nav className="breadcrumb" aria-label="Sahifa yo‘li">
-      <Link to="/">Bosh sahifa</Link>
+    <nav className="breadcrumb" aria-label={tr("Sahifa yo‘li")}>
+      <Link to="/">{tr("Bosh sahifa")}</Link>
       <span aria-hidden="true">/</span>
       <span aria-current="page">{name}</span>
     </nav>
@@ -210,22 +211,22 @@ export function ContactBand() {
       <div className="container contact-band-inner">
         <div>
           <div data-reveal="fade">
-            <Eyebrow>Buyurtma</Eyebrow>
+            <Eyebrow>{tr("Buyurtma")}</Eyebrow>
           </div>
           <Lines>
             {[
-              "Loyihangiz bormi?",
+              tr("Loyihangiz bormi?"),
               <span className="accent" key="a">
-                Puxta qilib beramiz.
+                {tr("Puxta qilib beramiz.")}
               </span>,
             ]}
           </Lines>
         </div>
         <div className="contact-band-side" data-reveal style={{ "--d": 200 } as CSSProperties}>
           <ButtonLink to="/contact" magnetic>
-            Buyurtma berish
+            {tr("Buyurtma berish")}
           </ButtonLink>
-          <p>Birinchi qadam — oddiy suhbat.</p>
+          <p>{tr("Birinchi qadam — oddiy suhbat.")}</p>
         </div>
       </div>
     </section>

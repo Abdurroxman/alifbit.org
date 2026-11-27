@@ -1321,3 +1321,109 @@ body:has(.ad-login) {
   min-width: 0;
   overflow: hidden;
 }
+
+/* Tarjima bo'limi: o'zbekcha matn ostida ruscha yoki inglizcha maydon */
+.ad-tr-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ad-tr-langs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.ad-tr-langs button {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.ad-tr-langs button.is-active {
+  color: var(--forest-ink);
+  background: var(--active-tint, rgba(46, 125, 80, 0.12));
+}
+.ad-tr-group {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-m, 16px);
+}
+.ad-tr-group legend {
+  padding: 0 8px;
+  font-family: var(--font-head);
+  font-weight: 600;
+}
+.ad-tr-row {
+  display: grid;
+  gap: 6px;
+}
+.ad-tr-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.ad-tr-label em {
+  font-style: normal;
+  font-weight: 500;
+  color: #b45309;
+}
+.ad-tr-row.is-stale .input {
+  border-color: #d97706;
+}
+.ad-tr-row.is-empty .input {
+  border-style: dashed;
+}
+.ad-tr-src {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  white-space: pre-line;
+}
+.ad-tr-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+.ad-tr-list li {
+  display: grid;
+  gap: 4px;
+}
+.ad-tr-media {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.ad-tr-media img {
+  height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.ad-tr-save {
+  display: flex;
+  justify-content: flex-end;
+}
+.ad-tr-cats {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 2fr 2fr;
+  gap: 10px 12px;
+  align-items: center;
+}
+.ad-tr-cat {
+  display: contents;
+}
+.ad-tr-cats > b {
+  font-size: 14px;
+}

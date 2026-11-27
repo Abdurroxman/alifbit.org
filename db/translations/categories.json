@@ -1,0 +1,22 @@
+{
+  "ru": {
+    "Dasturlar": "Программы",
+    "Telegram": "Telegram",
+    "Ta’lim": "Обучение",
+    "Kitoblar": "Книги",
+    "Media": "Медиа",
+    "AI": "AI",
+    "Boshqa": "Другое",
+    "Saytlar": "Сайты"
+  },
+  "en": {
+    "Dasturlar": "Software",
+    "Telegram": "Telegram",
+    "Ta’lim": "Education",
+    "Kitoblar": "Books",
+    "Media": "Media",
+    "AI": "AI",
+    "Boshqa": "Other",
+    "Saytlar": "Websites"
+  }
+}

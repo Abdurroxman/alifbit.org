@@ -1,3 +1,4 @@
+import { mk } from "./i18n.ts";
 export type Project = {
   id: string;
   slug: string;
@@ -112,9 +113,9 @@ export type Course = {
 export const serviceIcons = ["web", "design", "telegram", "app", "ai", "integration", "seo", "support", "audit", "ads"] as const;
 /** Har bir loyihaga qo'shib beriladigan xizmatlar: xizmat kartasi va sahifasida «Har bir loyihada» qatori. */
 export const PROMISES: Array<[string, string]> = [
-  ["3 oy bepul texnik yordam", "Ishga tushgandan keyin xatolarni tuzatamiz va savollaringizga javob beramiz."],
-  ["Qanday foydalanishni o‘rgatamiz", "Admin panel va kundalik ish bilan ishlashni ko‘rsatib beramiz."],
-  ["1 yil xatolarga kafolat", "Bizning aybimiz bilan chiqqan xatoni bir yil davomida bepul tuzatamiz."],
+  [mk("3 oy bepul texnik yordam"), mk("Ishga tushgandan keyin xatolarni tuzatamiz va savollaringizga javob beramiz.")],
+  [mk("Qanday foydalanishni o‘rgatamiz"), mk("Admin panel va kundalik ish bilan ishlashni ko‘rsatib beramiz.")],
+  [mk("1 yil xatolarga kafolat"), mk("Bizning aybimiz bilan chiqqan xatoni bir yil davomida bepul tuzatamiz.")],
 ];
 /** «demo» — muqova loyihaning demo suhbatidan chiziladi. */
 export const projectCovers = ["dalolat", "voice", "custom", "demo"] as const;
@@ -428,50 +429,50 @@ export const initialServices: Service[] = [
 export const TELEGRAM_URL = "https://t.me/alifbitbot?start=alifbit";
 export const copy = {
   uz: {
-    tagline: "Nima kerakligini ayting, qanday qilishni birga kelishamiz.",
+    tagline: mk("Nima kerakligini ayting, qanday qilishni birga kelishamiz."),
     nav: [
-      ["Xizmatlar", "/services"],
-      ["Loyihalar", "/projects"],
-      ["Kurslar", "/courses"],
-      ["Biz haqimizda", "/about"],
+      [mk("Xizmatlar"), "/services"],
+      [mk("Loyihalar"), "/projects"],
+      [mk("Kurslar"), "/courses"],
+      [mk("Biz haqimizda"), "/about"],
     ],
     hero: {
-      title: "Sizga nima kerak?",
-      text: "Xizmatni tanlab, narxi, muddati va nimalar kirishini ko‘ring.",
+      title: mk("Sizga nima kerak?"),
+      text: mk("Xizmatni tanlab, narxi, muddati va nimalar kirishini ko‘ring."),
     },
   },
 };
 export const routeMeta: Record<string, [string, string]> = {
   "/": [
-    "AlifBit — sayt, Telegram bot, AI yordamchi va ilovalar yaratish studiyasi",
-    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, to‘lov tizimlarini ulash, qidiruvga moslash va texnik xizmat: har bir xizmat tarkibi, narxi va muddati. Loyihalar, namunalar va AI yordamida sayt va bot yaratish kursi.",
+    mk("AlifBit — sayt, Telegram bot, AI yordamchi va ilovalar yaratish studiyasi"),
+    mk("Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, to‘lov tizimlarini ulash, qidiruvga moslash va texnik xizmat: har bir xizmat tarkibi, narxi va muddati. Loyihalar, namunalar va AI yordamida sayt va bot yaratish kursi."),
   ],
   "/projects": [
-    "Loyihalar va namunalar — AlifBit",
-    "Sado va biznes uchun tayyor yechimlar: yozilish boti, Telegram do‘kon, AI yordamchi, CRM va boshqalar. Har birining qanday ishlashini demo’da sinab ko‘ring.",
+    mk("Loyihalar va namunalar — AlifBit"),
+    mk("Sado va biznes uchun tayyor yechimlar: yozilish boti, Telegram do‘kon, AI yordamchi, CRM va boshqalar. Har birining qanday ishlashini demo’da sinab ko‘ring."),
   ],
   "/services": [
-    "Xizmatlar va narxlar — AlifBit",
-    "Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama: tarkibi, paketlar, narxlar va muddatlar.",
+    mk("Xizmatlar va narxlar — AlifBit"),
+    mk("Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama: tarkibi, paketlar, narxlar va muddatlar."),
   ],
   "/courses": [
-    "Kurslar — AlifBit",
-    "AI yordamida sayt va Telegram bot yasashni o‘rganing.",
+    mk("Kurslar — AlifBit"),
+    mk("AI yordamida sayt va Telegram bot yasashni o‘rganing."),
   ],
   "/about": [
-    "Biz haqimizda — AlifBit",
-    "AlifBit — sayt, Telegram bot va ilovalar yaratadigan kichik studiya. Loyihangizni muhokama qilib, bajariladigan ishlar, narx va muddatni oldindan kelishamiz.",
+    mk("Biz haqimizda — AlifBit"),
+    mk("AlifBit — sayt, Telegram bot va ilovalar yaratadigan kichik studiya. Loyihangizni muhokama qilib, bajariladigan ishlar, narx va muddatni oldindan kelishamiz."),
   ],
   "/contact": [
-    "Buyurtma berish — AlifBit",
-    "Loyihangiz haqida yozing: narx va muddatni birga aniqlaymiz.",
+    mk("Buyurtma berish — AlifBit"),
+    mk("Loyihangiz haqida yozing: narx va muddatni birga aniqlaymiz."),
   ],
   "/privacy": [
-    "Maxfiylik siyosati — AlifBit",
-    "Murojaat ma’lumotlari, ularni saqlash va o‘chirish tartibi.",
+    mk("Maxfiylik siyosati — AlifBit"),
+    mk("Murojaat ma’lumotlari, ularni saqlash va o‘chirish tartibi."),
   ],
   "/journal": [
-    "Qaydlar — AlifBit",
-    "Texnologiya, ilm va ijod haqida AlifBit qaydlari.",
+    mk("Qaydlar — AlifBit"),
+    mk("Texnologiya, ilm va ijod haqida AlifBit qaydlari."),
   ],
 };

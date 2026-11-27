@@ -1,0 +1,102 @@
+{
+  "ru": {
+    "name": "Все заявки в одном месте",
+    "summary": "Заявки с сайта, из Telegram и Instagram попадают в один список. Каждой назначается ответственный, о неотвеченных приходит напоминание.",
+    "description": "Откуда бы ни пришла заявка — форма сайта, директ Instagram, Telegram-бот или рекламная форма — система собирает всё в один список. Каждая заявка записывается с источником, назначается следующему по очереди менеджеру, и ему приходит уведомление в Telegram. О заявке без ответа система напоминает, а в конце месяца видно, какой источник привёл больше клиентов.",
+    "purpose": "Чтобы ни одна заявка не потерялась и было понятно, куда уходят деньги на рекламу.",
+    "features": [
+      "Сбор из формы сайта, Instagram, Telegram и рекламных форм",
+      "Запись в Google Sheets, amoCRM или Bitrix24",
+      "Распределение по менеджерам по очереди",
+      "Мгновенное уведомление менеджеру в Telegram",
+      "Напоминание о заявке без ответа и уведомление руководителю",
+      "Объединение повторных заявок одного клиента",
+      "Ежемесячный отчёт по источникам"
+    ],
+    "platforms": ["Интеграция", "Telegram-бот", "Google Sheets / CRM"],
+    "problem": "Заявки приходят в пять мест: форма сайта — на почту, Instagram — в директ, Telegram — в личный чат. Менеджеры проверяют каждое отдельно: какие-то заявки видят с опозданием на день, какие-то не видят вовсе. А какая реклама работает, не знает никто.",
+    "customerView": ["Быстрый ответ, в каком бы канале клиент ни написал", "Не нужно задавать один и тот же вопрос дважды"],
+    "ownerView": ["Все заявки в одном списке", "Источник и ответственный менеджер у каждой заявки", "Заявки без ответа", "Ежемесячный отчёт по источникам"],
+    "fit": ["Недвижимость", "Учебные центры", "Клиники", "Ремонт и строительство", "Автосалоны", "Любой бизнес, который даёт рекламу"]
+  },
+  "en": {
+    "name": "All leads in one place",
+    "summary": "Leads from your website, Telegram and Instagram land in a single list. Each gets an owner, and you’re reminded about unanswered ones.",
+    "description": "Wherever a lead comes from — a website form, an Instagram DM, a Telegram bot or an ad form — the system collects them all into one list. Each lead is recorded with its source, assigned to the next manager in line, and that manager gets a Telegram alert. The system reminds you about unanswered leads, and at the end of the month you see which source brought the most customers.",
+    "purpose": "So no lead gets lost and you know where your ad budget is going.",
+    "features": [
+      "Collects from website forms, Instagram, Telegram and ad forms",
+      "Writes to Google Sheets, amoCRM or Bitrix24",
+      "Round-robin assignment to managers",
+      "Instant Telegram alert to the manager",
+      "Reminders about unanswered leads, with escalation to the owner",
+      "Merges duplicate leads from the same customer",
+      "Monthly report by source"
+    ],
+    "platforms": ["Integration", "Telegram bot", "Google Sheets / CRM"],
+    "problem": "Leads arrive in five places: website forms go to email, Instagram to DMs, Telegram to a personal chat. Managers check each one separately — some leads are seen a day late, some never. And nobody knows which ads actually work.",
+    "customerView": ["A quick reply, whichever channel they use", "No need to ask the same question twice"],
+    "ownerView": ["All leads in one list", "Each lead’s source and responsible manager", "Unanswered leads", "Monthly report by source"],
+    "fit": ["Real estate", "Training centers", "Clinics", "Renovation and construction", "Car dealerships", "Any business that runs ads"]
+  },
+  "steps": [
+    { "ru": { "title": "Источники", "text": "Подключаем форму сайта, Instagram, Telegram и рекламные формы." }, "en": { "title": "Sources", "text": "We connect your website form, Instagram, Telegram and ad forms." } },
+    { "ru": { "title": "Один список", "text": "Каждая заявка попадает в таблицу или CRM с источником, временем и контактами." }, "en": { "title": "One list", "text": "Each lead lands in a sheet or CRM with its source, time and contact details." } },
+    { "ru": { "title": "Назначение", "text": "Заявка достаётся следующему по очереди менеджеру, ему приходит уведомление в Telegram." }, "en": { "title": "Assignment", "text": "The lead goes to the next manager in line, who gets a Telegram alert." } },
+    { "ru": { "title": "Контроль", "text": "Нет ответа за 15 минут — напоминание менеджеру, затем уведомление руководителю." }, "en": { "title": "Follow-up", "text": "No reply in 15 minutes — a reminder to the manager, then an alert to the owner." } },
+    { "ru": { "title": "Отчёт", "text": "В конце месяца: сколько заявок пришло из каждого источника и сколько стали клиентами." }, "en": { "title": "Report", "text": "At the end of the month: how many leads came from each source and how many became customers." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Заявки разбросаны по пяти местам", "after": "Всё в одной таблице или CRM" }, "en": { "before": "Leads are scattered across five places", "after": "Everything is in one sheet or CRM" } },
+    { "ru": { "before": "Заявку видят с опозданием", "after": "Менеджеру сразу приходит уведомление, при задержке — напоминание" }, "en": { "before": "Leads are seen late", "after": "The manager is alerted instantly and reminded if they’re slow" } },
+    { "ru": { "before": "Непонятно, кто ответил", "after": "У каждой заявки есть ответственный менеджер" }, "en": { "before": "It’s unclear who replied", "after": "Every lead has a responsible manager" } },
+    { "ru": { "before": "Эффективность рекламы оценивают на глаз", "after": "Точно известно, сколько клиентов дал каждый источник" }, "en": { "before": "Ad performance is guesswork", "after": "You know exactly how many customers each source brought" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Можно ли подключить директ Instagram?", "a": "Да, через бизнес-аккаунт Instagram подключаются сообщения директа и рекламные формы." }, "en": { "q": "Can Instagram DMs be connected?", "a": "Yes, DMs and ad forms are connected through an Instagram business account." } },
+    { "ru": { "q": "У нас уже есть amoCRM — это нужно?", "a": "Да, система как раз правильно доставляет заявки в вашу CRM. Если CRM нет, хватит Google Sheets." }, "en": { "q": "We already have amoCRM — do we need this?", "a": "Yes, the system is exactly what gets leads into your existing CRM correctly. Without a CRM, Google Sheets is enough." } },
+    { "ru": { "q": "А если один клиент напишет из двух мест?", "a": "Повторные заявки объединяются в одну карточку по телефону или username." }, "en": { "q": "What if one customer writes from two places?", "a": "Duplicate leads are merged into one card by phone number or username." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Заявки" },
+    "en": { "bot": "Leads" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Новая заявка! Источник: рекламная форма Instagram."], "card": { "title": "Заявка №531", "lines": ["Имя: Шохрух", "Телефон: +998 93 *** ** 47", "Интерес: 2-комнатная квартира, Юнусабад", "Ответственный: вы (по очереди)"] }, "buttons": ["Я позвонил", "Позже"], "owner": { "title": "Таблица: +1 заявка", "lines": ["№531 · Instagram · Шохрух", "Статус: новая · ответственный: Камола"] } },
+        "en": { "messages": ["New lead! Source: Instagram ad form."], "card": { "title": "Lead #531", "lines": ["Name: Shokhrukh", "Phone: +998 93 *** ** 47", "Interest: 2-room apartment, Yunusabad", "Owner: you (by rotation)"] }, "buttons": ["I called", "Later"], "owner": { "title": "Sheet: +1 lead", "lines": ["#531 · Instagram · Shokhrukh", "Status: new · owner: Kamola"] } }
+      },
+      {
+        "ru": { "messages": ["Хорошо. Напомню через 15 минут."], "buttons": ["Прошло 15 минут"] },
+        "en": { "messages": ["Okay. I’ll remind you in 15 minutes."], "buttons": ["15 minutes passed"] }
+      },
+      {
+        "ru": { "messages": ["Напоминание: №531 всё ещё без ответа. Если связи не будет ещё 15 минут, руководитель получит уведомление."], "buttons": ["Я позвонил"], "owner": { "title": "Заявка без ответа: №531", "lines": ["Прошло 15 минут", "Следующий шаг: уведомление руководителю"] } },
+        "en": { "messages": ["Reminder: #531 is still unanswered. If there’s no contact in another 15 minutes, the owner will be notified."], "buttons": ["I called"], "owner": { "title": "Unanswered lead: #531", "lines": ["15 minutes passed", "Next step: alert the owner"] } }
+      },
+      {
+        "ru": { "messages": ["Какой результат?"], "buttons": ["Записался на просмотр", "Подумает"] },
+        "en": { "messages": ["What was the outcome?"], "buttons": ["Booked a viewing", "Will think about it"] }
+      },
+      {
+        "ru": { "messages": ["Отлично! №531 переведена на этап «Назначен просмотр»."], "buttons": ["Следующая заявка"], "owner": { "title": "№531 → назначен просмотр", "lines": ["Источник: реклама в Instagram", "Время ответа зафиксировано"] } },
+        "en": { "messages": ["Great! #531 has moved to the “Viewing booked” stage."], "buttons": ["Next lead"], "owner": { "title": "#531 → viewing booked", "lines": ["Source: Instagram ad", "Response time recorded"] } }
+      },
+      {
+        "ru": { "messages": ["Понятно. Поставил задачу перезвонить через 3 дня."], "buttons": ["Следующая заявка"], "owner": { "title": "№531 → думает", "lines": ["Задача: перезвонить через 3 дня"] } },
+        "en": { "messages": ["Got it. I’ve set a task to call back in 3 days."], "buttons": ["Next lead"], "owner": { "title": "#531 → thinking it over", "lines": ["Task: call back in 3 days"] } }
+      },
+      {
+        "ru": { "messages": ["Новая заявка! Источник: форма сайта."], "card": { "title": "Заявка №532", "lines": ["Имя: Шохрух", "Телефон: +998 93 *** ** 47", "Комментарий: «По квартире в Юнусабаде»"] }, "buttons": ["Открыть карточку"] },
+        "en": { "messages": ["New lead! Source: website form."], "card": { "title": "Lead #532", "lines": ["Name: Shokhrukh", "Phone: +998 93 *** ** 47", "Comment: “About the apartment in Yunusabad”"] }, "buttons": ["Open the card"] }
+      },
+      {
+        "ru": { "messages": ["Этот клиент сегодня уже писал через Instagram. Обе заявки объединены в карточку №531 — звонить дважды не нужно."], "buttons": ["Отчёт за месяц"], "owner": { "title": "Повторная заявка объединена", "lines": ["№532 → №531", "Источники: Instagram, сайт"] } },
+        "en": { "messages": ["This customer also wrote via Instagram today. Both leads were merged into card #531 — no need to call twice."], "buttons": ["Monthly report"], "owner": { "title": "Duplicate lead merged", "lines": ["#532 → #531", "Sources: Instagram, website"] } }
+      },
+      {
+        "ru": { "messages": ["Ноябрь, по источникам:"], "card": { "title": "Заявки → клиенты", "lines": ["Реклама в Instagram — 64 → 11", "Форма сайта — 38 → 9", "Telegram — 21 → 6"] } },
+        "en": { "messages": ["November, by source:"], "card": { "title": "Leads → customers", "lines": ["Instagram ads — 64 → 11", "Website form — 38 → 9", "Telegram — 21 → 6"] } }
+      }
+    ]
+  }
+}

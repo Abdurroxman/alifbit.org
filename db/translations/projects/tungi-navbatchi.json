@@ -1,0 +1,135 @@
+{
+  "ru": {
+    "name": "AI-ассистент для клиентов",
+    "summary": "Отвечает на вопросы о ваших услугах и ценах. Записывает обращение и при необходимости передаёт его сотруднику.",
+    "description": "Ассистент отвечает на основе ваших цен, услуг и правил. Работает в Telegram или в окне чата на вашем сайте. Когда клиент называет, что ему нужно, свой бюджет и сроки, ассистент передаёт менеджеру заявку в виде аккуратной карточки. Если для ответа не хватает данных, вопрос уходит сотруднику.",
+    "purpose": "Чтобы клиент не ушёл к другим, не дождавшись ответа, а менеджер не отвечал весь день на одни и те же вопросы.",
+    "features": [
+      "Ответы о ценах, услугах, адресе и часах работы — из вашей базы знаний",
+      "На узбекском (латиница и кириллица) и русском",
+      "Выясняет, что нужно клиенту: потребность, бюджет, сроки",
+      "Передаёт сотруднику имя клиента, запрос и контакты",
+      "Переводит сложный или неясный вопрос на сотрудника",
+      "Ответы редактируются в админ-панели",
+      "История диалогов и самые частые вопросы"
+    ],
+    "platforms": ["Telegram-бот", "Чат на сайте"],
+    "problem": "Клиент пишет в 11 вечера и спрашивает цену. Пока менеджер ответит утром, он уже закажет у других. А днём большая часть времени менеджера уходит на одни и те же вопросы: «сколько стоит?», «где вы находитесь?».",
+    "customerView": ["Мгновенный и точный ответ на вопрос", "Понятное объяснение цен и услуг", "При необходимости — связь с живым сотрудником", "Подтверждение, что заявка принята"],
+    "ownerView": ["Каждая новая заявка — с именем, потребностью, бюджетом и сроками", "Вопросы, на которые ассистент не ответил, — отдельно", "История всех диалогов", "Список самых частых вопросов"],
+    "fit": ["Учебные центры", "Клиники", "Агентства недвижимости", "Ремонт и строительство", "Интернет-магазины", "Турфирмы"]
+  },
+  "en": {
+    "name": "AI assistant for customers",
+    "summary": "Answers questions about your services and prices. It records each request and forwards it to a staff member when needed.",
+    "description": "The assistant answers based on your prices, services and policies. It works on Telegram or in a chat window on your website. Once a customer says what they need, their budget and timeline, the assistant hands the manager a neat lead card. If there isn’t enough information to answer, the question goes to a staff member.",
+    "purpose": "So customers don’t leave while waiting for an answer, and managers don’t spend all day answering the same questions.",
+    "features": [
+      "Answers on prices, services, address and opening hours — from your own knowledge base",
+      "In Uzbek (Latin and Cyrillic) and Russian",
+      "Finds out what the customer needs: requirements, budget, timeline",
+      "Sends the customer’s name, request and contact details to your staff",
+      "Passes complex or unclear questions to a staff member",
+      "Edit answers in the admin panel",
+      "Conversation history and the most frequent questions"
+    ],
+    "platforms": ["Telegram bot", "Website chat"],
+    "problem": "A customer messages at 11 p.m. asking for a price. By the time the manager replies in the morning, they’ve already ordered elsewhere. During the day, much of the manager’s time goes to the same questions: “how much is it?”, “where are you located?”.",
+    "customerView": ["An instant, accurate answer", "A clear explanation of prices and services", "A live staff member when needed", "Confirmation that the request was received"],
+    "ownerView": ["Every new lead with name, needs, budget and timeline", "Questions the assistant couldn’t answer, listed separately", "History of all conversations", "A list of the most frequent questions"],
+    "fit": ["Training centers", "Clinics", "Real estate agencies", "Renovation and construction", "Online stores", "Travel agencies"]
+  },
+  "steps": [
+    { "ru": { "title": "Собираем знания", "text": "Сводим ваши цены, услуги, вопросы-ответы и правила в одну базу." }, "en": { "title": "We gather knowledge", "text": "We put your prices, services, FAQs and policies into one knowledge base." } },
+    { "ru": { "title": "Настраиваем тон", "text": "Определяем, как ассистент обращается к клиенту, чего он не обещает и когда зовёт сотрудника." }, "en": { "title": "We set the tone", "text": "We decide how the assistant addresses customers, what it never promises and when it calls a staff member." } },
+    { "ru": { "title": "Клиент пишет", "text": "Задаёт вопрос в Telegram или на сайте, ассистент отвечает мгновенно." }, "en": { "title": "The customer writes", "text": "They ask a question on Telegram or the website, and the assistant replies instantly." } },
+    { "ru": { "title": "Уточняет", "text": "Спрашивает нужную услугу, бюджет и сроки и заполняет заявку." }, "en": { "title": "It qualifies", "text": "It asks about the service, budget and timeline and fills in the lead." } },
+    { "ru": { "title": "Передаёт", "text": "Готовая заявка или вопрос без ответа приходит менеджеру в Telegram." }, "en": { "title": "It hands off", "text": "The finished lead or an unanswered question reaches the manager on Telegram." } },
+    { "ru": { "title": "Донастраиваем", "text": "В первый месяц просматриваем диалоги и уточняем ответы." }, "en": { "title": "We fine-tune", "text": "During the first month we review conversations and refine the answers." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Клиент, написавший ночью, ждёт ответа до утра", "after": "Ответ за несколько секунд, даже ночью" }, "en": { "before": "A customer who writes at night waits until morning", "after": "An answer in seconds, even at night" } },
+    { "ru": { "before": "Менеджер снова и снова отвечает на одни и те же вопросы", "after": "Менеджеру приходят только готовые заявки и сложные вопросы" }, "en": { "before": "The manager answers the same questions over and over", "after": "The manager gets only finished leads and complex questions" } },
+    { "ru": { "before": "Заявки теряются между чатами", "after": "Каждая заявка — в одной аккуратной карточке" }, "en": { "before": "Leads get lost between chats", "after": "Every lead lives in one neat card" } },
+    { "ru": { "before": "Бюджет и сроки выясняются потом", "after": "Они уже указаны в самой заявке" }, "en": { "before": "Budget and timeline are figured out later", "after": "They’re already in the lead itself" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Не ответит ли ассистент неправильно?", "a": "Он отвечает только на основе данных, которые дали вы. Если информации для ответа не хватает, он сообщает клиенту, что с ним свяжется сотрудник, и передаёт вопрос вам." }, "en": { "q": "Won’t the assistant give wrong answers?", "a": "It answers only from the information you provide. If there isn’t enough to answer, it tells the customer a staff member will get in touch and forwards the question to you." } },
+    { "ru": { "q": "Нужно ли отдельно платить за AI-сервис?", "a": "Да, расход AI-сервиса (токены) оплачивается отдельно. Мы заранее рассчитаем ежемесячные затраты исходя из количества диалогов." }, "en": { "q": "Is there a separate fee for the AI service?", "a": "Yes, AI service usage (tokens) is billed separately. We estimate the monthly cost upfront based on the number of conversations." } },
+    { "ru": { "q": "Что если мои цены изменятся?", "a": "Вы сами обновляете их в админ-панели — ассистент сразу начинает отвечать с новыми данными." }, "en": { "q": "What if my prices change?", "a": "You update them yourself in the admin panel, and the assistant starts using the new information right away." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Центр «Билим»" },
+    "en": { "bot": "Bilim Center" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Здравствуйте! Я ассистент учебного центра «Билим». Какое направление вас интересует?"], "buttons": ["Английский язык", "IT-курсы", "Другой вопрос"] },
+        "en": { "messages": ["Hello! I’m the assistant of the Bilim training center. Which course are you interested in?"], "buttons": ["English", "IT courses", "Another question"] }
+      },
+      {
+        "ru": { "messages": ["Группы английского: от начального уровня до IELTS. Занятия 3 раза в неделю по 90 минут.", "Оплата — 450 000 сум в месяц. Первое занятие бесплатно."], "buttons": ["Записаться на бесплатное занятие", "Где вы находитесь?"] },
+        "en": { "messages": ["English groups: from beginner to IELTS. Classes 3 times a week, 90 minutes each.", "Monthly fee: 450,000 UZS. The first lesson is free."], "buttons": ["Book a free lesson", "Where are you located?"] }
+      },
+      {
+        "ru": { "messages": ["Чиланзар, 9-й квартал, рядом с метро. Часы работы: 9:00–20:00, воскресенье — выходной."], "buttons": ["Записаться на бесплатное занятие"] },
+        "en": { "messages": ["Chilanzar, block 9, next to the metro. Open 9:00–20:00, closed on Sundays."], "buttons": ["Book a free lesson"] }
+      },
+      {
+        "ru": { "messages": ["IT-направление: Python, веб-разработка и компьютерная грамотность. Длительность — 4–6 месяцев.", "Цена — 550 000–700 000 сум в месяц, в зависимости от направления."], "buttons": ["Записаться на бесплатное занятие"] },
+        "en": { "messages": ["IT track: Python, web development and computer literacy. Duration: 4–6 months.", "Price: 550,000–700,000 UZS a month, depending on the course."], "buttons": ["Book a free lesson"] }
+      },
+      {
+        "ru": { "messages": ["Напишите ваш вопрос — если знаю ответ, отвечу сразу, если нет — передам менеджеру."], "buttons": ["«Можно платить частями?»"] },
+        "en": { "messages": ["Type your question — if I know the answer, I’ll reply right away; if not, I’ll pass it to our manager."], "buttons": ["“Can I pay in installments?”"] }
+      },
+      {
+        "ru": {
+          "messages": ["На этот вопрос точно ответит наш менеджер. Я передал ему ваш вопрос — он напишет в течение 15 минут."],
+          "buttons": ["Записаться на бесплатное занятие"],
+          "owner": { "title": "Вопрос без ответа → менеджеру", "lines": ["«Можно платить частями?»", "Клиент: Telegram, 23:14", "В базе нет ответа — нужен сотрудник"] }
+        },
+        "en": {
+          "messages": ["Our manager will give you an exact answer to this. I’ve passed your question on — they’ll reply within 15 minutes."],
+          "buttons": ["Book a free lesson"],
+          "owner": { "title": "Unanswered question → manager", "lines": ["“Can I pay in installments?”", "Customer: Telegram, 23:14", "No answer in the knowledge base — staff needed"] }
+        }
+      },
+      {
+        "ru": { "messages": ["Какое время вам удобно?"], "buttons": ["Утром, 9:00–12:00", "Вечером, 17:00–20:00"] },
+        "en": { "messages": ["What time suits you?"], "buttons": ["Morning, 9:00–12:00", "Evening, 17:00–20:00"] }
+      },
+      {
+        "ru": { "messages": ["Отправьте номер телефона — менеджер позвонит, чтобы подтвердить время."], "buttons": ["Отправить номер"] },
+        "en": { "messages": ["Send your phone number — the manager will call to confirm the time."], "buttons": ["Send my number"] }
+      },
+      {
+        "ru": { "messages": ["Отправьте номер телефона — менеджер позвонит, чтобы подтвердить время."], "buttons": ["Отправить номер"] },
+        "en": { "messages": ["Send your phone number — the manager will call to confirm the time."], "buttons": ["Send my number"] }
+      },
+      {
+        "ru": {
+          "messages": ["Спасибо, Дильшод! Вы записаны на бесплатное занятие. Менеджер сегодня позвонит и подтвердит точный день."],
+          "card": { "title": "Заявка №248", "lines": ["Бесплатное пробное занятие", "Удобное время: утро", "Телефон: +998 90 *** ** 12"] },
+          "owner": { "title": "Новая заявка №248", "lines": ["Дильшод · +998 90 *** ** 12", "Бесплатное пробное занятие · утро", "Источник: Telegram, 23:16"] }
+        },
+        "en": {
+          "messages": ["Thank you, Dilshod! You’re booked for a free lesson. The manager will call today to confirm the exact day."],
+          "card": { "title": "Request #248", "lines": ["Free trial lesson", "Preferred time: morning", "Phone: +998 90 *** ** 12"] },
+          "owner": { "title": "New request #248", "lines": ["Dilshod · +998 90 *** ** 12", "Free trial lesson · morning", "Source: Telegram, 23:16"] }
+        }
+      },
+      {
+        "ru": {
+          "messages": ["Спасибо, Дильшод! Вы записаны на бесплатное занятие. Менеджер сегодня позвонит и подтвердит точный день."],
+          "card": { "title": "Заявка №248", "lines": ["Бесплатное пробное занятие", "Удобное время: вечер", "Телефон: +998 90 *** ** 12"] },
+          "owner": { "title": "Новая заявка №248", "lines": ["Дильшод · +998 90 *** ** 12", "Бесплатное пробное занятие · вечер", "Источник: Telegram, 23:16"] }
+        },
+        "en": {
+          "messages": ["Thank you, Dilshod! You’re booked for a free lesson. The manager will call today to confirm the exact day."],
+          "card": { "title": "Request #248", "lines": ["Free trial lesson", "Preferred time: evening", "Phone: +998 90 *** ** 12"] },
+          "owner": { "title": "New request #248", "lines": ["Dilshod · +998 90 *** ** 12", "Free trial lesson · evening", "Source: Telegram, 23:16"] }
+        }
+      }
+    ]
+  }
+}

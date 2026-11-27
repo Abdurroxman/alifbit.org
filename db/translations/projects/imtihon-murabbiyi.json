@@ -1,0 +1,94 @@
+{
+  "ru": {
+    "name": "AI для проверки письменных и устных ответов",
+    "summary": "Разбирает эссе или устный ответ ученика, объясняет ошибки и ставит примерную оценку. Преподаватель следит за работами учеников.",
+    "description": "AI оценивает эссе или голосовой ответ ученика по критериям, близким к международным экзаменам: балл по каждому критерию, список ошибок и улучшенный вариант. Преподаватель видит, кому и в чём в группе трудно. Оценка ориентировочная — итоговое решение за преподавателем.",
+    "purpose": "Чтобы ученик больше практиковался дома, а преподаватель тратил меньше времени на проверку.",
+    "features": [
+      "Приём эссе и голосовых ответов",
+      "Баллы по критериям: соответствие заданию, связность, лексика, грамматика",
+      "Список ошибок с объяснениями",
+      "Пример улучшенного варианта",
+      "Тема и упражнение на каждый день",
+      "Еженедельный отчёт по группе для преподавателя",
+      "График прогресса ученика"
+    ],
+    "platforms": ["Telegram-бот", "AI"],
+    "problem": "В языковом центре на одного преподавателя приходятся десятки эссе. Проверка растягивается на дни, а ученик, не дождавшись ответа, бросает практику. Возможности самостоятельно тренировать устную речь почти нет.",
+    "customerView": ["Ежедневное задание", "Балл и комментарий за несколько минут", "Ошибки и улучшенный вариант", "Свой график прогресса"],
+    "ownerView": ["Еженедельный отчёт по группе", "По какому критерию группа отстаёт", "Ученики, бросившие практику", "История работ каждого ученика"],
+    "fit": ["Языковые центры", "Курсы подготовки к IELTS и CEFR", "Школы", "Частные преподаватели", "Онлайн-курсы"]
+  },
+  "en": {
+    "name": "AI that grades written and spoken answers",
+    "summary": "Analyzes a student’s essay or spoken answer, explains the mistakes and gives an estimated score. The teacher keeps track of students’ work.",
+    "description": "The AI grades a student’s essay or voice answer against criteria close to international exams: a score per criterion, a list of mistakes and an improved version. The teacher sees who in the group struggles with what. The score is a guide — the final call is the teacher’s.",
+    "purpose": "So students practice more at home and teachers spend less time grading.",
+    "features": [
+      "Accepts essays and voice answers",
+      "Scores by criterion: task response, coherence, vocabulary, grammar",
+      "List of mistakes with explanations",
+      "A sample improved version",
+      "A daily topic and exercise",
+      "Weekly group report for the teacher",
+      "Student progress chart"
+    ],
+    "platforms": ["Telegram bot", "AI"],
+    "problem": "In a language center, one teacher gets dozens of essays. Grading drags on for days, and students give up practicing while they wait. There’s almost no way to practice speaking on your own.",
+    "customerView": ["A daily assignment", "A score and comments within minutes", "Mistakes and an improved version", "A personal progress chart"],
+    "ownerView": ["Weekly group report", "Which criterion the group is weakest in", "Students who stopped practicing", "Each student’s work history"],
+    "fit": ["Language centers", "IELTS and CEFR prep courses", "Schools", "Private tutors", "Online courses"]
+  },
+  "steps": [
+    { "ru": { "title": "Задание", "text": "Бот каждый день даёт тему, или ученик выбирает свою." }, "en": { "title": "Assignment", "text": "The bot gives a topic every day, or the student picks their own." } },
+    { "ru": { "title": "Ответ", "text": "Ученик пишет эссе или отправляет голосовой ответ." }, "en": { "title": "Answer", "text": "The student writes an essay or sends a voice answer." } },
+    { "ru": { "title": "Оценка", "text": "AI ставит баллы по критериям и поясняет каждый." }, "en": { "title": "Grading", "text": "The AI scores each criterion and explains every score." } },
+    { "ru": { "title": "Ошибки", "text": "Даются список ошибок, правильный вариант и улучшенный пример." }, "en": { "title": "Mistakes", "text": "You get a list of mistakes, the correct version and an improved sample." } },
+    { "ru": { "title": "Отчёт", "text": "Преподаватель получает еженедельный отчёт по группе: кто по какому критерию отстаёт." }, "en": { "title": "Report", "text": "The teacher gets a weekly group report: who is behind on which criterion." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Проверку эссе ждут днями", "after": "Предварительная оценка и комментарий — за несколько минут" }, "en": { "before": "Essay grading takes days", "after": "A preliminary score and comments in minutes" } },
+    { "ru": { "before": "Устную речь тренируют только на уроке", "after": "Можно и дома отправить голосовой ответ и получить оценку" }, "en": { "before": "Speaking is practiced only in class", "after": "Students can send a voice answer from home and get a score" } },
+    { "ru": { "before": "Преподаватель проверяет каждое эссе с нуля", "after": "Преподаватель смотрит готовый разбор и ставит итоговую оценку" }, "en": { "before": "The teacher grades every essay from scratch", "after": "The teacher reviews a ready analysis and sets the final score" } },
+    { "ru": { "before": "Слабые места группы незаметны", "after": "Они чётко видны в еженедельном отчёте" }, "en": { "before": "The group’s weak spots go unnoticed", "after": "They show up clearly in the weekly report" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Оценка равна результату официального экзамена?", "a": "Нет. Оценка ориентировочная: разбор близок к официальным критериям, а итоговую оценку ставит преподаватель." }, "en": { "q": "Is the score equal to an official exam result?", "a": "No. The score is a guide: the analysis follows official criteria closely, and the teacher sets the final score." } },
+    { "ru": { "q": "Только для английского?", "a": "В основном для английского, но критерии и язык настраиваются — можно сделать и для русского или другого языка." }, "en": { "q": "Is it only for English?", "a": "Mainly for English, but the criteria and language are configurable — it can be set up for Russian or another language too." } },
+    { "ru": { "q": "Кто видит работы учеников?", "a": "Только центр и сам ученик; третьим лицам они не передаются." }, "en": { "q": "Who can see students’ work?", "a": "Only the center and the student; it’s never shared with third parties." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Lingva-тренер" },
+    "en": { "bot": "Lingva Coach" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Привет, Азиза! Тема на сегодня:\n«Some people think cities should ban cars from their centres. Do you agree?»", "Напишите эссе или отправьте голосовой ответ."], "buttons": ["Отправить эссе · 264 слова", "Голосовой ответ · 1:40"] },
+        "en": { "messages": ["Hi, Aziza! Today’s topic:\n“Some people think cities should ban cars from their centres. Do you agree?”", "Write an essay or send a voice answer."], "buttons": ["Send essay · 264 words", "Voice answer · 1:40"] }
+      },
+      {
+        "ru": { "messages": ["Ваше эссе проверено:"], "card": { "title": "Примерная оценка: 6.0", "lines": ["Соответствие заданию — 6.0", "Связность — 6.5", "Лексика — 5.5", "Грамматика — 6.0"] }, "buttons": ["Посмотреть ошибки", "Как расширить словарный запас?"], "owner": { "title": "Азиза Р. · эссе", "lines": ["Примерно 6.0 · слабая лексика", "4-я работа за неделю"] } },
+        "en": { "messages": ["Your essay has been checked:"], "card": { "title": "Estimated score: 6.0", "lines": ["Task response — 6.0", "Coherence — 6.5", "Vocabulary — 5.5", "Grammar — 6.0"] }, "buttons": ["See the mistakes", "How do I build my vocabulary?"], "owner": { "title": "Aziza R. · essay", "lines": ["Estimated 6.0 · weak vocabulary", "4th piece of work this week"] } }
+      },
+      {
+        "ru": { "messages": ["Ваш голосовой ответ разобран:"], "card": { "title": "Примерная оценка: 6.5", "lines": ["Беглость — 6.5", "Лексика — 6.0", "Грамматика — 6.5", "Произношение — 7.0"] }, "buttons": ["Как расширить словарный запас?"], "owner": { "title": "Азиза Р. · speaking", "lines": ["Примерно 6.5 · слабая лексика", "4-я работа за неделю"] } },
+        "en": { "messages": ["Your voice answer has been analyzed:"], "card": { "title": "Estimated score: 6.5", "lines": ["Fluency — 6.5", "Vocabulary — 6.0", "Grammar — 6.5", "Pronunciation — 7.0"] }, "buttons": ["How do I build my vocabulary?"], "owner": { "title": "Aziza R. · speaking", "lines": ["Estimated 6.5 · weak vocabulary", "4th piece of work this week"] } }
+      },
+      {
+        "ru": { "messages": ["Основные ошибки:"], "card": { "title": "3 ошибки", "lines": ["«more better» → «much better»", "«people is» → «people are»", "«In conclusion, I think that I agree» — повтор; достаточно «Overall, I agree»"] }, "buttons": ["Улучшенный вариант"] },
+        "en": { "messages": ["Main mistakes:"], "card": { "title": "3 mistakes", "lines": ["“more better” → “much better”", "“people is” → “people are”", "“In conclusion, I think that I agree” is repetitive; “Overall, I agree” is enough"] }, "buttons": ["Improved version"] }
+      },
+      {
+        "ru": { "messages": ["Слова «good», «bad» и «big» повторяются 9 раз. Вместо них: «beneficial», «harmful», «considerable». Попробуйте составить с ними два предложения."], "buttons": ["Улучшенный вариант"] },
+        "en": { "messages": ["The words “good”, “bad” and “big” appear 9 times. Try instead: “beneficial”, “harmful”, “considerable”. Write two sentences using them."], "buttons": ["Improved version"] }
+      },
+      {
+        "ru": { "messages": ["Улучшенный вариант вступления:\n«Banning private cars from city centres is a controversial idea, yet I believe its benefits for public health and traffic considerably outweigh the drawbacks.»"], "buttons": ["Завершить упражнение"] },
+        "en": { "messages": ["An improved introduction:\n“Banning private cars from city centres is a controversial idea, yet I believe its benefits for public health and traffic considerably outweigh the drawbacks.”"], "buttons": ["Finish the exercise"] }
+      },
+      {
+        "ru": { "messages": ["Молодец! На этой неделе вы сдали 4 работы. Завтра пришлю новую тему."], "owner": { "title": "Отчёт за неделю: группа B2", "lines": ["Активны 9 из 12 учеников", "Слабый критерий группы: лексика", "2 ученика не занимаются уже 5 дней"] } },
+        "en": { "messages": ["Well done! You’ve submitted 4 pieces of work this week. I’ll send a new topic tomorrow."], "owner": { "title": "Weekly report: B2 group", "lines": ["9 of 12 students active", "Group’s weakest criterion: vocabulary", "2 students haven’t practiced for 5 days"] } }
+      }
+    ]
+  }
+}

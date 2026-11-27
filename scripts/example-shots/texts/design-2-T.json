@@ -53,6 +53,114 @@
     "x": 76,
     "y": 299
    }
+  ],
+  "ru": [
+   {
+    "erase": [
+     76,
+     217,
+     396,
+     260
+    ],
+    "t": "Вклад 22%",
+    "size": 38,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "left",
+    "x": 76,
+    "y": 238
+   },
+   {
+    "erase": [
+     76,
+     283,
+     321,
+     315
+    ],
+    "t": "Годовых, онлайн",
+    "size": 26,
+    "color": "#4b5563",
+    "bold": false,
+    "align": "left",
+    "x": 76,
+    "y": 299
+   }
+  ],
+  "en": [
+   {
+    "erase": [
+     76,
+     217,
+     396,
+     260
+    ],
+    "t": "Deposit 22%",
+    "size": 38,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "left",
+    "x": 76,
+    "y": 238
+   },
+   {
+    "erase": [
+     76,
+     283,
+     321,
+     315
+    ],
+    "t": "Per year, online",
+    "size": 26,
+    "color": "#4b5563",
+    "bold": false,
+    "align": "left",
+    "x": 76,
+    "y": 299
+   }
   ]
- }
+ },
+ "ru": [
+  "Открыть вклад",
+  null,
+  null,
+  null,
+  "Шаг 2 из 4",
+  "Личные данные",
+  "Заполните как в паспорте",
+  "Ф.И.О.",
+  "Рахимов Азиз",
+  "Дата рождения",
+  "12.04.1990",
+  "Телефон",
+  "+998 90 123 45 67",
+  "Email",
+  "aziz@example.uz",
+  "Адрес",
+  "Ташкент, Чиланзар",
+  "Согласен с условиями",
+  "Разрешаю проверку моих данных",
+  "Продолжить"
+ ],
+ "en": [
+  "Open a deposit",
+  null,
+  null,
+  null,
+  "Step 2 of 4",
+  "Personal details",
+  "Fill in as in your passport",
+  "Full name",
+  "Aziz Rakhimov",
+  "Date of birth",
+  "12.04.1990",
+  "Phone",
+  "+998 90 123 45 67",
+  "Email",
+  "aziz@example.uz",
+  "Address",
+  "Tashkent, Chilanzar",
+  "I agree to the terms",
+  "I allow my details to be verified",
+  "Continue"
+ ]
 }

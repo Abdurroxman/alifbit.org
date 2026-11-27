@@ -1,0 +1,122 @@
+{
+  "ru": {
+    "name": "Сайт записи и оплаты курса",
+    "summary": "Ученик смотрит программу и цену курса и оплачивает. После подтверждения оплаты бот присылает ему ссылку на закрытый Telegram-канал.",
+    "description": "Готовая система продаж для онлайн-курса или марафона. На странице — программа курса, автор и тарифы. Когда ученик платит, система сама подтверждает оплату и через Telegram-бота выдаёт одноразовую ссылку в закрытый канал или группу. Перед окончанием подписки напоминает, а неоплативших удаляет из канала.",
+    "purpose": "Избавиться от ручной проверки чеков и добавления учеников в канал по одному.",
+    "features": [
+      "Страница курса: программа, автор, тарифы, вопросы и ответы",
+      "Оплата через Payme и Click",
+      "После оплаты — одноразовая ссылка в закрытый канал или группу",
+      "Ссылка работает для одного человека и один раз",
+      "Для месячной подписки — напоминание о сроке и автоматическое удаление",
+      "Промокоды и цена раннего бронирования",
+      "Список учеников и учёт оплат"
+    ],
+    "platforms": ["Сайт", "Telegram-бот"],
+    "problem": "Когда курс объявлен, директ переполнен: отправляешь номер карты, ждёшь фото чека, потом вручную добавляешь каждого ученика в канал. Кто-то передаёт ссылку другу, кто-то остаётся в канале, не оплатив подписку.",
+    "customerView": ["Полная страница о курсе", "Оплата картой в несколько нажатий", "Доступ в канал сразу после оплаты", "Напоминание о сроке подписки"],
+    "ownerView": ["Уведомление о каждой оплате и новом ученике", "Список учеников и тарифов", "Подписки, которые скоро закончатся", "Результаты промокодов"],
+    "fit": ["Авторы онлайн-курсов", "Эксперты и блогеры", "Марафоны", "Закрытые клубы и сообщества", "Онлайн-группы учебных центров"]
+  },
+  "en": {
+    "name": "Course enrollment and payment site",
+    "summary": "Students see the course curriculum and price and pay. Once payment is confirmed, the bot sends them a link to a private Telegram channel.",
+    "description": "A ready-made sales system for an online course or challenge. The page shows the curriculum, the author and the plans. When a student pays, the system confirms the payment automatically and the Telegram bot issues a one-time link to a private channel or group. It sends a reminder before the subscription ends and removes those who haven’t paid.",
+    "purpose": "No more checking receipts by hand or adding students to the channel one by one.",
+    "features": [
+      "Course page: curriculum, author, plans, FAQ",
+      "Payments via Payme and Click",
+      "A one-time link to a private channel or group after payment",
+      "Each link works for one person, once",
+      "For monthly subscriptions — renewal reminders and automatic removal",
+      "Promo codes and early-bird pricing",
+      "Student list and payment records"
+    ],
+    "platforms": ["Website", "Telegram bot"],
+    "problem": "When a course is announced, DMs overflow: you send your card number, wait for a receipt photo, then add every student to the channel by hand. Someone shares the link with a friend, someone stays in the channel without paying.",
+    "customerView": ["A complete course page", "Card payment in a few taps", "Channel access right after payment", "Subscription renewal reminders"],
+    "ownerView": ["An alert for every payment and new student", "List of students and plans", "Subscriptions about to expire", "Promo code results"],
+    "fit": ["Online course creators", "Experts and bloggers", "Challenges", "Private clubs and communities", "Online groups of training centers"]
+  },
+  "steps": [
+    { "ru": { "title": "Страница", "text": "Делаем страницу сайта с программой курса, тарифами и информацией об авторе." }, "en": { "title": "Page", "text": "We build a web page with the curriculum, plans and information about the author." } },
+    { "ru": { "title": "Оплата", "text": "Ученик выбирает тариф и платит через Payme или Click." }, "en": { "title": "Payment", "text": "The student chooses a plan and pays via Payme or Click." } },
+    { "ru": { "title": "Подтверждение", "text": "Платёжная система автоматически подтверждает оплату." }, "en": { "title": "Confirmation", "text": "The payment provider confirms the payment automatically." } },
+    { "ru": { "title": "Доступ", "text": "Бот выдаёт ученику одноразовую ссылку и добавляет его в канал." }, "en": { "title": "Access", "text": "The bot gives the student a one-time link and adds them to the channel." } },
+    { "ru": { "title": "Срок", "text": "При месячной подписке — напоминание перед окончанием, без оплаты — удаление из канала." }, "en": { "title": "Renewal", "text": "For monthly subscriptions — a reminder before it ends, and removal from the channel if unpaid." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Оплата по номеру карты и фото чека", "after": "Payme или Click — оплата подтверждается сама" }, "en": { "before": "Payment by card number and receipt photo", "after": "Payme or Click — payments confirm themselves" } },
+    { "ru": { "before": "Каждого ученика добавляют в канал вручную", "after": "Бот добавляет сразу после оплаты" }, "en": { "before": "Every student is added to the channel by hand", "after": "The bot adds them right after payment" } },
+    { "ru": { "before": "Ссылка расходится по друзьям", "after": "Каждая ссылка — для одного человека и один раз" }, "en": { "before": "The link gets shared with friends", "after": "Each link works for one person, once" } },
+    { "ru": { "before": "Неоплатившие остаются в канале", "after": "По окончании срока бот удаляет автоматически" }, "en": { "before": "People who didn’t pay stay in the channel", "after": "The bot removes them automatically when time runs out" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Курс проходит прямо на сайте?", "a": "Занятия, как обычно, проходят в закрытом Telegram-канале или группе. Сайт отвечает за продажи и оплату, а бот — за доступ и подписку." }, "en": { "q": "Does the course run on the website itself?", "a": "Lessons run as usual in a private Telegram channel or group. The website handles sales and payment, and the bot handles access and subscriptions." } },
+    { "ru": { "q": "Можно ли платить частями?", "a": "Да, можно сделать месячную подписку или оплату в несколько частей — бот следит за сроком каждой части." }, "en": { "q": "Can students pay in installments?", "a": "Yes, you can offer a monthly subscription or split payments — the bot tracks the due date of each installment." } },
+    { "ru": { "q": "Можно подключить мой существующий канал?", "a": "Да, добавим бота администратором в ваш канал, список учеников сохранится." }, "en": { "q": "Can it work with my existing channel?", "a": "Yes, we add the bot to your channel as an admin, and your student list is kept." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Академия «Мохир»" },
+    "en": { "bot": "Mohir Academy" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Здравствуйте! Это бот курса «Мобильная фотография». Выберите тариф:"], "card": { "title": "Тарифы", "lines": ["Стандарт — 390 000 сум · 6 недель", "С ментором — 690 000 сум · 6 недель + разбор работ"] }, "buttons": ["Стандарт", "У меня есть промокод"] },
+        "en": { "messages": ["Hello! This is the bot for the “Mobile Photography” course. Choose a plan:"], "card": { "title": "Plans", "lines": ["Standard — 390,000 UZS · 6 weeks", "With a mentor — 690,000 UZS · 6 weeks + work reviews"] }, "buttons": ["Standard", "I have a promo code"] }
+      },
+      {
+        "ru": { "messages": ["Промокод «KUZ10» принят: −10%. Тариф «Стандарт» — 351 000 сум."], "buttons": ["Перейти к оплате"] },
+        "en": { "messages": ["Promo code “KUZ10” applied: −10%. Standard plan — 351,000 UZS."], "buttons": ["Go to payment"] }
+      },
+      {
+        "ru": { "messages": ["К оплате: 390 000 сум."], "buttons": ["Через Click", "Через Payme"] },
+        "en": { "messages": ["Amount due: 390,000 UZS."], "buttons": ["Via Click", "Via Payme"] }
+      },
+      {
+        "ru": { "messages": ["К оплате: 351 000 сум."], "buttons": ["Через Click", "Через Payme"] },
+        "en": { "messages": ["Amount due: 351,000 UZS."], "buttons": ["Via Click", "Via Payme"] }
+      },
+      {
+        "ru": {
+          "messages": ["Оплата подтверждена. Добро пожаловать, Мохира!", "Ваша ссылка в закрытый канал — она только для вас и работает один раз."],
+          "card": { "title": "Вход в канал", "lines": ["«Мобильная фотография» · 5-й поток", "Занятия: понедельник и четверг, 20:00"] },
+          "buttons": ["За 3 дня до конца курса"],
+          "owner": { "title": "Новый ученик", "lines": ["Мохира С. · Стандарт · 390 000 сум", "Click · добавлена в канал", "Всего в 5-м потоке: 47 учеников"] }
+        },
+        "en": {
+          "messages": ["Payment confirmed. Welcome, Mohira!", "Here’s your link to the private channel — it’s just for you and works once."],
+          "card": { "title": "Channel access", "lines": ["“Mobile Photography” · cohort 5", "Lessons: Mondays and Thursdays, 20:00"] },
+          "buttons": ["3 days before the course ends"],
+          "owner": { "title": "New student", "lines": ["Mohira S. · Standard · 390,000 UZS", "Click · added to the channel", "Cohort 5 total: 47 students"] }
+        }
+      },
+      {
+        "ru": {
+          "messages": ["Оплата подтверждена. Добро пожаловать, Мохира!", "Ваша ссылка в закрытый канал — она только для вас и работает один раз."],
+          "card": { "title": "Вход в канал", "lines": ["«Мобильная фотография» · 5-й поток", "Занятия: понедельник и четверг, 20:00"] },
+          "buttons": ["За 3 дня до конца курса"],
+          "owner": { "title": "Новый ученик", "lines": ["Мохира С. · Стандарт · 351 000 сум", "Промокод: KUZ10 · добавлена в канал", "Всего в 5-м потоке: 47 учеников"] }
+        },
+        "en": {
+          "messages": ["Payment confirmed. Welcome, Mohira!", "Here’s your link to the private channel — it’s just for you and works once."],
+          "card": { "title": "Channel access", "lines": ["“Mobile Photography” · cohort 5", "Lessons: Mondays and Thursdays, 20:00"] },
+          "buttons": ["3 days before the course ends"],
+          "owner": { "title": "New student", "lines": ["Mohira S. · Standard · 351,000 UZS", "Promo code: KUZ10 · added to the channel", "Cohort 5 total: 47 students"] }
+        }
+      },
+      {
+        "ru": { "messages": ["Ваш курс заканчивается через 3 дня. Продолжение — «Мобильная фотография 2» — с 15 декабря. Для записавшихся заранее −15%."], "buttons": ["Запишусь", "Пока нет"] },
+        "en": { "messages": ["Your course ends in 3 days. The sequel, “Mobile Photography 2”, starts December 15. Early sign-ups get −15%."], "buttons": ["Sign me up", "Not for now"] }
+      },
+      {
+        "ru": { "messages": ["Отлично! Место во 2-м потоке забронировано за вами, ссылка на оплату придёт 1 декабря."], "owner": { "title": "Предзапись: 2-й поток", "lines": ["Мохира С. · −15%", "Всего во 2-м потоке: 12 человек"] } },
+        "en": { "messages": ["Great! A seat in cohort 2 is reserved for you; the payment link will arrive on December 1."], "owner": { "title": "Pre-registered: cohort 2", "lines": ["Mohira S. · −15%", "Cohort 2 total: 12 people"] } }
+      },
+      {
+        "ru": { "messages": ["Понятно. Поздравляем с окончанием курса! Канал закроется через 3 дня — сохраните материалы."], "owner": { "title": "Подписка заканчивается", "lines": ["Мохира С. · через 3 дня будет удалена из канала"] } },
+        "en": { "messages": ["Understood. Congratulations on finishing the course! The channel closes in 3 days — save the materials."], "owner": { "title": "Subscription ending", "lines": ["Mohira S. · removed from the channel in 3 days"] } }
+      }
+    ]
+  }
+}

@@ -46,6 +46,9 @@ import {
   type ServicePackage,
 } from "../../shared/content";
 import "../styles/admin.css";
+import { LANG_LABEL_UZ, type Lang } from "../../shared/i18n";
+import TranslationEditor, { CategoryTranslations } from "../components/TranslationEditor";
+import type { ContentKind } from "../../shared/i18n";
 
 type Order = {
   id: string;
@@ -56,6 +59,7 @@ type Order = {
   description: string;
   budget: string;
   deadline: string;
+  lang?: Lang;
   status: string;
   created_at: string;
   attachment_key: string | null;
@@ -434,6 +438,16 @@ export default function Admin() {
     } finally {
       setBusy(false);
     }
+  }
+  /** Tarjima saqlangach: ro'yxatlar yangilanadi va tahrirdagi yozuv bazadagi yangi nusxa bilan almashadi. */
+  async function reloadEdit() {
+    if (!edit) return;
+    const key = tab === "services" ? "slug" : "id";
+    const list = await api<Array<Record<string, unknown>>>(`/api/admin/${tab}`);
+    const fresh = list.find((x) => x[key] === (edit as unknown as Record<string, unknown>)[key]);
+    await refresh();
+    refreshPublic();
+    if (fresh) setEdit(fresh as unknown as Project | Service | Course | Article);
   }
   async function upload(file: File) {
     setBusy(true);
@@ -824,6 +838,7 @@ export default function Admin() {
           )}
 
           {edit && (
+            <>
             <form
               className="ad-editor"
               onSubmit={save}
@@ -859,6 +874,14 @@ export default function Admin() {
                 </button>
               </div>
             </form>
+            {"updated_at" in edit && (edit as { updated_at?: string }).updated_at && (
+              <TranslationEditor
+                kind={tab as ContentKind}
+                item={edit as unknown as Record<string, unknown>}
+                onSaved={reloadEdit}
+              />
+            )}
+            </>
           )}
 
           {tab === "orders" && !selected && (
@@ -924,6 +947,10 @@ export default function Admin() {
                   <div>
                     <dt>Muddat</dt>
                     <dd>{selected.deadline || "Ko‘rsatilmagan"}</dd>
+                  </div>
+                  <div>
+                    <dt>Til</dt>
+                    <dd>{LANG_LABEL_UZ[selected.lang || "uz"]}</dd>
                   </div>
                   <div>
                     <dt>Kelgan vaqt</dt>
@@ -995,6 +1022,7 @@ export default function Admin() {
               </button>
             </form>
           )}
+          {tab === "categories" && <CategoryTranslations categories={categories.slice(1)} />}
 
           {tab === "settings" && (
             <form className="ad-panel ad-form ad-settings" onSubmit={changePassword}>

@@ -73,6 +73,154 @@
     "x": 592,
     "y": 795
    }
+  ],
+  "ru": [
+   {
+    "erase": [
+     155,
+     503,
+     332,
+     534
+    ],
+    "t": "Лаваш",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 518
+   },
+   {
+    "erase": [
+     502,
+     503,
+     681,
+     534
+    ],
+    "t": "Бургер",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 591,
+    "y": 518
+   },
+   {
+    "erase": [
+     155,
+     780,
+     332,
+     810
+    ],
+    "t": "Напиток",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 795
+   },
+   {
+    "erase": [
+     503,
+     780,
+     681,
+     810
+    ],
+    "t": "Десерт",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 592,
+    "y": 795
+   }
+  ],
+  "en": [
+   {
+    "erase": [
+     155,
+     503,
+     332,
+     534
+    ],
+    "t": "Lavash",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 518
+   },
+   {
+    "erase": [
+     502,
+     503,
+     681,
+     534
+    ],
+    "t": "Burger",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 591,
+    "y": 518
+   },
+   {
+    "erase": [
+     155,
+     780,
+     332,
+     810
+    ],
+    "t": "Drink",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 243,
+    "y": 795
+   },
+   {
+    "erase": [
+     503,
+     780,
+     681,
+     810
+    ],
+    "t": "Dessert",
+    "size": 26,
+    "color": "#1f2937",
+    "bold": true,
+    "align": "center",
+    "x": 592,
+    "y": 795
+   }
   ]
- }
+ },
+ "ru": [
+  "Burger Bot",
+  "бот",
+  "Выберите из меню",
+  "Нажмите на фото",
+  "Лаваш, большой",
+  "Лаваш с курицей, большой",
+  "С сыром и фирменным соусом",
+  "В корзину",
+  null,
+  "Сообщение…"
+ ],
+ "en": [
+  "Burger Bot",
+  "bot",
+  "Choose from the menu",
+  "Tap the photo",
+  "Lavash, large",
+  "Chicken lavash, large",
+  "With cheese and house sauce",
+  "Add to cart",
+  null,
+  "Message…"
+ ]
 }

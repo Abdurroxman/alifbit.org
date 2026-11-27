@@ -1,0 +1,1484 @@
+{
+  "veb-sayt": {
+    "ru": {
+      "name": "Создание сайтов",
+      "short": "Одностраничный сайт, сайт компании или интернет-магазин — одинаково удобный на телефоне и компьютере.",
+      "description": "Создаём сайт для вашей компании, услуг или товаров. Согласуем с вами страницы, дизайн и нужные функции и запускаем сайт.",
+      "features": [
+        "Структура страниц и план текстов",
+        "Дизайн без шаблонов — под ваш бренд",
+        "Адаптация под телефон, планшет и компьютер",
+        "Форма заявки — уведомление сразу приходит в Telegram",
+        "Кнопки телефона, Telegram и карты",
+        "Работаем над быстрой загрузкой сайта",
+        "Базовое SEO: заголовки и описания, sitemap, Google Search Console и Яндекс Вебмастер",
+        "Google Analytics и Яндекс Метрика",
+        "Подключение домена, хостинга и SSL (https)",
+        "Проверка на разных телефонах и в браузерах перед запуском"
+      ]
+    },
+    "en": {
+      "name": "Website development",
+      "short": "A one-page site, a company website or an online store — equally convenient on phone and desktop.",
+      "description": "We build a website for your company, services or products. We agree on the pages, design and features with you and launch the site.",
+      "features": [
+        "Page structure and content plan",
+        "Custom design that fits your brand — no templates",
+        "Responsive layout for phone, tablet and desktop",
+        "Contact form — requests arrive in Telegram instantly",
+        "Phone, Telegram and map buttons",
+        "We work on fast page loading",
+        "Basic SEO: titles and descriptions, sitemap, Google Search Console and Yandex Webmaster",
+        "Google Analytics and Yandex Metrica",
+        "Domain, hosting and SSL (https) setup",
+        "Testing on different phones and browsers before launch"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Одностраничный сайт",
+          "features": [
+            "Одна страница: предложение, преимущества, вопросы и ответы, контакты",
+            "Подготовлен для клиентов из рекламы"
+          ],
+          "fit": "Хочу представить одну услугу или товар"
+        },
+        "en": {
+          "name": "One-page website",
+          "features": [
+            "A single page: offer, benefits, FAQ and contacts",
+            "Optimized for visitors coming from ads"
+          ],
+          "fit": "I want to present one service or product"
+        }
+      },
+      {
+        "ru": {
+          "name": "Сайт компании",
+          "features": [
+            "До 5 страниц: главная, услуги, о нас, работы, контакты",
+            "Админ-панель: тексты, фото и цены меняете сами",
+            "Два языка: узбекский и русский"
+          ],
+          "fit": "Нужно несколько страниц о моей компании"
+        },
+        "en": {
+          "name": "Company website",
+          "features": [
+            "Up to 5 pages: home, services, about us, portfolio, contacts",
+            "Admin panel: edit text, images and prices yourself",
+            "Two languages: Uzbek and Russian"
+          ],
+          "fit": "I need a few pages about my company"
+        }
+      },
+      {
+        "ru": {
+          "name": "Интернет-магазин",
+          "features": [
+            "Каталог товаров, фильтры и поиск",
+            "Корзина и оформление заказа",
+            "Оплата через Payme и Click",
+            "Управление товарами и заказами в админ-панели",
+            "Уведомление о новом заказе в Telegram",
+            "Два языка: узбекский и русский"
+          ],
+          "fit": "Хочу продавать в интернете"
+        },
+        "en": {
+          "name": "Online store",
+          "features": [
+            "Product catalog, filters and search",
+            "Cart and checkout",
+            "Payments via Payme and Click",
+            "Manage products and orders in the admin panel",
+            "Telegram alert for every new order",
+            "Two languages: Uzbek and Russian"
+          ],
+          "fit": "I want to sell online"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Сайт EVOS",
+          "owner": "EVOS · Узбекистан",
+          "text": "Филиалы, меню, вакансии и телефон для заказа в одном месте. С сайта можно перейти в приложение и Telegram-канал.",
+          "image": "/media/public/33da2c50-5077-4544-8a65-38db417ab03c.webp",
+          "imageMobile": "/media/public/654d2dd5-b193-49be-b990-9ac5e7fe13b3.webp"
+        },
+        "en": {
+          "name": "EVOS website",
+          "owner": "EVOS · Uzbekistan",
+          "text": "Branches, menu, vacancies and an order hotline in one place. The site links to the app and the Telegram channel.",
+          "image": "/media/public/4e5a6d3b-9770-471e-ab6b-aace5e86d491.webp",
+          "imageMobile": "/media/public/d90ea04a-426c-4e39-af02-933f16554c7e.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Интернет-магазин Texnomart",
+          "owner": "Texnomart · Узбекистан",
+          "text": "Каталог бытовой техники, оплата через Uzcard, Humo, Payme и Click, рассрочка на 12 месяцев и список магазинов.",
+          "image": "/media/public/aca72f18-c235-49c6-b614-ecbf925b84de.webp",
+          "imageMobile": "/media/public/94f61902-432b-4051-b33b-005909f5df46.webp"
+        },
+        "en": {
+          "name": "Texnomart online store",
+          "owner": "Texnomart · Uzbekistan",
+          "text": "Home appliance catalog, payments via Uzcard, Humo, Payme and Click, 12-month installments and a store locator.",
+          "image": "/media/public/d6700b66-4b31-4815-a207-d1c39e63f8bf.webp",
+          "imageMobile": "/media/public/504e0e24-a336-4a55-905a-3bfc68dadf0b.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Продуктовый сайт Click",
+          "owner": "Click · Узбекистан",
+          "text": "Страница о возможностях приложения, кэшбэке и переводах; отдельный раздел для бизнеса и документация API.",
+          "image": "/media/public/bbaa3ab8-e2b6-40d2-bf0b-4c77ce880dbf.webp",
+          "imageMobile": "/media/public/0e729177-df3b-48bc-9d65-b6aae58cf99c.webp"
+        },
+        "en": {
+          "name": "Click product website",
+          "owner": "Click · Uzbekistan",
+          "text": "A page about the app’s features, cashback and transfers, with a separate business section and API docs.",
+          "image": "/media/public/78bfd3ad-b0f4-4322-947a-e1f7862b1d55.webp",
+          "imageMobile": "/media/public/3ceb4ccc-c20f-440a-bada-f0a83297dbbb.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Корпоративный сайт Uzum",
+          "owner": "Uzum · Узбекистан",
+          "text": "Сайт экосистемы, объединяющий на одной странице Market, Tezkor, Bank, Nasiya и другие сервисы.",
+          "image": "/media/public/83a20354-89ac-426d-9c9e-87ca420828b7.webp"
+        },
+        "en": {
+          "name": "Uzum corporate website",
+          "owner": "Uzum · Uzbekistan",
+          "text": "An ecosystem site that brings Market, Tezkor, Bank, Nasiya and other services together on one page.",
+          "image": "/media/public/ef5e65eb-cbbd-44cb-b24c-bd6da077b85f.webp"
+        }
+      }
+    ]
+  },
+  "dizayn": {
+    "ru": {
+      "name": "Дизайн сайтов и приложений",
+      "short": "Дизайн нового сайта или приложения и редизайн существующего.",
+      "description": "Разрабатываем внешний вид сайта или приложения и логику его использования. Готовый макет можно посмотреть и прощёлкать ещё до начала разработки.",
+      "features": [
+        "Изучение пользователей и конкурентов",
+        "Схема страниц и путь пользователя",
+        "Визуальный дизайн без шаблонов",
+        "Кликабельный прототип",
+        "Версии для телефона, планшета и компьютера",
+        "Система цветов, шрифтов и компонентов",
+        "Готовые для разработчика макеты в Figma"
+      ]
+    },
+    "en": {
+      "name": "Website and app design",
+      "short": "Design for a new website or app, or a redesign of an existing one.",
+      "description": "We design how your website or app looks and how people use it. You can review the finished prototype and click through it before development starts.",
+      "features": [
+        "User and competitor research",
+        "Page map and user journeys",
+        "Custom visual design — no templates",
+        "Clickable prototype",
+        "Phone, tablet and desktop layouts",
+        "A system of colors, fonts and components",
+        "Developer-ready Figma files"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Дизайн сайта или приложения",
+          "features": [
+            "Полный дизайн нового сайта или приложения"
+          ],
+          "fit": "Нужен дизайн для нового проекта"
+        },
+        "en": {
+          "name": "Website or app design",
+          "features": [
+            "Complete design for a new website or app"
+          ],
+          "fit": "I need a design for a new project"
+        }
+      },
+      {
+        "ru": {
+          "name": "Обновление существующего дизайна",
+          "features": [
+            "Анализ существующего сайта или приложения",
+            "Улучшение удобства использования",
+            "Новый современный вид"
+          ],
+          "fit": "Мой сайт устарел"
+        },
+        "en": {
+          "name": "Redesign",
+          "features": [
+            "Review of your current website or app",
+            "Usability improvements",
+            "A fresh, modern look"
+          ],
+          "fit": "My website looks outdated"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Приложение Paynet",
+          "owner": "Paynet · Узбекистан",
+          "text": "Редизайн платёжного приложения: новый главный экран, процессы переводов и оплаты и дизайн-система приложения. Дизайн: агентство pinkman.",
+          "imageMobile": "/media/public/21cb959f-7251-412b-9b4f-e9e00ed1ef82.webp"
+        },
+        "en": {
+          "name": "Paynet app",
+          "owner": "Paynet · Uzbekistan",
+          "text": "Redesign of a payments app: a new home screen, transfer and payment flows, and a design system. Design: pinkman agency.",
+          "imageMobile": "/media/public/2ced2170-9e26-4283-a94d-53e9e713ad6a.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Сайт Hamkorbank",
+          "owner": "Hamkorbank · Узбекистан",
+          "text": "Редизайн сайта банка: онлайн-заявки, кредитный калькулятор и фильтр вкладов. Дизайн: агентство pinkman.",
+          "image": "/media/public/32235ca4-b46a-48cd-9ac2-2a85af0a079a.webp",
+          "imageMobile": "/media/public/ca5d2d78-5cb0-42db-a461-83c91286c77e.webp"
+        },
+        "en": {
+          "name": "Hamkorbank website",
+          "owner": "Hamkorbank · Uzbekistan",
+          "text": "Bank website redesign: online application forms, a loan calculator and a deposit filter. Design: pinkman agency.",
+          "image": "/media/public/e97512ea-e1bd-479b-a989-09b5834089c6.webp",
+          "imageMobile": "/media/public/ce2306a7-e9ac-449a-9cab-64e30ae55576.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Agrobank Mobile",
+          "owner": "Agrobank · Узбекистан",
+          "text": "Дизайн мобильного банка: баланс и переводы на главном экране, частые платежи, календарь расходов. Дизайн: Студия Артемия Лебедева.",
+          "imageMobile": "/media/public/6547573d-2eeb-476d-965e-8830316cebeb.webp"
+        },
+        "en": {
+          "name": "Agrobank Mobile",
+          "owner": "Agrobank · Uzbekistan",
+          "text": "Mobile banking app design: balance and transfers on the home screen, frequent payments and a spending calendar. Design: Art. Lebedev Studio.",
+          "imageMobile": "/media/public/a1f89d9b-5469-48e3-89f1-01bba7f7b818.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Приложение Converse Bank",
+          "owner": "Converse Bank · Армения",
+          "text": "Редизайн мобильного приложения и дизайн-система: главный экран с виджетами, светлая и тёмная темы, интерфейс на трёх языках. Дизайн: агентство Mish.",
+          "imageMobile": "/media/public/e53ae4e7-1d46-410d-b9bf-24948f5632e2.webp"
+        },
+        "en": {
+          "name": "Converse Bank app",
+          "owner": "Converse Bank · Armenia",
+          "text": "Mobile app redesign and design system: a widget-based home screen, light and dark modes, and a three-language interface. Design: Mish agency.",
+          "imageMobile": "/media/public/a13da8b7-5e67-4cf3-971d-cf0c493eb334.webp"
+        }
+      }
+    ]
+  },
+  "telegram-bot": {
+    "ru": {
+      "name": "Telegram-боты и приложения",
+      "short": "Бот, который принимает заказы, или полноценное приложение внутри Telegram (Mini App).",
+      "description": "Создаём бота для приёма заказов, записи клиентов или ответов на вопросы. Если нужны каталог и корзина, делаем приложение, которое открывается прямо в Telegram.",
+      "features": [
+        "Сценарий бота: меню, кнопки и шаги",
+        "Узбекский и русский языки",
+        "Приём заказов, заявок или записи на приём",
+        "Уведомления о новых заказах вам и сотрудникам",
+        "Массовая рассылка пользователям",
+        "Статистика пользователей и заказов",
+        "Установка на сервер и контроль бесперебойной работы"
+      ]
+    },
+    "en": {
+      "name": "Telegram bots and apps",
+      "short": "A bot that takes orders, or a full app that opens inside Telegram (Mini App).",
+      "description": "We build bots that take orders, book appointments or answer questions. If you need a catalog and a cart, we build an app that opens right inside Telegram.",
+      "features": [
+        "Bot flow: menus, buttons and steps",
+        "Uzbek and Russian languages",
+        "Accepting orders, requests or appointment bookings",
+        "New-order alerts for you and your staff",
+        "Broadcast messages to users",
+        "User and order statistics",
+        "Server deployment and uptime monitoring"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Telegram-бот",
+          "features": [
+            "Меню на кнопках и каталог",
+            "Заказы приходят в чат администратора или в Google Sheets"
+          ],
+          "fit": "Простой бот: меню, заказ, уведомления"
+        },
+        "en": {
+          "name": "Telegram bot",
+          "features": [
+            "Button menu and catalog",
+            "Orders go to an admin chat or Google Sheets"
+          ],
+          "fit": "A simple bot: menu, orders, notifications"
+        }
+      },
+      {
+        "ru": {
+          "name": "Приложение в Telegram",
+          "features": [
+            "Окно приложения внутри Telegram: каталог, корзина, профиль",
+            "Админ-панель для управления товарами и заказами",
+            "Оплата через Payme и Click"
+          ],
+          "fit": "Нужно полноценное приложение в Telegram"
+        },
+        "en": {
+          "name": "Telegram Mini App",
+          "features": [
+            "An app window inside Telegram: catalog, cart, profile",
+            "Admin panel to manage products and orders",
+            "Payments via Payme and Click"
+          ],
+          "fit": "I need a full app inside Telegram"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Бот доставки EVOS",
+          "owner": "EVOS · Узбекистан",
+          "text": "Блюда выбирают из меню прямо в Telegram, отправляют адрес и оформляют заказ.",
+          "imageMobile": "/media/public/625126af-194c-480c-b1b3-b4173d6bdbbd.webp"
+        },
+        "en": {
+          "name": "EVOS delivery bot",
+          "owner": "EVOS · Uzbekistan",
+          "text": "Pick dishes from the menu inside Telegram, send your address and place the order.",
+          "imageMobile": "/media/public/38d38e13-33ff-41f0-b8cc-c5fbe7b6a8cc.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Бот KFC Uzbekistan",
+          "owner": "KFC · Узбекистан",
+          "text": "Официальный бот доставки: меню, корзина и заказ, не выходя из Telegram.",
+          "imageMobile": "/media/public/b37dae17-8fd5-4df4-8e5c-02998e4efeb2.webp"
+        },
+        "en": {
+          "name": "KFC Uzbekistan bot",
+          "owner": "KFC · Uzbekistan",
+          "text": "The official delivery bot: menu, cart and checkout without leaving Telegram.",
+          "imageMobile": "/media/public/7a296cb8-2188-4d0c-b167-2c8872cec4b9.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Бот Oqtepa Lavash",
+          "owner": "Oqtepa Lavash · Узбекистан",
+          "text": "Бот заказов бренда: выбор блюд и доставка.",
+          "imageMobile": "/media/public/b7fc8127-c331-4e84-9d88-c355802deae5.webp"
+        },
+        "en": {
+          "name": "Oqtepa Lavash bot",
+          "owner": "Oqtepa Lavash · Uzbekistan",
+          "text": "The brand’s ordering bot: choose dishes and get delivery.",
+          "imageMobile": "/media/public/b3fd8125-6a68-4081-886d-29b7ca08c75d.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Oshme",
+          "owner": "Oshme · Узбекистан",
+          "text": "Бот-путеводитель по ресторанам, кафе и барам: поиск места и бронирование столика.",
+          "imageMobile": "/media/public/e273d319-11be-4c8e-8820-8438d4294885.webp"
+        },
+        "en": {
+          "name": "Oshme",
+          "owner": "Oshme · Uzbekistan",
+          "text": "A guide bot for restaurants, cafes and bars: find a place and book a table.",
+          "imageMobile": "/media/public/bafc3c0b-c7e5-4732-bb6c-a7370202f47f.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Цветов.ру Mini App",
+          "owner": "Цветов.ру · Россия",
+          "text": "Цветочный магазин внутри Telegram: букет можно выбрать из более чем 300 магазинов в 212 городах и заказать без регистрации.",
+          "image": "/media/public/7b40bd6e-88be-44c4-8405-354ee020701e.webp",
+          "imageMobile": "/media/public/ca300191-7bfb-4bbb-b485-4d8ef02685be.webp"
+        },
+        "en": {
+          "name": "Tsvetov.ru Mini App",
+          "owner": "Tsvetov.ru · Russia",
+          "text": "A flower shop inside Telegram: choose a bouquet from over 300 shops in 212 cities and order without signing up.",
+          "image": "/media/public/7f443d44-fce1-4411-8a5b-aebf8551d9cb.webp",
+          "imageMobile": "/media/public/7565f614-6943-4c2f-82f9-5c6707d8b632.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Durger King",
+          "owner": "Telegram · демо-приложение",
+          "text": "Демо Mini App от команды Telegram: выбор блюд, корзина и оплата внутри Telegram.",
+          "imageMobile": "/media/public/5f267585-1c6f-4413-ae3c-af2b16b0c3e6.webp"
+        },
+        "en": {
+          "name": "Durger King",
+          "owner": "Telegram · demo app",
+          "text": "The Telegram team’s demo Mini App: choose food, fill a cart and pay inside Telegram.",
+          "imageMobile": "/media/public/edaa7a1a-904f-4483-9d4f-2a2933b1c115.webp"
+        }
+      }
+    ]
+  },
+  "ilova": {
+    "ru": {
+      "name": "Программы и приложения для бизнеса",
+      "short": "Веб-программа, CRM (система управления клиентами и заказами) или мобильное приложение.",
+      "description": "Создаём программу для управления клиентами, заказами, задачами и отчётами. В зависимости от задачи делаем веб-программу или мобильное приложение.",
+      "features": [
+        "Изучение рабочих процессов и план системы",
+        "До разработки вы прощёлкиваете макет",
+        "Пользователи, роли и права доступа",
+        "База клиентов, заказов и задач",
+        "Отчёты и графики",
+        "Уведомления через Telegram",
+        "Перенос данных из Excel",
+        "Рабочая версия на каждом этапе",
+        "Регулярное резервное копирование и защищённый вход",
+        "Установка на сервер"
+      ]
+    },
+    "en": {
+      "name": "Business software and apps",
+      "short": "Browser-based software, a CRM (a system for managing customers and orders) or a mobile app.",
+      "description": "We build software to manage customers, orders, tasks and reports. Depending on your work, it can be a browser-based system or a mobile app.",
+      "features": [
+        "Workflow research and system plan",
+        "Click through a prototype before development",
+        "Users, roles and permissions",
+        "Database of customers, orders and tasks",
+        "Reports and charts",
+        "Telegram notifications",
+        "Migration of your Excel data",
+        "A working version at every stage",
+        "Regular backups and secure sign-in",
+        "Server deployment"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Программа для управления клиентами и заказами",
+          "features": [
+            "Работает в браузере — на компьютере и телефоне",
+            "Этапы продаж и показатели менеджеров"
+          ],
+          "fit": "Нужна система, которая работает в браузере"
+        },
+        "en": {
+          "name": "Customer and order management system",
+          "features": [
+            "Runs in the browser — on desktop and phone",
+            "Sales stages and manager performance"
+          ],
+          "fit": "I need a browser-based system"
+        }
+      },
+      {
+        "ru": {
+          "name": "Мобильное приложение",
+          "features": [
+            "Для Android и iOS",
+            "Push-уведомления",
+            "Сервер и админ-панель",
+            "Публикация в Google Play и App Store"
+          ],
+          "fit": "Нужно приложение, которое устанавливается на телефон"
+        },
+        "en": {
+          "name": "Mobile app",
+          "features": [
+            "For Android and iOS",
+            "Push notifications",
+            "Server and admin panel",
+            "Publishing to Google Play and the App Store"
+          ],
+          "fit": "I need an app people install on their phones"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Click SuperApp",
+          "owner": "Click · Узбекистан",
+          "text": "Платежи, переводы, кошелёк и кэшбэк в одном мобильном приложении.",
+          "imageMobile": "/media/public/16a4d899-6ed5-4246-9b3e-5a54785156be.webp"
+        },
+        "en": {
+          "name": "Click SuperApp",
+          "owner": "Click · Uzbekistan",
+          "text": "Payments, transfers, a wallet and cashback in one mobile app.",
+          "imageMobile": "/media/public/0648a0d5-22a3-4734-aea1-3b0a5d938631.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Uzum Market",
+          "owner": "Uzum · Узбекистан",
+          "text": "Приложение маркетплейса: каталог, корзина, оплата и отслеживание заказа.",
+          "imageMobile": "/media/public/18f7f38f-574b-4a1d-84d5-be50564c96e5.webp"
+        },
+        "en": {
+          "name": "Uzum Market",
+          "owner": "Uzum · Uzbekistan",
+          "text": "A marketplace app: catalog, cart, payment and order tracking.",
+          "imageMobile": "/media/public/e4ee4a00-733e-4a13-8c60-7ceefdce185e.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Приложение EVOS",
+          "owner": "EVOS · Узбекистан",
+          "text": "Приложение для заказа еды: меню, адрес, оплата и статус заказа.",
+          "imageMobile": "/media/public/9413c769-7559-4e56-8d3c-adf99846ea8e.webp"
+        },
+        "en": {
+          "name": "EVOS app",
+          "owner": "EVOS · Uzbekistan",
+          "text": "A food ordering app: menu, address, payment and order status.",
+          "imageMobile": "/media/public/2abceb24-00c1-45b4-b685-aeec56157ff5.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Uzum Nasiya",
+          "owner": "Uzum · Узбекистан",
+          "text": "Приложение рассрочки: просмотр лимита, покупки и оплата через Payme, Click и Uzum Bank.",
+          "imageMobile": "/media/public/3a37da94-814a-460f-adad-d5cafa0f6d6a.webp"
+        },
+        "en": {
+          "name": "Uzum Nasiya",
+          "owner": "Uzum · Uzbekistan",
+          "text": "An installment app: check your limit, shop and pay via Payme, Click and Uzum Bank.",
+          "imageMobile": "/media/public/6e7c8299-00dc-4e63-8330-50ddb7de75dc.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "BILLZ",
+          "owner": "BILLZ · Узбекистан",
+          "text": "Программа для магазинов: товары, клиенты, продажи, касса и финансы в одном месте. Ей пользуются более 7 000 магазинов.",
+          "image": "/media/public/d58ab7e3-48ff-43fa-a1d1-02ccd4d495ce.webp",
+          "imageMobile": "/media/public/751a555f-6773-4eb5-b6f9-fda20087c0b2.webp"
+        },
+        "en": {
+          "name": "BILLZ",
+          "owner": "BILLZ · Uzbekistan",
+          "text": "Software for retail stores: products, customers, sales, checkout and finances in one place. Used by more than 7,000 stores.",
+          "image": "/media/public/fe12e3b9-1595-4c2c-9a8d-0111f069c9f3.webp",
+          "imageMobile": "/media/public/2f6ccd21-768b-4596-b035-30f4d1730d7a.webp"
+        }
+      }
+    ]
+  },
+  "ai-yordamchi": {
+    "ru": {
+      "name": "Создание AI-ассистента",
+      "short": "Ассистент, который сам отвечает на вопросы, собирает заявки и при необходимости передаёт их сотруднику.",
+      "description": "Создаём ассистента, который отвечает на вопросы клиентов на основе предоставленных вами данных. Он принимает заявки и передаёт нужные вопросы сотруднику.",
+      "features": [
+        "База знаний: ваши цены, услуги, вопросы и ответы, документы",
+        "Ответы на узбекском (латиница и кириллица) и русском",
+        "Сохранение обращения и контактов клиента",
+        "Передача сложного вопроса сотруднику",
+        "Уведомление о новой заявке в Telegram",
+        "Редактирование ответов в админ-панели",
+        "История диалогов и статистика",
+        "Настройка ответов в течение первого месяца",
+        "Оплата AI-сервиса (токены) — отдельно, ежемесячный расход рассчитаем заранее"
+      ]
+    },
+    "en": {
+      "name": "AI assistant development",
+      "short": "An assistant that answers questions on its own, collects leads and hands off to a staff member when needed.",
+      "description": "We build an assistant that answers customer questions based on the information you provide. It takes requests and forwards the right questions to your staff.",
+      "features": [
+        "Knowledge base: your prices, services, FAQs and documents",
+        "Answers in Uzbek (Latin and Cyrillic) and Russian",
+        "Saves each request and the customer’s contact details",
+        "Hands complex questions to a staff member",
+        "Telegram alert for every new lead",
+        "Edit answers in the admin panel",
+        "Conversation history and statistics",
+        "Fine-tuning of answers during the first month",
+        "AI service (token) costs are billed separately — we estimate the monthly spend upfront"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Ассистент, отвечающий на вопросы",
+          "features": [
+            "Один канал: Telegram или сайт",
+            "Сбор заявок и передача сотруднику"
+          ],
+          "fit": "Нужен ассистент, который сам отвечает на вопросы"
+        },
+        "en": {
+          "name": "Q&A assistant",
+          "features": [
+            "One channel: Telegram or website",
+            "Lead collection and handoff to staff"
+          ],
+          "fit": "I need an assistant that answers questions on its own"
+        }
+      },
+      {
+        "ru": {
+          "name": "Ассистент для заказов и интеграций",
+          "features": [
+            "Несколько каналов: Telegram, сайт, Instagram",
+            "Приём заказов и ссылка на оплату",
+            "Подключение к CRM или 1C",
+            "Понимание голосовых сообщений"
+          ],
+          "fit": "Нужен ассистент, который работает с заказами, оплатой и CRM"
+        },
+        "en": {
+          "name": "Orders and integrations assistant",
+          "features": [
+            "Several channels: Telegram, website, Instagram",
+            "Order taking and payment links",
+            "CRM or 1C integration",
+            "Understands voice messages"
+          ],
+          "fit": "I need an assistant that handles orders, payments and CRM"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Lola — ассистент банка",
+          "owner": "TBC Bank · Узбекистан",
+          "text": "AI-ассистент в приложении на узбекском и русском: отвечает на вопросы и при необходимости соединяет с оператором.",
+          "imageMobile": "/media/public/65e969ed-b04e-4b38-9b70-db269515e831.webp"
+        },
+        "en": {
+          "name": "Lola — a banking assistant",
+          "owner": "TBC Bank · Uzbekistan",
+          "text": "An in-app AI assistant in Uzbek and Russian: it answers questions and connects you to an operator when needed.",
+          "imageMobile": "/media/public/34420234-873d-4b1f-8021-eb67858c86c0.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "AI-ассистент Kaspi",
+          "owner": "Kaspi.kz · Казахстан",
+          "text": "По данным компании, сам отвечает на большую часть переписок и звонков клиентов, а Kasper даёт советы во время покупки.",
+          "imageMobile": "/media/public/0c2854d3-7173-457d-980a-96b4ec19900a.webp"
+        },
+        "en": {
+          "name": "Kaspi AI assistant",
+          "owner": "Kaspi.kz · Kazakhstan",
+          "text": "According to the company, it handles most customer chats and calls on its own, while Kasper gives advice during purchases.",
+          "imageMobile": "/media/public/0775c6f1-15f1-43f7-80c6-5a1fa4f3195a.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "AI-ассистент Klarna",
+          "owner": "Klarna · Швеция",
+          "text": "Бот поддержки на более чем 35 языках: по данным компании, решает большую часть обращений без участия оператора.",
+          "image": "/media/public/7d85142b-3f1f-4677-b4f6-5ecf17d62f75.webp",
+          "imageMobile": "/media/public/c1e69bf2-339a-4550-8e1d-bb186993ec20.webp"
+        },
+        "en": {
+          "name": "Klarna AI assistant",
+          "owner": "Klarna · Sweden",
+          "text": "A support bot that works in more than 35 languages: according to the company, it resolves most requests without an operator.",
+          "image": "/media/public/0da611c6-a72b-4703-b21b-91aa981ffa8b.webp",
+          "imageMobile": "/media/public/3af3674d-0f65-4a45-afad-e10053f13ee3.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Чат-боты Uzum Avto",
+          "owner": "Uzum · Узбекистан",
+          "text": "На большинство первичных обращений в Telegram отвечает бот, остальные он передаёт оператору.",
+          "imageMobile": "/media/public/a2bd0c17-ad92-4fff-a8ed-26ee2e247351.webp"
+        },
+        "en": {
+          "name": "Uzum Avto chatbots",
+          "owner": "Uzum · Uzbekistan",
+          "text": "A bot answers most first-line requests on Telegram and routes the rest to an operator.",
+          "imageMobile": "/media/public/ebcd3528-b49c-4d62-9d5a-a573cfa276fa.webp"
+        }
+      }
+    ]
+  },
+  "integratsiyalar": {
+    "ru": {
+      "name": "Подключение оплаты и других систем",
+      "short": "Подключаем ваш сайт, бот или приложение к Payme, Click, CRM (системе управления клиентами и заказами), 1C и SMS-сервисам.",
+      "description": "Подключаем к вашему сайту, боту или приложению оплату, SMS и другие сервисы. Связываем данные о заказах и товарах с вашей учётной системой.",
+      "features": [
+        "Оплата: Payme, Click, Uzum, карты Uzcard и Humo",
+        "CRM: amoCRM, Bitrix24",
+        "Учёт и склад: 1C, МойСклад, Billz",
+        "SMS: Eskiz, Playmobile",
+        "Уведомления в Telegram и Google Sheets",
+        "Помощь с открытием мерчанта в платёжной системе",
+        "Сначала проверка в тестовом режиме, затем боевое подключение",
+        "Статусы оплаты и заказа обновляются автоматически"
+      ]
+    },
+    "en": {
+      "name": "Payment and system integrations",
+      "short": "We connect your website, bot or app to Payme, Click, CRM (customer and order management) systems, 1C and SMS services.",
+      "description": "We connect payments, SMS and other services to your website, bot or app, and link order and product data with your accounting system.",
+      "features": [
+        "Payments: Payme, Click, Uzum, Uzcard and Humo cards",
+        "CRM: amoCRM, Bitrix24",
+        "Accounting and inventory: 1C, MoySklad, Billz",
+        "SMS: Eskiz, Playmobile",
+        "Telegram notifications and Google Sheets",
+        "Help opening a merchant account with a payment provider",
+        "Testing in sandbox mode first, then going live",
+        "Payment and order statuses update automatically"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Подключение платёжных систем",
+          "features": [
+            "Payme, Click, Uzum",
+            "Карты Uzcard и Humo",
+            "Статус оплаты автоматически записывается в заказ"
+          ],
+          "fit": "Хочу принимать оплату на сайте или в боте"
+        },
+        "en": {
+          "name": "Payment integration",
+          "features": [
+            "Payme, Click, Uzum",
+            "Uzcard and Humo cards",
+            "Payment status is written to the order automatically"
+          ],
+          "fit": "I want to accept payments on my website or bot"
+        }
+      },
+      {
+        "ru": {
+          "name": "Заявки в CRM",
+          "features": [
+            "amoCRM или Bitrix24",
+            "Заявки с сайта, бота и форм"
+          ],
+          "fit": "Чтобы заявки сами попадали в CRM"
+        },
+        "en": {
+          "name": "Leads to CRM",
+          "features": [
+            "amoCRM or Bitrix24",
+            "Leads from your website, bot and forms"
+          ],
+          "fit": "I want leads to land in my CRM automatically"
+        }
+      },
+      {
+        "ru": {
+          "name": "SMS и уведомления",
+          "features": [
+            "Eskiz или Playmobile",
+            "SMS с кодом подтверждения и статусом заказа",
+            "Уведомления в Telegram"
+          ],
+          "fit": "Хочу отправлять клиентам SMS"
+        },
+        "en": {
+          "name": "SMS and notifications",
+          "features": [
+            "Eskiz or Playmobile",
+            "SMS with verification codes and order status",
+            "Telegram notifications"
+          ],
+          "fit": "I want to send SMS to customers"
+        }
+      },
+      {
+        "ru": {
+          "name": "Подключение учёта и склада",
+          "features": [
+            "1C, МойСклад или Billz",
+            "Обмен товарами, остатками и ценами"
+          ],
+          "fit": "Нужно связать с 1C или складом"
+        },
+        "en": {
+          "name": "Accounting and inventory integration",
+          "features": [
+            "1C, MoySklad or Billz",
+            "Sync of products, stock and prices"
+          ],
+          "fit": "I need to connect 1C or my inventory"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Telegram + Bitrix24",
+          "owner": "Uzum Avto · Узбекистан",
+          "text": "Переписка в Telegram подключена к CRM (системе работы с клиентами): обращения автоматически попадают к нужному сотруднику.",
+          "image": "/media/public/e40be0a7-63c1-4076-a80c-8489d6e55e40.webp"
+        },
+        "en": {
+          "name": "Telegram + Bitrix24",
+          "owner": "Uzum Avto · Uzbekistan",
+          "text": "Telegram chats are connected to a CRM (customer management system): requests are routed to the right staff member automatically.",
+          "image": "/media/public/f10e4677-6cbc-400c-af20-960fc054f316.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Платёжные системы в магазине",
+          "owner": "Texnomart · Узбекистан",
+          "text": "На сайте подключены оплата через Uzcard, Humo, Payme и Click, а также рассрочка.",
+          "image": "/media/public/a271cb54-0c3e-473e-bf32-1993396a3f91.webp",
+          "imageMobile": "/media/public/2cade303-3ae5-4315-b4d7-a19ccd46a348.webp"
+        },
+        "en": {
+          "name": "Payments in an online store",
+          "owner": "Texnomart · Uzbekistan",
+          "text": "The site accepts Uzcard, Humo, Payme and Click, plus installment payments.",
+          "image": "/media/public/6cac9d86-a620-487c-8e99-222743f1c707.webp",
+          "imageMobile": "/media/public/10e7c602-ae9e-4b8d-b4f0-f193102ddd9d.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Платёжные системы в приложении",
+          "owner": "Uzum Nasiya · Узбекистан",
+          "text": "В приложении можно оплатить через Payme, Click, Uzum Bank и Paynet.",
+          "imageMobile": "/media/public/5d0b7353-5011-48d5-93d5-2111275f4409.webp"
+        },
+        "en": {
+          "name": "Payments in an app",
+          "owner": "Uzum Nasiya · Uzbekistan",
+          "text": "The app accepts payments via Payme, Click, Uzum Bank and Paynet.",
+          "imageMobile": "/media/public/934c5551-daee-4bd7-9918-df307f41d0a7.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Eskiz SMS",
+          "owner": "Eskiz · Узбекистан",
+          "text": "SMS-сервис: отправляет коды подтверждения и уведомления с сайта, из бота или CRM через API.",
+          "image": "/media/public/eeb49091-09a8-40f5-a457-59a118234e0a.webp",
+          "imageMobile": "/media/public/d93853b6-c5c9-46df-abb2-8ea97fb8797d.webp"
+        },
+        "en": {
+          "name": "Eskiz SMS",
+          "owner": "Eskiz · Uzbekistan",
+          "text": "An SMS service that sends verification codes and notifications from a website, bot or CRM via API.",
+          "image": "/media/public/38a2d937-2452-42ec-a9fe-b2849822770f.webp",
+          "imageMobile": "/media/public/e59a1051-0947-403e-9d7b-bbfc0d9ae82d.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "UzumSync — МойСклад и Uzum Market",
+          "owner": "SellerMind · приложение для МойСклад",
+          "text": "Само передаёт остатки из МойСклад в Uzum Market и каждые 5 минут загружает заказы FBS и DBS в МойСклад.",
+          "image": "/media/public/8961f67c-f42b-425f-8413-58628d62a290.webp"
+        },
+        "en": {
+          "name": "UzumSync — MoySklad and Uzum Market",
+          "owner": "SellerMind · MoySklad app",
+          "text": "Pushes stock levels from MoySklad to Uzum Market and pulls FBS and DBS orders into MoySklad every 5 minutes.",
+          "image": "/media/public/32b4b1f1-adc1-4546-b4be-99c4c2a49221.webp"
+        }
+      }
+    ]
+  },
+  "seo": {
+    "ru": {
+      "name": "Продвижение сайта в Google и Яндексе",
+      "short": "Аудит, настройка и ежемесячная работа, чтобы ваш сайт был выше в Google и Яндексе.",
+      "description": "Проверяем сайт для поисковых систем, исправляем технические ошибки и дорабатываем тексты страниц. Отчитываемся о проделанной работе и переходах из поиска.",
+      "features": [
+        "Анализ ключевых слов на узбекском и русском и конкурентов",
+        "Технический аудит: скорость, индексация, sitemap, robots.txt, мобильная версия",
+        "Оптимизация заголовков, описаний и текстов",
+        "Блоки вопросов и ответов и структурированные данные (schema)",
+        "Google Search Console и Яндекс Вебмастер",
+        "Google Бизнес Профиль, Яндекс Бизнес и 2GIS",
+        "Отчёт: что сделано и какой результат"
+      ]
+    },
+    "en": {
+      "name": "Search optimization for Google and Yandex",
+      "short": "An audit, setup and monthly work to help your website rank higher on Google and Yandex.",
+      "description": "We check your website for search engines, fix technical issues and optimize page content. We report on the work done and on traffic from search.",
+      "features": [
+        "Uzbek and Russian keyword and competitor research",
+        "Technical audit: speed, indexing, sitemap, robots.txt, mobile view",
+        "Optimization of titles, descriptions and copy",
+        "FAQ blocks and structured data (schema)",
+        "Google Search Console and Yandex Webmaster",
+        "Google Business Profile, Yandex Business and 2GIS",
+        "Report: what was done and what it achieved"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Аудит и поисковая оптимизация сайта",
+          "features": [
+            "Разовая работа",
+            "Исправление найденных ошибок",
+            "Письменный отчёт и следующие шаги"
+          ],
+          "fit": "Хочу понять, почему мой сайт не видно в поиске"
+        },
+        "en": {
+          "name": "Website audit and optimization",
+          "features": [
+            "One-time project",
+            "Fixing the issues found",
+            "Written report and next steps"
+          ],
+          "fit": "I want to know why my website doesn’t show up in search"
+        }
+      },
+      {
+        "ru": {
+          "name": "Ежемесячное продвижение",
+          "features": [
+            "Ежемесячная работа над текстами и техническими задачами",
+            "Статьи для блога",
+            "Ежемесячный отчёт и план на следующий месяц"
+          ],
+          "fit": "Хочу, чтобы мой сайт был высоко в Google"
+        },
+        "en": {
+          "name": "Monthly SEO",
+          "features": [
+            "Monthly content and technical work",
+            "Blog articles",
+            "Monthly report and next month’s plan"
+          ],
+          "fit": "I want my website to rank high on Google"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Онлайн-аптека",
+          "owner": "a5apteka.uz · Узбекистан",
+          "text": "По данным агентства, сайт стал быстрее открываться на телефоне, а переходов из поиска стало больше.",
+          "image": "/media/public/be9dc486-e60a-46e4-b368-2483367de8d1.webp"
+        },
+        "en": {
+          "name": "Online pharmacy",
+          "owner": "a5apteka.uz · Uzbekistan",
+          "text": "According to the agency, the site now loads faster on mobile and gets more visits from search.",
+          "image": "/media/public/4b0aaf6b-5963-4d16-9c15-9cd1c24478cc.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Сайт банка",
+          "owner": "Ipak Yo‘li Bank · Узбекистан",
+          "text": "По данным агентства, сайт банка стал заметнее в поиске, а переходов из поиска стало больше.",
+          "image": "/media/public/5174aa90-9c98-40a3-b320-fc7bcf9f4bc1.webp"
+        },
+        "en": {
+          "name": "Bank website",
+          "owner": "Ipak Yo‘li Bank · Uzbekistan",
+          "text": "According to the agency, the bank’s website became more visible in search and gets more visits from it.",
+          "image": "/media/public/8180b506-ab3e-411f-be69-33d23e112a74.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Сайт недвижимости",
+          "owner": "uysot.uz · Узбекистан",
+          "text": "По данным агентства, добавлены новые страницы и понятные адреса страниц, переходов из поиска стало больше.",
+          "image": "/media/public/c30420db-aee0-42d1-af91-3c88ae581673.webp",
+          "imageMobile": "/media/public/3e316a3f-ceee-4f1e-8566-3dbf990512d5.webp"
+        },
+        "en": {
+          "name": "Real estate website",
+          "owner": "uysot.uz · Uzbekistan",
+          "text": "According to the agency, new pages and clear page URLs were added, and visits from search increased.",
+          "image": "/media/public/5d362f47-c302-463c-9c1c-47633b1a9cde.webp",
+          "imageMobile": "/media/public/5098fd43-c438-4156-932c-5431a4d8c7a3.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Производитель спецодежды",
+          "owner": "Производитель · Узбекистан",
+          "text": "По данным агентства, переходов из поиска стало больше, а сайт поднялся на верхние позиции по основным запросам.",
+          "image": "/media/public/f7ac59dd-22b1-4a4c-a592-337f39bbd4ef.webp"
+        },
+        "en": {
+          "name": "Workwear manufacturer",
+          "owner": "Manufacturer · Uzbekistan",
+          "text": "According to the agency, search traffic grew and the site reached top positions for its main queries.",
+          "image": "/media/public/dc1982ff-100f-4d09-b0ea-66f0bdbb659c.webp"
+        }
+      }
+    ]
+  },
+  "texnik-yordam": {
+    "ru": {
+      "name": "Техническая поддержка сайтов и ботов",
+      "short": "Ежемесячное обслуживание, чтобы ваш сайт или бот всегда работал, был защищён и обновлён.",
+      "description": "Следим за работой сайта или бота, делаем резервные копии и устраняем неисправности. В рамках согласованного объёма обновляем тексты, фото и цены.",
+      "features": [
+        "Мониторинг работы сайта или бота",
+        "Регулярное резервное копирование",
+        "Обновления безопасности и защита",
+        "Исправление ошибок",
+        "Обновление текстов, фото и цен",
+        "Контроль сроков домена, хостинга и SSL",
+        "Проверка скорости",
+        "Берём и сайты с ботами, сделанные другими"
+      ]
+    },
+    "en": {
+      "name": "Website and bot maintenance",
+      "short": "A monthly service that keeps your website or bot running, secure and up to date.",
+      "description": "We monitor your website or bot, make backups and fix problems. Within the agreed scope, we also update text, images and prices.",
+      "features": [
+        "Website or bot uptime monitoring",
+        "Regular backups",
+        "Security updates and protection",
+        "Bug fixes",
+        "Updates to text, images and prices",
+        "Tracking domain, hosting and SSL renewals",
+        "Speed checks",
+        "We also take over websites and bots built by others"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Базовая поддержка",
+          "features": [
+            "Мониторинг, резервное копирование и обновления безопасности",
+            "Небольшие правки"
+          ],
+          "fit": "Чтобы мой сайт не останавливался"
+        },
+        "en": {
+          "name": "Basic maintenance",
+          "features": [
+            "Monitoring, backups and security updates",
+            "Small changes"
+          ],
+          "fit": "I want my website to never go down"
+        }
+      },
+      {
+        "ru": {
+          "name": "Расширенная поддержка",
+          "features": [
+            "Мониторинг, резервное копирование и обновления безопасности",
+            "Добавление новых разделов и страниц",
+            "Быстрая реакция на срочные обращения",
+            "Ежемесячный отчёт"
+          ],
+          "fit": "Чтобы мой сайт постоянно обновлялся"
+        },
+        "en": {
+          "name": "Extended maintenance",
+          "features": [
+            "Monitoring, backups and security updates",
+            "Adding new sections and pages",
+            "Fast response to urgent requests",
+            "Monthly report"
+          ],
+          "fit": "I want my website kept constantly up to date"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Переезд в облако и поддержка 24/7",
+          "owner": "Uzum Nasiya · Узбекистан",
+          "text": "Переезд в облако за месяц; гарантия доступности 99,98%, круглосуточная поддержка, резервные копии и защита от DDoS.",
+          "image": "/media/public/cfd3ea66-549a-4acd-b609-6596839ea5ec.webp"
+        },
+        "en": {
+          "name": "Cloud migration and 24/7 support",
+          "owner": "Uzum Nasiya · Uzbekistan",
+          "text": "Migrated to the cloud within a month; 99.98% uptime guarantee, round-the-clock support, backups and DDoS protection.",
+          "image": "/media/public/2be01768-0dca-49ce-b2a1-0c45a8c02b8a.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Хостинг TCloud",
+          "owner": "Turon Telecom · Узбекистан",
+          "text": "Хостинг, VPS и домены .UZ с круглосуточной техподдержкой.",
+          "image": "/media/public/839f86ad-c796-478b-9c3d-d2bedf547825.webp"
+        },
+        "en": {
+          "name": "TCloud hosting",
+          "owner": "Turon Telecom · Uzbekistan",
+          "text": "Hosting, VPS and .UZ domains with round-the-clock technical support.",
+          "image": "/media/public/686c5f10-0fe9-4d0d-a198-ed5eb46c6ab4.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Дата-центры Uztelecom",
+          "owner": "Uztelecom · Узбекистан",
+          "text": "Размещение серверов в дата-центре уровня Tier III (colocation).",
+          "image": "/media/public/1f9126ec-7573-473f-82db-32f8476eeca0.webp"
+        },
+        "en": {
+          "name": "Uztelecom data centers",
+          "owner": "Uztelecom · Uzbekistan",
+          "text": "Server hosting (colocation) in a Tier III data center.",
+          "image": "/media/public/5ab41ebd-a4c5-45a6-a704-c78b05c8d97b.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Мониторинг работы сайта",
+          "owner": "Listen Notes · США",
+          "text": "Перевод мониторинга на Better Stack: мгновенные уведомления о сбоях и сокращение расходов в несколько раз.",
+          "image": "/media/public/7600c53c-83e6-4f73-92fa-426c80496cb8.webp",
+          "imageMobile": "/media/public/42b5fd01-8f62-41af-ba56-b2093ad9ef1f.webp"
+        },
+        "en": {
+          "name": "Website monitoring",
+          "owner": "Listen Notes · USA",
+          "text": "Moving monitoring to Better Stack: instant outage alerts and costs cut several times over.",
+          "image": "/media/public/c3d64fbf-6d32-461c-b083-bffb52cea9d9.webp",
+          "imageMobile": "/media/public/6ffdf2c4-9da0-4d08-87ad-3eb0f8a6fd58.webp"
+        }
+      }
+    ]
+  },
+  "tekshiruv": {
+    "ru": {
+      "name": "Аудит сайта, бота и приложения",
+      "short": "Проверяем ваш сайт, бот или приложение, сообщаем об ошибках и пишем техническое описание для их исправления.",
+      "description": "Проверяем сайт, Telegram-бот или приложение глазами клиента и с технической стороны. Понятным языком объясняем найденные ошибки, пишем техническое описание для их исправления и рассчитываем стоимость. Исправление можно поручить нам или другому разработчику. Если поручите нам, стоимость аудита вычитается из цены исправлений.",
+      "features": [
+        "Проверка на телефоне и компьютере: что не работает и что неудобно",
+        "Проверка форм, кнопок, оформления заказа и оплаты",
+        "Скорость и время загрузки",
+        "Безопасность: SSL, устаревшие версии, открытые данные",
+        "Ошибки в текстах, картинках и ссылках",
+        "Каждая ошибка — со скриншотом, по степени важности",
+        "Техническое описание, понятное любому разработчику",
+        "Стоимость и сроки исправлений"
+      ]
+    },
+    "en": {
+      "name": "Website, bot and app audit",
+      "short": "We review your website, bot or app, report the issues and write a technical spec for fixing them.",
+      "description": "We review your website, Telegram bot or app from a customer’s point of view and technically. We explain the issues in plain language, write a technical spec for fixing them and estimate the cost. You can hand the fixes to us or to another developer. If you choose us, the audit fee is deducted from the cost of the fixes.",
+      "features": [
+        "Testing on phone and desktop: what’s broken and what’s inconvenient",
+        "Testing forms, buttons, checkout and payments",
+        "Speed and load time",
+        "Security: SSL, outdated versions, exposed data",
+        "Errors in text, images and links",
+        "Every issue with a screenshot, ranked by severity",
+        "A technical spec any developer can follow",
+        "Cost and timeline of the fixes"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Сайт",
+          "features": [
+            "Отображение на разных телефонах и в браузерах",
+            "Базовые настройки для Google и Яндекса: заголовки, описания, sitemap"
+          ],
+          "fit": "Хочу проверить свой сайт"
+        },
+        "en": {
+          "name": "Website",
+          "features": [
+            "How it looks on different phones and browsers",
+            "Basic Google and Yandex settings: titles, descriptions, sitemap"
+          ],
+          "fit": "I want my website checked"
+        }
+      },
+      {
+        "ru": {
+          "name": "Telegram-бот",
+          "features": [
+            "Проверяем все меню, кнопки и шаги",
+            "Ситуации, когда бот перестаёт отвечать",
+            "Правильная доставка заказов и уведомлений"
+          ],
+          "fit": "Хочу проверить своего бота"
+        },
+        "en": {
+          "name": "Telegram bot",
+          "features": [
+            "We tap through every menu, button and step",
+            "Cases where the bot stops responding",
+            "Orders and notifications are delivered correctly"
+          ],
+          "fit": "I want my bot checked"
+        }
+      },
+      {
+        "ru": {
+          "name": "Приложение",
+          "features": [
+            "Основные рабочие процессы веб- или мобильного приложения",
+            "Пользователи, роли и права доступа",
+            "Резервные копии данных и защищённый вход"
+          ],
+          "fit": "Хочу проверить своё приложение или программу"
+        },
+        "en": {
+          "name": "App",
+          "features": [
+            "Core workflows of the web or mobile app",
+            "Users, roles and permissions",
+            "Data backups and secure sign-in"
+          ],
+          "fit": "I want my app or software checked"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "UX-аудит сайта трубного завода",
+          "owner": "Дальневосточный трубный завод · Россия",
+          "text": "Сайт проверили по данным Яндекс Метрики и 3 пользовательским сценариям: цель — найти цену, диаметр и сертификат за 2–3 клика. После аудита сайт создали заново.",
+          "image": "/media/public/619fc5f5-d4fb-4bda-89e9-f02e838f8c21.webp",
+          "imageMobile": "/media/public/f02ccc11-6a3d-428f-a9b7-69e6ddc47f4f.webp"
+        },
+        "en": {
+          "name": "UX audit of a pipe plant’s website",
+          "owner": "Far Eastern Pipe Plant · Russia",
+          "text": "The site was reviewed using Yandex Metrica data and 3 user scenarios, aiming to find price, diameter and certificate in 2–3 clicks. After the audit, the site was rebuilt.",
+          "image": "/media/public/bc9ff6e7-0cd0-4899-950f-c6da7964368f.webp",
+          "imageMobile": "/media/public/37942fa8-a065-47e1-ab1c-6f5db801db84.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Комплексный аудит: 96 страниц",
+          "owner": "Студия цифровых решений · Россия",
+          "text": "Сайт проверили по 7 направлениям и подготовили отчёт на 96 страниц и план работ на 1, 6 и 12 месяцев.",
+          "image": "/media/public/0a1fb029-2ac8-4358-86e5-3f6275b72bed.webp"
+        },
+        "en": {
+          "name": "Full audit: 96 pages",
+          "owner": "Digital solutions studio · Russia",
+          "text": "The site was reviewed across 7 areas, producing a 96-page report and a work plan for 1, 6 and 12 months.",
+          "image": "/media/public/8282abfe-76d8-4a6b-8bcf-daa49e56ad7a.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Google PageSpeed Insights",
+          "owner": "Google · США",
+          "text": "Измеряет, насколько быстро страница открывается на телефоне и компьютере, и показывает, что нужно исправить.",
+          "image": "/media/public/ab24aa0c-cee2-4b2c-94ae-f74f1c908046.webp",
+          "imageMobile": "/media/public/02539bf0-ea6d-4988-b9d8-48b498560456.webp"
+        },
+        "en": {
+          "name": "Google PageSpeed Insights",
+          "owner": "Google · USA",
+          "text": "Measures how fast a page loads on phone and desktop and shows what needs fixing.",
+          "image": "/media/public/406abe1b-a3c9-4a6a-b336-872373bfdf64.webp",
+          "imageMobile": "/media/public/6a22f08b-d177-4f30-8a37-6f9080897883.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "MDN HTTP Observatory",
+          "owner": "Mozilla · США",
+          "text": "Проверяет настройки безопасности сайта. Проведено 47 миллионов проверок 6,9 миллиона сайтов.",
+          "image": "/media/public/10b8011a-7c09-4ba4-b6ee-23ea29b8eb5b.webp"
+        },
+        "en": {
+          "name": "MDN HTTP Observatory",
+          "owner": "Mozilla · USA",
+          "text": "Checks a website’s security settings. It has run 47 million scans of 6.9 million websites.",
+          "image": "/media/public/8d8c977d-8be3-4f64-9863-0efa6c88d59c.webp"
+        }
+      }
+    ]
+  },
+  "reklama": {
+    "ru": {
+      "name": "Реклама в Telegram и Instagram",
+      "short": "Настраиваем и запускаем рекламу в Telegram Ads и Instagram и следим за результатом.",
+      "description": "Настраиваем рекламу в Telegram Ads и Instagram, чтобы привести нужных людей на ваш сайт, в бот или канал. Определяем аудиторию, открываем рекламный кабинет, запускаем рекламу и следим за результатом. Если результат слабый, меняем настройки и показываем в отчёте, что было сделано.",
+      "features": [
+        "Определение цели и аудитории: кто, где, на каком языке",
+        "Открытие и настройка рекламного кабинета",
+        "Подготовка сайта, бота или канала к рекламе",
+        "Запуск рекламы",
+        "Отслеживание результата: показы, клики и заявки",
+        "Изменение настроек, если результат слабый",
+        "Отчёт: что сделано и какой результат",
+        "Рекламный бюджет не входит в стоимость услуги: клиент оплачивает его площадке сам или это согласуется отдельно"
+      ]
+    },
+    "en": {
+      "name": "Telegram and Instagram advertising",
+      "short": "We set up and launch ads on Telegram Ads and Instagram and track the results.",
+      "description": "We set up Telegram Ads and Instagram campaigns to bring the right people to your website, bot or channel. We define the audience, open the ad account, launch the campaign and keep track of the results. If results are weak, we adjust the settings and show what was done in a report.",
+      "features": [
+        "Defining the goal and audience: who, where and in which language",
+        "Opening and setting up the ad account",
+        "Preparing your website, bot or channel for the campaign",
+        "Launching the ads",
+        "Tracking results: impressions, clicks and leads",
+        "Adjusting settings if results are weak",
+        "Report: what was done and what it achieved",
+        "The ad budget isn’t included in the service price: the client pays the platform directly, or it’s agreed separately"
+      ]
+    },
+    "packages": [
+      {
+        "ru": {
+          "name": "Telegram Ads",
+          "features": [
+            "Рекламный кабинет Telegram Ads",
+            "Аудитория: каналы, темы и языки"
+          ],
+          "fit": "Хочу запустить рекламу в Telegram"
+        },
+        "en": {
+          "name": "Telegram Ads",
+          "features": [
+            "Telegram Ads account",
+            "Audience: channels, topics and languages"
+          ],
+          "fit": "I want to advertise on Telegram"
+        }
+      },
+      {
+        "ru": {
+          "name": "Instagram (таргет)",
+          "features": [
+            "Рекламный кабинет Meta (Instagram и Facebook)",
+            "Аудитория: город, возраст и интересы",
+            "Отслеживание заявок через форму или Pixel"
+          ],
+          "fit": "Хочу запустить рекламу в Instagram"
+        },
+        "en": {
+          "name": "Instagram (targeted ads)",
+          "features": [
+            "Meta ad account (Instagram and Facebook)",
+            "Audience: city, age and interests",
+            "Lead tracking via forms or the Pixel"
+          ],
+          "fit": "I want to advertise on Instagram"
+        }
+      }
+    ],
+    "examples": [
+      {
+        "ru": {
+          "name": "Telegram Ads",
+          "owner": "Telegram",
+          "text": "Официальная рекламная платформа Telegram: объявления показываются в публичных каналах. Telegram пользуются более 1 миллиарда человек в месяц.",
+          "image": "/media/public/5de5e13a-1a3d-4976-9372-ec8576334ec8.webp",
+          "imageMobile": "/media/public/2b4c46d6-2846-4149-b7c8-ac36e1f86469.webp"
+        },
+        "en": {
+          "name": "Telegram Ads",
+          "owner": "Telegram",
+          "text": "Telegram’s official ad platform: ads appear in public channels. More than 1 billion people use Telegram every month.",
+          "image": "/media/public/3aae0947-5b17-4499-ab9c-0e2a820be03b.webp",
+          "imageMobile": "/media/public/d4c0e019-1024-4b7c-ae81-213ad53a71b7.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Кейсы Telegram Ads, Ташкент",
+          "owner": "Telegrad · Узбекистан",
+          "text": "Бюджет каждого — около 900 тысяч сумов: в зависимости от сферы один подписчик стоил от 5 800 до 35 500 сумов.",
+          "image": "/media/public/5c0a8ae0-43c8-4da6-ab9a-a70a3de4325c.webp"
+        },
+        "en": {
+          "name": "Telegram Ads case studies, Tashkent",
+          "owner": "Telegrad · Uzbekistan",
+          "text": "Each with a budget of about 900,000 UZS: depending on the niche, one subscriber cost from 5,800 to 35,500 UZS.",
+          "image": "/media/public/9cb7522d-5f75-42e5-92cb-ef8013904a33.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "local Tours — реклама в Instagram",
+          "owner": "Local Tours · Узбекистан",
+          "text": "40-дневная реклама в Instagram, Facebook и Telegram для туристической компании: по данным автора, более 2 500 обращений.",
+          "image": "/media/public/0035a21f-ee7d-4809-9d9c-388988a57163.webp",
+          "imageMobile": "/media/public/97d3be1e-0095-4a7b-9aa5-c0d027ef7bd9.webp"
+        },
+        "en": {
+          "name": "local Tours — Instagram ads",
+          "owner": "Local Tours · Uzbekistan",
+          "text": "A 40-day campaign on Instagram, Facebook and Telegram for a travel company: according to the author, over 2,500 inquiries.",
+          "image": "/media/public/1d6de125-3ef7-447c-a02c-f3a995df8e96.webp",
+          "imageMobile": "/media/public/b4cc057a-6af3-45eb-aa64-e099127a620f.webp"
+        }
+      },
+      {
+        "ru": {
+          "name": "Grand Development Group",
+          "owner": "Grand Development Group · Узбекистан",
+          "text": "Реклама жилого комплекса в центре Ташкента: по данным автора, 517 обращений и продажа 7 квартир.",
+          "image": "/media/public/d0165120-1431-4cb0-934b-a9b70a6fe554.webp",
+          "imageMobile": "/media/public/91262e18-6b9e-4e36-b6b0-563543025600.webp"
+        },
+        "en": {
+          "name": "Grand Development Group",
+          "owner": "Grand Development Group · Uzbekistan",
+          "text": "Advertising for a residential complex in central Tashkent: according to the author, 517 inquiries and 7 apartments sold.",
+          "image": "/media/public/9fc707e2-2dbc-47f2-9e68-030117043ffe.webp",
+          "imageMobile": "/media/public/c7dd3908-5c30-4838-a031-0c111a3c39bc.webp"
+        }
+      }
+    ]
+  }
+}

@@ -23,5 +23,55 @@
   "Qaysi vaqt qulay?",
   "Bo‘sh vaqtlar:",
   "Xabar yozing…"
+ ],
+ "ru": [
+  "Бронирование столика",
+  {
+   "t": "бот",
+   "align": "left",
+   "bold": false
+  },
+  "На какой день нужен столик?",
+  "Укажите и число гостей",
+  "Сегодня, 4 человека",
+  "Рестораны со свободными столиками",
+  "Отсортированы по расстоянию",
+  "Ресторан «Сад»",
+  "Юнусабад, 1,2 км",
+  "Выбрать",
+  "Кирпичный зал",
+  "Чиланзар, 2,8 км",
+  "Выбрать",
+  "Зелёная веранда",
+  "Мирабад, 3,1 км",
+  "Выбрать",
+  "Какое время удобно?",
+  "Свободное время:",
+  "Сообщение…"
+ ],
+ "en": [
+  "Book a table",
+  {
+   "t": "bot",
+   "align": "left",
+   "bold": false
+  },
+  "Which day do you need a table?",
+  "Add the number of guests too",
+  "Today, 4 people",
+  "Restaurants with free tables",
+  "Sorted by distance",
+  "Garden restaurant",
+  "Yunusabad, 1.2 km",
+  "Select",
+  "Brick Hall",
+  "Chilanzar, 2.8 km",
+  "Select",
+  "Green Terrace",
+  "Mirabad, 3.1 km",
+  "Select",
+  "What time suits you?",
+  "Available times:",
+  "Message…"
  ]
 }

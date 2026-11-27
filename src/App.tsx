@@ -2,6 +2,7 @@ import { createContext, lazy, Suspense, useContext, useEffect, useState } from "
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import { applyAdminTheme } from "./lib/theme";
+import { lang, tr } from "./lib/i18n";
 import { api, getCourses, getProjects, getServices, initialProjects, initialServices } from "./lib/api";
 import { categories as defaultCategories, type Course, type Project, type Service } from "../shared/content";
 import Home from "./pages/Home";
@@ -20,7 +21,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 function AdminRoute() {
   useEffect(applyAdminTheme, []);
   return (
-    <Suspense fallback={<div className="loading-page">Boshqaruv paneli yuklanmoqda…</div>}>
+    <Suspense fallback={<div className="loading-page">{tr("Boshqaruv paneli yuklanmoqda…")}</div>}>
       <Admin />
     </Suspense>
   );
@@ -31,6 +32,8 @@ type Content = {
   services: Service[];
   courses: Course[];
   categories: string[];
+  /** Toifa nomining sahifa tilidagi ko'rinishi (qiymat bazada o'zbekcha). */
+  categoryLabel: (value: string) => string;
   /** API javobi kelgunicha false: narxlar faqat bazadan keladi. */
   loaded: boolean;
   error: string;
@@ -42,6 +45,7 @@ const Context = createContext<Content>({
   services: initialServices,
   courses: [],
   categories: defaultCategories,
+  categoryLabel: (value) => value,
   loaded: false,
   error: "",
   refresh: () => {},
@@ -54,25 +58,34 @@ export default function App() {
   const [services, setServices] = useState(initialServices);
   const [courses, setCourses] = useState<Course[]>([]);
   const [categories, setCategories] = useState(defaultCategories);
+  const [labels, setLabels] = useState<Record<string, string>>({});
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
 
   function refresh() {
-    Promise.all([getProjects(), getServices(), getCourses(), api<string[]>("/api/categories")])
-      .then(([p, s, k, c]) => {
+    Promise.all([
+      getProjects(),
+      getServices(),
+      getCourses(),
+      api<string[]>("/api/categories"),
+      lang === "uz" ? Promise.resolve({}) : api<Record<string, string>>(`/api/categories/labels?lang=${lang}`),
+    ])
+      .then(([p, s, k, c, l]) => {
         setProjects(p);
         setServices(s);
         setCourses(k);
         setCategories(["Barchasi", ...c]);
+        setLabels(l);
         setLoaded(true);
         setError("");
       })
-      .catch(() => setError("Yangi ma’lumotlarni yuklab bo‘lmadi. Sahifani yangilab ko‘ring."));
+      .catch(() => setError(tr("Yangi ma’lumotlarni yuklab bo‘lmadi. Sahifani yangilab ko‘ring.")));
   }
   useEffect(refresh, []);
+  const categoryLabel = (value: string) => (value === "Barchasi" ? tr("Barchasi") : labels[value] || value);
 
   return (
-    <Context.Provider value={{ projects, services, courses, categories, loaded, error, refresh }}>
+    <Context.Provider value={{ projects, services, courses, categories, categoryLabel, loaded, error, refresh }}>
       <Routes>
         <Route
           path="/admin/*"

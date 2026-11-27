@@ -1,0 +1,34 @@
+{
+  "vayb-koding": {
+    "ru": {
+      "title": "Создание сайтов и ботов с помощью AI",
+      "tagline": "На практике научитесь ставить задачи AI-ассистенту, проверять написанный им код и запускать проект.",
+      "description": "На курсе вы научитесь правильно объяснять задачу AI-ассистенту, проверять написанный им код и выкладывать готовый проект в интернет. На каждом занятии вы работаете над настоящим проектом.",
+      "format": "Онлайн",
+      "contents": ["Настройка AI-ассистента", "Как превратить идею в задачу", "Создание сайта", "Создание Telegram-бота", "Исправление ошибок", "Публикация в интернете"],
+      "need": "Хочу научиться делать сам"
+    },
+    "en": {
+      "title": "Building websites and bots with AI",
+      "tagline": "Learn hands-on how to brief an AI assistant, review the code it writes and launch your project.",
+      "description": "In this course you’ll learn to explain a task clearly to an AI assistant, review the code it writes and publish the finished project online. Every lesson is spent working on a real project.",
+      "format": "Online",
+      "contents": ["Setting up an AI assistant", "Turning an idea into a task", "Building a website", "Building a Telegram bot", "Fixing bugs", "Publishing online"],
+      "need": "I want to learn to build it myself"
+    },
+    "steps": [
+      {
+        "ru": { "title": "Планирование", "text": "Превращаете идею в чёткую задачу, понятную AI." },
+        "en": { "title": "Planning", "text": "You turn your idea into a clear task the AI can understand." }
+      },
+      {
+        "ru": { "title": "Пишем вместе с AI", "text": "AI-ассистент пишет код, а вы проверяете каждый шаг." },
+        "en": { "title": "Writing with AI", "text": "The AI assistant writes the code while you review every step." }
+      },
+      {
+        "ru": { "title": "Запуск", "text": "Публикуете готовый проект в интернете и делитесь им с другими." },
+        "en": { "title": "Launch", "text": "You publish the finished project online and share it with others." }
+      }
+    ]
+  }
+}

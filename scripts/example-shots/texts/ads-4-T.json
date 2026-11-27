@@ -42,6 +42,92 @@
     "x": 164,
     "y": 135
    }
+  ],
+  "ru": [
+   {
+    "erase": [
+     164,
+     77,
+     450,
+     107
+    ],
+    "t": "grand_residence",
+    "size": 30,
+    "color": "#ffffff",
+    "bold": true,
+    "align": "left",
+    "x": 164,
+    "y": 92
+   },
+   {
+    "erase": [
+     164,
+     122,
+     353,
+     148
+    ],
+    "t": "Реклама",
+    "size": 24,
+    "color": "#f3f4f6",
+    "bold": false,
+    "align": "left",
+    "x": 164,
+    "y": 135
+   }
+  ],
+  "en": [
+   {
+    "erase": [
+     164,
+     77,
+     450,
+     107
+    ],
+    "t": "grand_residence",
+    "size": 30,
+    "color": "#ffffff",
+    "bold": true,
+    "align": "left",
+    "x": 164,
+    "y": 92
+   },
+   {
+    "erase": [
+     164,
+     122,
+     353,
+     148
+    ],
+    "t": "Ads",
+    "size": 24,
+    "color": "#f3f4f6",
+    "bold": false,
+    "align": "left",
+    "x": 164,
+    "y": 135
+   }
   ]
- }
+ },
+ "ru": [
+  null,
+  null,
+  "Новые дома в центре Ташкента",
+  "Комплекс у парка и озера",
+  "Комнаты",
+  "Санузел",
+  "Площадь",
+  "Первый взнос 30%",
+  "Подробнее"
+ ],
+ "en": [
+  null,
+  null,
+  "New homes in central Tashkent",
+  "A complex by the park and lake",
+  "Rooms",
+  "Bathroom",
+  "Area",
+  "30% down payment",
+  "Details"
+ ]
 }

@@ -6,13 +6,14 @@ import {
   serviceIcons,
 } from "../shared/content.ts";
 import { safeUrl, validSlug } from "./security.ts";
+import { LANGS, mk } from "../shared/i18n.ts";
 const text = (max: number) => z.string().trim().max(max);
 const slug = text(100).refine(
   validSlug,
-  "Manzil faqat kichik lotin harflari, raqam va chiziqchadan iborat bo‘lsin.",
+  mk("Manzil faqat kichik lotin harflari, raqam va chiziqchadan iborat bo‘lsin."),
 );
 export const orderSchema = z.object({
-  name: text(100).min(2, "Ismingizni kiriting."),
+  name: text(100).min(2, mk("Ismingizni kiriting.")),
   contact: text(150)
     .min(4)
     .refine(
@@ -20,16 +21,17 @@ export const orderSchema = z.object({
         /^@[A-Za-z0-9_]{4,32}$/.test(v) ||
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ||
         /^\+?[\d\s()-]{7,25}$/.test(v),
-      "Email, @telegram yoki telefon raqamini to‘g‘ri kiriting.",
+      mk("Email, @telegram yoki telefon raqamini to‘g‘ri kiriting."),
     ),
   service: slug,
-  description: text(6000).min(20, "Loyihangiz haqida kamida 20 belgi yozing."),
+  description: text(6000).min(20, mk("Loyihangiz haqida kamida 20 belgi yozing.")),
   budget: text(100).default(""),
   deadline: z
     .union([z.literal(""), z.string().regex(/^\d{4}-\d{2}-\d{2}$/)])
     .default(""),
   consent: z.literal("yes"),
   website: z.literal("").default(""),
+  lang: z.enum(LANGS).default("uz"),
 });
 const demoCard = z.object({
   title: text(120).min(1),

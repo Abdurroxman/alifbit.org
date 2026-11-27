@@ -30,6 +30,23 @@ import {
   type ContentSource,
 } from "./seo";
 import { sendOrderEmail } from "./mail";
+import { geminiTranslate, TRANSLATE_LIMITS } from "./translate";
+import {
+  LANG_LABEL_UZ,
+  TRANSLATED,
+  carryTranslations,
+  graftI18n,
+  langParam,
+  localePath,
+  localize,
+  mk,
+  splitLangPath,
+  translate,
+  type CategoryLabels,
+  type ContentKind,
+  type Lang,
+  type TranslatedLang,
+} from "../shared/i18n.ts";
 import {
   handleAdminPayment,
   handlePayCallback,
@@ -59,6 +76,15 @@ interface Env {
   NOTIFY_EMAIL?: string;
   /** Saytdan ketadigan xatlar manzili va schema.org dagi aloqa manzili. */
   PUBLIC_EMAIL?: string;
+  /** Admin paneldagi avtomatik tarjima (secret). Bo'lmasa tugma o'chiq. */
+  GEMINI_API_KEY?: string;
+  GEMINI_MODEL?: string;
+  /** Faqat lokal sinov: soxta Gemini manzili. */
+  GEMINI_BASE?: string;
+}
+/** Xato xabari tili: sayt `x-lang` sarlavhasini yuboradi, aks holda `?lang=`. */
+function requestLang(request: Request): Lang {
+  return langParam(request.headers.get("x-lang") || new URL(request.url).searchParams.get("lang"));
 }
 class HttpError extends Error {
   constructor(
@@ -92,7 +118,7 @@ async function rateLimit(
   if (!row || row.count > limit)
     throw new HttpError(
       429,
-      "Juda ko‘p urinish. Birozdan keyin qayta urinib ko‘ring.",
+      mk("Juda ko‘p urinish. Birozdan keyin qayta urinib ko‘ring."),
     );
 }
 async function requireAdmin(request: Request, env: Env) {
@@ -111,7 +137,7 @@ async function clientKey(request: Request, env: Env) {
   if (!env.IP_HASH_SECRET)
     throw new HttpError(
       503,
-      "Xizmat hali sozlanmagan. Telegram orqali bog‘laning: @alifbitbot.",
+      mk("Xizmat hali sozlanmagan. Telegram orqali bog‘laning: @alifbitbot."),
     );
   return keyedHash(
     request.headers.get("cf-connecting-ip") ||
@@ -122,7 +148,7 @@ async function clientKey(request: Request, env: Env) {
 async function readLimited(request: Request, max: number) {
   const declared = Number(request.headers.get("content-length") || 0);
   if (declared > max)
-    throw new HttpError(413, "Yuborilgan ma’lumot hajmi juda katta.");
+    throw new HttpError(413, mk("Yuborilgan ma’lumot hajmi juda katta."));
   const reader = request.body?.getReader();
   if (!reader) return new Uint8Array();
   const parts: Uint8Array[] = [];
@@ -133,7 +159,7 @@ async function readLimited(request: Request, max: number) {
     size += value.byteLength;
     if (size > max) {
       await reader.cancel();
-      throw new HttpError(413, "Fayl 5 MB dan kichik bo‘lishi kerak.");
+      throw new HttpError(413, mk("Fayl 5 MB dan kichik bo‘lishi kerak."));
     }
     parts.push(value);
   }
@@ -145,12 +171,12 @@ async function readLimited(request: Request, max: number) {
   }
   return result;
 }
-async function readJson(request: Request) {
+async function readJson(request: Request, max = 100000) {
   if (
     !(request.headers.get("content-type") || "").startsWith("application/json")
   )
     throw new HttpError(415, "JSON formati talab qilinadi.");
-  const body = await readLimited(request, 100000);
+  const body = await readLimited(request, max);
   try {
     return JSON.parse(new TextDecoder().decode(body));
   } catch {
@@ -176,10 +202,12 @@ function sessionCookie(token: string, local: boolean, clear = false) {
 }
 type ContentTable = "projects" | "services" | "articles" | "courses";
 const contentTables: ContentTable[] = ["projects", "services", "articles", "courses"];
+/** Ochiq kontent so'ralgan tilda; admin xom ma'lumotni (barcha tarjimalari bilan) oladi. */
 async function listContent(
   env: Env,
   table: ContentTable,
   admin = false,
+  lang: Lang = "uz",
 ) {
   const { results } = await env.DB.prepare(
     `SELECT data,updated_at FROM ${table} ${admin ? "" : "WHERE published=1"} ORDER BY rowid`,
@@ -189,30 +217,41 @@ async function listContent(
     // Saytdan yashirilgan paketlar ochiq javobga kirmaydi; admin hammasini ko'radi.
     if (table === "services" && !admin && Array.isArray(data.packages))
       data.packages = data.packages.filter((p: { hidden?: boolean }) => !p.hidden);
-    return { ...data, updated_at: row.updated_at };
+    const out = admin ? data : localize(table as ContentKind, data, lang);
+    return { ...out, updated_at: row.updated_at };
   });
 }
+async function categoryLabels(env: Env): Promise<CategoryLabels> {
+  const row = await env.DB.prepare("SELECT data FROM settings WHERE key=?1")
+    .bind("categories_i18n")
+    .first<{ data: string }>();
+  return row ? JSON.parse(row.data) : {};
+}
 /** Sahifa va sitemap uchun nashr qilingan kontent: ochiq API bilan bir xil filtr. */
-function contentSource(env: Env): ContentSource {
+function contentSource(env: Env, lang: Lang = "uz"): ContentSource {
   return {
-    list: (table) => listContent(env, table),
+    list: (table) => listContent(env, table, false, lang),
     async get(table, slug) {
       const row = await env.DB.prepare(
         `SELECT data,updated_at FROM ${table} WHERE slug=?1 AND published=1`,
       )
         .bind(slug)
         .first<{ data: string; updated_at: string }>();
-      return row ? { ...JSON.parse(row.data), updated_at: row.updated_at } : null;
+      if (!row) return null;
+      const data = JSON.parse(row.data);
+      if (table === "services" && Array.isArray(data.packages))
+        data.packages = data.packages.filter((p: { hidden?: boolean }) => !p.hidden);
+      return { ...localize(table, data, lang), updated_at: row.updated_at };
     },
   };
 }
 async function notify(env: Env, ctx: ExecutionContext) {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return;
   const pending = await env.DB.prepare(
-    "SELECT n.order_id,o.reference FROM notifications n JOIN orders o ON o.id=n.order_id WHERE delivered=0 AND attempts<8 AND last_attempt<?1 LIMIT 10",
+    "SELECT n.order_id,o.reference,o.lang FROM notifications n JOIN orders o ON o.id=n.order_id WHERE delivered=0 AND attempts<8 AND last_attempt<?1 LIMIT 10",
   )
     .bind(Math.floor(Date.now() / 1000) - 60)
-    .all<{ order_id: string; reference: string }>();
+    .all<{ order_id: string; reference: string; lang: Lang }>();
   for (const row of pending.results) {
     await env.DB.prepare(
       "UPDATE notifications SET attempts=attempts+1,last_attempt=?1 WHERE order_id=?2",
@@ -227,7 +266,7 @@ async function notify(env: Env, ctx: ExecutionContext) {
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             chat_id: env.TELEGRAM_CHAT_ID,
-            text: `AlifBit: yangi murojaat — ${row.reference}. Admin panelda ko‘ring: ${env.PUBLIC_ORIGIN}/admin`,
+            text: `AlifBit: yangi murojaat — ${row.reference}${row.lang && row.lang !== "uz" ? ` (${LANG_LABEL_UZ[row.lang]})` : ""}. Admin panelda ko‘ring: ${env.PUBLIC_ORIGIN}/admin`,
           }),
         },
       );
@@ -252,16 +291,19 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
   // pay.alifbit.org serverdan serverga yuboradigan xabar: Origin yo'q, imzo bilan tekshiriladi.
   if (path === "/api/pay/callback") return handlePayCallback(request, env);
   if (!["GET", "HEAD"].includes(method) && !isSameOrigin(request))
-    throw new HttpError(403, "So‘rov manbasi tasdiqlanmadi.");
+    throw new HttpError(403, mk("So‘rov manbasi tasdiqlanmadi."));
   if (path === "/api/health") return json({ ok: true });
+  const lang = langParam(url.searchParams.get("lang"));
   if (method === "GET" && path === "/api/projects")
-    return json(await listContent(env, "projects"));
+    return json(await listContent(env, "projects", false, lang));
   if (method === "GET" && path === "/api/services")
-    return json(await listContent(env, "services"));
+    return json(await listContent(env, "services", false, lang));
   if (method === "GET" && path === "/api/articles")
-    return json(await listContent(env, "articles"));
+    return json(await listContent(env, "articles", false, lang));
   if (method === "GET" && path === "/api/courses")
-    return json(await listContent(env, "courses"));
+    return json(await listContent(env, "courses", false, lang));
+  if (method === "GET" && path === "/api/categories/labels")
+    return json(lang === "uz" ? {} : (await categoryLabels(env))[lang] || {});
   if (method === "GET" && path === "/api/categories") {
     const row = await env.DB.prepare("SELECT data FROM settings WHERE key=?1")
       .bind("categories")
@@ -285,7 +327,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         "multipart/form-data",
       )
     )
-      throw new HttpError(415, "Shakl formati noto‘g‘ri.");
+      throw new HttpError(415, mk("Shakl formati noto‘g‘ri."));
     const raw = await readLimited(request, 5 * 1024 * 1024 + 100000);
     const form = await new Request(request.url, {
       method: "POST",
@@ -302,7 +344,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         400,
         parsed.error.issues[0].message ===
           'Invalid literal value, expected "yes"'
-          ? "Ma’lumotlarni qayta ishlashga rozilik kerak."
+          ? mk("Ma’lumotlarni qayta ishlashga rozilik kerak.")
           : parsed.error.issues[0].message,
       );
     const d = parsed.data;
@@ -316,20 +358,20 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
       .bind(course ? d.service.slice(COURSE_ORDER_PREFIX.length) : d.service)
       .first();
     if (!service && d.service !== "other")
-      throw new HttpError(400, "Xizmat yo‘nalishini tanlang.");
+      throw new HttpError(400, mk("Xizmat yo‘nalishini tanlang."));
     const attachment = form.get("attachment");
     let key: string | null = null,
       name: string | null = null,
       type: string | null = null;
     if (attachment instanceof File && attachment.size) {
       if (attachment.size > 5 * 1024 * 1024)
-        throw new HttpError(413, "Fayl 5 MB dan kichik bo‘lishi kerak.");
+        throw new HttpError(413, mk("Fayl 5 MB dan kichik bo‘lishi kerak."));
       const bytes = new Uint8Array(await attachment.arrayBuffer());
       type = fileType(bytes);
       if (!type || type !== attachment.type)
         throw new HttpError(
           400,
-          "Faqat haqiqiy PDF, PNG, JPG yoki WEBP fayl qabul qilinadi.",
+          mk("Faqat haqiqiy PDF, PNG, JPG yoki WEBP fayl qabul qilinadi."),
         );
       key = `private/${crypto.randomUUID()}`;
       name = attachment.name.replace(/[\r\n\x00-\x1f"\\/]/g, "_").slice(0, 160);
@@ -340,7 +382,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
     try {
       await env.DB.batch([
         env.DB.prepare(
-          "INSERT INTO orders(id,reference,name,contact,service,description,budget,deadline,attachment_key,attachment_name,attachment_type) VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11)",
+          "INSERT INTO orders(id,reference,name,contact,service,description,budget,deadline,attachment_key,attachment_name,attachment_type,lang) VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12)",
         ).bind(
           id,
           reference,
@@ -353,6 +395,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
           key,
           name,
           type,
+          d.lang,
         ),
         env.DB.prepare("INSERT INTO notifications(order_id) VALUES(?1)").bind(
           id,
@@ -373,6 +416,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         budget: d.budget,
         deadline: d.deadline,
         attachment: Boolean(key),
+        lang: d.lang,
       }),
     );
     return json({ reference }, 201);
@@ -480,6 +524,59 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         return json({ ok: true });
       }
     }
+    if (path === "/api/admin/categories/i18n") {
+      if (method === "GET") return json(await categoryLabels(env));
+      if (method === "POST") {
+        const data = (await readJson(request)) as Record<string, unknown>;
+        const clean: CategoryLabels = {};
+        if (!data || typeof data !== "object" || Array.isArray(data))
+          throw new HttpError(400, "Tarjimalar formati noto‘g‘ri.");
+        for (const [lang, labels] of Object.entries(data)) {
+          if (!(TRANSLATED as readonly string[]).includes(lang))
+            throw new HttpError(400, "Faqat ruscha va inglizcha tarjima saqlanadi.");
+          if (!labels || typeof labels !== "object" || Array.isArray(labels) || Object.keys(labels).length > 40)
+            throw new HttpError(400, "Tarjimalar formati noto‘g‘ri.");
+          const entries = Object.entries(labels as Record<string, unknown>)
+            .filter(([, v]) => typeof v === "string" && v.trim())
+            .map(([k, v]) => [k.slice(0, 80), String(v).trim()] as const);
+          if (entries.some(([, v]) => v.length > 80))
+            throw new HttpError(400, "Kategoriya tarjimasi 80 belgidan oshmasin.");
+          clean[lang as TranslatedLang] = Object.fromEntries(entries);
+        }
+        await env.DB.prepare(
+          "INSERT INTO settings(key,data) VALUES(?1,?2) ON CONFLICT(key) DO UPDATE SET data=excluded.data",
+        )
+          .bind("categories_i18n", JSON.stringify(clean))
+          .run();
+        await audit(env, "categories.translate", "categories");
+        return json({ ok: true });
+      }
+    }
+    if (path === "/api/admin/translate") {
+      if (method === "GET") return json({ configured: !!env.GEMINI_API_KEY });
+      if (method === "POST") {
+        if (!env.GEMINI_API_KEY)
+          throw new HttpError(503, "Avtomatik tarjima sozlanmagan: Cloudflare’da GEMINI_API_KEY qo‘yilmagan.");
+        await rateLimit(env, `translate:${await clientKey(request, env)}`, 40, 3600);
+        const body = (await readJson(request, 200000)) as { lang?: unknown; texts?: unknown };
+        if (!(TRANSLATED as readonly unknown[]).includes(body.lang))
+          throw new HttpError(400, "Tarjima tili: ru yoki en.");
+        const texts = body.texts;
+        if (
+          !Array.isArray(texts) ||
+          !texts.length ||
+          texts.length > TRANSLATE_LIMITS.items ||
+          texts.some((x) => typeof x !== "string") ||
+          texts.reduce((n: number, x: string) => n + x.length, 0) > TRANSLATE_LIMITS.chars
+        )
+          throw new HttpError(400, "Tarjima uchun matnlar ro‘yxati noto‘g‘ri yoki juda katta.");
+        const translations = await geminiTranslate(env, body.lang as TranslatedLang, texts as string[]);
+        if (!translations)
+          throw new HttpError(502, "Gemini javob bermadi yoki javob noto‘g‘ri keldi. Birozdan keyin qayta urinib ko‘ring.");
+        await audit(env, "content.autotranslate", String(body.lang));
+        return json({ translations });
+      }
+    }
     if (path === "/api/admin/logout" && method === "POST") {
       const token = cookieValue(
         request.headers.get("cookie"),
@@ -522,6 +619,28 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         ]);
         return json({ ok: true });
       }
+      if (method === "POST" && path.split("/")[5] === "i18n") {
+        // Faqat tarjimalar: yozuvning o'zbekcha qismi o'zgarmaydi.
+        const id = decodeURIComponent(path.split("/")[4] || "");
+        const body = (await readJson(request, 400000)) as { updated_at?: unknown; tree?: unknown };
+        const row = await env.DB.prepare(`SELECT data,updated_at FROM ${t} WHERE id=?1`)
+          .bind(id)
+          .first<{ data: string; updated_at: string }>();
+        if (!row) throw new HttpError(404, "Ma’lumot topilmadi.");
+        if (body.updated_at !== row.updated_at)
+          throw new HttpError(409, "Yozuv boshqa joyda o‘zgargan. Sahifani yangilab, tarjimani qayta saqlang.");
+        let data: unknown;
+        try {
+          data = graftI18n(t as ContentKind, JSON.parse(row.data), body.tree);
+        } catch (e) {
+          throw new HttpError(400, `Tarjimani saqlab bo‘lmadi: ${(e as Error).message}`);
+        }
+        await env.DB.batch([
+          env.DB.prepare(`UPDATE ${t} SET data=?1,updated_at=CURRENT_TIMESTAMP WHERE id=?2`).bind(JSON.stringify(data), id),
+          env.DB.prepare("INSERT INTO audit_log(action,entity_id) VALUES(?1,?2)").bind(`${t}.translate`, id),
+        ]);
+        return json({ ok: true });
+      }
       if (method === "POST") {
         const body = await readJson(request);
         const parsed = (
@@ -535,8 +654,13 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
         ).safeParse(body);
         if (!parsed.success)
           throw new HttpError(400, parsed.error.issues[0].message);
-        const data = parsed.data as unknown as Record<string, unknown>;
+        let data = parsed.data as unknown as Record<string, unknown>;
         const id = t === "services" ? data.slug : data.id;
+        // O'zbekcha tahrir formasi tarjimalarni yubormaydi: ular bazadagi oldingi yozuvdan o'z elementlariga ko'chiriladi.
+        const previous = await env.DB.prepare(`SELECT data FROM ${t} WHERE id=?1`)
+          .bind(id)
+          .first<{ data: string }>();
+        if (previous) data = carryTranslations(t as ContentKind, data, JSON.parse(previous.data));
         if (t === "projects") {
           const row = await env.DB.prepare(
             "SELECT data FROM settings WHERE key=?1",
@@ -649,7 +773,7 @@ async function handleApi(request: Request, env: Env, ctx: ExecutionContext) {
       return json(results);
     }
   }
-  throw new HttpError(404, "Sahifa yoki amal topilmadi.");
+  throw new HttpError(404, mk("Sahifa yoki amal topilmadi."));
 }
 async function handle(
   request: Request,
@@ -672,19 +796,23 @@ async function handle(
     return Response.redirect(url.href, 308);
   }
   if (path.startsWith("/api/")) return handleApi(request, env, ctx);
-  if (path === "/sado" || path.startsWith("/sado/"))
+  // /ru/... va /en/... — sahifaning ruscha va inglizcha nusxasi; prefikssiz — o'zbekcha.
+  const { lang, path: route } = splitLangPath(path);
+  if (lang !== "uz" && (route === "/admin" || route.startsWith("/admin/")))
+    return Response.redirect(`${url.origin}${route}`, 302);
+  if (route === "/sado" || route.startsWith("/sado/"))
     return Response.redirect(`${SADO_URL}/`, 301);
-  if (path === "/academy")
-    return Response.redirect(`${url.origin}/courses`, 301);
+  if (route === "/academy")
+    return Response.redirect(`${url.origin}${localePath(lang, "/courses")}`, 301);
   if (path.startsWith("/media/")) {
     if (!["GET", "HEAD"].includes(request.method))
-      throw new HttpError(405, "Bu amal qo‘llab-quvvatlanmaydi.");
+      throw new HttpError(405, mk("Bu amal qo‘llab-quvvatlanmaydi."));
     const key = path.slice(7);
     if (key.startsWith("private/")) await requireAdmin(request, env);
     else if (!/^public\/[a-f0-9-]+\.(png|jpg|webp)$/.test(key))
-      throw new HttpError(404, "Fayl topilmadi.");
+      throw new HttpError(404, mk("Fayl topilmadi."));
     const object = await env.MEDIA.get(key);
-    if (!object) throw new HttpError(404, "Fayl topilmadi.");
+    if (!object) throw new HttpError(404, mk("Fayl topilmadi."));
     const headers = new Headers();
     object.writeHttpMetadata(headers);
     headers.set(
@@ -713,7 +841,7 @@ async function handle(
       { headers: { "content-type": "application/xml; charset=utf-8" } },
     );
   if (/\.[a-z0-9]+$/i.test(path)) return env.ASSETS.fetch(request);
-  const page = await buildPage(path, contentSource(env), env.PUBLIC_ORIGIN);
+  const page = await buildPage(route, contentSource(env, lang), env.PUBLIC_ORIGIN, lang);
   const index = await env.ASSETS.fetch(
     new Request(new URL("/index.html", url.origin), { method: "GET" }),
   );
@@ -740,7 +868,7 @@ export default {
     } catch (e) {
       if (e instanceof HttpError)
         response = json(
-          { error: e.message },
+          { error: translate(requestLang(request), e.message) },
           e.status,
           e.status === 429 ? { "retry-after": "900" } : {},
         );
@@ -753,8 +881,10 @@ export default {
         );
         response = json(
           {
-            error:
-              "Xizmat vaqtincha ishlamayapti. Telegram orqali yozing: @alifbitbot.",
+            error: translate(
+              requestLang(request),
+              mk("Xizmat vaqtincha ishlamayapti. Telegram orqali yozing: @alifbitbot."),
+            ),
             requestId: id,
           },
           503,

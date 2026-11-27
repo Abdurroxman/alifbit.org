@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { bootMotion } from "./lib/motion";
+import { basename } from "./lib/i18n";
 import "./styles/base.css";
 import "./styles/ui.css";
 import "./styles/layout.css";
@@ -22,7 +23,7 @@ bootMotion();
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

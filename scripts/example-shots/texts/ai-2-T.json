@@ -24,5 +24,57 @@
   "bitta buyurtma bo‘ladi",
   "Hammasini savatga qo‘shish",
   "Yordamchidan so‘rang…"
+ ],
+ "ru": [
+  "AI-ассистент",
+  "в магазине",
+  {
+   "t": "Нужен подарок до 200$",
+   "align": "left"
+  },
+  "Нашёл 3 подходящих подарка",
+  "Всё доставят завтра",
+  "Рекомендуемые подарки",
+  "В рамках бюджета",
+  "Наушники",
+  "Электрочайник",
+  "Рюкзак",
+  "Бесшумный",
+  "1,7 литра",
+  "Для ноутбука",
+  "Купить",
+  "Купить",
+  "Купить",
+  "Если добавить",
+  "все три в корзину,",
+  "будет один заказ",
+  "Добавить всё в корзину",
+  "Спросите ассистента…"
+ ],
+ "en": [
+  "AI assistant",
+  "in the store",
+  {
+   "t": "I need a gift under $200",
+   "align": "left"
+  },
+  "I found 3 gifts for you",
+  "All delivered tomorrow",
+  "Recommended gifts",
+  "Within your budget",
+  "Headphones",
+  "Electric kettle",
+  "Backpack",
+  "Quiet",
+  "1.7 liters",
+  "Laptop-ready",
+  "Buy",
+  "Buy",
+  "Buy",
+  "If you add all three",
+  "gifts to the cart,",
+  "it’s a single order",
+  "Add all to cart",
+  "Ask the assistant…"
  ]
 }

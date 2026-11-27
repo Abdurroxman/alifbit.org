@@ -18,5 +18,45 @@
   "Menejer siz bilan bog‘lanadi",
   "O‘rtacha kutish vaqti:",
   "Xabar yozing…"
+ ],
+ "ru": [
+  "Бот авторынка",
+  "онлайн",
+  "Авторынок",
+  "Объявления об авто",
+  "Седан, 2022 год",
+  "Пробег 18 000 км",
+  null,
+  "Задать вопрос",
+  "Записаться на осмотр",
+  "Рассчитать кредит",
+  "Гарантия",
+  {
+   "t": "Хочу записаться на осмотр",
+   "align": "left"
+  },
+  "Менеджер свяжется с вами",
+  "Среднее время ожидания:",
+  "Сообщение…"
+ ],
+ "en": [
+  "Car market bot",
+  "online",
+  "Car market",
+  "Car listings",
+  "Sedan, 2022",
+  "Mileage 18,000 km",
+  null,
+  "Ask a question",
+  "Book a viewing",
+  "Loan calculator",
+  "Warranty",
+  {
+   "t": "I’d like to book a viewing",
+   "align": "left"
+  },
+  "A manager will contact you",
+  "Average wait time:",
+  "Message…"
  ]
 }

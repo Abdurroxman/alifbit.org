@@ -1,0 +1,36 @@
+{
+  "ru": {
+    "name": "DALOLAT",
+    "summary": "Приложение в Telegram, которое помогает найти достойную пару.",
+    "description": "DALOLAT — приложение, которое работает внутри Telegram (Mini App). Помогает найти достойную пару в соответствии с религиозными ценностями: лента подбирается под ваши требования, в каждой анкете виден процент совместимости, вы отправляете кандидату запрос, и если он его примет, общаетесь прямо в приложении.",
+    "purpose": "Помочь людям, которые хотят создать семью, найти достойную пару с уважением, доверием и конфиденциальностью.",
+    "features": [
+      "Процент совместимости, фильтры и поиск по ID",
+      "Синяя галочка — анкеты с проверенным живым лицом",
+      "Фото открываются только тем, кому вы разрешили",
+      "AI-ассистент Нур и тест характера (Big Five)",
+      "Общение при свидетеле и личная сваха",
+      "5 языков: узбекский, русский, английский, турецкий, арабский"
+    ],
+    "platforms": ["Telegram Mini App", "dalolat.app"],
+    "seoTitle": "DALOLAT — Достойная пара, крепкая семья",
+    "seoDescription": "DALOLAT — приложение в Telegram: процент совместимости, проверенные анкеты, скрытые фото и AI-ассистент Нур помогают найти достойную пару."
+  },
+  "en": {
+    "name": "DALOLAT",
+    "summary": "A Telegram app that helps you find the right spouse.",
+    "description": "DALOLAT is an app that runs inside Telegram (a Mini App). It helps you find the right spouse in line with religious values: the feed is sorted by your preferences, every profile shows a compatibility score, you send a request to a candidate, and if they accept, you chat right inside the app.",
+    "purpose": "To help people who want to start a family find the right spouse with respect, trust and privacy.",
+    "features": [
+      "Compatibility score, filters and search by ID",
+      "Blue badge — profiles with a live face check",
+      "Photos open only to people you approve",
+      "Nur AI assistant and a personality test (Big Five)",
+      "Chats with a chaperone and a personal matchmaker",
+      "5 languages: Uzbek, Russian, English, Turkish, Arabic"
+    ],
+    "platforms": ["Telegram Mini App", "dalolat.app"],
+    "seoTitle": "DALOLAT — The right spouse, a strong family",
+    "seoDescription": "DALOLAT is a Telegram app: compatibility scores, verified profiles, private photos and the Nur AI assistant help you find the right spouse."
+  }
+}

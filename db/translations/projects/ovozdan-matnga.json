@@ -1,0 +1,30 @@
+{
+  "ru": {
+    "name": "Sado",
+    "summary": "Программа для набора текста голосом. Удерживайте Alt и говорите: когда отпустите клавишу, Sado напишет сказанное там, где стоит курсор.",
+    "description": "Sado — программа для голосового набора в любом приложении Windows. Удерживаете Alt и говорите, а когда отпускаете — текст появляется там, где стоит курсор: дословно (Exact), в очищенном виде (Clean) или как готовое задание для AI-ассистента (Prompt). Понимает узбекский, русский и английский, даже смешанную речь.",
+    "purpose": "Записывать мысли быстрее, чем набирать их на клавиатуре, и легко давать AI-ассистентам чёткие, структурированные задания.",
+    "features": [
+      "Голосовой набор в любой программе по клавише Alt",
+      "Режимы Exact, Clean и Prompt",
+      "Узбекский, русский и английский языки",
+      "Бесплатный тариф: 30 минут в месяц",
+      "История хранится на компьютере в зашифрованном виде"
+    ],
+    "platforms": ["Windows 10 и 11", "macOS — скоро"]
+  },
+  "en": {
+    "name": "Sado",
+    "summary": "A voice typing app. Hold Alt and speak: when you release the key, Sado types what you said wherever your cursor is.",
+    "description": "Sado lets you type by voice in any Windows app. Hold Alt and speak, and when you let go, the text appears at your cursor: word for word (Exact), cleaned up (Clean) or as a ready-made task for an AI assistant (Prompt). It understands Uzbek, Russian and English, even mixed speech.",
+    "purpose": "To capture thoughts faster than typing and make it easy to give AI assistants clear, well-structured tasks.",
+    "features": [
+      "Voice typing in any app with the Alt key",
+      "Exact, Clean and Prompt modes",
+      "Uzbek, Russian and English",
+      "Free plan: 30 minutes a month",
+      "History is stored encrypted on your computer"
+    ],
+    "platforms": ["Windows 10 and 11", "macOS — coming soon"]
+  }
+}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BookOpen } from "lucide-react";
-import { api } from "../lib/api";
+import { getArticles } from "../lib/api";
 import { Arrow, ContactBand, PageTop, TextLink } from "../components/ui";
 import NotFound from "./NotFound";
+import { tr } from "../lib/i18n";
 
 type Article = {
   id: string;
@@ -20,22 +21,22 @@ export function Journal() {
   const [items, setItems] = useState<Article[]>([]);
   const [error, setError] = useState("");
   useEffect(() => {
-    api<Article[]>("/api/articles")
+    getArticles<Article>()
       .then(setItems)
-      .catch(() => setError("Qaydlarni yuklab bo‘lmadi. Keyinroq urinib ko‘ring."));
+      .catch(() => setError(tr("Qaydlarni yuklab bo‘lmadi. Keyinroq urinib ko‘ring.")));
   }, []);
   return (
     <>
       <PageTop
-        name="Qaydlar"
-        eyebrow="Fikrlar va izlanishlar"
+        name={tr("Qaydlar")}
+        eyebrow={tr("Fikrlar va izlanishlar")}
         title={[
-          "Ishlar ortidagi",
+          tr("Ishlar ortidagi"),
           <span className="accent" key="a">
-            fikrlar.
+            {tr("fikrlar.")}
           </span>,
         ]}
-        text="Texnologiya, ilm va ijod haqida. O‘rganayotganlarimiz va yo‘l davomida topganlarimiz."
+        text={tr("Texnologiya, ilm va ijod haqida. O‘rganayotganlarimiz va yo‘l davomida topganlarimiz.")}
       />
       <section className="container journal-list">
         {error ? (
@@ -56,9 +57,9 @@ export function Journal() {
         ) : (
           <div className="empty-state">
             <BookOpen strokeWidth={1} />
-            <h2>Hozircha maqola yo‘q.</h2>
-            <p>Birinchi qaydlar tayyor bo‘lgach shu yerda e’lon qilinadi.</p>
-            <TextLink to="/about">Hozircha biz bilan tanishing</TextLink>
+            <h2>{tr("Hozircha maqola yo‘q.")}</h2>
+            <p>{tr("Birinchi qaydlar tayyor bo‘lgach shu yerda e’lon qilinadi.")}</p>
+            <TextLink to="/about">{tr("Hozircha biz bilan tanishing")}</TextLink>
           </div>
         )}
       </section>
@@ -72,12 +73,12 @@ export function JournalDetail() {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    api<Article[]>("/api/articles")
+    getArticles<Article>()
       .then((list) => setArticle(list.find((a) => a.slug === slug) || null))
       .catch(() => setArticle(null))
       .finally(() => setLoading(false));
   }, [slug]);
-  if (loading) return <div className="loading-page">Yuklanmoqda…</div>;
+  if (loading) return <div className="loading-page">{tr("Yuklanmoqda…")}</div>;
   if (!article) return <NotFound />;
   return (
     <>

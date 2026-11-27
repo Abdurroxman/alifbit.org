@@ -34,5 +34,77 @@
   "0,5 L",
   "Vanilli",
   "Buyurtmani ko‘rish"
+ ],
+ "ru": [
+  {
+   "t": "Fast Food",
+   "color": "#ffffff",
+   "align": "left"
+  },
+  {
+   "t": "мини-приложение",
+   "align": "left"
+  },
+  "Fast Food Mini App",
+  "Выберите блюдо и оплатите в Telegram",
+  "Пицца",
+  "Десерт",
+  "Бургер",
+  null,
+  "Бургер",
+  "Картофель фри",
+  "Хот-дог",
+  "Говядина",
+  "Большой",
+  "С горчицей",
+  "Тако",
+  "Пицца",
+  "Донат",
+  "Острый",
+  "Пепперони",
+  "Клубничный",
+  "Шоколадный торт",
+  "Кола",
+  "Мороженое",
+  "1 кусок",
+  "0,5 л",
+  "Ваниль",
+  "Смотреть заказ"
+ ],
+ "en": [
+  {
+   "t": "Fast Food",
+   "color": "#ffffff",
+   "align": "left"
+  },
+  {
+   "t": "mini app",
+   "align": "left"
+  },
+  "Fast Food Mini App",
+  "Pick food and pay in Telegram",
+  "Pizza",
+  "Dessert",
+  "Burger",
+  null,
+  "Burger",
+  "French fries",
+  "Hot dog",
+  "Beef",
+  "Large",
+  "With mustard",
+  "Taco",
+  "Pizza",
+  "Donut",
+  "Spicy",
+  "Pepperoni",
+  "Strawberry",
+  "Chocolate cake",
+  "Cola",
+  "Ice cream",
+  "1 slice",
+  "0.5 L",
+  "Vanilla",
+  "View order"
  ]
 }

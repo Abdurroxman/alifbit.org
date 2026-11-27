@@ -25,27 +25,28 @@ import {
   type ServiceExample,
   type ServicePackage,
 } from "../../shared/content";
+import { lang, mk, tr } from "../lib/i18n";
 
 const WORK = [
   [
     "01",
-    "Tinglaymiz",
-    "G‘oyangiz, ehtiyojingiz va kutilgan natijani birgalikda aniqlaymiz.",
+    mk("Tinglaymiz"),
+    mk("G‘oyangiz, ehtiyojingiz va kutilgan natijani birgalikda aniqlaymiz."),
   ],
   [
     "02",
-    "Narx va muddatni kelishamiz",
-    "Paket, ish tarkibi, narx va topshirish sanasini ish boshlanishidan oldin yozib olamiz.",
+    mk("Narx va muddatni kelishamiz"),
+    mk("Paket, ish tarkibi, narx va topshirish sanasini ish boshlanishidan oldin yozib olamiz."),
   ],
   [
     "03",
-    "Yaratamiz",
-    "Dizayn va ishlab chiqish jarayonida siz bilan aloqada bo‘lamiz.",
+    mk("Yaratamiz"),
+    mk("Dizayn va ishlab chiqish jarayonida siz bilan aloqada bo‘lamiz."),
   ],
   [
     "04",
-    "Ishga tushiramiz",
-    "Tekshiramiz, topshiramiz va foydalanish bo‘yicha yo‘l ko‘rsatamiz.",
+    mk("Ishga tushiramiz"),
+    mk("Tekshiramiz, topshiramiz va foydalanish bo‘yicha yo‘l ko‘rsatamiz."),
   ],
 ];
 
@@ -56,13 +57,13 @@ export function WorkingProcess() {
         <div className="section-head">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>Qanday ishlaymiz</Eyebrow>
+              <Eyebrow>{tr("Qanday ishlaymiz")}</Eyebrow>
             </div>
             <Lines>
               {[
-                "Aniq jarayon.",
+                tr("Aniq jarayon."),
                 <span className="accent" key="a">
-                  Puxta natija.
+                  {tr("Puxta natija.")}
                 </span>,
               ]}
             </Lines>
@@ -72,8 +73,8 @@ export function WorkingProcess() {
           {WORK.map(([n, t, d], i) => (
             <li key={n} data-reveal style={{ "--d": i * 100 } as CSSProperties}>
               <span>{n}</span>
-              <h3>{t}</h3>
-              <p>{d}</p>
+              <h3>{tr(t)}</h3>
+              <p>{tr(d)}</p>
             </li>
           ))}
         </ol>
@@ -89,13 +90,13 @@ export function Promises() {
       <div className="section-head">
         <div>
           <div data-reveal="fade">
-            <Eyebrow>Har bir loyihada</Eyebrow>
+            <Eyebrow>{tr("Har bir loyihada")}</Eyebrow>
           </div>
           <Lines>
             {[
-              "Topshirgandan keyin ham",
+              tr("Topshirgandan keyin ham"),
               <span className="accent" key="a">
-                yoningizdamiz.
+                {tr("yoningizdamiz.")}
               </span>,
             ]}
           </Lines>
@@ -105,8 +106,8 @@ export function Promises() {
         {PROMISES.map(([title, text], i) => (
           <li key={title} data-reveal style={{ "--d": i * 100 } as CSSProperties}>
             <span>{String(i + 1).padStart(2, "0")}</span>
-            <h3>{title}</h3>
-            <p>{text}</p>
+            <h3>{tr(title)}</h3>
+            <p>{tr(text)}</p>
           </li>
         ))}
       </ol>
@@ -115,6 +116,8 @@ export function Promises() {
 }
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+/** Ro'yxat ichidagi xizmat nomi: o'zbekchada kichik harf bilan, boshqa tillarda nom o'zgarmaydi. */
+const lowerName = (s: string) => (lang === "uz" ? lower(s) : s);
 
 /**
  * Narx va muddat haqidagi javoblar xizmatlar ma'lumotidan yig'iladi.
@@ -127,37 +130,42 @@ function faqItems(services: Service[], priceMode: "list" | "ask") {
   const items: Array<[string, string]> = [];
   if (priceMode === "ask")
     items.push([
-      "Narxlar qancha?",
-      "Narx xizmat va paketga bog‘liq. Sahifa boshida xizmatni tanlang — har bir paketning boshlang‘ich narxi va muddati shu yerda ko‘rinadi. Yakuniy narx ishga qarab kelishiladi.",
+      tr("Narxlar qancha?"),
+      tr("Narx xizmat va paketga bog‘liq. Sahifa boshida xizmatni tanlang — har bir paketning boshlang‘ich narxi va muddati shu yerda ko‘rinadi. Yakuniy narx ishga qarab kelishiladi."),
     ]);
   else if (priced.length)
     items.push([
-      "Narxlar qancha?",
+      tr("Narxlar qancha?"),
       [
         priced
           .map((s) => `${s.name} — ${keepNumbers(s.price || "")}`)
           .join(", ") + ".",
         unpriced.length
-          ? `${unpriced.map((s) => s.name).join(", ")} narxi vazifa hajmiga qarab kelishiladi.`
+          ? tr("{names} narxi vazifa hajmiga qarab kelishiladi.", { names: unpriced.map((s) => s.name).join(", ") })
           : "",
-        "Bu boshlang‘ich narxlar: yakuniy narx ishga qarab, topshiriqni ko‘rib chiqqach kelishiladi.",
+        tr("Bu boshlang‘ich narxlar: yakuniy narx ishga qarab, topshiriqni ko‘rib chiqqach kelishiladi."),
       ]
         .filter(Boolean)
         .join(" "),
     ]);
   if (timed.length)
     items.push([
-      "Qancha vaqtda tayyor bo‘ladi?",
-      `${timed.map((s, i) => `${i ? lower(s.name) : s.name} — ${s.term}`).join(", ")}. Aniq muddatni topshiriqqa qarab, ish boshlanishidan oldin kelishamiz.`,
+      tr("Qancha vaqtda tayyor bo‘ladi?"),
+      tr("{list}. Aniq muddatni topshiriqqa qarab, ish boshlanishidan oldin kelishamiz.", {
+        list: timed.map((s, i) => `${i ? lowerName(s.name) : s.name} — ${s.term}`).join(", "),
+      }),
     ]);
   items.push(
     [
-      "Narxga nimalar kiradi?",
-      `Har bir xizmatning «Xizmatga nimalar kiradi?» ro‘yxati va paketlar tarkibi xizmat sahifasida yozilgan. Har bir loyihada yana: ${PROMISES.map(([t]) => lower(t)).join(", ")}. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.`,
+      tr("Narxga nimalar kiradi?"),
+      tr(
+        "Har bir xizmatning «Xizmatga nimalar kiradi?» ro‘yxati va paketlar tarkibi xizmat sahifasida yozilgan. Har bir loyihada yana: {list}. Qo‘shimcha ish kerak bo‘lsa, narxini boshlashdan oldin kelishamiz.",
+        { list: PROMISES.map(([t]) => lower(tr(t))).join(", ") },
+      ),
     ],
     [
-      "Faqat tayyor texnik topshiriq bilan ishlaysizmi?",
-      "Yo‘q. G‘oyangiz hali dastlabki bosqichda bo‘lsa ham suhbatni boshlashimiz mumkin. Talab va ustuvorliklarni birgalikda aniqlaymiz.",
+      tr("Faqat tayyor texnik topshiriq bilan ishlaysizmi?"),
+      tr("Yo‘q. G‘oyangiz hali dastlabki bosqichda bo‘lsa ham suhbatni boshlashimiz mumkin. Talab va ustuvorliklarni birgalikda aniqlaymiz."),
     ],
   );
   return items;
@@ -171,13 +179,13 @@ export function FAQ({ priceMode = "list" }: { priceMode?: "list" | "ask" }) {
     <section className="container section faq hairline">
       <div>
         <div data-reveal="fade">
-          <Eyebrow>Savol-javob</Eyebrow>
+          <Eyebrow>{tr("Savol-javob")}</Eyebrow>
         </div>
         <Lines>
           {[
-            "Buyurtmadan",
+            tr("Buyurtmadan"),
             <span className="accent" key="a">
-              oldin.
+              {tr("oldin.")}
             </span>,
           ]}
         </Lines>
@@ -222,15 +230,15 @@ export function Services() {
   return (
     <>
       <PageTop
-        name="Xizmatlar"
-        eyebrow="Xizmatlar va narxlar"
+        name={tr("Xizmatlar")}
+        eyebrow={tr("Xizmatlar va narxlar")}
         title={[
-          "Sayt, bot va ilova",
+          tr("Sayt, bot va ilova"),
           <span className="accent" key="a">
-            yaratish xizmatlari.
+            {tr("yaratish xizmatlari.")}
           </span>,
         ]}
-        text="Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama. Har birida tarkibi, paketlar, narx va muddat yozilgan."
+        text={tr("Sayt, Telegram bot, AI yordamchi, dastur va ilovalar, dizayn, tizimlarni ulash, qidiruvga moslash, texnik xizmat, tekshirish va reklama. Har birida tarkibi, paketlar, narx va muddat yozilgan.")}
       />
       <section className="container">
         <ServiceCards services={services} />
@@ -256,7 +264,7 @@ function Packages({ service }: { service: Service }) {
   const { selected, optionProps } = usePackageChoice(packages);
   return (
     <>
-      <div className="pkg-grid" role="radiogroup" aria-label="Paketlar">
+      <div className="pkg-grid" role="radiogroup" aria-label={tr("Paketlar")}>
         {packages.map((p, i) => (
           <article
             key={p.name}
@@ -266,12 +274,12 @@ function Packages({ service }: { service: Service }) {
             style={{ "--d": i * 90 } as CSSProperties}
             {...optionProps(p)}
           >
-            {p.recommended && <span className="pkg-badge">Tavsiya etiladi</span>}
+            {p.recommended && <span className="pkg-badge">{tr("Tavsiya etiladi")}</span>}
             <h3>{p.name}</h3>
             {p.fit && <p className="pkg-fit">{p.fit}</p>}
             <div className="pkg-price">
               {p.price && <PriceLabel />}
-              <b>{p.price || "Narxi kelishiladi"}</b>
+              <b>{p.price || tr("Narxi kelishiladi")}</b>
               {p.term && <small>{p.term}</small>}
             </div>
             <ul className="check-list">
@@ -287,7 +295,7 @@ function Packages({ service }: { service: Service }) {
       </div>
       <div className="pkg-order">
         <ButtonLink to={orderLink(service, selected)} magnetic>
-          Buyurtma berish
+          {tr("Buyurtma berish")}
         </ButtonLink>
       </div>
     </>
@@ -300,10 +308,10 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
   return (
     <div className="compare-wrap" data-reveal>
       <table className="compare">
-        <caption className="visually-hidden">Paketlarni taqqoslash</caption>
+        <caption className="visually-hidden">{tr("Paketlarni taqqoslash")}</caption>
         <thead>
           <tr>
-            <th scope="col">Tarkibi</th>
+            <th scope="col">{tr("Tarkibi")}</th>
             {packages.map((p) => (
               <th scope="col" key={p.name}>
                 {p.name}
@@ -320,7 +328,7 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
                   {p.features.includes(r) ? (
                     <>
                       <Check size={18} aria-hidden="true" />
-                      <span className="visually-hidden">Bor</span>
+                      <span className="visually-hidden">{tr("Bor")}</span>
                     </>
                   ) : (
                     <>
@@ -329,7 +337,7 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
                         aria-hidden="true"
                         className="compare-no"
                       />
-                      <span className="visually-hidden">Yo‘q</span>
+                      <span className="visually-hidden">{tr("Yo‘q")}</span>
                     </>
                   )}
                 </td>
@@ -337,9 +345,9 @@ function Compare({ packages }: { packages: ServicePackage[] }) {
             </tr>
           ))}
           <tr className="compare-price">
-            <th scope="row">Boshlang‘ich narx</th>
+            <th scope="row">{tr("Boshlang‘ich narx")}</th>
             {packages.map((p) => (
-              <td key={p.name}>{p.price || "Kelishiladi"}</td>
+              <td key={p.name}>{p.price || tr("Kelishiladi")}</td>
             ))}
           </tr>
         </tbody>
@@ -355,9 +363,9 @@ function Examples({ items }: { items: ServiceExample[] }) {
       <div className="section-head">
         <div>
           <div data-reveal="fade">
-            <Eyebrow>Boshqa kompaniyalardan misollar</Eyebrow>
+            <Eyebrow>{tr("Boshqa kompaniyalardan misollar")}</Eyebrow>
           </div>
-          <Lines>{["Bunday yechimlar", <span className="accent" key="a">allaqachon ishlayapti.</span>]}</Lines>
+          <Lines>{[tr("Bunday yechimlar"), <span className="accent" key="a">{tr("allaqachon ishlayapti.")}</span>]}</Lines>
         </div>
       </div>
       <div className="ex-grid">
@@ -421,7 +429,7 @@ export function ServiceDetail() {
     <div className="svc-page" style={accentStyle(service.icon)}>
       <PageTop
         name={service.name}
-        eyebrow={`Xizmat ${service.number}`}
+        eyebrow={tr("Xizmat {number}", { number: service.number })}
         title={[
           <>
             {service.name}
@@ -443,7 +451,7 @@ export function ServiceDetail() {
           )}
           {service.term && <span>{service.term}</span>}
           <ButtonLink to={orderLink(service)} magnetic>
-            Buyurtma berish
+            {tr("Buyurtma berish")}
           </ButtonLink>
         </div>
         {service.price && <PriceNote />}
@@ -453,9 +461,9 @@ export function ServiceDetail() {
           <div className="section-head">
             <div>
               <div data-reveal="fade">
-                <Eyebrow>Paketlar</Eyebrow>
+                <Eyebrow>{tr("Paketlar")}</Eyebrow>
               </div>
-              <Lines>{["O‘zingizga mosini tanlang."]}</Lines>
+              <Lines>{[tr("O‘zingizga mosini tanlang.")]}</Lines>
             </div>
           </div>
           <Packages key={service.slug} service={service} />
@@ -464,7 +472,10 @@ export function ServiceDetail() {
       )}
       {flow.length > 0 && (
         <section className="container section diagram-section hairline">
-          <ChainDiagram items={flow.map((n, i) => ({ ...n, key: String(i) }))} accent={service.icon} />
+          <ChainDiagram
+            items={flow.map((n, i) => ({ ...n, label: tr(n.label), title: tr(n.title), text: tr(n.text), key: String(i) }))}
+            accent={service.icon}
+          />
           {service.icon === "ai" && <AiPrompt />}
         </section>
       )}
@@ -473,9 +484,9 @@ export function ServiceDetail() {
         <div className="section-head">
           <div>
             <div data-reveal="fade">
-              <Eyebrow>Xizmatga nimalar kiradi?</Eyebrow>
+              <Eyebrow>{tr("Xizmatga nimalar kiradi?")}</Eyebrow>
             </div>
-            <Lines>{["Barcha paketlarga kiradi."]}</Lines>
+            <Lines>{[tr("Barcha paketlarga kiradi.")]}</Lines>
           </div>
         </div>
         <ul className="check-list includes-list" data-reveal>
@@ -488,7 +499,7 @@ export function ServiceDetail() {
         </ul>
         {packages.length > 1 && <Compare packages={packages} />}
       </section>
-      {!loaded && <div className="container nf-wait">Narxlar yuklanmoqda…</div>}
+      {!loaded && <div className="container nf-wait">{tr("Narxlar yuklanmoqda…")}</div>}
       {service.promises !== false && <Promises />}
       <WorkingProcess />
       <FAQ />

@@ -5,6 +5,7 @@ import { accentStyle } from "../lib/accent";
 import { COURSE_ORDER_PREFIX, SADO_URL, type Course, type Project, type Service } from "../../shared/content";
 import { ProjectCover, Status } from "./Projects";
 import { Arrow, ButtonLink, PriceLabel, TextLink } from "./ui";
+import { tr } from "../lib/i18n";
 
 /** Ishning jonli manzili; eski Sado yozuvida manzil bo'sh bo'lsa, Sado sayti olinadi. */
 export function projectLink(project: Project) {
@@ -57,7 +58,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
 
 export function WorkCard({ project, delay = 0, thumb = false }: { project: Project; delay?: number; thumb?: boolean }) {
   const link = projectLink(project);
-  const { services } = useContent();
+  const { services, categoryLabel } = useContent();
   const icon = services.find((s) => s.slug === project.service)?.icon;
   return (
     <article className="work-card" data-reveal data-tilt style={accentStyle(icon, { "--d": delay } as CSSProperties)}>
@@ -67,7 +68,7 @@ export function WorkCard({ project, delay = 0, thumb = false }: { project: Proje
         </div>
       )}
       <div className="work-meta">
-        <span>{project.category}</span>
+        <span>{categoryLabel(project.category)}</span>
         <Status value={project.status} />
       </div>
       <h3>
@@ -75,7 +76,7 @@ export function WorkCard({ project, delay = 0, thumb = false }: { project: Proje
       </h3>
       <p>{project.summary}</p>
       {project.platforms.length > 0 && (
-        <ul className="tags" aria-label="Platformalar">
+        <ul className="tags" aria-label={tr("Platformalar")}>
           {project.platforms.map((t) => (
             <li key={t}>{t}</li>
           ))}
@@ -84,16 +85,16 @@ export function WorkCard({ project, delay = 0, thumb = false }: { project: Proje
       <div className="work-actions">
         {link ? (
           <ButtonLink to={link} small external>
-            Ochish
+            {tr("Ochish")}
           </ButtonLink>
         ) : (
           project.demo && (
             <ButtonLink to={`/projects/${project.slug}#demo`} small>
-              Demo
+              {tr("Demo")}
             </ButtonLink>
           )
         )}
-        <TextLink to={`/projects/${project.slug}`}>Batafsil</TextLink>
+        <TextLink to={`/projects/${project.slug}`}>{tr("Batafsil")}</TextLink>
       </div>
     </article>
   );
@@ -113,13 +114,13 @@ export function CourseTeaser({ course }: { course: Course }) {
   return (
     <div className="course-teaser" data-reveal data-tilt>
       <div>
-        <span className="course-teaser-label">{course.format ? `Kurs · ${course.format}` : "Kurs"}</span>
+        <span className="course-teaser-label">{course.format ? tr("Kurs · {format}", { format: course.format }) : tr("Kurs")}</span>
         <h3>{course.title}</h3>
         <p>{course.tagline}</p>
       </div>
       <div className="course-teaser-side">
         {course.price && <b>{course.price}</b>}
-        <ButtonLink to={`/courses/${course.slug}`}>Kurs haqida</ButtonLink>
+        <ButtonLink to={`/courses/${course.slug}`}>{tr("Kurs haqida")}</ButtonLink>
       </div>
     </div>
   );

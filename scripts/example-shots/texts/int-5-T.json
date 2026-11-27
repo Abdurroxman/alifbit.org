@@ -10,5 +10,29 @@
   "Kartangizga 500 000 so‘m tushdi.",
   "Balans: 2 480 000 so‘m",
   null
+ ],
+ "ru": [
+  "Вторник, 19 ноября",
+  "Магазин",
+  "Ваш заказ принят.",
+  "Курьер приедет через 30 минут",
+  "Код подтверждения",
+  "Никому не сообщайте код",
+  "Банк",
+  "На вашу карту поступило 500 000 сум.",
+  "Баланс: 2 480 000 сум",
+  null
+ ],
+ "en": [
+  "Tuesday, November 19",
+  "Store",
+  "Your order has been received.",
+  "The courier arrives in 30 minutes",
+  "Verification code",
+  "Don’t share this code with anyone",
+  "Bank",
+  "500,000 UZS was credited to your card.",
+  "Balance: 2,480,000 UZS",
+  null
  ]
 }

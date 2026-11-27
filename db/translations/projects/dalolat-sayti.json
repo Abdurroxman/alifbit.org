@@ -1,0 +1,18 @@
+{
+  "ru": {
+    "name": "dalolat.app",
+    "summary": "Сайт-презентация приложения DALOLAT на пяти языках.",
+    "description": "Отдельный сайт для приложения DALOLAT: возможности приложения, вопросы и ответы и вход через Telegram прямо в браузере. Работает на пяти языках.",
+    "purpose": "Знакомить с приложением и за пределами Telegram и приводить пользователя прямо в приложение.",
+    "features": ["5 языков: узбекский, русский, английский, турецкий, арабский", "Вход через Telegram в браузере", "Адаптирован под телефон и компьютер"],
+    "platforms": ["Сайт"]
+  },
+  "en": {
+    "name": "dalolat.app",
+    "summary": "A five-language showcase website for the DALOLAT app.",
+    "description": "A dedicated website for the DALOLAT app: its features, FAQ and Telegram sign-in right in the browser. Available in five languages.",
+    "purpose": "To introduce the app beyond Telegram and bring users straight into it.",
+    "features": ["5 languages: Uzbek, Russian, English, Turkish, Arabic", "Telegram sign-in in the browser", "Optimized for phone and desktop"],
+    "platforms": ["Website"]
+  }
+}

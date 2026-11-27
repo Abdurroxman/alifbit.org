@@ -1,0 +1,120 @@
+{
+  "ru": {
+    "name": "Бот для записи на приём",
+    "summary": "Клиент выбирает услугу, специалиста и удобное время. Бот напоминает о визите, а вы видите расписание приёма.",
+    "description": "Бот записи на приём для салона, клиники или учебного центра. Клиент видит только свободное время, записывается в несколько нажатий, переносит или отменяет запись. Перед визитом бот напоминает. Вы и специалисты видите расписание на день в Telegram или в Google Sheets.",
+    "purpose": "Меньше записей по телефону, двойных записей на одно время и неявок.",
+    "features": [
+      "Выбор услуги, специалиста и свободного времени",
+      "Показывается только действительно свободное время",
+      "Перенос или отмена записи одной кнопкой",
+      "Напоминание за день и за 2 часа до визита",
+      "У каждого специалиста — своё расписание на день",
+      "Связь с Google Sheets",
+      "Запрос оценки после визита"
+    ],
+    "platforms": ["Telegram-бот", "Google Sheets"],
+    "problem": "Администратор весь день на телефоне: кто когда придёт, какой мастер свободен. Иногда двое клиентов записываются на одно время, а кто-то не приходит, и время пропадает.",
+    "customerView": ["Список свободного времени", "Подтверждение записи и адрес", "Напоминание перед визитом", "Кнопки переноса и отмены"],
+    "ownerView": ["Уведомление о каждой новой записи", "Расписание на день по специалистам", "Отменённые и перенесённые записи", "Полный список в Google Sheets"],
+    "fit": ["Салоны красоты", "Барбершопы", "Стоматологии и клиники", "Репетиторы", "Автосервисы", "Психологи и консультанты"]
+  },
+  "en": {
+    "name": "Appointment booking bot",
+    "summary": "Customers choose a service, a specialist and a convenient time. The bot sends reminders, and you see the schedule.",
+    "description": "An appointment booking bot for a salon, clinic or training center. Customers see only open slots, book in a few taps, and can reschedule or cancel. The bot sends a reminder before the visit. You and your specialists see the day’s schedule in Telegram or Google Sheets.",
+    "purpose": "Fewer phone bookings, no double-booked slots and fewer no-shows.",
+    "features": [
+      "Choice of service, specialist and open slot",
+      "Only truly free slots are shown",
+      "Reschedule or cancel with one tap",
+      "Reminders a day and 2 hours before the visit",
+      "Each specialist gets their own daily schedule",
+      "Google Sheets integration",
+      "Feedback request after the visit"
+    ],
+    "platforms": ["Telegram bot", "Google Sheets"],
+    "problem": "The receptionist spends the whole day on the phone: who’s coming when, which stylist is free. Sometimes two customers book the same slot, while others don’t show up and the time goes to waste.",
+    "customerView": ["A list of open slots", "Booking confirmation and address", "A reminder before the visit", "Reschedule and cancel buttons"],
+    "ownerView": ["A notification for every new booking", "Daily schedule by specialist", "Cancelled and rescheduled bookings", "A full list in Google Sheets"],
+    "fit": ["Beauty salons", "Barbershops", "Dental offices and clinics", "Tutors", "Car service centers", "Psychologists and consultants"]
+  },
+  "steps": [
+    { "ru": { "title": "Расписание", "text": "Вносим услуги, их длительность, специалистов и часы работы." }, "en": { "title": "Schedule", "text": "We enter services, their duration, specialists and working hours." } },
+    { "ru": { "title": "Клиент выбирает", "text": "Бот показывает только свободное время, клиент выбирает удобное." }, "en": { "title": "The customer chooses", "text": "The bot shows only open slots, and the customer taps the one that suits them." } },
+    { "ru": { "title": "Подтверждение", "text": "Клиент получает подтверждение записи, специалист — новую запись." }, "en": { "title": "Confirmation", "text": "The customer gets a booking confirmation, and the specialist gets the new entry." } },
+    { "ru": { "title": "Напоминание", "text": "Бот напоминает за день и за 2 часа; если клиент не может прийти, время открывается для других." }, "en": { "title": "Reminder", "text": "The bot reminds a day and 2 hours ahead; if the customer can’t come, the slot opens up for others." } },
+    { "ru": { "title": "В начале дня", "text": "Каждый специалист получает своё расписание, руководитель — общее." }, "en": { "title": "At the start of the day", "text": "Each specialist gets their schedule, and the manager gets the full one." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Запись только по телефону", "after": "Клиент записывается сам в любое время" }, "en": { "before": "Bookings by phone only", "after": "Customers book themselves, any time" } },
+    { "ru": { "before": "Двое клиентов записываются на одно время", "after": "Занятое время другим не показывается" }, "en": { "before": "Two customers end up in the same slot", "after": "Booked slots are hidden from others" } },
+    { "ru": { "before": "Клиент забывает и не приходит", "after": "Бот заранее напоминает" }, "en": { "before": "Customers forget and don’t show up", "after": "The bot reminds them in advance" } },
+    { "ru": { "before": "Отменённое время пропадает", "after": "Освободившееся время сразу открывается другим" }, "en": { "before": "Cancelled slots go to waste", "after": "Freed-up slots open to others right away" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Что клиенту нужно сделать, чтобы записаться?", "a": "Просто открыть бота и нажимать кнопки. Устанавливать приложение или регистрироваться не нужно." }, "en": { "q": "What does a customer need to do to book?", "a": "Just open the bot and tap the buttons. No app to install and no sign-up." } },
+    { "ru": { "q": "Каждый мастер видит своё расписание?", "a": "Да, каждый специалист получает только свои записи, а руководитель видит все." }, "en": { "q": "Does each stylist see their own schedule?", "a": "Yes, each specialist gets only their own bookings, while the manager sees everything." } },
+    { "ru": { "q": "Можно ли вносить записи, сделанные по телефону?", "a": "Да, администратор добавляет их в бот или в таблицу — время становится занятым и не показывается в боте." }, "en": { "q": "Can phone bookings be added too?", "a": "Yes, the receptionist adds them to the bot or the sheet — the slot becomes booked and disappears from the bot." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Салон «Лола»" },
+    "en": { "bot": "Lola Salon" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Здравствуйте! Добро пожаловать в салон красоты «Лола». На какую услугу хотите записаться?"], "buttons": ["Записаться на маникюр", "Посмотреть цены"] },
+        "en": { "messages": ["Hello! Welcome to Lola beauty salon. Which service would you like to book?"], "buttons": ["Book a manicure", "See prices"] }
+      },
+      {
+        "ru": { "messages": ["Цены:"], "card": { "title": "Услуги", "lines": ["Маникюр — 120 000 сум · 60 мин", "Укладка — 180 000 сум · 90 мин", "Ресницы — 150 000 сум · 75 мин"] }, "buttons": ["Записаться на маникюр"] },
+        "en": { "messages": ["Prices:"], "card": { "title": "Services", "lines": ["Manicure — 120,000 UZS · 60 min", "Hair styling — 180,000 UZS · 90 min", "Lashes — 150,000 UZS · 75 min"] }, "buttons": ["Book a manicure"] }
+      },
+      {
+        "ru": { "messages": ["Выберите мастера:"], "buttons": ["Мадина", "Любой мастер, ближайшее время"] },
+        "en": { "messages": ["Choose a stylist:"], "buttons": ["Madina", "Any stylist, earliest slot"] }
+      },
+      {
+        "ru": { "messages": ["Завтра у Мадины свободно в 11:00 и 15:30. Остальное время занято."], "buttons": ["Записаться на 15:30", "Другой день"] },
+        "en": { "messages": ["Tomorrow Madina is free at 11:00 and 15:30. Other slots are taken."], "buttons": ["Book 15:30", "Another day"] }
+      },
+      {
+        "ru": { "messages": ["22 ноября полностью занято. 23 ноября свободно только в 18:30. Забронировать завтра на 15:30?"], "buttons": ["Да, завтра в 15:30"] },
+        "en": { "messages": ["November 22 is fully booked. On November 23 only 18:30 is free. Shall I hold tomorrow at 15:30?"], "buttons": ["Yes, tomorrow at 15:30"] }
+      },
+      {
+        "ru": {
+          "messages": ["Вы записаны! Ждём вас завтра в 15:30. Адрес: Мирабад, улица Афросиаб, 12."],
+          "card": { "title": "Запись", "lines": ["Маникюр · мастер Мадина", "Завтра, 15:30", "Цена: 120 000 сум"] },
+          "buttons": ["Как приходит напоминание?"],
+          "owner": { "title": "Новая запись", "lines": ["Завтра 15:30 · Мадина", "Маникюр · клиент: Нилуфар", "Обновлено в Google Sheets"] }
+        },
+        "en": {
+          "messages": ["You’re booked! See you tomorrow at 15:30. Address: Mirabad, 12 Afrosiyob Street."],
+          "card": { "title": "Booking", "lines": ["Manicure · stylist Madina", "Tomorrow, 15:30", "Price: 120,000 UZS"] },
+          "buttons": ["How does the reminder work?"],
+          "owner": { "title": "New booking", "lines": ["Tomorrow 15:30 · Madina", "Manicure · customer: Nilufar", "Updated in Google Sheets"] }
+        }
+      },
+      {
+        "ru": { "messages": ["За 2 часа до визита приходит такое сообщение:", "Сегодня в 15:30 вы записаны на маникюр. Придёте?"], "buttons": ["Да, приду", "Перенести время"] },
+        "en": { "messages": ["Two hours before the visit, you get a message like this:", "You’re booked for a manicure today at 15:30. Are you coming?"], "buttons": ["Yes, I’m coming", "Reschedule"] }
+      },
+      {
+        "ru": { "messages": ["Ждём вас! Если опаздываете, напишите сюда."], "owner": { "title": "Визит подтверждён", "lines": ["Нилуфар · сегодня 15:30 · Мадина"] } },
+        "en": { "messages": ["See you soon! If you’re running late, just write here."], "owner": { "title": "Visit confirmed", "lines": ["Nilufar · today 15:30 · Madina"] } }
+      },
+      {
+        "ru": { "messages": ["Сегодня у Мадины свободно в 17:00 и 18:30. Какое время удобнее?"], "buttons": ["17:00", "18:30"] },
+        "en": { "messages": ["Today Madina is free at 17:00 and 18:30. Which suits you better?"], "buttons": ["17:00", "18:30"] }
+      },
+      {
+        "ru": { "messages": ["Ваша запись перенесена на 17:00. Ждём вас!"], "owner": { "title": "Запись перенесена", "lines": ["Нилуфар: 15:30 → 17:00", "15:30 открыто для других клиентов"] } },
+        "en": { "messages": ["Your booking has been moved to 17:00. See you!"], "owner": { "title": "Booking rescheduled", "lines": ["Nilufar: 15:30 → 17:00", "15:30 is now open to other customers"] } }
+      },
+      {
+        "ru": { "messages": ["Ваша запись перенесена на 18:30. Ждём вас!"], "owner": { "title": "Запись перенесена", "lines": ["Нилуфар: 15:30 → 18:30", "15:30 открыто для других клиентов"] } },
+        "en": { "messages": ["Your booking has been moved to 18:30. See you!"], "owner": { "title": "Booking rescheduled", "lines": ["Nilufar: 15:30 → 18:30", "15:30 is now open to other customers"] } }
+      }
+    ]
+  }
+}

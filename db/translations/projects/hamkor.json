@@ -1,0 +1,97 @@
+{
+  "ru": {
+    "name": "Система оптовых заказов",
+    "summary": "Постоянные покупатели видят свои цены, наличие товаров и задолженность. Заказы передаются в вашу учётную систему.",
+    "description": "Кабинет в Telegram для постоянных покупателей — магазинов, ресторанов и других. Клиент входит по номеру телефона и видит только свои цены, остатки на складе и задолженность. Прошлый заказ повторяет одним нажатием. Заказы связаны с вашей учётной системой (1C, МойСклад).",
+    "purpose": "Принимать оптовые заказы от агентов и по телефону быстрее, с меньшим числом ошибок и круглосуточно.",
+    "features": [
+      "Вход по номеру телефона — посторонние не увидят цены",
+      "У каждого клиента свой тип цены и скидка",
+      "Остатки на складе в реальном времени",
+      "Повтор прошлого заказа в одно нажатие",
+      "Задолженность и срок оплаты",
+      "Уведомления об акциях и новых товарах",
+      "Связь с 1C или МойСклад",
+      "Панель заказов для агентов"
+    ],
+    "platforms": ["Telegram-бот", "Telegram Mini App", "1C / МойСклад"],
+    "problem": "Оптовые клиенты каждую неделю диктуют по телефону один и тот же список, а менеджер переписывает его заново. Непонятно, какой товар остался, цены у каждого клиента свои — ошибиться легко. А задолженность ведётся в отдельной тетради.",
+    "customerView": ["Только свои цены", "Остатки товаров", "Задолженность и срок оплаты", "История заказов и повтор"],
+    "ownerView": ["Каждый заказ — в учётной системе", "Продажи и долги по клиентам", "Клиенты, давно не делавшие заказов", "Заказы в разрезе агентов"],
+    "fit": ["Дистрибьюторы продуктов", "Оптовая торговля стройматериалами", "Поставщики напитков и воды", "Хозяйственные товары", "Канцтовары", "Производственные предприятия"]
+  },
+  "en": {
+    "name": "Wholesale ordering system",
+    "summary": "Your regular buyers see their own prices, product availability and outstanding balance. Orders flow into your accounting system.",
+    "description": "A Telegram account area for regular buyers such as shops and restaurants. Customers sign in with their phone number and see only their own prices, warehouse stock and outstanding balance. They repeat a previous order in one tap. Orders are connected to your accounting system (1C, MoySklad).",
+    "purpose": "To take wholesale orders from agents and over the phone faster, with fewer mistakes, around the clock.",
+    "features": [
+      "Phone-number sign-in — outsiders can’t see your prices",
+      "Each customer has their own price tier and discount",
+      "Real-time warehouse stock",
+      "Repeat a previous order in one tap",
+      "Outstanding balance and payment due date",
+      "Notifications about promotions and new products",
+      "1C or MoySklad integration",
+      "Order dashboard for sales agents"
+    ],
+    "platforms": ["Telegram bot", "Telegram Mini App", "1C / MoySklad"],
+    "problem": "Wholesale customers read out the same list over the phone every week, and a manager types it up again. Nobody knows what’s left in stock, prices differ per customer — mistakes are easy. And the debts live in a separate notebook.",
+    "customerView": ["Only their own prices", "Product stock", "Outstanding balance and due date", "Order history and repeat orders"],
+    "ownerView": ["Every order in your accounting system", "Sales and debt by customer", "Customers who haven’t ordered in a while", "Orders broken down by agent"],
+    "fit": ["Food distributors", "Wholesale building materials", "Beverage and water suppliers", "Household goods", "Office supplies", "Manufacturers"]
+  },
+  "steps": [
+    { "ru": { "title": "Подключение", "text": "Берём товары, типы цен и остатки из вашей учётной системы." }, "en": { "title": "Connect", "text": "We pull products, price tiers and stock from your accounting system." } },
+    { "ru": { "title": "Клиенты", "text": "Каждому клиенту по номеру телефона назначаются тип цены и кредитный лимит." }, "en": { "title": "Customers", "text": "Each customer is linked by phone number to a price tier and a credit limit." } },
+    { "ru": { "title": "Заказ", "text": "Клиент выбирает из каталога или повторяет прошлый заказ." }, "en": { "title": "Order", "text": "The customer picks from the catalog or repeats a past order." } },
+    { "ru": { "title": "Проверка", "text": "Бот проверяет остатки и кредитный лимит." }, "en": { "title": "Checks", "text": "The bot checks stock and the credit limit." } },
+    { "ru": { "title": "В учётную систему", "text": "Заказ передаётся в 1C или МойСклад и уходит на склад на сборку." }, "en": { "title": "To accounting", "text": "The order goes to 1C or MoySklad and on to the warehouse for picking." } },
+    { "ru": { "title": "Уведомление", "text": "Клиент получает сообщения о том, что заказ собирается и отправлен." }, "en": { "title": "Notification", "text": "The customer is notified when the order is being prepared and when it ships." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Заказ диктуют по телефону и переписывают", "after": "Клиент вводит его сам, и он автоматически попадает в учётную систему" }, "en": { "before": "Orders are dictated by phone and retyped", "after": "Customers enter them, and they land in accounting automatically" } },
+    { "ru": { "before": "Чтобы узнать остаток, звонят на склад", "after": "Остаток виден прямо в каталоге" }, "en": { "before": "Stock is checked by calling the warehouse", "after": "Stock is shown right in the catalog" } },
+    { "ru": { "before": "Цену каждого клиента приходится помнить", "after": "Тип цены привязан к номеру телефона" }, "en": { "before": "Everyone’s prices have to be remembered", "after": "The price tier is tied to the phone number" } },
+    { "ru": { "before": "Долги — в отдельной тетради", "after": "Долг и срок видны и клиенту, и вам" }, "en": { "before": "Debts live in a separate notebook", "after": "The balance and due date are visible to both you and the customer" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Не увидит ли посторонний мои цены?", "a": "Нет. Кабинет открывается только для номеров, которые вы добавили, и каждый видит только свои цены." }, "en": { "q": "Could an outsider see my prices?", "a": "No. The account area opens only for phone numbers you’ve added, and each customer sees only their own prices." } },
+    { "ru": { "q": "Наша учётная система — 1C. Как она подключается?", "a": "Делаем интеграцию с 1C или МойСклад для обмена товарами, остатками и заказами. Сначала проверяем на тестовой базе." }, "en": { "q": "We use 1C for accounting. How does it connect?", "a": "We build an integration with 1C or MoySklad that exchanges products, stock and orders. We test it on a trial database first." } },
+    { "ru": { "q": "Смогут ли пользоваться наши агенты?", "a": "Да, агент оформляет заказы от имени своих клиентов, а вы видите отчёт в разрезе агентов." }, "en": { "q": "Can our sales agents use it too?", "a": "Yes, agents place orders on behalf of their customers, and you see reports broken down by agent." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Барака Савдо" },
+    "en": { "bot": "Baraka Savdo" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Здравствуйте! «Барака Савдо» — кабинет партнёров. Чтобы войти, отправьте номер телефона."], "buttons": ["Отправить номер"] },
+        "en": { "messages": ["Hello! Baraka Savdo — partner account. Send your phone number to sign in."], "buttons": ["Send my number"] }
+      },
+      {
+        "ru": { "messages": ["Добро пожаловать, магазин «Оила»! Ваш тип цены: опт-2."], "card": { "title": "Ваш счёт", "lines": ["Задолженность: 1 200 000 сум", "Срок оплаты: 25 ноября", "Кредитный лимит: 10 000 000 сум"] }, "buttons": ["Повторить прошлый заказ", "Каталог и акции"] },
+        "en": { "messages": ["Welcome, Oila store! Your price tier: wholesale-2."], "card": { "title": "Your account", "lines": ["Outstanding balance: 1,200,000 UZS", "Payment due: November 25", "Credit limit: 10,000,000 UZS"] }, "buttons": ["Repeat last order", "Catalog and promotions"] }
+      },
+      {
+        "ru": { "messages": ["Разделы: мука и крупы, масло, сахар, напитки. Акция дня:"], "card": { "title": "Подсолнечное масло, 5 л", "lines": ["Для вас: 92 000 сум (акция −5%)", "На складе: 340 шт."] }, "buttons": ["Повторить прошлый заказ"] },
+        "en": { "messages": ["Sections: flour and grains, oil, sugar, drinks. Today’s promotion:"], "card": { "title": "Sunflower oil, 5 L", "lines": ["Your price: 92,000 UZS (promo −5%)", "In stock: 340 pcs"] }, "buttons": ["Repeat last order"] }
+      },
+      {
+        "ru": { "messages": ["Ваш заказ от 12 ноября:"], "card": { "title": "Повторный заказ", "lines": ["Мука, 50 кг — 10 мешков × 285 000", "Сахар, 50 кг — 4 мешка × 410 000", "Масло, 5 л — 20 шт. × 92 000", "Итого: 6 330 000 сум"] }, "buttons": ["Подтвердить"] },
+        "en": { "messages": ["Your order from November 12:"], "card": { "title": "Repeat order", "lines": ["Flour, 50 kg — 10 bags × 285,000", "Sugar, 50 kg — 4 bags × 410,000", "Oil, 5 L — 20 pcs × 92,000", "Total: 6,330,000 UZS"] }, "buttons": ["Confirm"] }
+      },
+      {
+        "ru": { "messages": ["Сахара на складе осталось 3 мешка. Оформить с 3 мешками или отправить оставшийся 1 мешок завтра отдельно?"], "buttons": ["С 3 мешками", "Остаток — завтра"] },
+        "en": { "messages": ["Only 3 bags of sugar are left in stock. Shall I place the order with 3 bags, or send the remaining bag separately tomorrow?"], "buttons": ["With 3 bags", "The rest tomorrow"] }
+      },
+      {
+        "ru": { "messages": ["Заказ №A-2291 принят. Итого: 5 920 000 сум. Доставка — завтра до 10:00."], "owner": { "title": "1C: новый заказ №A-2291", "lines": ["Магазин «Оила» · агент Сардор", "5 920 000 сум · сахар 3 мешка", "Кредитного лимита достаточно"] } },
+        "en": { "messages": ["Order #A-2291 accepted. Total: 5,920,000 UZS. Delivery tomorrow by 10:00."], "owner": { "title": "1C: new order #A-2291", "lines": ["Oila store · agent Sardor", "5,920,000 UZS · sugar 3 bags", "Within credit limit"] } }
+      },
+      {
+        "ru": { "messages": ["Заказ №A-2291 принят: сегодня на 5 920 000 сум, 1 мешок сахара приедет завтра отдельно."], "owner": { "title": "1C: заказ №A-2291", "lines": ["Магазин «Оила» · 2 отправки", "Сахар 1 мешок — как поступит на склад", "Агент: Сардор"] } },
+        "en": { "messages": ["Order #A-2291 accepted: 5,920,000 UZS today, and 1 bag of sugar arrives separately tomorrow."], "owner": { "title": "1C: order #A-2291", "lines": ["Oila store · 2 shipments", "Sugar 1 bag — as soon as it’s in stock", "Agent: Sardor"] } }
+      }
+    ]
+  }
+}

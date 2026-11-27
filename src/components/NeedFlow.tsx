@@ -7,6 +7,7 @@ import { usePackageChoice } from "../lib/packageChoice";
 import { accentStyle } from "../lib/accent";
 import { focusOfIcon, type StageFocus } from "../three/types";
 import { PROMISES, TELEGRAM_URL, type Course, type Service, type ServicePackage } from "../../shared/content";
+import { tr, trn } from "../lib/i18n";
 
 // Tanlov slug bilan saqlanadi va har chizishda kontekstdan qayta topiladi:
 // API javobi kelganda narx va paketlar o'z-o'zidan yangilanadi.
@@ -78,18 +79,18 @@ export default function NeedFlow({ onChange }: { onChange: (state: FlowState) =>
       <div className="nf-bar">
         {open ? (
           <button className="nf-back" onClick={reset}>
-            <ArrowLeft size={16} /> Barcha xizmatlar
+            <ArrowLeft size={16} /> {tr("Barcha xizmatlar")}
           </button>
         ) : (
           <span />
         )}
-        <span className="nf-count">{service ? `${service.number} / ${String(services.length).padStart(2, "0")}` : open ? "" : `${services.length} ta xizmat`}</span>
+        <span className="nf-count">{service ? `${service.number} / ${String(services.length).padStart(2, "0")}` : open ? "" : trn(services.length, "{n} ta xizmat")}</span>
       </div>
 
       {!open && (
         <div className="nf-step" key="list">
           <p className="nf-q visually-hidden" ref={head} tabIndex={-1}>
-            Xizmatlar
+            {tr("Xizmatlar")}
           </p>
           <ul className="nf-services">
             {services.map((s) => (
@@ -105,7 +106,7 @@ export default function NeedFlow({ onChange }: { onChange: (state: FlowState) =>
                     <b>{s.name}</b>
                     <small>{s.short}</small>
                   </span>
-                  <span className="nf-svc-price">{loaded ? keepNumbers(s.price || "Kelishiladi") : ""}</span>
+                  <span className="nf-svc-price">{loaded ? keepNumbers(s.price || tr("Kelishiladi")) : ""}</span>
                   <ArrowRight size={18} aria-hidden="true" />
                 </button>
               </li>
@@ -119,7 +120,7 @@ export default function NeedFlow({ onChange }: { onChange: (state: FlowState) =>
                   {c.need} — {c.title}
                 </button>
               ))}
-            <button onClick={() => setChoice({ kind: "unknown" })}>Hali aniq bilmayman</button>
+            <button onClick={() => setChoice({ kind: "unknown" })}>{tr("Hali aniq bilmayman")}</button>
           </div>
         </div>
       )}
@@ -140,19 +141,19 @@ export default function NeedFlow({ onChange }: { onChange: (state: FlowState) =>
       {choice?.kind === "unknown" && (
         <div className="nf-step nf-result" key="unknown">
           <p className="nf-q" ref={head} tabIndex={-1}>
-            Birgalikda aniqlaymiz.
+            {tr("Birgalikda aniqlaymiz.")}
           </p>
-          <p className="nf-text">Vazifangizni qisqacha yozing — mos yechim va narxini o‘zimiz taklif qilamiz.</p>
+          <p className="nf-text">{tr("Vazifangizni qisqacha yozing — mos yechim va narxini o‘zimiz taklif qilamiz.")}</p>
           <div className="nf-actions">
             <ButtonLink to="/contact?service=other" magnetic>
-              Vazifani yozish
+              {tr("Vazifani yozish")}
             </ButtonLink>
             <ButtonLink to={TELEGRAM_URL} variant="outline">
-              Telegram’da yozish
+              {tr("Telegram’da yozish")}
             </ButtonLink>
           </div>
           <button className="nf-again" onClick={reset}>
-            Barcha xizmatlar
+            {tr("Barcha xizmatlar")}
           </button>
         </div>
       )}
@@ -177,20 +178,20 @@ function ServiceCard({
   const { selected, optionProps } = usePackageChoice(packages);
   return (
     <article className="nf-step nf-result nf-card" style={accentStyle(service.icon)}>
-      <span className="nf-label">Xizmat {service.number}</span>
+      <span className="nf-label">{tr("Xizmat {number}", { number: service.number })}</span>
       <p className="nf-q" ref={head} tabIndex={-1}>
         {service.name}
       </p>
       {loaded && (service.price || service.term) && (
         <p className="nf-price">
           {service.price && <PriceLabel />}
-          <b>{keepNumbers(service.price || "Narxi kelishiladi")}</b>
+          <b>{keepNumbers(service.price || tr("Narxi kelishiladi"))}</b>
           {service.term && <small>{service.term}</small>}
         </p>
       )}
       <p className="nf-text">{service.short}</p>
 
-      <h3 className="nf-h">Xizmatga nimalar kiradi?</h3>
+      <h3 className="nf-h">{tr("Xizmatga nimalar kiradi?")}</h3>
       <ul className="nf-list nf-cols">
         {service.features.map((f) => (
           <li key={f}>
@@ -200,25 +201,25 @@ function ServiceCard({
         ))}
       </ul>
 
-      <h3 className="nf-h">{packages.length > 1 ? "Paketlar" : "Narxi"}</h3>
+      <h3 className="nf-h">{packages.length > 1 ? tr("Paketlar") : tr("Narxi")}</h3>
       {loaded ? (
         <ul
           className="nf-pkgs"
           role={packages.length ? "radiogroup" : undefined}
-          aria-label={packages.length ? "Paketlar" : undefined}
+          aria-label={packages.length ? tr("Paketlar") : undefined}
         >
           {packages.map((p) => (
             <li key={p.name} className={p === selected ? "is-selected" : ""} {...optionProps(p)}>
               <div className="nf-pkg-head">
                 <b>{p.name}</b>
-                {p.recommended && <span className="nf-badge">Tavsiya</span>}
+                {p.recommended && <span className="nf-badge">{tr("Tavsiya")}</span>}
               </div>
               {p.fit && <p className="nf-pkg-fit">{p.fit}</p>}
               {p.features.length > 0 && <p className="nf-pkg-items">{p.features.join(" · ")}</p>}
               <div className="nf-pkg-foot">
                 {p.price && <PriceLabel />}
                 <span>
-                  <b>{keepNumbers(p.price || "Narxi kelishiladi")}</b>
+                  <b>{keepNumbers(p.price || tr("Narxi kelishiladi"))}</b>
                   {p.term && <small>{p.term}</small>}
                 </span>
               </div>
@@ -228,26 +229,26 @@ function ServiceCard({
             <li>
               <div className="nf-pkg-foot">
                 <span>
-                  <b>{keepNumbers(service.price || "Narxi kelishiladi")}</b>
+                  <b>{keepNumbers(service.price || tr("Narxi kelishiladi"))}</b>
                 </span>
-                <TextLink to={orderLink(service)}>Buyurtma berish</TextLink>
+                <TextLink to={orderLink(service)}>{tr("Buyurtma berish")}</TextLink>
               </div>
             </li>
           )}
         </ul>
       ) : (
-        <p className="nf-wait">Narxlar yuklanmoqda…</p>
+        <p className="nf-wait">{tr("Narxlar yuklanmoqda…")}</p>
       )}
       {loaded && (service.price || packages.some((p) => p.price)) && (
         <PriceNote />
       )}
 
       {service.promises !== false && (
-        <ul className="nf-promises" aria-label="Har bir loyihada">
+        <ul className="nf-promises" aria-label={tr("Har bir loyihada")}>
           {PROMISES.map(([title, text]) => (
-            <li key={title} title={text}>
+            <li key={title} title={tr(text)}>
               <Check size={14} aria-hidden="true" />
-              {title}
+              {tr(title)}
             </li>
           ))}
         </ul>
@@ -255,15 +256,15 @@ function ServiceCard({
 
       <div className="nf-actions">
         <ButtonLink to={orderLink(service, selected)} magnetic>
-          Buyurtma berish
+          {tr("Buyurtma berish")}
         </ButtonLink>
         <ButtonLink to={`/services/${service.slug}`} variant="outline">
-          Batafsil
+          {tr("Batafsil")}
         </ButtonLink>
       </div>
       {next && (
         <button className="nf-next" onClick={() => onNext(next.slug)}>
-          Keyingi: {next.name} <ArrowRight size={16} aria-hidden="true" />
+          {tr("Keyingi: {name}", { name: next.name })} <ArrowRight size={16} aria-hidden="true" />
         </button>
       )}
     </article>
@@ -281,12 +282,12 @@ function CourseResult({
 }) {
   return (
     <div className="nf-step nf-result" key={`course-${course.slug}`}>
-      <span className="nf-label">{course.format ? `Kurs · ${course.format}` : "Kurs"}</span>
+      <span className="nf-label">{course.format ? tr("Kurs · {format}", { format: course.format }) : tr("Kurs")}</span>
       <p className="nf-q" ref={head} tabIndex={-1}>
         {course.title}
       </p>
       <p className="nf-price">
-        <b>{keepNumbers(course.price || "Narxi kelishiladi")}</b>
+        <b>{keepNumbers(course.price || tr("Narxi kelishiladi"))}</b>
         {course.start && <small>{course.start}</small>}
       </p>
       {course.contents.length > 0 && (
@@ -301,12 +302,12 @@ function CourseResult({
       )}
       <div className="nf-actions">
         <ButtonLink to={courseOrderLink(course)} magnetic>
-          Kursga yozilish
+          {tr("Kursga yozilish")}
         </ButtonLink>
-        <TextLink to={`/courses/${course.slug}`}>Kurs haqida</TextLink>
+        <TextLink to={`/courses/${course.slug}`}>{tr("Kurs haqida")}</TextLink>
       </div>
       <button className="nf-again" onClick={onReset}>
-        Barcha xizmatlar
+        {tr("Barcha xizmatlar")}
       </button>
     </div>
   );

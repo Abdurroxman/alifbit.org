@@ -38,6 +38,84 @@
     "x": 270,
     "y": 85
    }
+  ],
+  "ru": [
+   {
+    "erase": [
+     270,
+     73,
+     460,
+     98
+    ],
+    "t": "бот",
+    "size": 24,
+    "color": "#d6e8f7",
+    "bold": false,
+    "align": "left",
+    "x": 270,
+    "y": 85
+   }
+  ],
+  "en": [
+   {
+    "erase": [
+     270,
+     73,
+     460,
+     98
+    ],
+    "t": "bot",
+    "size": 24,
+    "color": "#d6e8f7",
+    "bold": false,
+    "align": "left",
+    "x": 270,
+    "y": 85
+   }
   ]
- }
+ },
+ "ru": [
+  "Lavash House",
+  null,
+  "Здравствуйте!",
+  "Что закажем сегодня?",
+  "Лаваш с курицей",
+  "С соусом, помидорами и салатом",
+  null,
+  "Выберите из меню",
+  "Нажмите категорию — откроются блюда",
+  "Бургеры",
+  "Пицца",
+  "Лаваш",
+  "Фри",
+  "Напитки",
+  "Десерты",
+  "Адрес отправлен",
+  "Чиланзар, 9-й квартал",
+  "Заказ принят",
+  "Курьер приедет через 30 минут",
+  "Сообщение…"
+ ],
+ "en": [
+  "Lavash House",
+  null,
+  "Hello!",
+  "What shall we order today?",
+  "Chicken lavash",
+  "With sauce, tomato and lettuce",
+  null,
+  "Choose from the menu",
+  "Tap a category to see dishes",
+  "Burgers",
+  "Pizza",
+  "Lavash",
+  "Fries",
+  "Drinks",
+  "Desserts",
+  "Address sent",
+  "Chilanzar, block 9",
+  "Order received",
+  "The courier arrives in 30 minutes",
+  "Message…"
+ ]
 }

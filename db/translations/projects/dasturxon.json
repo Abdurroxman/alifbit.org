@@ -1,0 +1,108 @@
+{
+  "ru": {
+    "name": "Бот для заказа еды",
+    "summary": "Клиент выбирает блюда в меню, отправляет адрес и выбирает способ оплаты. Заказ уходит на кухню и курьеру.",
+    "description": "В боте клиент смотрит меню в Telegram, выбирает блюда, отправляет адрес геолокацией и оплачивает. Заказ уходит на кухню, а когда готов — курьеру. На каждом этапе клиент получает уведомление, а после доставки оставляет оценку.",
+    "purpose": "Меньше звонков и ошибок в записанных от руки заказах, быстрее доставка.",
+    "features": [
+      "Меню с фото и блюдо дня",
+      "Корзина и добавки",
+      "Отправка адреса геолокацией и расчёт стоимости доставки",
+      "Оплата через Payme, Click или наличными",
+      "Отдельный чат для кухни и курьеров",
+      "Статус: принят, готовится, в пути, доставлен",
+      "Запрос оценки и отзыва после доставки",
+      "Повтор прошлого заказа в одно нажатие"
+    ],
+    "platforms": ["Telegram-бот", "Telegram Mini App"],
+    "problem": "В обед телефон не умолкает: оператор записывает заказ, уточняет адрес и передаёт на кухню на бумаге. В спешке теряется блюдо или путается адрес, а клиент снова и снова звонит: «когда привезёте?».",
+    "customerView": ["Меню с фото и ценами", "Стоимость и примерное время доставки", "На каком этапе заказ", "Кнопка повтора прошлого заказа"],
+    "ownerView": ["Кухня: состав нового заказа", "Курьер: адрес, телефон и статус оплаты", "В конце дня: число заказов, выручка, оценки", "Самые продаваемые блюда"],
+    "fit": ["Кафе национальной кухни", "Фастфуд", "Кафе и рестораны", "Домашние кухни", "Пекарни и кондитерские", "Доставка обедов в офисы"]
+  },
+  "en": {
+    "name": "Food ordering bot",
+    "summary": "Customers pick dishes from the menu, send their address and choose how to pay. The order goes to the kitchen and the courier.",
+    "description": "In the bot, customers browse the menu in Telegram, pick dishes, share their location and pay. The order goes to the kitchen and, once ready, to a courier. Customers get updates at every stage and leave a rating after delivery.",
+    "purpose": "Fewer phone calls and fewer mistakes in hand-written orders, plus faster delivery.",
+    "features": [
+      "Menu with photos and a dish of the day",
+      "Cart and add-ons",
+      "Address via location sharing and delivery fee calculation",
+      "Payment via Payme, Click or cash",
+      "Separate chats for the kitchen and couriers",
+      "Status: received, cooking, on the way, delivered",
+      "Rating and feedback request after delivery",
+      "Repeat a previous order in one tap"
+    ],
+    "platforms": ["Telegram bot", "Telegram Mini App"],
+    "problem": "At lunchtime the phone never stops: the operator writes down the order, asks for the address and passes it to the kitchen on paper. In the rush a dish gets missed or the address gets mixed up, and the customer keeps calling to ask “when will it arrive?”.",
+    "customerView": ["Menu with photos and prices", "Delivery fee and estimated time", "Which stage the order is at", "A button to repeat a previous order"],
+    "ownerView": ["Kitchen: contents of each new order", "Courier: address, phone and payment status", "End of day: number of orders, revenue, ratings", "Best-selling dishes"],
+    "fit": ["Uzbek cuisine restaurants", "Fast food", "Cafes and restaurants", "Home kitchens", "Bakeries and pastry shops", "Office lunch delivery"]
+  },
+  "steps": [
+    { "ru": { "title": "Меню", "text": "Вносим блюда, цены, фото и зону доставки." }, "en": { "title": "Menu", "text": "We add dishes, prices, photos and the delivery area." } },
+    { "ru": { "title": "Заказ", "text": "Клиент выбирает блюда, отправляет геолокацию и оплачивает." }, "en": { "title": "Order", "text": "The customer picks dishes, shares their location and pays." } },
+    { "ru": { "title": "Кухня", "text": "Заказ попадает в чат кухни; повар нажимает «готово»." }, "en": { "title": "Kitchen", "text": "The order lands in the kitchen chat; the cook taps “ready”." } },
+    { "ru": { "title": "Курьер", "text": "Курьер забирает заказ, клиенту приходит сообщение «в пути»." }, "en": { "title": "Courier", "text": "The courier picks up the order, and the customer gets an “on the way” message." } },
+    { "ru": { "title": "Доставлено", "text": "Клиента просят оценить, а в конце дня вам приходит сводка." }, "en": { "title": "Delivered", "text": "The customer is asked for a rating, and you get a summary at the end of the day." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Заказ записывают вручную по телефону", "after": "Клиент выбирает сам, состав приходит без ошибок" }, "en": { "before": "Orders are written down by hand over the phone", "after": "Customers choose themselves, and orders arrive error-free" } },
+    { "ru": { "before": "Адрес объясняют на словах", "after": "Курьер получает точку на карте" }, "en": { "before": "Addresses are explained verbally", "after": "The courier gets an exact pin on the map" } },
+    { "ru": { "before": "Клиент звонит: «когда привезёте?»", "after": "Он сам получает уведомления на каждом этапе" }, "en": { "before": "Customers call to ask “when will it arrive?”", "after": "They get updates at every stage" } },
+    { "ru": { "before": "Отзывы не собираются", "after": "После каждой доставки есть оценка" }, "en": { "before": "Feedback isn’t collected", "after": "Every delivery gets a rating" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Как считается стоимость доставки?", "a": "По расстоянию или по зоне — как вы решите. Когда клиент отправит геолокацию, цена появится автоматически." }, "en": { "q": "How is the delivery fee calculated?", "a": "By distance or by zone — whichever you choose. Once the customer shares their location, the price appears automatically." } },
+    { "ru": { "q": "Работает ли с нашими курьерами?", "a": "Да, курьеры получают заказы в отдельном чате или боте и меняют статус одной кнопкой." }, "en": { "q": "Does it work with our own couriers?", "a": "Yes, couriers receive orders in a separate chat or bot and update the status with one tap." } },
+    { "ru": { "q": "Мы часто меняем меню — это сложно?", "a": "Блюдо, цену и отметку «закончилось» вы меняете в админ-панели за минуту." }, "en": { "q": "We change our menu often — is that hard?", "a": "You change a dish, its price or the “sold out” mark in the admin panel in a minute." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Чайхана «Навруз»" },
+    "en": { "bot": "Navruz Teahouse" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Добро пожаловать! Сегодня блюдо дня — свадебный плов. Что закажете?"], "buttons": ["Свадебный плов · 45 000", "Открыть меню"] },
+        "en": { "messages": ["Welcome! Today’s dish of the day is wedding plov. What would you like to order?"], "buttons": ["Wedding plov · 45,000", "Open the menu"] }
+      },
+      {
+        "ru": { "messages": ["Меню на сегодня:"], "card": { "title": "Меню", "lines": ["Свадебный плов — 45 000", "Лагман — 38 000", "Манты (5 шт.) — 35 000", "Самса — 12 000"] }, "buttons": ["Свадебный плов"] },
+        "en": { "messages": ["Today’s menu:"], "card": { "title": "Menu", "lines": ["Wedding plov — 45,000", "Lagman — 38,000", "Manti (5 pcs) — 35,000", "Samsa — 12,000"] }, "buttons": ["Wedding plov"] }
+      },
+      {
+        "ru": { "messages": ["Свадебный плов в корзине. Отправьте ваш адрес:"], "buttons": ["Отправить геолокацию", "Прошлый адрес: Сергели"] },
+        "en": { "messages": ["Wedding plov is in your cart. Send your address:"], "buttons": ["Share my location", "Previous address: Sergeli"] }
+      },
+      {
+        "ru": { "messages": ["Доставка: 2,4 км — 8 000 сум, примерно 35 минут.", "Итого: 53 000 сум. Способ оплаты?"], "buttons": ["Click", "Наличными курьеру"] },
+        "en": { "messages": ["Delivery: 2.4 km — 8,000 UZS, about 35 minutes.", "Total: 53,000 UZS. How would you like to pay?"], "buttons": ["Click", "Cash to the courier"] }
+      },
+      {
+        "ru": { "messages": ["Оплата получена. Ваш заказ отправлен на кухню."], "buttons": ["Что дальше?"], "owner": { "title": "Кухня: заказ №317", "lines": ["Свадебный плов × 1", "Оплачено · Click", "Должен быть готов: 12:40"] } },
+        "en": { "messages": ["Payment received. Your order has been sent to the kitchen."], "buttons": ["What happens next?"], "owner": { "title": "Kitchen: order #317", "lines": ["Wedding plov × 1", "Paid · Click", "Due ready: 12:40"] } }
+      },
+      {
+        "ru": { "messages": ["Хорошо, оплата наличными курьеру. Ваш заказ отправлен на кухню."], "buttons": ["Что дальше?"], "owner": { "title": "Кухня: заказ №317", "lines": ["Свадебный плов × 1", "Наличные — курьер получит 53 000 сум", "Должен быть готов: 12:40"] } },
+        "en": { "messages": ["Got it, cash to the courier. Your order has been sent to the kitchen."], "buttons": ["What happens next?"], "owner": { "title": "Kitchen: order #317", "lines": ["Wedding plov × 1", "Cash — courier collects 53,000 UZS", "Due ready: 12:40"] } }
+      },
+      {
+        "ru": { "messages": ["Ваш заказ готов, курьер Баходир выехал. Будет примерно через 20 минут."], "buttons": ["Заказ доставлен"], "owner": { "title": "Курьер Баходир", "lines": ["№317 · 2,4 км", "Статус: в пути"] } },
+        "en": { "messages": ["Your food is ready and courier Bakhodir is on his way. He’ll arrive in about 20 minutes."], "buttons": ["Order delivered"], "owner": { "title": "Courier Bakhodir", "lines": ["#317 · 2.4 km", "Status: on the way"] } }
+      },
+      {
+        "ru": { "messages": ["Приятного аппетита! Оцените блюдо и доставку:"], "buttons": ["5 — отлично", "3 — средне"] },
+        "en": { "messages": ["Enjoy your meal! Please rate the food and delivery:"], "buttons": ["5 — excellent", "3 — average"] }
+      },
+      {
+        "ru": { "messages": ["Спасибо! В следующий раз прошлый заказ можно повторить одной кнопкой."], "owner": { "title": "Оценка: 5", "lines": ["№317 · клиент доволен"] } },
+        "en": { "messages": ["Thank you! Next time you can repeat your previous order with one tap."], "owner": { "title": "Rating: 5", "lines": ["#317 · happy customer"] } }
+      },
+      {
+        "ru": { "messages": ["Спасибо, ваш отзыв передан руководителю — он свяжется с вами."], "owner": { "title": "Внимание: оценка 3", "lines": ["№317 · руководитель уведомлён", "Нужно связаться с клиентом"] } },
+        "en": { "messages": ["Thank you, your feedback has been passed to the manager — they’ll get in touch with you."], "owner": { "title": "Attention: rating 3", "lines": ["#317 · manager notified", "Contact the customer"] } }
+      }
+    ]
+  }
+}

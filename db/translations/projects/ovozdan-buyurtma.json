@@ -1,0 +1,87 @@
+{
+  "ru": {
+    "name": "Бот голосовых заказов",
+    "summary": "Извлекает из голосового сообщения клиента товар, количество и адрес. После подтверждения клиентом заказ записывается в таблицу или CRM.",
+    "description": "Многим клиентам проще сказать, чем написать. Бот превращает голосовое сообщение в текст, выделяет из него товар, количество, адрес и время и собирает всё в аккуратную карточку. Клиент подтверждает одной кнопкой, а заказ попадает в таблицу или CRM. Понимает узбекскую, русскую и смешанную речь.",
+    "purpose": "Убрать время, которое уходит на прослушивание голосовых и ручную перепечатку.",
+    "features": [
+      "Голосовое сообщение превращается в текст — узбекская, русская и смешанная речь",
+      "Извлечение товара, количества, адреса и времени",
+      "Переспрашивает клиента, если что-то непонятно",
+      "Кнопки подтверждения и исправления для клиента",
+      "Запись в Google Sheets, amoCRM или Bitrix24",
+      "Менеджеру — текст вместе с исходным голосовым"
+    ],
+    "platforms": ["Telegram-бот", "AI"],
+    "problem": "Клиент присылает голосовое на минуту: «Здравствуйте, вот то, что вчера брали…». Менеджер слушает, переслушивает, потом записывает вручную. К концу дня набираются десятки голосовых — какие-то так и остаются непрослушанными.",
+    "customerView": ["Голосовое сообщение — как обычно", "Чёткая карточка понятого заказа", "Кнопка подтверждения или исправления"],
+    "ownerView": ["Готовая карточка заказа — слушать не нужно", "При необходимости — исходное голосовое", "Новая строка в таблице или CRM"],
+    "fit": ["Доставка воды и газа", "Магазины стройматериалов", "Оптовая торговля", "Ремонтные услуги", "Аптеки", "Небольшие производства"]
+  },
+  "en": {
+    "name": "Voice order bot",
+    "summary": "Pulls the product, quantity and address out of a customer’s voice message. Once the customer confirms, the order is written to a spreadsheet or CRM.",
+    "description": "Many customers would rather talk than type. The bot turns a voice message into text, picks out the product, quantity, address and time, and puts them on a neat card. The customer confirms with one tap, and the order lands in a spreadsheet or CRM. It understands Uzbek, Russian and mixed speech.",
+    "purpose": "To eliminate the time spent listening to voice messages and retyping them by hand.",
+    "features": [
+      "Voice-to-text — Uzbek, Russian and mixed speech",
+      "Extracts product, quantity, address and time",
+      "Asks the customer again when something is unclear",
+      "Confirm and edit buttons for the customer",
+      "Writes to Google Sheets, amoCRM or Bitrix24",
+      "The manager gets the text along with the original voice message"
+    ],
+    "platforms": ["Telegram bot", "AI"],
+    "problem": "A customer sends a one-minute voice message: “Hi, that thing we got yesterday…”. The manager listens, listens again, then types it up by hand. By the end of the day dozens of voice messages pile up — some never get heard.",
+    "customerView": ["Send a voice message as usual", "A clear card of the understood order", "A button to confirm or correct it"],
+    "ownerView": ["A ready order card — no listening needed", "The original voice message if needed", "A new row in the spreadsheet or CRM"],
+    "fit": ["Water and gas delivery", "Building materials stores", "Wholesale trade", "Repair services", "Pharmacies", "Small manufacturers"]
+  },
+  "steps": [
+    { "ru": { "title": "Голосовое", "text": "Клиент, как обычно, наговаривает сообщение боту." }, "en": { "title": "Voice message", "text": "The customer simply records a message to the bot." } },
+    { "ru": { "title": "Текст", "text": "AI превращает голос в текст." }, "en": { "title": "Text", "text": "AI turns the voice into text." } },
+    { "ru": { "title": "Разбор", "text": "Из текста выделяются товар, количество, адрес и время." }, "en": { "title": "Extraction", "text": "The product, quantity, address and time are pulled from the text." } },
+    { "ru": { "title": "Подтверждение", "text": "Клиент получает готовую карточку и нажимает «Верно» или «Исправить»." }, "en": { "title": "Confirmation", "text": "The customer gets a ready card and taps “Correct” or “Edit”." } },
+    { "ru": { "title": "Запись", "text": "Подтверждённый заказ попадает в таблицу или CRM, менеджеру приходит уведомление." }, "en": { "title": "Recording", "text": "The confirmed order goes into the spreadsheet or CRM, and the manager is notified." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Каждое голосовое слушают и записывают вручную", "after": "Заказ приходит готовой карточкой" }, "en": { "before": "Every voice message is played and typed up by hand", "after": "The order arrives as a ready card" } },
+    { "ru": { "before": "Количество или адрес слышат неправильно", "after": "Клиент видит карточку и сам подтверждает" }, "en": { "before": "Quantities or addresses are misheard", "after": "The customer sees the card and confirms it" } },
+    { "ru": { "before": "Голосовые остаются непрослушанными", "after": "Каждое — отдельная строка в таблице" }, "en": { "before": "Voice messages go unheard", "after": "Each one becomes its own row in the sheet" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Понимает ли он диалект или смешанную речь?", "a": "Хорошо понимает узбекскую, русскую и смешанную речь. Если что-то неясно, не угадывает, а уточняет у клиента." }, "en": { "q": "Does it understand dialects or mixed speech?", "a": "It handles Uzbek, Russian and mixed speech well. If something is unclear, it doesn’t guess — it asks the customer." } },
+    { "ru": { "q": "Что если клиент не подтвердит карточку?", "a": "Есть кнопка «Исправить»: клиент пишет или говорит, что изменить, и карточка обновляется." }, "en": { "q": "What if the customer doesn’t confirm the card?", "a": "There’s an “Edit” button: the customer types or says what to change, and the card updates." } },
+    { "ru": { "q": "Сколько стоит AI?", "a": "Расход на распознавание голоса и анализ считается отдельно, поминутно; примерные ежемесячные затраты назовём заранее." }, "en": { "q": "How much does the AI cost?", "a": "Speech-to-text and analysis are billed separately, by the minute; we’ll tell you the estimated monthly cost upfront." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Вода «Мусаффо»" },
+    "en": { "bot": "Musaffo Water" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Вода «Мусаффо». Напишите заказ или отправьте голосовое сообщение."], "buttons": ["Отправить голосовое · 0:18"] },
+        "en": { "messages": ["Musaffo Water. Type your order or send a voice message."], "buttons": ["Send a voice message · 0:18"] }
+      },
+      {
+        "ru": { "messages": ["Ваше голосовое сообщение:\n«Здравствуйте, привезите завтра утром две большие воды, пустые бутыли верну. Адрес тот же — Караташ 15, третий этаж.»", "Я понял ваш заказ так:"], "card": { "title": "Заказ", "lines": ["Вода 19 л — 2 шт.", "Возврат пустой тары — 2 шт.", "Адрес: Караташ 15, 3-й этаж", "Время: завтра, 9:00–12:00", "Итого: 36 000 сум"] }, "buttons": ["Верно", "Исправить"] },
+        "en": { "messages": ["Your voice message:\n“Hi, please bring two big bottles of water tomorrow morning, I’ll return the empties. Same address — Qoratosh 15, third floor.”", "Here’s how I understood your order:"], "card": { "title": "Order", "lines": ["Water 19 L — 2 pcs", "Empty bottles returned — 2 pcs", "Address: Qoratosh 15, 3rd floor", "Time: tomorrow, 9:00–12:00", "Total: 36,000 UZS"] }, "buttons": ["Correct", "Edit"] }
+      },
+      {
+        "ru": { "messages": ["Что изменим?"], "buttons": ["Пусть будет 3 шт.", "Привезите вечером"] },
+        "en": { "messages": ["What should we change?"], "buttons": ["Make it 3", "Bring it in the evening"] }
+      },
+      {
+        "ru": { "messages": ["Принято! Курьер приедет завтра с 9:00 до 12:00."], "owner": { "title": "Новый заказ (из голосового)", "lines": ["Караташ 15, 3-й этаж · завтра 9–12", "Вода 19 л × 2 · тара возвращается", "Записано в Google Sheets · исходное голосовое приложено"] } },
+        "en": { "messages": ["Got it! The courier will come tomorrow between 9:00 and 12:00."], "owner": { "title": "New order (from voice)", "lines": ["Qoratosh 15, 3rd floor · tomorrow 9–12", "Water 19 L × 2 · empties returned", "Written to Google Sheets · original voice attached"] } }
+      },
+      {
+        "ru": { "messages": ["Обновлено: 3 шт., итого 54 000 сум. Курьер приедет завтра с 9:00 до 12:00."], "owner": { "title": "Новый заказ (из голосового)", "lines": ["Караташ 15, 3-й этаж · завтра 9–12", "Вода 19 л × 3 · возврат 2 бутылей", "Клиент сам исправил количество"] } },
+        "en": { "messages": ["Updated: 3 pcs, total 54,000 UZS. The courier will come tomorrow between 9:00 and 12:00."], "owner": { "title": "New order (from voice)", "lines": ["Qoratosh 15, 3rd floor · tomorrow 9–12", "Water 19 L × 3 · 2 empties returned", "Customer corrected the quantity"] } }
+      },
+      {
+        "ru": { "messages": ["Обновлено: завтра 17:00–20:00. Курьер приедет в это время."], "owner": { "title": "Новый заказ (из голосового)", "lines": ["Караташ 15, 3-й этаж · завтра 17–20", "Вода 19 л × 2 · тара возвращается", "Клиент сам исправил время"] } },
+        "en": { "messages": ["Updated: tomorrow 17:00–20:00. The courier will come in that window."], "owner": { "title": "New order (from voice)", "lines": ["Qoratosh 15, 3rd floor · tomorrow 17–20", "Water 19 L × 2 · empties returned", "Customer corrected the time"] } }
+      }
+    ]
+  }
+}

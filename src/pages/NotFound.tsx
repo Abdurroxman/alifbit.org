@@ -1,5 +1,6 @@
 import { BrandMark } from "../components/Brand";
 import { ButtonLink, Eyebrow, Lines } from "../components/ui";
+import { tr } from "../lib/i18n";
 
 export default function NotFound() {
   return (
@@ -10,14 +11,14 @@ export default function NotFound() {
       <Eyebrow>404</Eyebrow>
       <Lines as="h1">
         {[
-          "Sahifa",
+          tr("Sahifa"),
           <span className="accent" key="a">
-            topilmadi.
+            {tr("topilmadi.")}
           </span>,
         ]}
       </Lines>
-      <p>Havola o‘zgargan yoki sahifa hali yaratilmagan bo‘lishi mumkin.</p>
-      <ButtonLink to="/">Bosh sahifaga qaytish</ButtonLink>
+      <p>{tr("Havola o‘zgargan yoki sahifa hali yaratilmagan bo‘lishi mumkin.")}</p>
+      <ButtonLink to="/">{tr("Bosh sahifaga qaytish")}</ButtonLink>
     </section>
   );
 }

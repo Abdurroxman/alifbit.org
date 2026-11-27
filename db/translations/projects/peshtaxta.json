@@ -1,0 +1,123 @@
+{
+  "ru": {
+    "name": "Магазин в Telegram",
+    "summary": "Клиент выбирает товар прямо в Telegram, кладёт в корзину и оформляет заказ. Вы управляете заказами, оплатами и остатками.",
+    "description": "Создаём магазин для продаж прямо в Telegram. Клиент смотрит фото и цены, добавляет нужные товары в корзину, указывает адрес доставки и выбирает способ оплаты. Для добавления товаров, обновления цен и управления заказами у вас есть отдельная страница управления. О каждом новом заказе вы получаете уведомление в Telegram.",
+    "purpose": "Чтобы клиент сам выбирал товар и делал заказ, не тратя время на переписку о ценах.",
+    "features": [
+      "Каталог с категориями, фильтрами и поиском",
+      "Корзина, выбор доставки или самовывоза",
+      "Оплата через Payme, Click или наличными",
+      "Статус заказа: принят, собирается, в пути",
+      "Однократное напоминание о товаре в корзине",
+      "Предложение подходящего товара к корзине",
+      "Список «сообщите о поступлении» для закончившихся товаров",
+      "Изменение товаров, цен и остатков с телефона",
+      "Ежедневная сводка продаж в Telegram"
+    ],
+    "platforms": ["Telegram Mini App", "Telegram-бот"],
+    "problem": "Товары — в Instagram, вопросы — в директе, заказы — в тетради. Каждому клиенту приходится отдельно расписывать цену, размер и доставку. Вопрос, пришедший ночью, остаётся без ответа до утра, и клиент покупает в другом месте.",
+    "customerView": ["Каталог с фото, ценами и размерами", "Заказ и оплата в несколько нажатий", "Уведомления о статусе заказа", "История прошлых заказов"],
+    "ownerView": ["Каждый новый заказ — с составом, суммой и адресом", "Оплачен заказ или нет", "Сводка продаж за день и месяц", "Список заканчивающихся товаров"],
+    "fit": ["Одежда и обувь", "Косметика", "Цветы и подарки", "Аксессуары для телефонов", "Товары для дома", "Изделия ручной работы"]
+  },
+  "en": {
+    "name": "Telegram shop",
+    "summary": "Customers pick products inside Telegram, add them to a cart and place an order. You manage orders, payments and stock.",
+    "description": "We build a shop for selling right inside Telegram. Customers browse photos and prices, add items to the cart, enter a delivery address and choose how to pay. You get a separate management page to add products, update prices and handle orders, plus a Telegram alert for every new order.",
+    "purpose": "So customers pick products and order on their own, without messaging back and forth about prices.",
+    "features": [
+      "Catalog with categories, filters and search",
+      "Cart with delivery or pickup",
+      "Payment via Payme, Click or cash",
+      "Order status: received, being packed, on the way",
+      "One-time reminder about items left in the cart",
+      "Suggestions of matching items for the cart",
+      "“Notify me when it’s back” list for sold-out items",
+      "Edit products, prices and stock from your phone",
+      "Daily sales summary in Telegram"
+    ],
+    "platforms": ["Telegram Mini App", "Telegram bot"],
+    "problem": "Products live on Instagram, questions in DMs, orders in a notebook. Every customer needs a separate explanation of price, size and delivery. A question that arrives at night waits until morning, and the customer buys elsewhere.",
+    "customerView": ["A catalog with photos, prices and sizes", "Order and pay in a few taps", "Order status updates", "History of past orders"],
+    "ownerView": ["Every new order with items, total and address", "Whether it’s paid or not", "Daily and monthly sales summaries", "A list of products running low"],
+    "fit": ["Clothing and shoes", "Cosmetics", "Flowers and gifts", "Phone accessories", "Household goods", "Handmade products"]
+  },
+  "steps": [
+    { "ru": { "title": "Каталог", "text": "Загружаем товары, цены, фото и остатки — можно перенести из Excel." }, "en": { "title": "Catalog", "text": "We upload products, prices, photos and stock — importing from Excel works too." } },
+    { "ru": { "title": "Клиент выбирает", "text": "Открывает магазин кнопкой в боте, ищет с фильтрами, добавляет в корзину." }, "en": { "title": "The customer chooses", "text": "They open the shop from the bot button, search with filters and add to the cart." } },
+    { "ru": { "title": "Оплата", "text": "Платит через Payme или Click либо выбирает оплату наличными." }, "en": { "title": "Payment", "text": "They pay via Payme or Click, or choose cash." } },
+    { "ru": { "title": "Уведомление вам", "text": "Заказ приходит в Telegram с составом, адресом и статусом оплаты." }, "en": { "title": "You get notified", "text": "The order arrives in Telegram with items, address and payment status." } },
+    { "ru": { "title": "Статус", "text": "Меняете статус одной кнопкой, клиенту автоматически приходит сообщение." }, "en": { "title": "Status", "text": "You change the status with one tap, and the customer is notified automatically." } },
+    { "ru": { "title": "Напоминание о незавершённом заказе", "text": "Клиенту, бросившему корзину, позже приходит одно вежливое напоминание." }, "en": { "title": "Abandoned order reminder", "text": "A customer who left their cart gets one polite reminder later." } }
+  ],
+  "beforeAfter": [
+    { "ru": { "before": "Каждому клиенту пишете цену в директ", "after": "Клиент сам видит цену в каталоге" }, "en": { "before": "You message each customer the price in DMs", "after": "Customers see the price in the catalog themselves" } },
+    { "ru": { "before": "Заказ записывается в тетрадь", "after": "Заказ сохраняется автоматически — с составом и адресом" }, "en": { "before": "Orders are written in a notebook", "after": "Orders are saved automatically with items and address" } },
+    { "ru": { "before": "Оплату проверяют по фото чека", "after": "Оплата через Payme или Click подтверждается сама" }, "en": { "before": "Payments are checked from receipt photos", "after": "Payme or Click payments confirm themselves" } },
+    { "ru": { "before": "О клиенте, бросившем корзину, забывают", "after": "Ему вовремя приходит напоминание" }, "en": { "before": "Customers who abandon carts are forgotten", "after": "They get a timely reminder" } }
+  ],
+  "faq": [
+    { "ru": { "q": "Чем Mini App отличается от обычного бота?", "a": "В обычном боте товар выбирают кнопками и сообщениями. Mini App — это полноценная страница внутри Telegram: каталог с фото, фильтры и корзина. Если товаров много, Mini App удобнее." }, "en": { "q": "How is a Mini App different from a regular bot?", "a": "In a regular bot, products are chosen with buttons and messages. A Mini App is a full page inside Telegram with a photo catalog, filters and a cart. With many products, a Mini App is more convenient." } },
+    { "ru": { "q": "Что нужно для подключения Payme или Click?", "a": "Нужен счёт продавца (мерчант) в платёжной системе. Поможем его открыть, сначала проверим в тестовом режиме, а затем подключим боевой." }, "en": { "q": "What do I need to connect Payme or Click?", "a": "You need a merchant account with the payment provider. We’ll help you open one, test everything in sandbox mode and then go live." } },
+    { "ru": { "q": "Смогу ли я сам добавлять товары?", "a": "Да, через админ-панель или команды администратора в боте вы меняете товары, цены и остатки прямо с телефона." }, "en": { "q": "Can I add products myself?", "a": "Yes, through the admin panel or the bot’s admin commands you can change products, prices and stock from your phone." } }
+  ],
+  "demo": {
+    "ru": { "bot": "Бутик «Нафис»" },
+    "en": { "bot": "Nafis Boutique" },
+    "nodes": [
+      {
+        "ru": { "messages": ["Добро пожаловать в бутик «Нафис»! Что ищете сегодня?"], "buttons": ["Платья", "Сумки"] },
+        "en": { "messages": ["Welcome to Nafis Boutique! What are you looking for today?"], "buttons": ["Dresses", "Bags"] }
+      },
+      {
+        "ru": { "messages": ["Новая коллекция сумок приедет завтра — 12 моделей. Сообщить вам, как только поступят?"], "buttons": ["Да, сообщите", "Посмотрю платья"] },
+        "en": { "messages": ["A new bag collection arrives tomorrow — 12 styles. Shall I let you know as soon as it’s in?"], "buttons": ["Yes, let me know", "I’ll look at dresses"] }
+      },
+      {
+        "ru": { "messages": ["Хорошо, напишу, как только поступят новые сумки."], "buttons": ["Посмотрю платья"], "owner": { "title": "Лист ожидания: сумки", "lines": ["+1 клиент · всего 9 человек", "Когда товар поступит, всем придёт уведомление"] } },
+        "en": { "messages": ["Great, I’ll message you as soon as the new bags arrive."], "buttons": ["I’ll look at dresses"], "owner": { "title": "Waitlist: bags", "lines": ["+1 customer · 9 people in total", "Everyone is notified when the stock arrives"] } }
+      },
+      {
+        "ru": { "messages": ["Платья: 24 модели. Чаще всего берут это:"], "card": { "title": "Летнее льняное платье", "lines": ["Цвет: молочный, оливковый", "Размер: S, M, L", "Цена: 289 000 сум"] }, "buttons": ["Размер M — в корзину"] },
+        "en": { "messages": ["Dresses: 24 styles. The bestseller:"], "card": { "title": "Summer linen dress", "lines": ["Color: milk, olive", "Size: S, M, L", "Price: 289,000 UZS"] }, "buttons": ["Add size M to cart"] }
+      },
+      {
+        "ru": { "messages": ["Платье в корзине. Многие берут к нему ещё шёлковый платок:"], "card": { "title": "Шёлковый платок", "lines": ["Цена: 89 000 сум"] }, "buttons": ["Добавить и платок", "Только платье"] },
+        "en": { "messages": ["The dress is in your cart. Many people also take a silk scarf with it:"], "card": { "title": "Silk scarf", "lines": ["Price: 89,000 UZS"] }, "buttons": ["Add the scarf too", "Just the dress"] }
+      },
+      {
+        "ru": { "messages": ["Итого: 289 000 сум. Доставка по Ташкенту бесплатно.", "Как будете платить?"], "buttons": ["Payme", "Click"] },
+        "en": { "messages": ["Total: 289,000 UZS. Free delivery across Tashkent.", "How would you like to pay?"], "buttons": ["Payme", "Click"] }
+      },
+      {
+        "ru": { "messages": ["Итого: 378 000 сум. Доставка по Ташкенту бесплатно.", "Как будете платить?"], "buttons": ["Payme", "Click"] },
+        "en": { "messages": ["Total: 378,000 UZS. Free delivery across Tashkent.", "How would you like to pay?"], "buttons": ["Payme", "Click"] }
+      },
+      {
+        "ru": {
+          "messages": ["Оплата получена. Заказ №1043 собирается — сообщу, когда курьер выедет."],
+          "card": { "title": "Заказ №1043", "lines": ["Льняное платье, M — 289 000", "Итого: 289 000 сум · оплачено", "Статус: собирается"] },
+          "owner": { "title": "Новый заказ №1043", "lines": ["Льняное платье, M — 1 шт.", "289 000 сум · оплачено", "Адрес: Юнусабад, 4-й квартал"] }
+        },
+        "en": {
+          "messages": ["Payment received. Order #1043 is being packed — I’ll let you know when the courier is on the way."],
+          "card": { "title": "Order #1043", "lines": ["Linen dress, M — 289,000", "Total: 289,000 UZS · paid", "Status: being packed"] },
+          "owner": { "title": "New order #1043", "lines": ["Linen dress, M — 1 pc", "289,000 UZS · paid", "Address: Yunusabad, block 4"] }
+        }
+      },
+      {
+        "ru": {
+          "messages": ["Оплата получена. Заказ №1043 собирается — сообщу, когда курьер выедет."],
+          "card": { "title": "Заказ №1043", "lines": ["Льняное платье, M — 289 000", "Шёлковый платок — 89 000", "Итого: 378 000 сум · оплачено"] },
+          "owner": { "title": "Новый заказ №1043", "lines": ["Льняное платье M + шёлковый платок", "378 000 сум · оплачено", "Адрес: Юнусабад, 4-й квартал"] }
+        },
+        "en": {
+          "messages": ["Payment received. Order #1043 is being packed — I’ll let you know when the courier is on the way."],
+          "card": { "title": "Order #1043", "lines": ["Linen dress, M — 289,000", "Silk scarf — 89,000", "Total: 378,000 UZS · paid"] },
+          "owner": { "title": "New order #1043", "lines": ["Linen dress M + silk scarf", "378,000 UZS · paid", "Address: Yunusabad, block 4"] }
+        }
+      }
+    ]
+  }
+}

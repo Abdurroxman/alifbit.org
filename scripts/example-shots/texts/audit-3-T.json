@@ -23,5 +23,55 @@
   "WebP ga o‘tkazing",
   "Kod",
   "Keraksiz JS ni olib tashlang"
+ ],
+ "ru": [
+  {
+   "t": "Проверка скорости",
+   "color": "#ffffff",
+   "align": "center"
+  },
+  "primer.uz",
+  "Мобильная версия",
+  "Хороший результат",
+  "из 100 баллов",
+  "Первый контент",
+  "Время ожидания",
+  "Самое большое фото",
+  "Полная загрузка",
+  "Самое большое фото",
+  "Фото на главной",
+  "1,2 МБ — нужно сжать",
+  "Исправить",
+  "Ответ сервера",
+  "Включите кэш",
+  "Картинки",
+  "Переведите в WebP",
+  "Код",
+  "Удалите лишний JS"
+ ],
+ "en": [
+  {
+   "t": "Speed test",
+   "color": "#ffffff",
+   "align": "center"
+  },
+  "example.uz",
+  "Mobile version",
+  "Good result",
+  "out of 100",
+  "First content",
+  "Blocking time",
+  "Largest image",
+  "Fully loaded",
+  "Largest image",
+  "Home page image",
+  "1.2 MB — needs compressing",
+  "Fix",
+  "Server response",
+  "Enable caching",
+  "Images",
+  "Convert to WebP",
+  "Code",
+  "Remove unused JS"
  ]
 }

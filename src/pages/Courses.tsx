@@ -5,21 +5,22 @@ import { useContent } from "../App";
 import { courseOrderLink, CourseTeaser } from "../components/Studio";
 import { Breadcrumb, ButtonLink, Chars, Eyebrow, Lines, PageTop, delay } from "../components/ui";
 import NotFound from "./NotFound";
+import { tr, trn } from "../lib/i18n";
 
 export function Courses() {
   const { courses, loaded } = useContent();
   return (
     <>
       <PageTop
-        name="Kurslar"
-        eyebrow="Kurslar"
+        name={tr("Kurslar")}
+        eyebrow={tr("Kurslar")}
         title={[
-          "O‘rganing va",
+          tr("O‘rganing va"),
           <span className="accent" key="a">
-            o‘zingiz yasang.
+            {tr("o‘zingiz yasang.")}
           </span>,
         ]}
-        text="AI yordamida sayt va Telegram bot yasashni amalda o‘rgatamiz."
+        text={tr("AI yordamida sayt va Telegram bot yasashni amalda o‘rgatamiz.")}
       />
       <section className="container section-bottom">
         {courses.length ? (
@@ -32,8 +33,8 @@ export function Courses() {
           loaded && (
             <div className="empty-state">
               <GraduationCap strokeWidth={1} />
-              <h2>Hozircha ochiq kurs yo‘q.</h2>
-              <p>Yangi kurs e’lon qilinganda shu yerda chiqadi.</p>
+              <h2>{tr("Hozircha ochiq kurs yo‘q.")}</h2>
+              <p>{tr("Yangi kurs e’lon qilinganda shu yerda chiqadi.")}</p>
             </div>
           )
         )}
@@ -46,12 +47,12 @@ export function CourseDetail() {
   const { slug } = useParams();
   const { courses, loaded, error } = useContent();
   const course = courses.find((c) => c.slug === slug);
-  if (!course) return loaded || error ? <NotFound /> : <div className="loading-page">Yuklanmoqda…</div>;
+  if (!course) return loaded || error ? <NotFound /> : <div className="loading-page">{tr("Yuklanmoqda…")}</div>;
   const order = courseOrderLink(course);
   const facts = [
-    ["Narxi", course.price],
-    ["Format", course.format],
-    ["Boshlanishi", course.start],
+    [tr("Narxi"), course.price],
+    [tr("Format"), course.format],
+    [tr("Boshlanishi"), course.start],
   ].filter(([, v]) => v);
   return (
     <>
@@ -59,7 +60,7 @@ export function CourseDetail() {
         <Breadcrumb name={course.title} />
         <div className="course-hero-inner">
           <div data-reveal="rise">
-            <Eyebrow>Kurs</Eyebrow>
+            <Eyebrow>{tr("Kurs")}</Eyebrow>
           </div>
           <Chars text={course.title} delay={100} />
           <p className="hero-text" data-reveal="rise" style={delay(400)}>
@@ -67,7 +68,7 @@ export function CourseDetail() {
           </p>
           <div data-reveal="rise" style={delay(520)}>
             <ButtonLink to={order} magnetic>
-              Kursga yozilish
+              {tr("Kursga yozilish")}
             </ButtonLink>
           </div>
         </div>
@@ -92,9 +93,9 @@ export function CourseDetail() {
           <div className="section-head">
             <div>
               <div data-reveal="fade">
-                <Eyebrow>Qanday o‘tadi</Eyebrow>
+                <Eyebrow>{tr("Qanday o‘tadi")}</Eyebrow>
               </div>
-              <Lines>{[`${course.steps.length} qadam.`]}</Lines>
+              <Lines>{[trn(course.steps.length, "{n} qadam.")]}</Lines>
             </div>
           </div>
           <ol className="working-grid course-steps">
@@ -113,9 +114,9 @@ export function CourseDetail() {
           <div className="section-head">
             <div>
               <div data-reveal="fade">
-                <Eyebrow>Kurs ichida</Eyebrow>
+                <Eyebrow>{tr("Kurs ichida")}</Eyebrow>
               </div>
-              <Lines>{["Nimalarni o‘rganasiz."]}</Lines>
+              <Lines>{[tr("Nimalarni o‘rganasiz.")]}</Lines>
             </div>
           </div>
           <ul className="check-list course-contents" data-reveal>
@@ -133,7 +134,7 @@ export function CourseDetail() {
           <h2>{course.title}</h2>
           {course.price && <b>{course.price}</b>}
           <ButtonLink to={order} magnetic>
-            Kursga yozilish
+            {tr("Kursga yozilish")}
           </ButtonLink>
         </div>
       </section>

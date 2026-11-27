@@ -23,6 +23,54 @@
     "t": "Reklama",
     "size": 24
    }
+  ],
+  "ru": [
+   {
+    "x": 191,
+    "y": 1285,
+    "t": "Реклама",
+    "size": 24
+   }
+  ],
+  "en": [
+   {
+    "x": 191,
+    "y": 1285,
+    "t": "Ads",
+    "size": 24
+   }
   ]
- }
+ },
+ "ru": [
+  "Природа и путешествия",
+  "48 600 подписчиков",
+  null,
+  "Озеро в горах",
+  "Самые красивые места",
+  "для выходных",
+  "Весенний салат",
+  "Авокадо, сыр и помидоры —",
+  "готово за 10 минут",
+  "Беспроводные наушники",
+  "Шумоподавление,",
+  "30 часов работы",
+  "Купить",
+  "Комментарий…"
+ ],
+ "en": [
+  "Nature & travel",
+  "48,600 subscribers",
+  null,
+  "Mountain lake",
+  "The most beautiful places",
+  "for a weekend getaway",
+  "Spring salad",
+  "Avocado, cheese and tomatoes —",
+  "ready in 10 minutes",
+  "Wireless headphones",
+  "Noise cancelling,",
+  "30 hours of battery",
+  "Buy now",
+  "Add a comment…"
+ ]
 }

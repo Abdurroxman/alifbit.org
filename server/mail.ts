@@ -3,6 +3,8 @@
  * Xat faqat Email Routing'da tasdiqlangan manzilga (NOTIFY_EMAIL) boradi — bu bepul tarifda ishlaydi.
  * Telegram xabari asosiy kanal bo'lib qoladi; email yuborilmasa murojaat saqlanishiga ta'sir qilmaydi.
  */
+import { LANG_LABEL_UZ, type Lang } from "../shared/i18n.ts";
+
 export interface MailEnv {
   SEND_EMAIL?: SendEmail;
   NOTIFY_EMAIL?: string;
@@ -18,6 +20,8 @@ export interface OrderMail {
   budget: string;
   deadline: string;
   attachment: boolean;
+  /** Mijoz yozgan sahifa tili (o'zbekchada bo'lsa yozilmaydi). */
+  lang?: Lang;
 }
 
 const EMAIL_RE = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/;
@@ -36,6 +40,7 @@ export function orderEmail(order: OrderMail, origin: string) {
       line("Xizmat", order.service) +
       line("Byudjet", order.budget) +
       line("Muddat", order.deadline) +
+      line("Til", order.lang && order.lang !== "uz" ? LANG_LABEL_UZ[order.lang] : "") +
       (order.attachment ? "Fayl biriktirilgan (admin panelda).\n" : "") +
       `\n${order.description}\n\n` +
       `Admin panel: ${origin}/admin\n`,

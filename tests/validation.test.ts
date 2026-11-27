@@ -111,7 +111,7 @@ test("migration 0007 services pass the schema; built-in texts match the database
     assert.equal(serviceSchema.safeParse(row).success, true, row.slug);
     const base = initialServices.find((s) => s.slug === row.slug);
     assert.ok(base, row.slug);
-    const { price, term, packages, examples, ...texts } = row;
+    const { price, term, packages, examples, i18n, ...texts } = row;
     assert.deepEqual(texts, base);
   }
 });

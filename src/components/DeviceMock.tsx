@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { tr } from "../lib/i18n";
 
 /**
  * Saytdagi 3D modellardan (public/models) old tomondan render qilingan ramkalar.
@@ -43,8 +44,8 @@ export default function DeviceMock({ laptop, phone, name }: { laptop?: string; p
   const layout = laptop && phone ? "both" : laptop ? "laptop" : "phone";
   return (
     <div className={`dm dm-${layout}`}>
-      {laptop && <Device kind="laptop" shot={laptop} alt={`${name} — kompyuter ekrani`} />}
-      {phone && <Device kind="phone" shot={phone} alt={`${name} — telefon ekrani`} />}
+      {laptop && <Device kind="laptop" shot={laptop} alt={tr("{name} — kompyuter ekrani", { name })} />}
+      {phone && <Device kind="phone" shot={phone} alt={tr("{name} — telefon ekrani", { name })} />}
     </div>
   );
 }

@@ -6,14 +6,21 @@ import Intro from "./Intro";
 import { Arrow, ButtonLink } from "./ui";
 import { useContent } from "../App";
 import { copy, OFFICE_URL, PAY_URL, routeMeta, TELEGRAM_URL } from "../../shared/content";
+import { LANG_NAME, LANG_SHORT } from "../../shared/i18n";
+import { lang, langLinks, lp, tr } from "../lib/i18n";
 import { usePageEnhancements, prefersReducedMotion } from "../lib/motion";
 import { applyStoredTheme, setTheme, useTheme } from "../lib/theme";
 import NetworkBackground from "./NetworkBackground";
 
+/** Virtual ofis shu domenda, alohida Worker'da: sayt tili havola orqali uzatiladi. */
+const officeLink = () => (lang === "uz" ? OFFICE_URL : `${OFFICE_URL}?lang=${lang}`);
+
 /** «Kurslar» bandi faqat nashr qilingan kurs bo'lsa ko'rinadi. */
 function useNav() {
   const { courses } = useContent();
-  return copy.uz.nav.filter(([, to]) => to !== "/courses" || courses.length > 0);
+  return copy.uz.nav
+    .filter(([, to]) => to !== "/courses" || courses.length > 0)
+    .map(([label, to]) => [tr(label), to] as const);
 }
 
 function useRouteMeta(pathname: string) {
@@ -31,7 +38,7 @@ function useRouteMeta(pathname: string) {
         ? [`${service.name} — AlifBit`, service.description]
         : course
           ? [course.seoTitle || `${course.title} — AlifBit`, course.seoDescription || course.tagline]
-          : routeMeta[pathname];
+          : routeMeta[pathname] && [tr(routeMeta[pathname][0]), tr(routeMeta[pathname][1])];
     if (meta) {
       document.title = meta[0];
       for (const [selector, value] of [
@@ -43,7 +50,7 @@ function useRouteMeta(pathname: string) {
     }
     document
       .querySelector('link[rel="canonical"]')
-      ?.setAttribute("href", `https://alifbit.org${pathname}`);
+      ?.setAttribute("href", `https://alifbit.org${lp(pathname)}`);
   }, [pathname, projects, services, courses]);
 }
 
@@ -54,11 +61,32 @@ function ThemeToggle() {
     <button
       type="button"
       className="theme-toggle"
-      aria-label={theme === "dark" ? "Yorug‘ rejimga o‘tish" : "To‘q rejimga o‘tish"}
+      aria-label={theme === "dark" ? tr("Yorug‘ rejimga o‘tish") : tr("To‘q rejimga o‘tish")}
       onClick={() => setTheme(next)}
     >
       {theme === "dark" ? <Sun size={18} strokeWidth={1.7} /> : <Moon size={18} strokeWidth={1.7} />}
     </button>
+  );
+}
+
+/** Shu sahifaning boshqa tildagi nusxasiga o'tish (sahifa qayta yuklanadi). */
+function LangSwitch({ className = "" }: { className?: string }) {
+  const { pathname, search, hash } = useLocation();
+  return (
+    <div className={`lang-switch ${className}`} role="group" aria-label={tr("Til")}>
+      {langLinks(pathname, search + hash).map((l) => (
+        <a
+          key={l.lang}
+          href={l.href}
+          hrefLang={l.lang}
+          lang={l.lang}
+          title={LANG_NAME[l.lang]}
+          aria-current={l.lang === lang ? "true" : undefined}
+        >
+          {LANG_SHORT[l.lang]}
+        </a>
+      ))}
+    </div>
   );
 }
 
@@ -84,22 +112,23 @@ function Header({ onMenu }: { onMenu: () => void }) {
   return (
     <header className={`header ${scrolled ? "is-scrolled" : ""} ${hidden ? "is-hidden" : ""}`}>
       <div className="container header-inner">
-        <Link to="/" aria-label="AlifBit — bosh sahifa" className="header-brand">
+        <Link to="/" aria-label={tr("AlifBit — bosh sahifa")} className="header-brand">
           <Brand />
         </Link>
-        <nav className="nav" aria-label="Asosiy menyu">
+        <nav className="nav" aria-label={tr("Asosiy menyu")}>
           {nav.map(([label, to]) => (
             <NavLink key={to} to={to}>
               {label}
             </NavLink>
           ))}
-          <a href={OFFICE_URL}>Virtual ofis</a>
+          <a href={officeLink()}>{tr("Virtual ofis")}</a>
         </nav>
+        <LangSwitch />
         <ThemeToggle />
         <ButtonLink to="/contact" small className="header-cta">
-          Buyurtma berish
+          {tr("Buyurtma berish")}
         </ButtonLink>
-        <button className="menu-toggle" aria-label="Menyuni ochish" onClick={onMenu}>
+        <button className="menu-toggle" aria-label={tr("Menyuni ochish")} onClick={onMenu}>
           <Menu size={20} strokeWidth={1.6} />
         </button>
       </div>
@@ -109,19 +138,19 @@ function Header({ onMenu }: { onMenu: () => void }) {
 
 function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | null> }) {
   const close = () => dialog.current?.close();
-  const items = [["Bosh sahifa", "/"], ...useNav(), ["Virtual ofis", OFFICE_URL], ["Buyurtma berish", "/contact"]];
+  const items = [[tr("Bosh sahifa"), "/"], ...useNav(), [tr("Virtual ofis"), OFFICE_URL], [tr("Buyurtma berish"), "/contact"]];
   return (
-    <dialog ref={dialog} className="mobile-menu" aria-label="Menyu">
+    <dialog ref={dialog} className="mobile-menu" aria-label={tr("Menyu")}>
       <div className="mobile-menu-inner">
         <div className="mobile-menu-head">
-          <Link to="/" onClick={close} aria-label="AlifBit — bosh sahifa">
+          <Link to="/" onClick={close} aria-label={tr("AlifBit — bosh sahifa")}>
             <Brand />
           </Link>
-          <button className="menu-toggle" aria-label="Menyuni yopish" onClick={close}>
+          <button className="menu-toggle" aria-label={tr("Menyuni yopish")} onClick={close}>
             <X size={20} strokeWidth={1.6} />
           </button>
         </div>
-        <nav aria-label="Mobil menyu">
+        <nav aria-label={tr("Mobil menyu")}>
           {items.map(([label, to], i) => {
             const inner = (
               <>
@@ -132,7 +161,7 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
             );
             const style = { "--i": i } as CSSProperties;
             return to.startsWith("http") || to === OFFICE_URL ? (
-              <a key={to} href={to} style={style}>
+              <a key={to} href={to === OFFICE_URL ? officeLink() : to} style={style}>
                 {inner}
               </a>
             ) : (
@@ -143,7 +172,8 @@ function MobileMenu({ dialog }: { dialog: React.RefObject<HTMLDialogElement | nu
           })}
         </nav>
         <div className="mobile-menu-foot">
-          <p>{copy.uz.tagline}</p>
+          <LangSwitch className="is-mobile" />
+          <p>{tr(copy.uz.tagline)}</p>
           <ButtonLink to={TELEGRAM_URL} variant="outline">
             Telegram · @alifbitbot
           </ButtonLink>
@@ -161,14 +191,14 @@ function Footer() {
       <div className="container">
         <div className="footer-main">
           <div className="footer-about">
-            <Link to="/" aria-label="AlifBit — bosh sahifa">
+            <Link to="/" aria-label={tr("AlifBit — bosh sahifa")}>
               <Brand light />
             </Link>
-            <p>{copy.uz.tagline}</p>
+            <p>{tr(copy.uz.tagline)}</p>
           </div>
           <div className="footer-cols">
             <div className="footer-col">
-              <span>XIZMATLAR</span>
+              <span>{tr("XIZMATLAR")}</span>
               {services.map((s) => (
                 <Link key={s.slug} to={`/services/${s.slug}`}>
                   {s.name}
@@ -184,20 +214,20 @@ function Footer() {
                     {label}
                   </Link>
                 ))}
-              <Link to="/journal">Qaydlar</Link>
+              <Link to="/journal">{tr("Qaydlar")}</Link>
             </div>
             <div className="footer-col">
-              <span>ALOQA</span>
+              <span>{tr("ALOQA")}</span>
               <ButtonLink to={TELEGRAM_URL} variant="light" small>
                 Telegram · @alifbitbot
               </ButtonLink>
               <Link to="/contact">
-                Buyurtma berish <Arrow size={15} />
+                {tr("Buyurtma berish")} <Arrow size={15} />
               </Link>
-              <a href={PAY_URL}>
-                To‘lov qilish <Arrow size={15} />
+              <a href={lang === "uz" ? PAY_URL : `${PAY_URL}/?lang=${lang}`}>
+                {tr("To‘lov qilish")} <Arrow size={15} />
               </a>
-              <small>O‘zbekiston</small>
+              <small>{tr("O‘zbekiston")}</small>
             </div>
           </div>
         </div>
@@ -205,8 +235,8 @@ function Footer() {
           Alif<span>Bit</span>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} AlifBit. Barcha huquqlar himoyalangan.</span>
-          <Link to="/privacy">Maxfiylik siyosati</Link>
+          <span>{tr("© {year} AlifBit. Barcha huquqlar himoyalangan.", { year: new Date().getFullYear() })}</span>
+          <Link to="/privacy">{tr("Maxfiylik siyosati")}</Link>
           <button
             onClick={() =>
               window.scrollTo({
@@ -215,7 +245,7 @@ function Footer() {
               })
             }
           >
-            Yuqoriga <ArrowUp size={15} />
+            {tr("Yuqoriga")} <ArrowUp size={15} />
           </button>
         </div>
       </div>
@@ -253,7 +283,7 @@ export default function Layout() {
   return (
     <>
       <a className="skip-link" href="#main">
-        Asosiy mazmunga o‘tish
+        {tr("Asosiy mazmunga o‘tish")}
       </a>
       <NetworkBackground />
       <Intro />

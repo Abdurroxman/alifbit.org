@@ -20,5 +20,49 @@
   "O‘tkazmalar",
   "Operator bilan bog‘lanish",
   "Savolingizni yozing…"
+ ],
+ "ru": [
+  "Ассистент банка",
+  "онлайн",
+  {
+   "t": "Можно взять кредит?",
+   "align": "left"
+  },
+  "Да, могу предложить вам кредит.",
+  "Предварительный расчёт:",
+  "Платёж и срок можно изменить",
+  "в калькуляторе ниже.",
+  "Доступная сумма",
+  "на 24 мес., 812 000 сум в месяц",
+  "Есть ещё вопросы?",
+  "О картах, переводах или вкладах",
+  "спрашивайте смело",
+  "Карты",
+  "Вклады",
+  "Переводы",
+  "Связаться с оператором",
+  "Напишите вопрос…"
+ ],
+ "en": [
+  "Bank assistant",
+  "online",
+  {
+   "t": "Can I get a loan?",
+   "align": "left"
+  },
+  "Yes, I can offer you a loan.",
+  "Here’s a quick estimate:",
+  "You can change the payment and term",
+  "in the calculator below.",
+  "Available amount",
+  "24 months, 812,000 UZS a month",
+  "Anything else?",
+  "Feel free to ask about",
+  "cards, transfers or deposits",
+  "Cards",
+  "Deposits",
+  "Transfers",
+  "Contact an operator",
+  "Type your question…"
  ]
 }

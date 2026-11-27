@@ -9,6 +9,16 @@
 - `robots.txt` — `/admin`, `/api/` yopiq. 404 va admin sahifalari `noindex`.
 - Google rasmlarni katta ko'rsatishi mumkin (`max-image-preview:large`) — Discover (tavsiyalar) uchun shart.
 
+### Tillar: o'zbek, rus, ingliz
+
+- Manzillar: o'zbekcha — prefikssiz (`/services`), ruscha — `/ru/...`, inglizcha — `/en/...`. Slug'lar uchala tilda bir xil. Til avtomatik almashtirilmaydi: mehmon sarlavhadagi UZ · RU · EN tugmasini bosadi.
+- Har sahifada `<html lang>`, o'z tilidagi canonical, `hreflang` havolalari (uz, ru, en va `x-default` → o'zbekcha) va `og:locale`. 404 sahifada hreflang yo'q.
+- `sitemap.xml` har sahifani uch tilda beradi; tillar orasidagi bog'lanish sahifalarning o'zidagi `hreflang` da.
+- UI matnlari: kalit — o'zbekcha matnning o'zi (`tr("…")`), tarjimalar `shared/messages/ru.ts` va `en.ts`. `node --experimental-strip-types scripts/i18n-extract.mjs ru` tarjimasi yo'q matnlarni ko'rsatadi; `tests/i18n.test.ts` buni tekshiradi.
+- Kontent (xizmat, loyiha, kurs, qayd) tarjimasi yozuvning o'zida (`i18n.ru`, `i18n.en`), admin panelda har yozuv ostidagi «Tarjima» bo'limida tahrirlanadi. O'zbekcha matn o'zgarsa, eski tarjima saytda ko'rsatilmaydi (o'zbekchasi chiqadi) va admin panelda «eskirgan» bo'lib turadi.
+- Narx va muddat tarjima qilinmaydi — o'zbekchadan avtomatik o'giriladi: «1 200 000 so‘m» → «1 200 000 сум» / «1 200 000 UZS», «2 haftadan» → «от 2 недель» / «from 2 weeks».
+- «Tarjima qilish» tugmasi (Gemini) `GEMINI_API_KEY` secret'i qo'yilgandagina ishlaydi: `npx wrangler secret put GEMINI_API_KEY`. Natija darhol saqlanmaydi — tekshirib, «Tarjimalarni saqlash» bosiladi.
+
 ## Pochta: info@alifbit.org
 
 ### 1. Xatlarni Gmail'ga yo'naltirish (Cloudflare Email Routing, bepul)

@@ -14,5 +14,37 @@
   "12 oyga bo‘lib",
   "To‘lov ma’lumotlari himoyalangan",
   "To‘lovni tasdiqlash"
+ ],
+ "ru": [
+  "Оплата",
+  "Сумма к оплате",
+  "Способ оплаты",
+  "Кошелёк",
+  "Баланс: 2 480 000",
+  "Банковская карта",
+  null,
+  "Uzcard или Humo",
+  "Через банк",
+  "Со счёта",
+  "Рассрочка",
+  "Частями на 12 мес.",
+  "Платёжные данные защищены",
+  "Подтвердить оплату"
+ ],
+ "en": [
+  "Payment",
+  "Amount due",
+  "Payment method",
+  "Wallet",
+  "Balance: 2,480,000",
+  "Bank card",
+  null,
+  "Uzcard or Humo",
+  "Via bank",
+  "From account",
+  "Installments",
+  "Split over 12 months",
+  "Payment details are protected",
+  "Confirm payment"
  ]
 }
