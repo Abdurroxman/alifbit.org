@@ -2,6 +2,17 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { afterIntro } from "../lib/motion";
 import type { StageHandle, StageState } from "../three/types";
+import { lang } from "../lib/i18n";
+
+/**
+ * 3D ekranlardagi yozuv canvas'ga chiziladi: ruscha sahifada kirill shrifti yuklanmasdan chizilsa, zaxira shrift chiqadi.
+ * Shuning uchun sahna shriftlar tayyor bo'lgach yaratiladi (yuklanmasa ham ko'pi bilan 3 soniya kutiladi).
+ */
+function screenFonts() {
+  if (lang !== "ru" || !document.fonts?.load) return Promise.resolve();
+  const load = Promise.all(["600 40px Manrope", "700 40px Manrope", "500 20px Inter"].map((f) => document.fonts.load(f, "Жж")));
+  return Promise.race([load, new Promise((r) => setTimeout(r, 3000))]).catch(() => undefined);
+}
 
 const DOCK_QUERY = "(min-width: 1024px)";
 
@@ -48,7 +59,7 @@ export default function DeviceStage({ state, slot }: { state: StageState; slot: 
     media.addEventListener("change", onMedia);
     // Sarlavha va savollar avval chiziladi; qurilmalar kirish animatsiyasi tugagach «ochiladi».
     const start = () =>
-      Promise.all([import("../three/scene"), afterIntro()])
+      Promise.all([import("../three/scene"), afterIntro(), screenFonts()])
         .then(([{ getScene }]) => {
           if (cancelled) return;
           handle.current = getScene({
